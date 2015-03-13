@@ -53,6 +53,7 @@ Lots of directions to go here. Some interesting tools.
 - [JuxtaposeJS](http://juxtapose.knightlab.com)
 - [Leaflet](http://leafletjs.com)
 - [Leaflet.Sync](https://github.com/turban/Leaflet.Sync)
+- [Turf](https://www.mapbox.com/developers/turf/)
 
 
 ![](https://cloud.githubusercontent.com/assets/1131098/5263449/860f9836-7a31-11e4-8c6a-9ac8cd0cdcb1.gif)
