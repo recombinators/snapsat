@@ -4,17 +4,17 @@ Landsat
 Landsat 8 band recombinations in the browser.
 
 
-### Acquiring data:
+### Acquiring data
 
 - [Libra](http://libra.developmentseed.org/) - [Repo](https://github.com/AstroDigital/libra)
 - [developmentseed/landsat-api](https://github.com/developmentseed/landsat-api)
 - [developmentseed/landsat-util](https://github.com/developmentseed/landsat-util)
-- [Landsat on AWS](https://aws.amazon.com/public-data-sets/landsat/)
+- [Landsat on AWS](https://aws.amazon.com/public-data-sets/landsat/) - [Message me for details]
 - [USGS Earth Explorer](http://earthexplorer.usgs.gov/)
 - [NASA Worldview](https://earthdata.nasa.gov/labs/worldview/)
 
 
-### Getting yourself setup.
+### Getting yourself setup
 
 If you expect to be working with or manipulating any of the geospatial datasets, make sure to install the following:
 
@@ -45,7 +45,7 @@ Here are some nice guides on using GDAL:
 This might all seem overwhelming, but we'll only be using a small subset of the functionality that has been described, and once we get a solid script that does what we want, we won't need to touch it again.
 
 
-### Telling a story.
+### Telling a story
 
 Lots of directions to go here. Some interesting tools.
 
@@ -54,7 +54,5 @@ Lots of directions to go here. Some interesting tools.
 - [Leaflet](http://leafletjs.com)
 - [Leaflet.Sync](https://github.com/turban/Leaflet.Sync)
 
-
-### Obligatory cat.
 
 ![](https://cloud.githubusercontent.com/assets/1131098/5263449/860f9836-7a31-11e4-8c6a-9ac8cd0cdcb1.gif)
