@@ -57,3 +57,7 @@ Lots of directions to go here. Some interesting tools.
 
 
 ![](https://cloud.githubusercontent.com/assets/1131098/5263449/860f9836-7a31-11e4-8c6a-9ac8cd0cdcb1.gif)
+
+### Resources
+
+- [Lightning talk](http://bl.ocks.org/anonymous/raw/6118ab44b51c195ed99d/#0)
