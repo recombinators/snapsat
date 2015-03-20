@@ -1,0 +1,10 @@
+ansible==1.8.4
+boto==2.36.0
+ecdsa==0.13
+Jinja2==2.7.3
+MarkupSafe==0.23
+paramiko==1.15.2
+postgres==2.1.2
+psycopg2==2.6
+pycrypto==2.6.1
+PyYAML==3.11
