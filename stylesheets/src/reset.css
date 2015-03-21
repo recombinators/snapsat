@@ -1,0 +1,25 @@
+
+/* http://www.paulirish.com/2012/box-sizing-border-box-ftw */
+*, 
+*:before, 
+*:after {
+	box-sizing: border-box;
+}
+
+/* Via https://github.com/jxnblk/basscss-base-reset */
+body,
+button {
+	margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+	font-family: inherit;
+	font-size: 100%;
+}
+
+img { max-width: 100%; }
+svg { max-height: 100%; }
+
