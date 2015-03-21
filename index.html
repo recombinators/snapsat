@@ -6,41 +6,17 @@
         <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
         <!-- Mapbox -->
         <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
-        <!-- Maptik -->
-        <script src="//cdn.maptiks.com/maptiks-leaflet.min.js"></script>
-        <script>maptiks.trackcode='3cea7052-bcb2-43df-9fa4-4bd10400f210';</script>
-        <!-- Plugins -->
         <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-hash/v0.2.1/leaflet-hash.js'></script>
-        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
-        <style>
-            body { margin:0; padding:0; }
-            #map { position:absolute; top:0; bottom:0; width:100%; }
-        </style>
+        <!-- Maptik -->
+        <script src=''//cdn.maptiks.com/maptiks-leaflet.min.js'></script>
+        <script>maptiks.trackcode='3cea7052-bcb2-43df-9fa4-4bd10400f210';</script>
+        <!-- Stylesheets -->
+        <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
+        <link rel='stylesheet' href='main.css'>
     </head>
     <body>
         <div id='map'></div>
-
-        <script>
-            L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
-            var map = L.mapbox.map('map', 'jacques.map-612s2qsj');
-            map.setView([47.568, -122.582], 9);
-            var hash = L.hash(map);
-        </script>
-
-        <!-- Gauges -->
-        <script type="text/javascript">
-          var _gauges = _gauges || [];
-          (function() {
-            var t   = document.createElement('script');
-            t.type  = 'text/javascript';
-            t.async = true;
-            t.id    = 'gauges-tracker';
-            t.setAttribute('data-site-id', '550db2e592c6ac04b000304a');
-            t.setAttribute('data-track-path', 'https://track.gaug.es/track.gif');
-            t.src = 'https://track.gaug.es/track.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(t, s);
-          })();
-        </script>
+        <script src='js/main.js'></script>
+        <script src='js/gauges.js'></script>
     </body>
 </html>
