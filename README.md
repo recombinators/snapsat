@@ -11,7 +11,7 @@ Landsat 8 band recombinations in the browser.
 - [Libra](http://libra.developmentseed.org/) - [Repo](https://github.com/AstroDigital/libra)
 - [developmentseed/landsat-api](https://github.com/developmentseed/landsat-api)
 - [developmentseed/landsat-util](https://github.com/developmentseed/landsat-util)
-- [Landsat on AWS](https://aws.amazon.com/public-data-sets/landsat/) - [Message me for details]
+- [Landsat on AWS]https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/)
 - [USGS Earth Explorer](http://earthexplorer.usgs.gov/)
 - [NASA Worldview](https://earthdata.nasa.gov/labs/worldview/)
 
