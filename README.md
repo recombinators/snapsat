@@ -14,6 +14,7 @@ Landsat 8 band recombinations in the browser.
 - [Landsat on AWS](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/)
 - [USGS Earth Explorer](http://earthexplorer.usgs.gov/)
 - [NASA Worldview](https://earthdata.nasa.gov/labs/worldview/)
+- [LatLongtoWRS](https://github.com/robintw/LatLongToWRS)
 
 
 ### Getting yourself setup
