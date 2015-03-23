@@ -1,0 +1,23 @@
+{
+  "name": "recombinators-landsat",
+  "version": "1.0.0",
+  "description": "Snapchat for Landsat.",
+  "main": "index.js",
+  "scripts": {
+    "serve": "http-server",
+    "bundle": "watchify assets/js/main.js -o bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/recombinators/landsat.git"
+  },
+  "author": "Jacques Tardie <hi@jacquestardie.org> (http://jacquestardie.org/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/recombinators/landsat/issues"
+  },
+  "homepage": "http://landsat.club",
+  "dependencies": {
+    "mapbox.js": "^2.1.6"
+  }
+}
