@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/recombinators/landsat.svg)](https://travis-ci.org/recombinators/landsat)
+
 Landsat
 -------
 
@@ -9,9 +11,10 @@ Landsat 8 band recombinations in the browser.
 - [Libra](http://libra.developmentseed.org/) - [Repo](https://github.com/AstroDigital/libra)
 - [developmentseed/landsat-api](https://github.com/developmentseed/landsat-api)
 - [developmentseed/landsat-util](https://github.com/developmentseed/landsat-util)
-- [Landsat on AWS](https://aws.amazon.com/public-data-sets/landsat/) - [Message me for details]
+- [Landsat on AWS](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/)
 - [USGS Earth Explorer](http://earthexplorer.usgs.gov/)
 - [NASA Worldview](https://earthdata.nasa.gov/labs/worldview/)
+- [LatLongtoWRS](https://github.com/robintw/LatLongToWRS)
 
 
 ### Getting yourself setup
@@ -57,3 +60,7 @@ Lots of directions to go here. Some interesting tools.
 
 
 ![](https://cloud.githubusercontent.com/assets/1131098/5263449/860f9836-7a31-11e4-8c6a-9ac8cd0cdcb1.gif)
+
+### Resources
+
+- [Lightning talk](http://bl.ocks.org/anonymous/raw/6118ab44b51c195ed99d/#0)
