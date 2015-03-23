@@ -1,4 +1,4 @@
-landsat README
+app README
 ==================
 
 Getting Started
@@ -8,7 +8,7 @@ Getting Started
 
 - $VENV/bin/python setup.py develop
 
-- $VENV/bin/initialize_landsat_db development.ini
+- $VENV/bin/initialize_app_db development.ini
 
 - $VENV/bin/pserve development.ini
 
