@@ -1,4 +1,5 @@
 require('mapbox.js');
+var $ = require('jquery');
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
@@ -16,4 +17,10 @@ map.on('moveend', function() {
     var lat = center.lat;
     var lng = center.lng;
     console.log(lat, lng);
+
+    $.ajax({
+
+    }).done(function(json) {
+
+    });
 });
