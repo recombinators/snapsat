@@ -16,8 +16,8 @@ var minify              = require('gulp-minify-css');
 var watch               = require('gulp-watch');
 
 var rootPath = process.cwd();
-var cssPath = './assets/stylesheets/';
-var jsPath =  './assets/js/';
+var cssPath = './static/stylesheets/';
+var jsPath =  './js/';
 
 
 // ========== Gulp tasks ==========
