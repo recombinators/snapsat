@@ -17,7 +17,6 @@ pyramid-debugtoolbar==2.3
 pyramid-mako==1.0.2
 pyramid-tm==0.11
 python-dateutil==2.2
-rasterio==0.18
 repoze.lru==0.6
 requests==2.5.3
 scikit-image==0.10.1
