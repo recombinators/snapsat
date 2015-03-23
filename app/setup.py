@@ -19,9 +19,9 @@ requires = [
     'waitress',
     ]
 
-setup(name='landsat',
+setup(name='app',
       version='0.0',
-      description='landsat',
+      description='app',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -36,12 +36,12 @@ setup(name='landsat',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      test_suite='landsat',
+      test_suite='app',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
-      main = landsat:main
+      main = app:main
       [console_scripts]
-      initialize_landsat_db = landsat.scripts.initializedb:main
+      initialize_app_db = app.scripts.initializedb:main
       """,
       )

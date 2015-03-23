@@ -5,6 +5,8 @@ PasteDeploy==1.5.2
 Pygments==2.0.2
 SQLAlchemy==1.0.0b3
 WebOb==1.4
+app==0.0
+gunicorn==19.3.0
 pyramid==1.5.4
 pyramid-chameleon==0.3
 pyramid-debugtoolbar==2.3
