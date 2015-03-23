@@ -1,1 +1,1 @@
--e landsat_checkout/app/
+-e /home/ubuntu/landsat_checkout/app/
