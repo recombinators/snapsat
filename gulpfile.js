@@ -15,10 +15,11 @@ var rename              = require('gulp-rename');
 var minify              = require('gulp-minify-css');
 var watch               = require('gulp-watch');
 
-var rootPath = process.cwd();
-var cssPath = './static/stylesheets/';
-var jsPath =  './js/';
+var rootPath = process.cwd() + '/app/app/static/';
+var cssPath = rootPath + '/stylesheets/';
+var jsPath =  rootPath + '/js/';
 
+console.log(rootPath);
 
 // ========== Gulp tasks ==========
 //

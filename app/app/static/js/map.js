@@ -12,15 +12,30 @@ map.addControl(L.mapbox.geocoderControl('mapbox.places',{ keepOpen: true }));
 map.setView([47.568, -122.582], 9);
 map.scrollWheelZoom.disable();
 
+
 map.on('moveend', function() {
+    var email = 'hi@jacquestardie.org';
+    var b1 = 4;
+    var b2 = 3;
+    var b3 = 2;
+
     var center = map.getCenter();
     var lat = center.lat;
     var lng = center.lng;
     console.log(lat, lng);
 
     $.ajax({
-
-    }).done(function(json) {
-
+        url: "/submit",
+        dataType: "json",
+        data: {
+            'lat': lat,
+            'lon': lon,
+            'email': email,
+            'b1': b1,
+            'b2': b2,
+            'b3': b3
+        },
+    }).done(function(e) {
+        alert('Posted.');
     });
 });
