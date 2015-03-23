@@ -16,7 +16,6 @@ map.setView([47.568, -122.582], 9);
 map.scrollWheelZoom.disable();
 
 map.on('moveend', function() {
-    console.log('test');
     var center = map.getCenter();
     var lat = center.lat;
     var lng = center.lng;
