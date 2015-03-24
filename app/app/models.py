@@ -1,18 +1,7 @@
-import sqlalchemy as sa
-from sqlalchemy import (
-    Column,
-    Index,
-    Integer,
-    Text,
-    )
-
+# import sqlalchemy as sa
+from sqlalchemy import Column, Index, Integer, UnicodeText, func
+from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-    )
-
 from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
@@ -21,22 +10,24 @@ Base = declarative_base()
 
 class PathAndRow_Model(Base):
     '''Model for path and row table.'''
-    __tablename__ = 'path_row'
+    __tablename__ = 'paths'
 
-    gid = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    geom = sa.Column(sa.UnicodeText, nullable=False)
-    path = sa.Column(sa.Integer, nullable=False)
-    row = sa.Column(sa.Integer, nullable=False)
+    gid = Column(UnicodeText, primary_key=True, autoincrement=True)
+    geom = Column(UnicodeText, nullable=False)
+    path = Column(Integer, nullable=False)
+    row = Column(Integer, nullable=False)
 
     @classmethod
     def pathandrow(cls, lat, lon):
         """Output path and row that contains lat lon."""
         try:
-            return (DBSession.query(cls)
+            scene = (DBSession.query(cls)
                     .filter(func.ST_Within(func.ST_SetSRID(func
                             .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236))).one().name
+                        .ST_SetSRID(cls.geom, 4236))).all()
                     )
+            # import pdb; pdb.set_trace()
+            return scene
         except:
             return u'----'
 
@@ -106,11 +97,5 @@ class PathAndRow_Model(Base):
 #             incidents_last_year = 0
 #         return {'string': return_string, 'year_count': incidents_last_year, 'prior_rate': incidents_per_year_prior}
 
-
-# class MyModel(Base):
-#     __tablename__ = 'models'
-#     id = Column(Integer, primary_key=True)
-#     name = Column(Text)
-#     value = Column(Integer)
 
 # Index('my_index', MyModel.name, unique=True, mysql_length=255)

@@ -1,23 +1,24 @@
 from pyramid.response import Response
 from pyramid.view import view_config
-
 from sqlalchemy.exc import DBAPIError
-
-from .models import (
-    DBSession,
-    MyModel,
-    )
+from .models import DBSession, PathAndRow_Model
 
 @view_config(route_name='index', renderer='templates/index.jinja2')
 def index(request):
     '''Index page.'''
-    return {}
+    lat = float(request.params.get('lat', 47.614848))
+    lng = float(request.params.get('lng', -122.3359059))
+
+    scene = PathAndRow_Model.pathandrow(lat, lng)
+
+    return {'scene': scene}
 
 
 @view_config(route_name='submit', renderer='json')
 def submit(request):
     '''Accept a post request.'''
     return {}
+
 
 
 # @view_config(route_name='home', renderer='templates/mytemplate.pt')
