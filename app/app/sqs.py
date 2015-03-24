@@ -1,4 +1,4 @@
-from boto.sqs import connect_sqs
+from boto import connect_sqs
 from boto.sqs.message import Message
 
 
@@ -29,6 +29,17 @@ def get_message(jobs_queue, num_messages=1, visibility_timeout=300,
                                    message_attributes=['All'])
 
 
+# def message_attirbute(message):
+#     if message.get_body() == 'job':
+#         message_attirbutes = {'job_id': job_message[0].message_attributes['job_id']['string_value'],
+#         }
+          
+# -            'email': job_message[0].message_attributes['email']['string_value'],       
+# -            'link': 's3.fake.notreal.imaginary.com',       
+# -            'scene_id': 'LC1234567890123456789'        
+# -            }
+
+
 def delete_message_from_queue(message, queue):
     '''Delete a message from the given queue.'''
     return queue.delete_message(message)
@@ -52,17 +63,9 @@ def build_job_message(**kwargs):
             'data_type': 'String',
             'string_value': kwargs['email']
             },
-        'date': {
-            'data_type': 'String',
-            'string_value': kwargs['date']
-            },
-        'latitude': {
+        'scene_id': {
             'data_type': 'Number',
-            'string_value': kwargs['latitude']
-            },
-        'longitude': {
-            'data_type': 'Number',
-            'string_value': kwargs['longitude']
+            'string_value': kwargs['scene_id']
             },
         'band_1': {
             'data_type': 'Number',
