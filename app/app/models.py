@@ -43,14 +43,8 @@ class SceneList_Model(Base):
 
     @classmethod
     def scenelist(cls, pr_output):
-        # return ['Hi!', 'Bye!']
-        # new = []
-        # for x in pr_output:
-        #     new.append('and_(cls.row == {}, cls.path == {})'.format(x.row, x.path))
-        # new_q = str.join(', ', new)
-        output =  DBSession.query(cls).filter(or_(
-            # and_(cls.row == {}, cls.path == {}),
-            and_(cls.row == pr_output[1].row, cls.path == pr_output[1].path),
-            and_(cls.row == pr_output[0].row, cls.path == pr_output[0].path))).all()
-        # output =  DBSession.query(cls).filter(or_(new_q))
-        return output
+        '''For Constantine'''
+        new = []
+        for x in pr_output:
+            new.append(and_(cls.row == x.row, cls.path == x.path))
+        return DBSession.query(cls).filter(or_(*new))

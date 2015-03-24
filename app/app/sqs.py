@@ -1,19 +1,18 @@
-from boto.sqs import connect_to_region
+from boto import connect_sqs
 from boto.sqs.message import Message
 
 
-def make_connection(kwargs):
+def make_connection(**kwargs):
     '''Make a connection to an AWS account. Kwargs is a dictionary of the AWS
        region, AWS access key id, and AWS secret access key'''
-    return connect_to_region(kwargs['region'],
-                             aws_access_key_id=kwargs['aws_access_key_id'],
-                             aws_secret_access_key=kwargs['aws_secret_access_key'])
+    return connect_sqs(aws_access_key_id=kwargs['aws_access_key_id'],
+                       aws_secret_access_key=kwargs['aws_secret_access_key'])
 
 
 def get_queue(queue_name, conn):
     '''Create a queue with the given name, or get an existing queue with that
        name from the AWS connection.'''
-    return conn.creaet_queue(queue_name)
+    return conn.create_queue(queue_name)
 
 
 def enqueue_message(message, queue):
@@ -21,13 +20,18 @@ def enqueue_message(message, queue):
     return queue.write(message)
 
 
-def get_message(jobs_queue, num_messages=1, visibility_timeout=300,
+def get_message(queue, num_messages=1, visibility_timeout=300,
                 wait_time_seconds=20):
     '''Get a message from the given queue. Default visibility timeout is
        5 minutes, message wait time is 20 seconds, number of messages is 1.''' 
-    return jobs_queue.get_messages(visibility_timeout=visibility_timeout,
-                                   wait_time_seconds=wait_time_seconds,
-                                   message_attributes=['All'])
+    return queue.get_messages(visibility_timeout=visibility_timeout,
+                              wait_time_seconds=wait_time_seconds,
+                              message_attributes=['All'])
+
+
+def get_attributes(message):
+    return {key: value['string_value']
+            for key, value in message[0].message_attributes.iteritems()}
 
 
 def delete_message_from_queue(message, queue):
@@ -40,7 +44,7 @@ def queue_size(queue):
     return queue.count()
 
 
-def build_job_message(kwargs):
+def build_job_message(**kwargs):
     '''Build a meesage to add to the jobs queue.'''
     job_message = Message()
     job_message.set_body('job')
@@ -53,17 +57,9 @@ def build_job_message(kwargs):
             'data_type': 'String',
             'string_value': kwargs['email']
             },
-        'date': {
+        'scene_id': {
             'data_type': 'String',
-            'string_value': kwargs['date']
-            },
-        'latitude': {
-            'data_type': 'Number',
-            'string_value': kwargs['latitude']
-            },
-        'longitude': {
-            'data_type': 'Number',
-            'string_value': kwargs['longitude']
+            'string_value': kwargs['scene_id']
             },
         'band_1': {
             'data_type': 'Number',
@@ -81,7 +77,7 @@ def build_job_message(kwargs):
     return job_message
 
 
-def build_result_message(kwargs):
+def build_result_message(**kwargs):
     '''Build a message to add to the results queue.'''
     result_message = Message()
     result_message.set_body('result')
@@ -104,3 +100,15 @@ def build_result_message(kwargs):
             }
         }
     return result_message
+if __name__ == '__main__':
+    import os
+    LANDSAT_JOBS_QUEUE = 'landsat_jobs_queue'
+    conn = make_connection(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                           aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
+    queue = get_queue(LANDSAT_JOBS_QUEUE, conn)
+    message = build_job_message(job_id=1, email='test', scene_id='LC13',
+                                band_1=4, band_2=3, band_3=2)
+    enqueue_message(message, queue)
+    message = get_message(queue)
+    attrs = get_attributes(message)
+    print(attrs)
