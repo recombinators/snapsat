@@ -16,6 +16,7 @@
                 <li id='b3'>2</li>
                 {% for s in scenes %}
                     <li>{{ s.entityid }}</li>
+                    <button><a href='/scene/{{ s.entityid }}'>Request</a></button>
                 {% endfor %}
             </ul>
         </div>
