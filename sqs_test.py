@@ -9,15 +9,25 @@ aws_secret_access_key = os.environ['AWS_SECRET_KEY_ID']
 
 
 def make_connection():
-    conn = boto.sqs.connect_to_region("us-west-2",
+    return boto.sqs.connect_to_region("us-west-2",
                                       aws_access_key_id=aws_access_key_id,
                                       aws_secret_access_key=aws_secret_access_key)
-    return conn
 
 
-def get_jobs_queue(conn):
-    jobs_queue = conn.get_queue('landsat_jobs_queue')
-    return jobs_queue
+def get_queue(queue_name, conn):
+    return conn.get_queue(queue_name)
+
+
+def enqueue_message(message, queue):
+    queue.write(message)
+
+
+def delete_message_from_queue(message, queue):
+    queue.delete_message(message)
+
+
+def queue_size(queue):
+    return queue.count()
 
 
 def build_job_message(kwargs):
@@ -60,35 +70,24 @@ def build_job_message(kwargs):
     return job_message
 
 
-def send_job_to_queue(jobs_queue, job_message):
-    jobs_queue.write(job_message)
-
-
-def get_results_queue(conn):
-    results_queue = conn.get_queue('landsat_results_queue')
-    return results_queue
-
-
-def get_job(jobs_queue):
-    job_message = jobs_queue.get_messages(message_attributes=['job_id',
-                                                              'email',
-                                                              'date',
-                                                              'latitude',
-                                                              'longitude',
-                                                              'band_1',
-                                                              'band_2',
-                                                              'band_3'
-                                                              ])
-    return job_message
+def get_job_message(jobs_queue):
+    return jobs_queue.get_messages(message_attributes=['job_id',
+                                                       'email',
+                                                       'date',
+                                                       'latitude',
+                                                       'longitude',
+                                                       'band_1',
+                                                       'band_2',
+                                                       'band_3'
+                                                       ])
 
 
 def do_work(job_message):
-    kwargs = {'job_id': job_message[0].message_attributes['job_id']['string_value'],
-              'email': job_message[0].message_attributes['email']['string_value'],
-              'link': 's3.fake.notreal.imaginary.com',
-              'scene_id': 'LC1234567890123456789'
-              }
-    return kwargs
+    return {'job_id': job_message[0].message_attributes['job_id']['string_value'],
+            'email': job_message[0].message_attributes['email']['string_value'],
+            'link': 's3.fake.notreal.imaginary.com',
+            'scene_id': 'LC1234567890123456789'
+            }
 
 
 def build_result_message(kwargs):
@@ -115,17 +114,12 @@ def build_result_message(kwargs):
     return result_message
 
 
-def send_result_to_queue(results_queue, result_message):
-    results_queue.write(result_message)
-
-
-def get_result(results_queue):
-    result_message = results_queue.get_messages(message_attributes=['job_id',
-                                                                    'email',
-                                                                    'link',
-                                                                    'scene_id'
-                                                                    ])
-    return result_message
+def get_result_message(results_queue):
+    return results_queue.get_messages(message_attributes=['job_id',
+                                                          'email',
+                                                          'link',
+                                                          'scene_id'
+                                                          ])
 
 
 def build_user_message(kwargs):
@@ -140,7 +134,7 @@ if __name__ == '__main__':
     print('Create job.\n')
     print('Connect to jobs queue.')
     conn = make_connection()
-    jobs_queue = get_jobs_queue(conn)
+    jobs_queue = get_queue('landsat_jobs_queue', conn)
     print(jobs_queue)
     print('\n')
 
@@ -158,17 +152,17 @@ if __name__ == '__main__':
     print('\n')
 
     print('Send job to jobs queue.')
-    send_job_to_queue(jobs_queue, job_message)
-    print(jobs_queue.count())
+    enqueue_message(job_message, jobs_queue)
+    print(queue_size(jobs_queue))
     print('\n')
 
     print('Connect to jobs queue.')
-    jobs_queue = get_jobs_queue(conn)
+    jobs_queue = get_queue('landsat_jobs_queue', conn)
     print(jobs_queue)
     print('\n')
 
     print('Get job.')
-    job_message = get_job(jobs_queue)
+    job_message = get_job_message(jobs_queue)
     pprint.pprint(job_message[0].message_attributes)
     print('\n')
 
@@ -178,12 +172,12 @@ if __name__ == '__main__':
     print('\n')
 
     print('Delete job from jobs queue.')
-    jobs_queue.delete_message(job_message[0])
-    print(jobs_queue.count())
+    delete_message_from_queue(job_message[0], jobs_queue)
+    print(queue_size(jobs_queue))
     print('\n')
 
     print('Connect to results queue.')
-    results_queue = get_results_queue(conn)
+    results_queue = get_queue('landsat_results_queue', conn)
     print(results_queue)
     print('\n')
 
@@ -193,23 +187,23 @@ if __name__ == '__main__':
     print('\n')
 
     print('Send result to results queue.')
-    send_result_to_queue(results_queue, result_message)
-    print(results_queue.count())
+    enqueue_message(result_message, results_queue)
+    print(queue_size(results_queue))
     print('\n')
 
     print('Connect to results queue.')
-    results_queue = get_results_queue(conn)
+    results_queue = get_queue('landsat_results_queue', conn)
     print(results_queue)
     print('\n')
 
     print('Get result.')
-    result_message = get_result(results_queue)
+    result_message = get_result_message(results_queue)
     pprint.pprint(result_message[0].message_attributes)
     print('\n')
 
     print('Delete result from results queue.')
-    results_queue.delete_message(result_message[0])
-    print(results_queue.count())
+    delete_message_from_queue(result_message[0], results_queue)
+    print(queue_size(results_queue))
     print('\n')
 
     print('Create user message.')
