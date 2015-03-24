@@ -1,12 +1,12 @@
-from boto.sqs import connect_to_region
+from boto import connect_sqs
 from boto.sqs.message import Message
 
 
 def make_connection(**kwargs):
     '''Make a connection to an AWS account. Kwargs is a dictionary of the AWS
        region, AWS access key id, and AWS secret access key'''
-    return connect_to_region(aws_access_key_id=kwargs['aws_access_key_id'],
-                             aws_secret_access_key=kwargs['aws_secret_access_key'])
+    return connect_sqs(aws_access_key_id=kwargs['aws_access_key_id'],
+                       aws_secret_access_key=kwargs['aws_secret_access_key'])
 
 
 def get_queue(queue_name, conn):
@@ -27,6 +27,17 @@ def get_message(jobs_queue, num_messages=1, visibility_timeout=300,
     return jobs_queue.get_messages(visibility_timeout=visibility_timeout,
                                    wait_time_seconds=wait_time_seconds,
                                    message_attributes=['All'])
+
+
+# def message_attirbute(message):
+#     if message.get_body() == 'job':
+#         message_attirbutes = {'job_id': job_message[0].message_attributes['job_id']['string_value'],
+#         }
+          
+# -            'email': job_message[0].message_attributes['email']['string_value'],       
+# -            'link': 's3.fake.notreal.imaginary.com',       
+# -            'scene_id': 'LC1234567890123456789'        
+# -            }
 
 
 def delete_message_from_queue(message, queue):
