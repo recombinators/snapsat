@@ -21,10 +21,12 @@ def enqueue_message(message, queue):
     return queue.write(message)
 
 
-def get_message(jobs_queue, visibility_timeout=300):
-    '''Get a message from the given queue and set the visibility timeput to 
-       5 minutes by default.'''
+def get_message(jobs_queue, num_messages=1, visibility_timeout=300,
+                wait_time_seconds=20):
+    '''Get a message from the given queue. Default visibility timeout is
+       5 minutes, message wait time is 20 seconds, number of messages is 1.''' 
     return jobs_queue.get_messages(visibility_timeout=visibility_timeout,
+                                   wait_time_seconds=wait_time_seconds,
                                    message_attributes=['All'])
 
 
