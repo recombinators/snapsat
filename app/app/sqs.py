@@ -13,7 +13,7 @@ def make_connection(**kwargs):
 def get_queue(queue_name, conn):
     '''Create a queue with the given name, or get an existing queue with that
        name from the AWS connection.'''
-    return conn.creaet_queue(queue_name)
+    return conn.create_queue(queue_name)
 
 
 def enqueue_message(message, queue):
