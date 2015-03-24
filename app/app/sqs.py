@@ -3,7 +3,7 @@ from boto.sqs.message import Message
 
 
 def make_connection(kwargs):
-    '''Make a connection to an AWS account. Kwargs is a dictinary of the AWS
+    '''Make a connection to an AWS account. Kwargs is a dictionary of the AWS
        region, AWS access key id, and AWS secret access key'''
     return connect_to_region(kwargs['region'],
                              aws_access_key_id=kwargs['aws_access_key_id'],
