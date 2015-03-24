@@ -52,17 +52,9 @@ def build_job_message(**kwargs):
             'data_type': 'String',
             'string_value': kwargs['email']
             },
-        'date': {
-            'data_type': 'String',
-            'string_value': kwargs['date']
-            },
-        'latitude': {
+        'scene_id': {
             'data_type': 'Number',
-            'string_value': kwargs['latitude']
-            },
-        'longitude': {
-            'data_type': 'Number',
-            'string_value': kwargs['longitude']
+            'string_value': kwargs['scene_id']
             },
         'band_1': {
             'data_type': 'Number',
