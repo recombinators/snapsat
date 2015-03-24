@@ -26,7 +26,7 @@ def scene(request):
     s = os.environ['AWS_ACCESS_KEY_ID'],
     conn = make_connection(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
                            aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     jobs_queue = get_queue('landsat_jobs_queue', conn)
     message = build_job_message(job_id=1, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],

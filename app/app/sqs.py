@@ -1,12 +1,13 @@
-from boto import connect_sqs
+from boto.sqs import connect_to_region
 from boto.sqs.message import Message
 
 
 def make_connection(**kwargs):
     '''Make a connection to an AWS account. Kwargs is a dictionary of the AWS
        region, AWS access key id, and AWS secret access key'''
-    return connect_sqs(aws_access_key_id=kwargs['aws_access_key_id'],
-                       aws_secret_access_key=kwargs['aws_secret_access_key'])
+    return connect_to_region(region_name='us-west-2',
+                             aws_access_key_id=kwargs['aws_access_key_id'],
+                             aws_secret_access_key=kwargs['aws_secret_access_key'])
 
 
 def get_queue(queue_name, conn):
@@ -20,8 +21,8 @@ def enqueue_message(message, queue):
     return queue.write(message)
 
 
-def get_message(queue, num_messages=1, visibility_timeout=300,
-                wait_time_seconds=20):
+def get_message(queue, num_messages=1, visibility_timeout=1,
+                wait_time_seconds=1):
     '''Get a message from the given queue. Default visibility timeout is
        5 minutes, message wait time is 20 seconds, number of messages is 1.''' 
     return queue.get_messages(visibility_timeout=visibility_timeout,
@@ -110,6 +111,7 @@ if __name__ == '__main__':
     message = build_job_message(job_id=1, email='test', scene_id='LC13',
                                 band_1=4, band_2=3, band_3=2)
     enqueue_message(message, queue)
+    print(queue_size(queue))
     message = get_message(queue)
     attrs = get_attributes(message)
     print(attrs)
