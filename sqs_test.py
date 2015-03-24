@@ -70,16 +70,8 @@ def build_job_message(kwargs):
     return job_message
 
 
-def get_job_message(jobs_queue):
-    return jobs_queue.get_messages(message_attributes=['job_id',
-                                                       'email',
-                                                       'date',
-                                                       'latitude',
-                                                       'longitude',
-                                                       'band_1',
-                                                       'band_2',
-                                                       'band_3'
-                                                       ])
+def get_message(jobs_queue):
+    return jobs_queue.get_messages(message_attributes=['All'])
 
 
 def do_work(job_message):
@@ -112,14 +104,6 @@ def build_result_message(kwargs):
             }
         }
     return result_message
-
-
-def get_result_message(results_queue):
-    return results_queue.get_messages(message_attributes=['job_id',
-                                                          'email',
-                                                          'link',
-                                                          'scene_id'
-                                                          ])
 
 
 def build_user_message(kwargs):
@@ -162,7 +146,7 @@ if __name__ == '__main__':
     print('\n')
 
     print('Get job.')
-    job_message = get_job_message(jobs_queue)
+    job_message = get_message(jobs_queue)
     pprint.pprint(job_message[0].message_attributes)
     print('\n')
 
@@ -197,7 +181,7 @@ if __name__ == '__main__':
     print('\n')
 
     print('Get result.')
-    result_message = get_result_message(results_queue)
+    result_message = get_message(results_queue)
     pprint.pprint(result_message[0].message_attributes)
     print('\n')
 

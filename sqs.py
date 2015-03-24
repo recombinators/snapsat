@@ -3,28 +3,43 @@ from boto.sqs.message import Message
 
 
 def make_connection(kwargs):
+    '''Make a connection to an AWS account. Kwargs is a dictinary of the AWS
+       region, AWS access key id, and AWS secret access key'''
     return connect_to_region(kwargs['region'],
                              aws_access_key_id=kwargs['aws_access_key_id'],
                              aws_secret_access_key=kwargs['aws_secret_access_key'])
 
 
 def get_queue(queue_name, conn):
-    return conn.get_queue(queue_name)
+    '''Create a queue with the given name, or get an existing queue with that
+       name from the AWS connection.'''
+    return conn.creaet_queue(queue_name)
 
 
 def enqueue_message(message, queue):
-    queue.write(message)
+    '''Write a message to the given queue.'''
+    return queue.write(message)
+
+
+def get_message(jobs_queue, visibility_timeout=300):
+    '''Get a message from the given queue and set the visibility timeput to 
+       5 minutes by default.'''
+    return jobs_queue.get_messages(visibility_timeout=visibility_timeout,
+                                   message_attributes=['All'])
 
 
 def delete_message_from_queue(message, queue):
-    queue.delete_message(message)
+    '''Delete a message from the given queue.'''
+    return queue.delete_message(message)
 
 
 def queue_size(queue):
+    '''Get the approximate number of messages in the given queue.'''
     return queue.count()
 
 
 def build_job_message(kwargs):
+    '''Build a meesage to add to the jobs queue.'''
     job_message = Message()
     job_message.set_body('job')
     job_message.message_attributes = {
@@ -64,27 +79,8 @@ def build_job_message(kwargs):
     return job_message
 
 
-def get_job_message(jobs_queue):
-    return jobs_queue.get_messages(message_attributes=['job_id',
-                                                       'email',
-                                                       'date',
-                                                       'latitude',
-                                                       'longitude',
-                                                       'band_1',
-                                                       'band_2',
-                                                       'band_3'
-                                                       ])
-
-
-def do_work(job_message):
-    return {'job_id': job_message[0].message_attributes['job_id']['string_value'],
-            'email': job_message[0].message_attributes['email']['string_value'],
-            'link': 's3.fake.notreal.imaginary.com',
-            'scene_id': 'LC1234567890123456789'
-            }
-
-
 def build_result_message(kwargs):
+    '''Build a message to add to the results queue.'''
     result_message = Message()
     result_message.set_body('result')
     result_message.message_attributes = {
@@ -106,11 +102,3 @@ def build_result_message(kwargs):
             }
         }
     return result_message
-
-
-def get_result_message(results_queue):
-    return results_queue.get_messages(message_attributes=['job_id',
-                                                          'email',
-                                                          'link',
-                                                          'scene_id'
-                                                          ])
