@@ -55,7 +55,8 @@ class UserJob_Model(Base):
     0 - Created
     1 - Queued
     2 - Processing
-    3 - Done
+    3 - Done (Failed)
+    4 - Done (Success)
     '''
 
     __tablename__ = 'user_job'
