@@ -20,24 +20,18 @@ def enqueue_message(message, queue):
     return queue.write(message)
 
 
-def get_message(jobs_queue, num_messages=1, visibility_timeout=300,
+def get_message(queue, num_messages=1, visibility_timeout=300,
                 wait_time_seconds=20):
     '''Get a message from the given queue. Default visibility timeout is
        5 minutes, message wait time is 20 seconds, number of messages is 1.''' 
-    return jobs_queue.get_messages(visibility_timeout=visibility_timeout,
-                                   wait_time_seconds=wait_time_seconds,
-                                   message_attributes=['All'])
+    return queue.get_messages(visibility_timeout=visibility_timeout,
+                              wait_time_seconds=wait_time_seconds,
+                              message_attributes=['All'])
 
 
-# def message_attirbute(message):
-#     if message.get_body() == 'job':
-#         message_attirbutes = {'job_id': job_message[0].message_attributes['job_id']['string_value'],
-#         }
-          
-# -            'email': job_message[0].message_attributes['email']['string_value'],       
-# -            'link': 's3.fake.notreal.imaginary.com',       
-# -            'scene_id': 'LC1234567890123456789'        
-# -            }
+def get_attributes(message):
+    return {key: value['string_value']
+            for key, value in message[0].message_attributes.iteritems()}
 
 
 def delete_message_from_queue(message, queue):
@@ -64,7 +58,7 @@ def build_job_message(**kwargs):
             'string_value': kwargs['email']
             },
         'scene_id': {
-            'data_type': 'Number',
+            'data_type': 'String',
             'string_value': kwargs['scene_id']
             },
         'band_1': {
@@ -106,3 +100,15 @@ def build_result_message(**kwargs):
             }
         }
     return result_message
+if __name__ == '__main__':
+    import os
+    LANDSAT_JOBS_QUEUE = 'landsat_jobs_queue'
+    conn = make_connection(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                           aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
+    queue = get_queue(LANDSAT_JOBS_QUEUE, conn)
+    message = build_job_message(job_id=1, email='test', scene_id='LC13',
+                                band_1=4, band_2=3, band_3=2)
+    enqueue_message(message, queue)
+    message = get_message(queue)
+    attrs = get_attributes(message)
+    print(attrs)
