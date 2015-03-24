@@ -48,3 +48,24 @@ class SceneList_Model(Base):
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
         return DBSession.query(cls).filter(or_(*new))
+
+
+class UserJob_Model(Base):
+    '''Model for the user job queue. Possible job statuses:
+    0 - Created
+    1 - Queued
+    2 - Processing
+    3 - Done
+    '''
+
+    __tablename__ = 'user_job'
+    jobid = Column(Integer, primary_key=True)
+    entityid = Column(UnicodeText, primary_key=True)
+    userip = Column(UnicodeText)
+    email = Column(UnicodeText)
+    band1 = Column(Integer)
+    band2 = Column(Integer)
+    band3 = Column(Integer)
+    jobstatus = Column(Integer, nullable=False)
+    starttime = Column(DateTime, nullable=False)
+    endtime = Column(DateTime, nullable=False)
