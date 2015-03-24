@@ -17,3 +17,7 @@ def index(request):
 def submit(request):
     '''Accept a post request.'''
     return {}
+
+@view_config(route_name='scene', renderer='json')
+def scene(request):
+    return {}

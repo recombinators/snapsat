@@ -53,5 +53,4 @@ class SceneList_Model(Base):
             and_(cls.row == pr_output[1].row, cls.path == pr_output[1].path),
             and_(cls.row == pr_output[0].row, cls.path == pr_output[0].path))).all()
         # output =  DBSession.query(cls).filter(or_(new_q))
-        import pdb; pdb.set_trace()
         return output
