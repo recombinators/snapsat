@@ -13,7 +13,7 @@ var map = L.mapbox.map('map', 'jacques.lh797p9e', {
 });
 
 map.addControl(L.mapbox.geocoderControl('mapbox.places',{ keepOpen: true }));
-map.setView([47.568, 122.582], 9);
+map.setView([47.568, -122.582], 9);
 map.scrollWheelZoom.disable();
 
 
@@ -33,7 +33,7 @@ map.on('moveend', function() {
         dataType: "json",
         data: {
             'lat': lat,
-            'lon': lon,
+            'lng': lng,
             'email': email,
             'b1': b1,
             'b2': b2,

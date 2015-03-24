@@ -29,13 +29,13 @@ map.on('moveend', function() {
         dataType: "json",
         data: {
             'lat': lat,
-            'lon': lon,
+            'lng': lng,
             'email': email,
             'b1': b1,
             'b2': b2,
             'b3': b3
         },
     }).done(function(e) {
-        alert('Posted.');
+        console.log('Oh... My... God.')
     });
 });
