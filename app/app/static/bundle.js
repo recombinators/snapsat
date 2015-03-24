@@ -40,7 +40,7 @@ map.on('moveend', function() {
             'b3': b3
         },
     }).done(function(e) {
-        alert('Posted.');
+        console.log('Posted.');
     });
 });
 
