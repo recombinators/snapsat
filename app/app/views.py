@@ -2,6 +2,8 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 from .models import DBSession, PathAndRow_Model, SceneList_Model
+from sqs import *
+import os
 
 
 @view_config(route_name='index', renderer='templates/index.jinja2')
@@ -16,4 +18,12 @@ def index(request):
 @view_config(route_name='submit', renderer='json')
 def submit(request):
     '''Accept a post request.'''
-    return {}
+    conn = make_connection(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                           aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
+    jobs_queue = get_queue('landsat_jobs_queue', conn)
+    message = build_job_message(job_id=1, email='test@test.com',
+                                scene_id=request.params.get(scene_id)
+                                band_1=4, band_2=3, band_3=2)
+    enqueue_message(message, jobs_queue)
+
+    return None
