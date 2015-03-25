@@ -879,4 +879,21 @@ body {
 
 h1 {
     font-family: 'aw-conqueror-carved';
+    font-size: 4rem;
+}
+
+.reticle {
+  position: absolute;
+  top: calc(49% - 50px);
+  left: calc(49% - 50px);
+  z-index: 100;
+}
+
+.details {
+    display: none;
+}
+
+.display-inline-block {
+    width: 33%;
+    vertical-align: top;
 }
