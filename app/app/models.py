@@ -27,7 +27,7 @@ class PathAndRow_Model(Base):
             scene = (DBSession.query(cls)
                     .filter(func.ST_Within(func.ST_SetSRID(func
                             .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236)), cls.mode == 'D').all()
+                        .ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
                     )
             return scene
         except:
@@ -104,3 +104,4 @@ class UserJob_Model(Base):
         job = session.query(cls).get(jobid)
         job.job_status = 4
         transaction.commit()
+        import pdb; pdb.set_trace()
