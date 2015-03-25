@@ -1,5 +1,5 @@
 # import sqlalchemy as sa
-from sqlalchemy import Column, Index, Integer, UnicodeText, func, DateTime, Float, or_, and_
+from sqlalchemy import Column, update, Index, Integer, UnicodeText, func, DateTime, Float, or_, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -64,7 +64,7 @@ class UserJob_Model(Base):
 
     __tablename__ = 'user_job'
     jobid = Column(Integer, primary_key=True)
-    entityid = Column(UnicodeText, primary_key=True)
+    entityid = Column(UnicodeText)
     userip = Column(UnicodeText)
     email = Column(UnicodeText)
     band1 = Column(Integer)
@@ -100,8 +100,6 @@ class UserJob_Model(Base):
 
     @classmethod
     def job_success(cls, jobid):
-        session = DBSession
-        job = session.query(cls).get(jobid)
-        job.job_status = 4
-        transaction.commit()
-        import pdb; pdb.set_trace()
+        '''Set jobstatus to 4, finished, for jobid passed in.'''
+        DBSession.query(cls).filter(cls.jobid == jobid).update({"jobstatus": 4})
+
