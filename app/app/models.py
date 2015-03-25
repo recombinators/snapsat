@@ -72,7 +72,13 @@ class UserJob_Model(Base):
     band3 = Column(Integer)
     jobstatus = Column(Integer, nullable=False)
     starttime = Column(DateTime, nullable=False)
-    endtime = Column(DateTime, nullable=False)
+    lastmodified = Column(DateTime, nullable=False)
+    status1time = Column(DateTime)
+    status2time = Column(DateTime)
+    status3time = Column(DateTime)
+    status4time = Column(DateTime)
+    status5time = Column(DateTime)
+    status10time = Column(DateTime)
 
     @classmethod
     def new_job(cls,
@@ -83,23 +89,40 @@ class UserJob_Model(Base):
                 jobstatus=0,
                 starttime=datetime.utcnow(),
                 ):
-        session = DBSession
-        job = UserJob_Model(entityid=entityid,
-                            band1=band1,
-                            band2=band2,
-                            band3=band3,
-                            jobstatus=0,
-                            starttime=datetime.utcnow()
-                            )
-        session.add(job)
-        session.flush()
-        session.refresh(job)
-        pk = job.jobid
-        transaction.commit()
+        try:
+            session = DBSession
+            job = UserJob_Model(entityid=entityid,
+                                band1=band1,
+                                band2=band2,
+                                band3=band3,
+                                jobstatus=0,
+                                starttime=datetime.utcnow()
+                                )
+            session.add(job)
+            session.flush()
+            session.refresh(job)
+            pk = job.jobid
+            transaction.commit()
+        except:
+            return None
         return pk
 
     @classmethod
     def job_success(cls, jobid, status):
         '''Set jobstatus to 4, finished, for jobid passed in.'''
-        DBSession.query(cls).filter(cls.jobid == jobid).update({"jobstatus": status})
+        table_key = {1: "status1time",
+                     2: "status2time",
+                     3: "status3time",
+                     4: "status4time",
+                     5: "status5time",
+                     10: "status10time"}
+        try:
+            current_time = datetime.utcnow()
+            DBSession.query(cls).filter(cls.jobid == jobid).update(
+                                    {"jobstatus": status,
+                                     table_key[int(status)]: current_time,
+                                     "lastmodified": current_time
+                                     })
+        except:
+            print 'database write failed'
 
