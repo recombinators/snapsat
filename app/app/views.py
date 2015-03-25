@@ -23,13 +23,16 @@ def scene(request):
     SQSconn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
     pk = UserJob_Model.new_job(entityid=request.matchdict['scene_id'],
-                               band1=4,
-                               band2=3,
-                               band3=2
-                               )
+                                band1=request.matchdict['b1'],
+                                band2=request.matchdict['b2'],
+                                band3=request.matchdict['b3']
+                                )
     # import pdb; pdb.set_trace()
     message = build_job_message(job_id=pk, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],
-                                band_1=4, band_2=3, band_3=2)
+                                band_1=request.matchdict['b1'],
+                                band_2=request.matchdict['b2'],
+                                band_3=request.matchdict['b3']
+                                )
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
     return None
