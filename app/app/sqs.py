@@ -1,24 +1,29 @@
 from boto.sqs import connect_to_region
 from boto.sqs.message import Message
+from boto.sqs import connect_to_region
+from boto.sqs.connection import SQSConnection
+from boto.sqs.message import Message
 
 
 def make_connection(**kwargs):
     '''Make a connection to an AWS account. Kwargs is a dictionary of the AWS
        region, AWS access key id, and AWS secret access key'''
-    return connect_to_region(region_name='us-west-2',
-                             aws_access_key_id=kwargs['aws_access_key_id'],
-                             aws_secret_access_key=kwargs['aws_secret_access_key'])
+    return SQSConnection(region='us-west-2',
+                         aws_access_key_id=kwargs['aws_access_key_id'],
+                         aws_secret_access_key=kwargs['aws_secret_access_key'])
 
 
-def get_queue(queue_name, conn):
+def create_queue(conn, queue_name):
     '''Create a queue with the given name, or get an existing queue with that
        name from the AWS connection.'''
     return conn.create_queue(queue_name)
 
 
-def enqueue_message(message, queue):
+def send_message(conn, queue, message_content, message_attributes=None):
     '''Write a message to the given queue.'''
-    return queue.write(message)
+    return conn.send_message(queue=queue,
+                             message_content=message_content,
+                             message_attributes=message_attributes)
 
 
 def get_message(queue, num_messages=1, visibility_timeout=300,
