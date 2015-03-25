@@ -18,6 +18,7 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'boto',
+    'awscli'
     ]
 
 setup(name='app',
