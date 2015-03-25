@@ -25,7 +25,7 @@ class PathAndRow_Model(Base):
             scene = (DBSession.query(cls)
                     .filter(func.ST_Within(func.ST_SetSRID(func
                             .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236)), cls.mode == 'A').all()
+                        .ST_SetSRID(cls.geom, 4236)), cls.mode == 'D').all()
                     )
             return scene
         except:
