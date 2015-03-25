@@ -34,7 +34,7 @@
                     <p>Row: {{ s.row }}</p>
                     <p>Cloud coverage: {{ s.cloudcover }}</p>
                     <img src="https://s3-us-west-2.amazonaws.com/landsat-pds/L8/{{'%03d' % s.path}}/{{'%03d' % s.row}}/{{s.entityid}}/{{s.entityid}}_thumb_large.jpg">
-                    <button><a href='/scene/{{ s.entityid }}'>Request</a></button>
+                    <button><a href='/request/{{ s.entityid }}'>Request</a></button>
                 </div>
                 {% endfor %}
             </div>
