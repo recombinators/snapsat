@@ -126,3 +126,5 @@ if __name__ == '__main__':
     message = get_message(queue)
     attrs = get_attributes(message)
     print(attrs)
+    print(delete_message_from_handle(conn, queue, message[0]))
+    print(queue_size(queue))
