@@ -46,6 +46,7 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #ECECEA;
 }
 
 .map-container{
@@ -74,7 +75,7 @@ h1 {
 
 .details {
     display: none;
-
+    
 }
 
 .display-inline-block {
@@ -84,4 +85,14 @@ h1 {
 
 .mbn {
     cursor: pointer;
+}
+
+.customband {
+    text-align: left;
+    font-size: .85em;
+}
+
+.contentmax {
+    text-align: center;
+    padding: 5%;
 }
