@@ -27,6 +27,7 @@ def scene(request):
                                band2=3,
                                band3=2
                                )
+    # import pdb; pdb.set_trace()
     message = build_job_message(job_id=pk, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],
                                 band_1=4, band_2=3, band_3=2)
