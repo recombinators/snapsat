@@ -1,23 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 require('./map.js');
-require('./longpoll.js');
+// require('./longpoll.js');
+require('./typekit.js');
 
-},{"./longpoll.js":2,"./map.js":3}],2:[function(require,module,exports){
-var $ = require('jquery');
-
-(function poll(){
-    $.ajax({
-        url: '/update',
-        success: function(data) {
-            console.log(data.value);
-        },
-        dataType: 'json',
-        complete: poll,
-        timeout: 50000
-    });
-})();
-
-},{"jquery":4}],3:[function(require,module,exports){
+},{"./map.js":2,"./typekit.js":3}],2:[function(require,module,exports){
 require('mapbox.js');
 var $ = require('jquery');
 
@@ -60,7 +46,16 @@ map.on('moveend', function() {
     });
 });
 
-},{"jquery":4,"mapbox.js":19}],4:[function(require,module,exports){
+},{"jquery":4,"mapbox.js":19}],3:[function(require,module,exports){
+(function(d) {
+    var config = {
+        kitId: 'wqn0qec',
+        scriptTimeout: 3000
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+})(document);
+
+},{}],4:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/

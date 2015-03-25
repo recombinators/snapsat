@@ -17,6 +17,7 @@ class PathAndRow_Model(Base):
     geom = Column(UnicodeText, nullable=False)
     path = Column(Integer, nullable=False)
     row = Column(Integer, nullable=False)
+    mode = Column(UnicodeText, nullable=False)
 
     @classmethod
     def pathandrow(cls, lat, lon):
@@ -25,7 +26,7 @@ class PathAndRow_Model(Base):
             scene = (DBSession.query(cls)
                     .filter(func.ST_Within(func.ST_SetSRID(func
                             .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236))).all()
+                        .ST_SetSRID(cls.geom, 4236)), cls.mode == 'D').all()
                     )
             return scene
         except:
