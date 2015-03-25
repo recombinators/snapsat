@@ -97,3 +97,10 @@ class UserJob_Model(Base):
         pk = job.jobid
         transaction.commit()
         return pk
+
+    @classmethod
+    def job_success(cls, jobid):
+        session = DBSession
+        job = session.query(cls).get(jobid)
+        job.job_status = 4
+        transaction.commit()
