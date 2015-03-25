@@ -104,3 +104,4 @@ class UserJob_Model(Base):
         job = session.query(cls).get(jobid)
         job.job_status = 4
         transaction.commit()
+        import pdb; pdb.set_trace()
