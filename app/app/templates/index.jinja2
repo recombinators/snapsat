@@ -14,6 +14,7 @@
                 <li id='b1'>4</li>
                 <li id='b2'>3</li>
                 <li id='b3'>2</li>
+                <li>{{ data }}</li>
                 {% for s in scenes %}
                     <li>{{ s.entityid }}</li>
                     <button><a href='/scene/{{ s.entityid }}'>Request</a></button>

@@ -26,11 +26,15 @@ def scene(request):
     s = os.environ['AWS_ACCESS_KEY_ID'],
     conn = make_connection(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
                            aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
-    # import pdb; pdb.set_trace()
     jobs_queue = get_queue('landsat_jobs_queue', conn)
     message = build_job_message(job_id=1, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],
                                 band_1=4, band_2=3, band_3=2)
     enqueue_message(message, jobs_queue)
-
     return None
+
+
+@view_config(route_name='update', renderer='json')
+def update(request):
+    '''Accept a post request.'''
+    return {'data': data}
