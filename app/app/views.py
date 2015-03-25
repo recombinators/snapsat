@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from .models import PathAndRow_Model, SceneList_Model
+from .models import PathAndRow_Model, SceneList_Model, UserJob_Model
 from sqs import make_connection, get_queue, build_job_message, send_message
 import os
 
@@ -22,7 +22,12 @@ def index(request):
 def scene(request):
     SQSconn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
-    message = build_job_message(job_id=1, email='test@test.com',
+    pk = UserJob_Model.new_job(entityid=request.matchdict['scene_id'],
+                               band1=4,
+                               band2=3,
+                               band3=2
+                               )
+    message = build_job_message(job_id=pk, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],
                                 band_1=4, band_2=3, band_3=2)
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])

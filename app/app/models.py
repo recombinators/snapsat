@@ -3,6 +3,8 @@ from sqlalchemy import Column, Index, Integer, UnicodeText, func, DateTime, Floa
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
+import transaction
+from datetime import datetime
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
@@ -71,3 +73,27 @@ class UserJob_Model(Base):
     jobstatus = Column(Integer, nullable=False)
     starttime = Column(DateTime, nullable=False)
     endtime = Column(DateTime, nullable=False)
+
+    @classmethod
+    def new_job(cls,
+                entityid=entityid,
+                band1=4,
+                band2=3,
+                band3=2,
+                jobstatus=0,
+                starttime=datetime.utcnow(),
+                ):
+        session = DBSession
+        job = UserJob_Model(entityid=entityid,
+                            band1=band1,
+                            band2=band2,
+                            band3=band3,
+                            jobstatus=0,
+                            starttime=datetime.utcnow()
+                            )
+        session.add(job)
+        session.flush()
+        session.refresh(job)
+        pk = job.jobid
+        transaction.commit()
+        return pk
