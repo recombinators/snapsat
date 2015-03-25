@@ -99,7 +99,7 @@ class UserJob_Model(Base):
         return pk
 
     @classmethod
-    def job_success(cls, jobid):
+    def job_success(cls, jobid, status):
         '''Set jobstatus to 4, finished, for jobid passed in.'''
-        DBSession.query(cls).filter(cls.jobid == jobid).update({"jobstatus": 4})
+        DBSession.query(cls).filter(cls.jobid == jobid).update({"jobstatus": status})
 

@@ -36,8 +36,10 @@ def scene(request):
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
     return None
 
+
 @view_config(route_name='done', renderer='json')
 def done(request):
     '''Given post request from worker, in db, update job to done.'''
-    pk = request.params.get('pk')
-    UserJob_Model.job_success(pk)
+    pk = request.params.get('job_id')
+    status = request.params.get('status')
+    UserJob_Model.job_success(pk, status)
