@@ -27,9 +27,14 @@ def scene(request):
                                band2=3,
                                band3=2
                                )
-    # import pdb; pdb.set_trace()
     message = build_job_message(job_id=pk, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],
                                 band_1=4, band_2=3, band_3=2)
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
     return None
+
+@view_config(route_name='done', renderer='json')
+def done(request):
+    '''Given post request from worker, in db, update job to done.'''
+    pk = request.params.get('pk')
+    UserJob_Model.job_success(pk)
