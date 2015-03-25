@@ -12,13 +12,9 @@ def index(request):
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
     scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
+    # data = 'Hi'
+    # return {'scenes': scenes, 'data': data}, 
     return {'scenes': scenes}
-
-
-@view_config(route_name='submit', renderer='json')
-def submit(request):
-    '''Accept a post request.'''
-    return {}
 
 
 @view_config(route_name='scene', renderer='json')
@@ -32,21 +28,3 @@ def scene(request):
                                 band_1=4, band_2=3, band_3=2)
     enqueue_message(message, jobs_queue)
     return None
-
-
-@view_config(route_name='update', renderer='json')
-def update(request):
-    '''Accept a post request.'''
-    return {'data': data}
-
-
-@view_config(route_name='done', renderer='json')
-def update(request):
-    '''Change job db for specific job to done'''
-    pk = request.params.get('pk')
-    url = request.params.get('ur')
-    print pk
-    print url
-    import pdb; pdb.set_trace()
-    # call method to write to db
-    # return {'data': data}

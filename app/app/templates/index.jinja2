@@ -8,21 +8,21 @@
         <link rel='stylesheet' href='/static/main.css'>
     </head>
     <body>
-        <div class='content'>
-            <ul>
-                <li id='date'>January 1, 2015</li>
-                <li id='b1'>4</li>
-                <li id='b2'>3</li>
-                <li id='b3'>2</li>
-                <li>{{ data }}</li>
-                {% for s in scenes %}
-                    <li>{{ s.entityid }}</li>
-                    <button><a href='/scene/{{ s.entityid }}'>Request</a></button>
-                {% endfor %}
-            </ul>
-        </div>
+        <header class='container center'>
+            <h1><a href='/'>Landsat.club</a></h1>
+        </header>
         <div class='map-container'>
             <div id='map'></div>
+        </div>
+        <div class='content container center'>
+            <ul>
+                {% for s in scenes %}
+                    <li>{{ s.entityid }}</li>
+                    <li><a href='{{ s.download_url }}'>Download</a></li>
+                    <button><a href='/scene/{{ s.entityid }}'>Request</a></button>
+                    <img src="https://s3-us-west-2.amazonaws.com/landsat-pds/L8/{{'%03d' % s.path}}/{{'%03d' % s.row}}/{{s.entityid}}/{{s.entityid}}_thumb_large.jpg">
+                {% endfor %}
+            </ul>
         </div>
         <script src='/static/bundle.js'></script>
         <script src='/static/js/gauges.js'></script>
