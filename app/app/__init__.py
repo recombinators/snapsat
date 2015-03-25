@@ -16,5 +16,6 @@ def main(global_config, **settings):
     config.add_route('scene', '/scene/{scene_id}')
     config.add_route('submit', '/submit')
     config.add_route('update', '/update')
+    config.add_route('done', '/done')
     config.scan()
     return config.make_wsgi_app()

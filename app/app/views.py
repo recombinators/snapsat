@@ -38,3 +38,12 @@ def scene(request):
 def update(request):
     '''Accept a post request.'''
     return {'data': data}
+
+
+@view_config(route_name='done', renderer='json')
+def update(request):
+    '''Change job db for specific job to done'''
+    pk = request.params.get('pk')
+    url = request.params.get('ur')
+    # call method to write to db
+    return {'data': data}
