@@ -3,6 +3,7 @@ from sqlalchemy import Column, Index, Integer, UnicodeText, func, DateTime, Floa
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
+import transaction
 from datetime import datetime
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
@@ -94,5 +95,5 @@ class UserJob_Model(Base):
         session.flush()
         session.refresh(job)
         pk = job.jobid
-        session.commit()
+        transaction.commit()
         return pk
