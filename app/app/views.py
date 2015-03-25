@@ -45,5 +45,8 @@ def update(request):
     '''Change job db for specific job to done'''
     pk = request.params.get('pk')
     url = request.params.get('ur')
+    print pk
+    print url
+    import pdb; pdb.set_trace()
     # call method to write to db
-    return {'data': data}
+    # return {'data': data}
