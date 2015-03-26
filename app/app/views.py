@@ -3,6 +3,7 @@ from .models import PathAndRow_Model, SceneList_Model, UserJob_Model
 from sqs import make_connection, get_queue, build_job_message, send_message
 import os
 from json import dumps
+import operator
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -87,6 +88,8 @@ def scene_options_ajax(request):
                             'entityid': scene.entityid,
                             'path': scene.path,
                             'row': scene.row})
+
+    scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
     return {'scenes': scenes_dict,
             'lat': lat,
