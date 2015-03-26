@@ -1,4 +1,4 @@
-import boto.ec2
+from boto.ec2 import connect_to_region
 import sqs
 import os
 
@@ -9,18 +9,26 @@ JOBS_QUEUE = 'landsat_jobs_queue'
 REGION = 'us-west-2'
 
 
-def foreman():
+def make_connection():
+    '''Make EC2 connection to AWS'''
+    EC2conn = connect_to_region(REGION,
+                                aws_access_key_id=AWS_ACCESS_KEY_ID,
+                                aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    return EC2conn
+
+
+def foreman(EC2conn):
     pass
 
 
-def spawn_worker():
+def spawn_worker(EC2conn):
     pass
 
 
-def kill_worker():
+def kill_worker(EC2conn):
     pass
 
 
-def list_workers():
+def list_workers(EC2conn):
 
     return workers
