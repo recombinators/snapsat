@@ -61,9 +61,9 @@ def done(request):
 
 def preview_url(scene, band1, band2, band3):
     '''get link for preview url'''
-    # root = 'ec2-52-11-232-129.us-west-2.compute.amazonaws.com'
-    root = 'localhost:6543'
-    url = '{}/{}/{}/{}/{}/preview.png'.format(root, scene, band1, band2, band3)
+    root = 'ec2-52-11-232-129.us-west-2.compute.amazonaws.com'
+    # root = 'localhost:6543'
+    url = 'http://{}/{}/{}/{}/{}/preview.png'.format(root, scene, band1, band2, band3)
     return url
 
 
