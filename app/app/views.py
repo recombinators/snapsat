@@ -24,15 +24,15 @@ def request_scene(request):
     SQSconn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
     pk = UserJob_Model.new_job(entityid=request.matchdict['scene_id'],
-                                band1=request.matchdict['b1'],
-                                band2=request.matchdict['b2'],
-                                band3=request.matchdict['b3']
+                                band1=request.params.get('band_combo')[0],
+                                band2=request.params.get('band_combo')[1],
+                                band3=request.params.get('band_combo')[2]
                                 )
     message = build_job_message(job_id=pk, email='test@test.com',
                                 scene_id=request.matchdict['scene_id'],
-                                band_1=request.matchdict['b1'],
-                                band_2=request.matchdict['b2'],
-                                band_3=request.matchdict['b3']
+                                band_1=request.params.get('band_combo')[0],
+                                band_2=request.params.get('band_combo')[1],
+                                band_3=request.params.get('band_combo')[2]
                                 )
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
     return UserJob_Model.job_status(pk)
