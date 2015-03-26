@@ -168,7 +168,7 @@ class Rendered_Model(Base):
     band3 = Column(Integer)
     previewurl = Column(UnicodeText)
     renderurl = Column(UnicodeText)
-    rendercount = Column(Integer)
+    rendercount = Column(Integer, default=0)
     currentlyrend = Column(Boolean)
 
     @classmethod
@@ -215,9 +215,8 @@ class Rendered_Model(Base):
         if output != 0:
             # if this scene/band has already been requested, increase the count
             existing = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                 cls.band1 == band1,
-                                                 cls.band2 == band2,
-                                                 cls.band3 == band3).one()
-            DBSession.query(cls).filter(existing.jobid).update(
-                        cls.rendercount=existing.rendercount + 1)
+                                                   cls.band1 == band1,
+                                                   cls.band2 == band2,
+                                                   cls.band3 == band3).update({
+                                                   "rendercount": cls.rendercount+1})
         return output != 0
