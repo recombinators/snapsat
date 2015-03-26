@@ -209,7 +209,7 @@ class Rendered_Model(Base):
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
-                                                 cls.renderurl.is_(None)).count()
+                                                 cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed'
             return None
