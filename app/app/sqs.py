@@ -1,18 +1,14 @@
 from boto.sqs.connection import SQSConnection
-from boto.sqs import regions
+from boto.ec2 import get_region
 
 
 def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
     '''Make an SQSconnection to an AWS account. Pass in region, AWS access
        key id, and AWS secret access key'''
-    for reg in regions():
-        if reg.name == region_name:
-            region = reg
-            break
 
     return SQSConnection(aws_access_key_id=aws_access_key_id,
                          aws_secret_access_key=aws_secret_access_key,
-                         region=region)
+                         region=get_region(region_name))
 
 
 def get_queue(conn, queue_name):
