@@ -55,4 +55,11 @@ target/
 
 # Venv
 .venv
-node_modules
+
+# Sublime 
+**/*sublime-project
+**/*sublime-workspace
+
+# Node
+node_modules/
+>>>>>>> abdd13242e3d62f44c806d47d79a1ce18f177c6b
