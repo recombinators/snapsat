@@ -1,34 +1,33 @@
-from boto.ec2 import connect_to_region
-import sqs
+from boto.ec2 import connection
+from boto.sqs import regions
 import os
 
 
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-JOBS_QUEUE = 'landsat_jobs_queue'
-REGION = 'us-west-2'
-
-
-def make_connection():
+def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
     '''Make EC2 connection to AWS'''
-    EC2conn = connect_to_region(REGION,
-                                aws_access_key_id=AWS_ACCESS_KEY_ID,
-                                aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    for reg in regions():
+        if reg.name == region_name:
+            region = reg
+            break
+
+    EC2conn = connection(aws_access_key_id=aws_access_key_id,
+                         aws_secret_access_key=aws_secret_access_key,
+                         region=region)
     return EC2conn
 
 
-def foreman(EC2conn):
+def foreman(conn):
     pass
 
 
-def spawn_worker(EC2conn):
+def spawn_worker(conn):
     pass
 
 
-def kill_worker(EC2conn):
+def kill_worker(conn):
     pass
 
 
-def list_workers(EC2conn):
-
+def list_workers(conn):
+    reservations = conn.get_all_reservations()
     return workers
