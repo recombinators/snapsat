@@ -108,8 +108,8 @@ class UserJob_Model(Base):
         return pk
 
     @classmethod
-    def job_success(cls, jobid, status):
-        '''Set jobstatus to 4, finished, for jobid passed in.'''
+    def set_job_status(cls, jobid, status):
+        '''Set jobstatus for jobid passed in.'''
         table_key = {1: "status1time",
                      2: "status2time",
                      3: "status3time",
@@ -126,20 +126,21 @@ class UserJob_Model(Base):
         except:
             print 'database write failed'
 
+
     @classmethod
     def job_status(cls, jobid):
-        '''Set jobstatus to 4, finished, for jobid passed in.'''
-        table_key = {1: "status1time",
-                     2: "status2time",
-                     3: "status3time",
-                     4: "status4time",
-                     5: "status5time",
-                     10: "status10time"}
+        '''Set jobstatus for jobid passed in.'''
+        status_key = {1: "status1time",
+                      2: "status2time",
+                      3: "status3time",
+                      4: "status4time",
+                      5: "status5time",
+                      10: "status10time"}
         try:
-            current_time = datetime.utcnow()
             job = DBSession.query(cls).get(jobid)
             print job.jobstatus
         except:
             print 'database write failed'
+            return None
         return job.jobstatus
 

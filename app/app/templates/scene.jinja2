@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>Snapsat</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
+        <link rel='stylesheet' href='/static/main.css'>
+    </head>
+    <body>
+        <header class='mtx container center align-center'>
+            <h1><a href='/'>Landsat.club</a></h1>
+        </header>
+            <div id='available-scenes' class='display-inline-block'>
+                <h2>Available scenes</h2>
+                {% for s in available_scenes%}
+                <div class='details'>
+                    <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+                    <img src="{{ s.previewurl }}">
+                    {% if s.renderurl %}
+                        <a href="{{ s.renderurl }}">Download Full Zip</a>
+                    {% elif s.currentlyrend %}
+
+                    {% else %}
+                        place link for requesting full res image here
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div id='order' class='display-inline-block'>
+                <h2>Your order</h2>
+            </div>
+        </div>
+
+
+    </body>
+</html>

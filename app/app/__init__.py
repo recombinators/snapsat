@@ -17,6 +17,6 @@ def main(global_config, **settings):
     config.add_route('index', '/')
     config.add_route('request_scene', '/request/{scene_id}/{b1}/{b2}/{b3}')
     config.add_route('done', '/done')
-    config.add_route('scene_status', '/scene')
+    config.add_route('scene_status', '/scene/{scene_id})
     config.scan()
     return config.make_wsgi_app()

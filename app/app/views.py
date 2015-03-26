@@ -18,8 +18,9 @@ def index(request):
     return {'scenes': scenes}
 
 
-@view_config(route_name='scene', renderer='json')
-def scene(request):
+@view_config(route_name='request_scene', renderer='json')
+def request_scene(request):
+    '''Make request for scene, add to queue, add to db.'''
     SQSconn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
     pk = UserJob_Model.new_job(entityid=request.matchdict['scene_id'],
@@ -34,12 +35,25 @@ def scene(request):
                                 band_3=request.matchdict['b3']
                                 )
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
-    return UserJob_Model.job_status(pk)
+    return UserJob_Model.set_job_status(pk)
+
+
+@view_config(route_name='scene_status', renderer='templates/status.jinja2')
+def scene_status(request):
+    '''Given sceneID display available previews and rendered photos/links.'''
+    status = {}
+    available_scenes = XXXXXXX.available(scene=request.matchdict['scene_id'])
+    for scene in available_scenes:
+        if scene.currentlyrend:
+            status[scene] = UserJob_Model.job_status(scene.jobid)
+
+    currently_rendering = XXXXXXX.currentlyrend(scene=request.matchdict['scene_id'])
+    return {'band_combo': available_scenes, 'status': status}
 
 
 @view_config(route_name='done', renderer='json')
 def done(request):
-    '''Given post request from worker, in db, update job to done.'''
+    '''Given post request from worker, in db, update job status.'''
     pk = request.params.get('job_id')
     status = request.params.get('status')
-    UserJob_Model.job_success(pk, status)
+    UserJob_Model.set_job_status(pk, status)
