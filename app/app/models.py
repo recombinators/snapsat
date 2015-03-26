@@ -82,6 +82,7 @@ class UserJob_Model(Base):
 
     @classmethod
     def new_job(cls,
+        '''Create new job in db.'''
                 entityid=entityid,
                 band1=4,
                 band2=3,
@@ -129,18 +130,21 @@ class UserJob_Model(Base):
 
     @classmethod
     def job_status(cls, jobid):
-        '''Set jobstatus for jobid passed in.'''
-        status_key = {1: "status1time",
-                      2: "status2time",
-                      3: "status3time",
-                      4: "status4time",
-                      5: "status5time",
-                      10: "status10time"}
+        '''Get jobstatus for jobid passed in.'''
+        status_key = {0: "Created",
+                      1: "Downloading",
+                      2: "Processings",
+                      3: "Compressing",
+                      4: "Uploading to S3",
+                      5: "Done",
+                      10: "Failed"}
         try:
             job = DBSession.query(cls).get(jobid)
             print job.jobstatus
         except:
             print 'database write failed'
             return None
-        return job.jobstatus
+        return status_key[job.jobstatus]
+
+
 
