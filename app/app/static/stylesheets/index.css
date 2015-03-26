@@ -106,6 +106,6 @@ h1 {
     width: 100%;
 }
 
-p {
-    padding: none;
+#date-select option {
+    text-align: center;
 }
