@@ -187,7 +187,8 @@ class Rendered_Model(Base):
     def update(cls, jobid, currentlyrend, renderurl):
         '''Method updates entry into db given jobid and optional url.'''
         try:
-            DBSession.query(cls).filter(cls.jobid == jobid).update({"currentlyrend": currentlyrend,"renderurl": renderurl})
+            DBSession.query(cls).filter(cls.jobid == jobid).update({
+                "currentlyrend": currentlyrend, "renderurl": renderurl})
         except:
             print 'could not update db'
 
