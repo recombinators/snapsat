@@ -1,8 +1,8 @@
 from pyramid.view import view_config
 from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
                      Rendered_Model,)
-from sqs import (make_connection, get_queue, build_job_message, send_message,
-                 queue_size,)
+from sqs import (make_SQS_connection, get_queue, build_job_message,
+                 send_message, queue_size,)
 import os
 from pyramid.httpexceptions import HTTPFound
 import operator
@@ -27,7 +27,9 @@ def request_scene(request):
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
     if not Rendered_Model.already_available(scene_id, band1, band2, band3):
-        SQSconn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+        SQSconn = make_SQS_connection(REGION,
+                                      AWS_ACCESS_KEY_ID,
+                                      AWS_SECRET_ACCESS_KEY)
         jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
         pk = UserJob_Model.new_job(entityid=scene_id,
                                    band1=band1,
@@ -38,7 +40,10 @@ def request_scene(request):
                                     band_1=band1,
                                     band_2=band2,
                                     band_3=band3)
-        send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
+        send_message(SQSconn,
+                     jobs_queue,
+                     message['body'],
+                     message['attributes'])
     return HTTPFound(location='/scene/{}'.format(scene_id))
 
 
@@ -50,7 +55,8 @@ def scene_status(request):
     for scene in available_scenes:
         if scene.currentlyrend:
             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-    return {'scene_id': request.matchdict['scene_id'], 'available_scenes': available_scenes, 'status': status}
+    return {'scene_id': request.matchdict['scene_id'],
+            'available_scenes': available_scenes, 'status': status}
 
 
 @view_config(route_name='done', renderer='json')

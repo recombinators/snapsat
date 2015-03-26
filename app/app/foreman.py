@@ -1,10 +1,11 @@
 from boto.ec2.connection import EC2Connection
 from boto.ec2 import get_region
-import os
+from sqs import (make_SQS_connection, get_queue, build_job_message, send_message,
+                 queue_size,)
 from operator import attrgetter
 
 
-def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
+def make_EC2_connection(region_name, aws_access_key_id, aws_secret_access_key):
     '''Make EC2 connection to AWS'''
 
     return EC2Connection(aws_access_key_id=aws_access_key_id,
@@ -14,6 +15,7 @@ def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
 
 def foreman(conn):
     '''Check status of queue and spaqn/kill workers as needed'''
+
     pass
 
 
@@ -36,6 +38,8 @@ def list_worker_instances(conn, worker_type):
 
 
 if __name__ == '__main__':
+    import os
+
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     JOBS_QUEUE = 'landsat_jobs_queue'
