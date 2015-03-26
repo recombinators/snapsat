@@ -208,7 +208,8 @@ class Rendered_Model(Base):
             output = DBSession.query(cls).filter(cls.entityid == entityid,
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
-                                                 cls.band3 == band3).count()
+                                                 cls.band3 == band3,
+                                                 cls.renderurl.is_(None)).count()
         except:
             print 'Database query failed'
             return None
