@@ -20,7 +20,7 @@
                     {% if s.renderurl %}
                         <a href="{{ s.renderurl }}">Download Full Zip</a>
                     {% elif s.currentlyrend %}
-
+                        <p>Current status: {{ status[s] }} </p>
                     {% else %}
                         place link for requesting full res image here
                     {% endif %}
