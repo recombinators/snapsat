@@ -1,0 +1,102 @@
+
+@import 'normalize.css';
+@import 'reset.css';
+@import 'color.css';
+@import 'spacing.css';
+@import 'typography.css';
+@import 'links.css';
+@import 'lists.css';
+@import 'tables.css';
+@import 'layout.css';
+@import 'flexbox.css';
+
+
+/* Uncomment and redefine the variables below to change to the generated stylesheet. */
+:root {
+
+	/* TYPOGRAPHY */
+	/* --ms3: ; */
+	/* --ms2: ; */
+	/* --ms1: ; */
+	/* --ms0: ; */
+	/* --copy-font:	; */
+	/* --copy-font-weight: ; */
+	/* --copy-font-color:	; */
+	/* --heading-font: ; */
+	/* --heading-font-color: ; */
+	/* --heading-font-weight: ; */
+	/* --monospace-font: ; */
+	/* --line-height: ; */
+	/* --font-weight-light: ; */
+	/* --font-weight-book:	; */
+	/* --font-weight-medium: ; */
+	/* --font-weight-semibold: ; */
+	/* --font-weight-bold: ; */
+	/* --font-weight-black: ; */
+
+	/* LINKS */
+	/* --link-color: ; */
+	/* --link-color-hover: ; */
+
+	/* LAYOUT */	
+	/* --container-width: ; */
+
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ECECEA;
+}
+
+.map-container{
+    position: relative;
+    height: 500px;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+h1 {
+    font-family: 'aw-conqueror-carved';
+    font-size: 4rem;
+}
+
+.reticle {
+  position: absolute;
+  top: calc(49% - 50px);
+  left: calc(49% - 50px);
+  z-index: 100;
+}
+
+.details {
+    display: none;
+    
+}
+
+.display-inline-block {
+    width: 33%;
+    vertical-align: top;
+}
+
+.mbn {
+    cursor: pointer;
+}
+
+.customband {
+    text-align: left;
+    font-size: .85em;
+}
+
+.contentmax {
+    text-align: center;
+    padding: 5%;
+}
+
+.radiobox {
+		text-align: left;
+}

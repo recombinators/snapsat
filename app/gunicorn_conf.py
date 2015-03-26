@@ -12,3 +12,4 @@ pidfile = "/tmp/gunicorn-app.pid"
 backlog = 2048
 logfile = "/var/log/gunicorn-app.log"
 loglevel = "info"
+timeout = 120
