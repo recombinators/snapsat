@@ -133,7 +133,6 @@ class UserJob_Model(Base):
         # Tell render_cache db we have this image now
         if status == 5:
             try:
-                import pdb; pdb.set_trace()
                 Rendered_Model.update(jobid, False, url)
             except:
                 print 'Could not update Rendered db'
