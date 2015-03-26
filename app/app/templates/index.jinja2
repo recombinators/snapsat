@@ -18,20 +18,21 @@
         </div>
         <select name="date-select" id="date-select"> 
         {% for s in scenes %}
-            <option value="scene-{{loop.index}}">{{ s.acquisitiondate }}</option>
-
+            <option value="scene-{{loop.index}}">{{ s.acquisitiondate }} | Cloud Cover {{ s.cloudcover }}%</option>
         {% endfor %}
         </select>
         <div class='contentmax'>        
                 <div id='available-scenes' class='display-inline-block'>
+                    {% for s in scenes %}
+                        <p>Path: {{ scenes.path }}</p>
+                        <p>Row: {{ scenes.row }}</p>
+                        <p>Cloud coverage: {{ scenes.cloudcover }}</p>
                     <h2>Available scenes</h2>
                     <div class='scene_list'>
-                        {% for s in scenes %}
+                        
                         <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3>
                         <div id="scene-{{loop.index}}"class='details'>
-                            <p>Path: {{ s.path }}</p>
-                            <p>Row: {{ s.row }}</p>
-                            <p>Cloud coverage: {{ s.cloudcover }}</p>
+                            
                             <img src="https://s3-us-west-2.amazonaws.com/landsat-pds/L8/{{'%03d' % s.path}}/{{'%03d' % s.row}}/{{s.entityid}}/{{s.entityid}}_thumb_large.jpg">
                             <form action="/request/{{s.entityid}}" method="post" id="request_form">
                             <div id='combinations' class='display-inline-block'>
@@ -50,7 +51,7 @@
                                 </button>
                             </form>
                         </div>
-                        {% endfor %}
+                    {% endfor %}
                     </div>
                 </div>
         </div>
