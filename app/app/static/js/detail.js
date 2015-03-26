@@ -1,5 +1,5 @@
 var $ = require('jquery');
 
-$('.js-trigger').click(function() {
+$(document).on('click', '.js-trigger', function() {
     $(this).next('.details').toggle();
 });
