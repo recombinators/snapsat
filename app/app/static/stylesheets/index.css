@@ -59,6 +59,7 @@ body {
     top: 0;
     bottom: 0;
     width: 100%;
+    box-shadow: 3px 3px 8px #9ea1b3;
 }
 
 h1 {
@@ -75,7 +76,6 @@ h1 {
 
 .details {
     display: none;
-    
 }
 
 .display-inline-block {
@@ -93,10 +93,19 @@ h1 {
 }
 
 .contentmax {
-    text-align: center;
+    width: 90%;
     padding: 5%;
+    overflow: hidden;
 }
 
 .radiobox {
 		text-align: left;
+}
+
+.availible-scenes {
+    width: 100%;
+}
+
+p {
+    padding: none;
 }
