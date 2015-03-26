@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from .models import PathAndRow_Model, SceneList_Model, UserJob_Model
+from .models import PathAndRow_Model, SceneList_Model, UserJob_Model, Rendered_Model
 from sqs import make_connection, get_queue, build_job_message, send_message
 import os
 
@@ -38,17 +38,17 @@ def request_scene(request):
     return UserJob_Model.job_status(pk)
 
 
-# @view_config(route_name='scene_status', renderer='templates/status.jinja2')
-# def scene_status(request):
-#     '''Given sceneID display available previews and rendered photos/links.'''
-#     status = {}
-#     # available_scenes = XXXXXXX.available(scene=request.matchdict['scene_id'])
-#     for scene in available_scenes:
-#         if scene.currentlyrend:
-#             status[scene] = UserJob_Model.job_status(scene.jobid)
+@view_config(route_name='scene_status', renderer='templates/status.jinja2')
+def scene_status(request):
+    '''Given sceneID display available previews and rendered photos/links.'''
+    status = {}
+    available_scenes = Rendered_Model.available(scene=request.matchdict['scene_id'])
+    for scene in available_scenes:
+        if scene.currentlyrend:
+            status[scene] = UserJob_Model.job_status(scene.jobid)
 
-#     currently_rendering = XXXXXXX.currentlyrend(scene=request.matchdict['scene_id'])
-#     return {'band_combo': available_scenes, 'status': status}
+    currently_rendering = Rendered_Model.currentlyrend(scene=request.matchdict['scene_id'])
+    return {'band_combo': available_scenes, 'status': status}
 
 
 @view_config(route_name='done', renderer='json')

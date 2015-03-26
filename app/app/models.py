@@ -1,5 +1,5 @@
 # import sqlalchemy as sa
-from sqlalchemy import Column, update, Index, Integer, UnicodeText, func, DateTime, Float, or_, and_
+from sqlalchemy import Column, update, Index, Integer, Boolean, UnicodeText, func, DateTime, Float, or_, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -147,4 +147,26 @@ class UserJob_Model(Base):
         return status_key[job.jobstatus]
 
 
+class Rendered_Model(Base):
+    '''Model for the already rendered files'''
 
+    __tablename__ = 'render_cache'
+    jobid = Column(Integer)
+    entityid = Column(UnicodeText)
+    band1 = Column(Integer)
+    band2 = Column(Integer)
+    band3 = Column(Integer)
+    previewurl = Column(UnicodeText)
+    renderurl = Column(UnicodeText)
+    rendercount = Column(Integer)
+    currentlyrend = Column(Boolean)
+
+    @classmethod
+    def available(cls, entityid):
+        '''Create new job in db.'''
+        try:
+            rendered = DBSession.query(cls).filter(cls.entityid == entityid)
+        except:
+            print 'Database query failed'
+            return None
+        return rendered
