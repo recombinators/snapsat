@@ -10,6 +10,19 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 JOBS_QUEUE = 'landsat_jobs_queue'
 REGION = 'us-west-2'
 
+
+def foreman():
+    pass
+
+
+def spawn_worker():
+    pass
+
+
+def kill_worker():
+    pass
+
+
 @view_config(route_name='index', renderer='templates/index.jinja2')
 def index(request):
     '''Index page.'''
