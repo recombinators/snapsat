@@ -55,3 +55,4 @@ target/
 
 # Venv
 .venv
+node_modules
