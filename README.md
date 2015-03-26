@@ -5,6 +5,8 @@ Landsat
 
 Landsat 8 band recombinations in the browser.
 
+![](http://media.giphy.com/media/Yi4aazIAtbPQA/giphy.gif)
+
 
 ### Acquiring data
 
