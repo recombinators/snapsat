@@ -16,16 +16,10 @@
                 <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
             </div>
         </div>
-        <div class='contentmax'>
-                <div>
-                    <p class='test_lat'>{{lat}}</p>
-                    <p class='test_lng'>{{lng}}</p>
-
-                </div>
-                
+        <div class='contentmax'>        
                 <div id='available-scenes' class='display-inline-block'>
                     <h2>Available scenes</h2>
-                    <div id='scene_list'>
+                    <div class='scene_list'>
                         {% for s in scenes %}
                         <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3>
                         <div class='details'>
