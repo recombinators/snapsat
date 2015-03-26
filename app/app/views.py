@@ -78,14 +78,19 @@ def scene_options_ajax(request):
 
     scenes_dict = []
     for i, scene in enumerate(scenes):
-        s_preview_url = preview_url(scene.entityid, 4, 3, 2)
+        normal = preview_url(scene.entityid, 4, 3, 2)
+        heat = preview_url(scene.entityid, 5, 4, 3)
+        veggie = preview_url(scene.entityid, 5, 3, 2)
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %B %d'),
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
                             'path': scene.path,
                             'row': scene.row,
-                            'preview': s_preview_url})
+                            'normal': normal,
+                            'heat': heat,
+                            'veggie': veggie
+                            })
 
     scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
