@@ -34,7 +34,7 @@ def scene(request):
                                 band_3=request.matchdict['b3']
                                 )
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
-    return UserJob_Model.job_status(pk)
+    return None
 
 
 @view_config(route_name='done', renderer='json')
