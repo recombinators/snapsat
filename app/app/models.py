@@ -82,7 +82,6 @@ class UserJob_Model(Base):
 
     @classmethod
     def new_job(cls,
-        '''Create new job in db.'''
                 entityid=entityid,
                 band1=4,
                 band2=3,
@@ -90,6 +89,7 @@ class UserJob_Model(Base):
                 jobstatus=0,
                 starttime=datetime.utcnow(),
                 ):
+        '''Create new job in db.'''
         try:
             session = DBSession
             job = UserJob_Model(entityid=entityid,
