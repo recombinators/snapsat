@@ -49,7 +49,7 @@ def scene_status(request):
     return {'available_scenes': available_scenes, 'status': status}
 
 
-@view_config(route_name='done')
+@view_config(route_name='done', renderer='json')
 def done(request):
     '''Given post request from worker, in db, update job status.'''
     pk = request.params.get('job_id')

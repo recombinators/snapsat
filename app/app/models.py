@@ -131,7 +131,7 @@ class UserJob_Model(Base):
         except:
             print 'database write failed'
         # Tell render_cache db we have this image now
-        if status == 5:
+        if int(status) == 5:
             try:
                 Rendered_Model.update(jobid, False, url)
             except:
