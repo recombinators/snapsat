@@ -12,18 +12,34 @@
             <h1><a href='/'>Landsat.club</a></h1>
         </header>
             <div id='available-scenes' class='display-inline-block'>
-                <h2>Available scenes</h2>
+                <h2>Available scenes for {{available_scenes[0].entityid }}</h2>
                 {% for s in available_scenes %}
                     <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                    <img src="{{ s.previewurl }}">
+                    <p><img src="{{ s.previewurl }}"></p>
                     {% if s.renderurl %}
                         <a href="{{ s.renderurl }}">Download Full Zip</a>
                     {% elif s.currentlyrend %}
                         <p>Current status: {{ status[s.jobid] }} </p>
-                    {% else %}
-                        place link for requesting full res image here
                     {% endif %}
                 {% endfor %}
+
+
+                <form action="/request/{{available_scenes[0].entityid}}" method="post" id="request_form_{{available_scenes[0].entityid}}">
+                    <div id='combinations' class='display-inline-block'>
+                        <h4 class="customband">Request another custom band combination</h4>
+                        <div class="radiobox">
+                            <input type="radio" name="band_combo" value="432" checked>
+                                <label>Normal Colors: 4, 3, 2</label><br>
+                            <input type="radio" name="band_combo" value="543">
+                                <label>See the Heat: 5, 4, 3</label><br>
+                            <input type="radio" name="band_combo" value="532">
+                                <label>Veggie Popping: 5, 3, 2</label><br>
+                        </div>
+                    </div>
+                    <button form="request_form_{{available_scenes[0].entityid}}" formmethod="post" type="submit">
+                    Request
+                    </button>
+                </form>
             </div>
         </div>
 

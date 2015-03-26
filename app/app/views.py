@@ -2,6 +2,8 @@ from pyramid.view import view_config
 from .models import PathAndRow_Model, SceneList_Model, UserJob_Model, Rendered_Model
 from sqs import make_connection, get_queue, build_job_message, send_message
 import os
+from pyramid.httpexceptions import HTTPFound
+
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -35,7 +37,7 @@ def request_scene(request):
                                 band_3=request.params.get('band_combo')[2]
                                 )
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
-    return UserJob_Model.job_status(pk)
+    return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
 @view_config(route_name='scene_status', renderer='templates/scene.jinja2')
