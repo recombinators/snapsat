@@ -1,6 +1,7 @@
 from boto.ec2.connection import EC2Connection
 from boto.ec2 import get_region
 import os
+from operator import attrgetter
 
 
 def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
@@ -12,6 +13,7 @@ def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
 
 
 def foreman(conn):
+    '''Check status of queue and spaqn/kill workers as needed'''
     pass
 
 
@@ -23,11 +25,14 @@ def kill_worker(conn):
     pass
 
 
-def list_worker_instances(conn):
-    filters = {'tag:Name': 'landsatAWS_worker'}
-    reservations = conn.get_only_instances(filters=filters)
+def list_worker_instances(conn, worker_type):
+    '''Return list of worker instances in order of lauch time, most recent
+       first.'''
 
-    return reservations
+    filters = {'tag:Name': worker_type}
+    instances = conn.get_only_instances(filters=filters)
+    instances.sort(key=attrgetter('launch_time'), reverse=True)
+    return instances
 
 
 if __name__ == '__main__':
@@ -37,6 +42,7 @@ if __name__ == '__main__':
     REGION = 'us-west-2'
 
     conn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-    workers = list_worker_instances(conn)
-    import ipdb; ipdb.set_trace()
+    worker_type = 'landsatAWS_worker'
+    workers = list_worker_instances(conn, worker_type)
+    import pdb; pdb.set_trace()
     print(workers)
