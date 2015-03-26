@@ -43,6 +43,10 @@ class SceneList_Model(Base):
     path = Column(Integer, nullable=False)
     row = Column(Integer, nullable=False)
     download_url = Column(UnicodeText, nullable=False)
+    min_lat = Column(Float)
+    max_lat = Column(Float)
+    min_lon = Column(Float)
+    max_lon = Column(Float)
 
     @classmethod
     def scenelist(cls, pr_output):
@@ -170,6 +174,8 @@ class Rendered_Model(Base):
     renderurl = Column(UnicodeText)
     rendercount = Column(Integer, default=0)
     currentlyrend = Column(Boolean)
+    southwest = Column(Float)
+    northeast = Column(Float)
 
     @classmethod
     def add(cls, jobid, currentlyrend):

@@ -43,11 +43,18 @@ def request_scene(request):
 def scene_status(request):
     '''Given sceneID display available previews and rendered photos/links.'''
     status = {}
+    southwest = ''
+    northeast = ''
     available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
         if scene.currentlyrend:
             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-    return {'scene_id': request.matchdict['scene_id'], 'available_scenes': available_scenes, 'status': status}
+
+    return {
+        'scene_id': request.matchdict['scene_id'],
+        'available_scenes': available_scenes,
+        'status': status
+    }
 
 
 @view_config(route_name='done', renderer='json')
@@ -65,17 +72,21 @@ def scene_options_ajax(request):
        map."""
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
-
     scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
-
     scenes_dict = []
+
     for i, scene in enumerate(scenes):
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %B %d'),
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
                             'path': scene.path,
-                            'row': scene.row})
+                            'row': scene.row,
+                            'min_lon': scene.min_lon,
+                            'max_lon': scene.max_lon,
+                            'min_lat': scene.min_lat,
+                            'max_lat': scene.max_lat
+                            })
 
     scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
