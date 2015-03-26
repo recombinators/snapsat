@@ -45,13 +45,13 @@
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 1%;
     background-color: #ECECEA;
 }
 
 .map-container{
     position: relative;
-    height: 500px;
+    height: 600px;
 }
 
 #map {
