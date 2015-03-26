@@ -212,4 +212,12 @@ class Rendered_Model(Base):
         except:
             print 'Database query failed'
             return None
+        if output != 0:
+            # if this scene/band has already been requested, increase the count
+            existing = DBSession.query(cls).filter(cls.entityid == entityid,
+                                                 cls.band1 == band1,
+                                                 cls.band2 == band2,
+                                                 cls.band3 == band3).one()
+            DBSession.query(cls).filter(existing.jobid).update(
+                        cls.rendercount=existing.rendercount + 1)
         return output != 0
