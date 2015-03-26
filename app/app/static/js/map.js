@@ -61,6 +61,12 @@ map.on('moveend', function() {
                         "</form>" +
                     "</div>");
             };
+        $('#date-select').html('');
+        for (i in data){
+            $('#date-select').append(
+                 '<option value="scene-{{loop.index}}">' + data[i].acquisitiondate + '</option>'
+                );
+        };
     });
 });
 
