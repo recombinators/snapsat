@@ -107,7 +107,7 @@ class UserJob_Model(Base):
         except:
             return None
         try:
-            Rendered_Model.add(jobid, True)
+            Rendered_Model.add(pk, True)
         except:
             print 'Could not add job to rendered db'
         return pk
@@ -133,7 +133,8 @@ class UserJob_Model(Base):
         # Tell render_cache db we have this image now
         if status == 5:
             try:
-                Rendered_Model.add(jobid, False, url)
+                import pdb; pdb.set_trace()
+                Rendered_Model.update(jobid, False, url)
             except:
                 print 'Could not update Rendered db'
 
@@ -172,7 +173,7 @@ class Rendered_Model(Base):
     currentlyrend = Column(Boolean)
 
     @classmethod
-    def add(cls, jobid, currentlyrend, renderurl=None):
+    def add(cls, jobid, currentlyrend):
         '''Method adds entry into db given jobid and optional url.'''
         jobQuery = DBSession.query(UserJob_Model).get(jobid)
         job = Rendered_Model(entityid=jobQuery.entityid,
@@ -180,15 +181,25 @@ class Rendered_Model(Base):
                              band1=jobQuery.band1,
                              band2=jobQuery.band2,
                              band3=jobQuery.band3,
-                             renderurl=renderurl,
                              currentlyrend=currentlyrend)
         DBSession.add(job)
+
+    @classmethod
+    def update(cls, jobid, currentlyrend, renderurl):
+        '''Method updates entry into db given jobid and optional url.'''
+        try:
+            DBSession.query(cls).filter(cls.jobid == jobid).update(
+                                    {"currentlyrend": currentlyrend,
+                                     "renderurl": renderurl
+                                     })
+        except:
+            print 'could not update db'
 
     @classmethod
     def available(cls, entityid):
         '''Create new job in db.'''
         try:
-            rendered = DBSession.query(cls).filter(cls.entityid == entityid)
+            rendered = DBSession.query(cls).filter(cls.entityid == entityid).all()
         except:
             print 'Database query failed'
             return None

@@ -45,8 +45,8 @@ def scene_status(request):
     available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
         if scene.currentlyrend:
-            status[scene] = UserJob_Model.job_status(scene.jobid)
-    return {'band_combo': available_scenes, 'status': status}
+            status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
+    return {'available_scenes': available_scenes, 'status': status}
 
 
 @view_config(route_name='done')

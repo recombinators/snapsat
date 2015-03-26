@@ -13,18 +13,16 @@
         </header>
             <div id='available-scenes' class='display-inline-block'>
                 <h2>Available scenes</h2>
-                {% for s in available_scenes%}
-                <div class='details'>
+                {% for s in available_scenes %}
                     <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
                     <img src="{{ s.previewurl }}">
                     {% if s.renderurl %}
                         <a href="{{ s.renderurl }}">Download Full Zip</a>
                     {% elif s.currentlyrend %}
-                        <p>Current status: {{ status[s] }} </p>
+                        <p>Current status: {{ status[s.jobid] }} </p>
                     {% else %}
                         place link for requesting full res image here
                     {% endif %}
-                </div>
                 {% endfor %}
             </div>
         </div>
