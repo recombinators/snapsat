@@ -64,7 +64,7 @@ map.on('moveend', function() {
         $('#date-select').html('');
         for (i in data){
             $('#date-select').append(
-                 '<option value="scene-{{loop.index}}">' + data[i].acquisitiondate + '</option>'
+                 '<option value="scene-{{loop.index}}">' + data[i].acquisitiondate + " | Cloud Cover " + data[i].cloudcover + ' %</option>'
                 );
         };
     });
