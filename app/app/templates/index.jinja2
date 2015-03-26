@@ -16,39 +16,39 @@
                 <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
             </div>
         </div>
-        <div class='contentmax'>
-            
-                
+        <div class='contentmax'>        
                 <div id='available-scenes' class='display-inline-block'>
                     <h2>Available scenes</h2>
-                    {% for s in scenes | sort(reverse=True, attribute='acquisitiondate') %}
-                    <h3 class='js-trigger mbn'>{{ s.acquisitiondate.strftime('%Y %B %d') }}</h3>
-                    <div class='details'>
-                        <p>Path: {{ s.path }}</p>
-                        <p>Row: {{ s.row }}</p>
-                        <p>Cloud coverage: {{ s.cloudcover }}</p>
-                        <img src="https://s3-us-west-2.amazonaws.com/landsat-pds/L8/{{'%03d' % s.path}}/{{'%03d' % s.row}}/{{s.entityid}}/{{s.entityid}}_thumb_large.jpg">
-                        <form action="/request/{{s.entityid}}" method="post" id="request_form_{{s.entityid}}">
+                    <div class='scene_list'>
+                        {% for s in scenes %}
+                        <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3>
+                        <div class='details'>
+                            <p>Path: {{ s.path }}</p>
+                            <p>Row: {{ s.row }}</p>
+                            <p>Cloud coverage: {{ s.cloudcover }}</p>
+                            <img src="https://s3-us-west-2.amazonaws.com/landsat-pds/L8/{{'%03d' % s.path}}/{{'%03d' % s.row}}/{{s.entityid}}/{{s.entityid}}_thumb_large.jpg">
+                            <form action="/request/{{s.entityid}}" method="post" id="request_form">
                             <div id='combinations' class='display-inline-block'>
-                                <h4 class="customband">Select your custom band combinations</h4>
-                                <div class="radiobox">
-                                    <input type="radio" name="band_combo" value="432" checked>
-                                        <label>Normal Colors: 4, 3, 2</label><br>
-                                    <input type="radio" name="band_combo" value="543">
-                                        <label>See the Heat: 5, 4, 3</label><br>
-                                    <input type="radio" name="band_combo" value="532">
-                                        <label>Veggie Popping: 5, 3, 2</label><br>
-                                </div>
+                            <h4 class="customband">Select your custom band combinations</h4>
+                            <div class="radiobox">
+                            <input type="radio" name="band_combo" value="432" checked>
+                                <label>Normal Colors: 4, 3, 2</label><br>
+                            <input type="radio" name="band_combo" value="543">
+                                <label>See the Heat: 5, 4, 3</label><br>
+                            <input type="radio" name="band_combo" value="532">
+                                <label>Veggie Popping: 5, 3, 2</label><br>
                             </div>
-                            <button form="request_form_{{s.entityid}}" formmethod="post" type="submit">
-                            Request
-                            </button>
-                        </form>
+                            </div>    
+                            <button form="request_form" formmethod="post" type="submit">
+                                Request
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
         </div>
-
+    
         <script src='/static/bundle.js'></script>
         <script src='/static/js/gauges.js'></script>
     </body>

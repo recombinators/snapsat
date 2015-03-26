@@ -3,21 +3,17 @@ from .models import PathAndRow_Model, SceneList_Model, UserJob_Model, Rendered_M
 from sqs import make_connection, get_queue, build_job_message, send_message
 import os
 from pyramid.httpexceptions import HTTPFound
-
+import operator
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 JOBS_QUEUE = 'landsat_jobs_queue'
 REGION = 'us-west-2'
 
-
 @view_config(route_name='index', renderer='templates/index.jinja2')
 def index(request):
     '''Index page.'''
-    lat = float(request.params.get('lat', 47.614848))
-    lng = float(request.params.get('lng', -122.3359059))
-    scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
-    return {'scenes': scenes}
+    return scene_options_ajax(request)
 
 
 @view_config(route_name='request_scene', renderer='json')
@@ -61,3 +57,26 @@ def done(request):
     status = request.params.get('status')
     url = request.params.get('url')
     UserJob_Model.set_job_status(pk, status, url)
+
+
+@view_config(route_name='ajax', renderer='json')
+def scene_options_ajax(request):
+    """View for ajax request returns dict with all available scenes centered on
+       map."""
+    lat = float(request.params.get('lat', 47.614848))
+    lng = float(request.params.get('lng', -122.3359059))
+
+    scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
+
+    scenes_dict = []
+    for i, scene in enumerate(scenes):
+        scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %B %d'),
+                            'cloudcover': scene.cloudcover,
+                            'download_url': scene.download_url,
+                            'entityid': scene.entityid,
+                            'path': scene.path,
+                            'row': scene.row})
+
+    scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
+
+    return {'scenes': scenes_dict}
