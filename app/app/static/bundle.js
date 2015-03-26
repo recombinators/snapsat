@@ -7,7 +7,7 @@ require('./detail.js');
 },{"./detail.js":2,"./map.js":3,"./typekit.js":4}],2:[function(require,module,exports){
 var $ = require('jquery');
 
-$('.js-trigger').click(function() {
+$(document).on('click', '.js-trigger', function() {
     $(this).next('.details').toggle();
 });
 
@@ -74,7 +74,7 @@ map.on('moveend', function() {
                             "</button>" +
                         "</form>" +
                     "</div>");
-                };
+            };
     });
 });
 

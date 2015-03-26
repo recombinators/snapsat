@@ -60,7 +60,7 @@ map.on('moveend', function() {
                             "</button>" +
                         "</form>" +
                     "</div>");
-                };
+            };
     });
 });
 
