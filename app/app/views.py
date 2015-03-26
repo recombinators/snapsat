@@ -48,7 +48,7 @@ def scene_status(request):
     for scene in available_scenes:
         if scene.currentlyrend:
             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-    return {'available_scenes': available_scenes, 'status': status}
+    return {'scene_id': request.matchdict['scene_id'], 'available_scenes': available_scenes, 'status': status}
 
 
 @view_config(route_name='done', renderer='json')

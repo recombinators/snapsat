@@ -12,7 +12,7 @@
             <h1><a href='/'>Landsat.club</a></h1>
         </header>
             <div id='available-scenes' class='display-inline-block'>
-                <h2>Available scenes for {{available_scenes[0].entityid }}</h2>
+                <h2>Available scenes for {{ scene_id }}</h2>
                 {% for s in available_scenes %}
                     <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
                     <p><img src="{{ s.previewurl }}"></p>
@@ -24,7 +24,7 @@
                 {% endfor %}
 
 
-                <form action="/request/{{available_scenes[0].entityid}}" method="post" id="request_form_{{available_scenes[0].entityid}}">
+                <form action="/request/{{scene_id}}" method="post" id="request_form_{{scene_id}}">
                     <div id='combinations' class='display-inline-block'>
                         <h4 class="customband">Request another custom band combination</h4>
                         <div class="radiobox">
@@ -36,7 +36,7 @@
                                 <label>Veggie Popping: 5, 3, 2</label><br>
                         </div>
                     </div>
-                    <button form="request_form_{{available_scenes[0].entityid}}" formmethod="post" type="submit">
+                    <button form="request_form_{{scene_id}}" formmethod="post" type="submit">
                     Request
                     </button>
                 </form>
