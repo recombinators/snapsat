@@ -18,5 +18,6 @@ def main(global_config, **settings):
     config.add_route('request_scene', '/request/{scene_id}')
     config.add_route('done', '/done')
     config.add_route('scene_status', '/scene/{scene_id}')
+    config.add_route('ajax', '/ajax')
     config.scan()
     return config.make_wsgi_app()

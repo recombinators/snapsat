@@ -17,12 +17,16 @@
             </div>
         </div>
         <div class='contentmax'>
-            
+                <div>
+                    <p class='test_lat'>{{lat}}</p>
+                    <p class='test_lng'>{{lng}}</p>
+
+                </div>
                 
                 <div id='available-scenes' class='display-inline-block'>
                     <h2>Available scenes</h2>
                     {% for s in scenes | sort(reverse=True, attribute='acquisitiondate') %}
-                    <h3 class='js-trigger mbn'>{{ s.acquisitiondate.strftime('%Y %B %d') }}</h3>
+                    <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3>
                     <div class='details'>
                         <p>Path: {{ s.path }}</p>
                         <p>Row: {{ s.row }}</p>
