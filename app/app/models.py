@@ -106,10 +106,14 @@ class UserJob_Model(Base):
             transaction.commit()
         except:
             return None
+        try:
+            Rendered_Model.add(jobid, True)
+        except:
+            print 'Could not add job to rendered db'
         return pk
 
     @classmethod
-    def set_job_status(cls, jobid, status):
+    def set_job_status(cls, jobid, status, url=None):
         '''Set jobstatus for jobid passed in.'''
         table_key = {1: "status1time",
                      2: "status2time",
@@ -126,6 +130,12 @@ class UserJob_Model(Base):
                                      })
         except:
             print 'database write failed'
+        # Tell render_cache db we have this image now
+        if status == 5:
+            try:
+                Rendered_Model.add(jobid, False, url)
+            except:
+                print 'Could not update Rendered db'
 
 
     @classmethod
@@ -149,8 +159,8 @@ class UserJob_Model(Base):
 
 class Rendered_Model(Base):
     '''Model for the already rendered files'''
-
     __tablename__ = 'render_cache'
+    id = Column(Integer, primary_key=True)
     jobid = Column(Integer)
     entityid = Column(UnicodeText)
     band1 = Column(Integer)
@@ -160,6 +170,19 @@ class Rendered_Model(Base):
     renderurl = Column(UnicodeText)
     rendercount = Column(Integer)
     currentlyrend = Column(Boolean)
+
+    @classmethod
+    def add(cls, jobid, currentlyrend, renderurl=None):
+        '''Method adds entry into db given jobid and optional url.'''
+        jobQuery = DBSession.query(UserJob_Model).get(jobid)
+        job = Rendered_Model(entityid=jobQuery.entityid,
+                             jobid=jobid,
+                             band1=jobQuery.band1,
+                             band2=jobQuery.band2,
+                             band3=jobQuery.band3,
+                             renderurl=renderurl,
+                             currentlyrend=currentlyrend)
+        DBSession.add(job)
 
     @classmethod
     def available(cls, entityid):

@@ -38,22 +38,21 @@ def request_scene(request):
     return UserJob_Model.job_status(pk)
 
 
-@view_config(route_name='scene_status', renderer='templates/status.jinja2')
+@view_config(route_name='scene_status', renderer='templates/scene.jinja2')
 def scene_status(request):
     '''Given sceneID display available previews and rendered photos/links.'''
     status = {}
-    available_scenes = Rendered_Model.available(scene=request.matchdict['scene_id'])
+    available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
         if scene.currentlyrend:
             status[scene] = UserJob_Model.job_status(scene.jobid)
-
-    currently_rendering = Rendered_Model.currentlyrend(scene=request.matchdict['scene_id'])
     return {'band_combo': available_scenes, 'status': status}
 
 
-@view_config(route_name='done', renderer='json')
+@view_config(route_name='done')
 def done(request):
     '''Given post request from worker, in db, update job status.'''
     pk = request.params.get('job_id')
     status = request.params.get('status')
-    UserJob_Model.set_job_status(pk, status)
+    url = request.params.get('url')
+    UserJob_Model.set_job_status(pk, status, url)
