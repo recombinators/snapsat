@@ -16,13 +16,19 @@
                 <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
             </div>
         </div>
+        <select name="date-select" id="date-select"> 
+        {% for s in scenes %}
+            <option value="scene-{{loop.index}}">{{ s.acquisitiondate }}</option>
+
+        {% endfor %}
+        </select>
         <div class='contentmax'>        
                 <div id='available-scenes' class='display-inline-block'>
                     <h2>Available scenes</h2>
                     <div class='scene_list'>
                         {% for s in scenes %}
                         <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3>
-                        <div class='details'>
+                        <div id="scene-{{loop.index}}"class='details'>
                             <p>Path: {{ s.path }}</p>
                             <p>Row: {{ s.row }}</p>
                             <p>Cloud coverage: {{ s.cloudcover }}</p>
