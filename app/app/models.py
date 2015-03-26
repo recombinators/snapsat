@@ -193,10 +193,23 @@ class Rendered_Model(Base):
 
     @classmethod
     def available(cls, entityid):
-        '''Create new job in db.'''
+        '''Return list of existing jobs for a given sceneID.'''
         try:
             rendered = DBSession.query(cls).filter(cls.entityid == entityid).all()
         except:
             print 'Database query failed'
             return None
         return rendered
+
+    @classmethod
+    def already_available(cls, entityid, band1, band2, band3):
+        '''Check if given image is already rendered'''
+        try:
+            output = DBSession.query(cls).filter(cls.entityid == entityid,
+                                                 cls.band1 == band1,
+                                                 cls.band2 == band2,
+                                                 cls.band3 == band3).count()
+        except:
+            print 'Database query failed'
+            return None
+        return output != 0
