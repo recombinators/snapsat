@@ -4,7 +4,7 @@ var $ = require('jquery');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
 var map = L.mapbox.map('map', 'jacques.lh797p9e', { 
-    zoomControl: false,
+    zoomControl: true,
     attributionControl: false
 });
 

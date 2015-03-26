@@ -35,20 +35,20 @@ def request_scene(request):
                                 band_3=request.matchdict['b3']
                                 )
     send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
-    return UserJob_Model.set_job_status(pk)
+    return UserJob_Model.job_status(pk)
 
 
-@view_config(route_name='scene_status', renderer='templates/status.jinja2')
-def scene_status(request):
-    '''Given sceneID display available previews and rendered photos/links.'''
-    status = {}
-    available_scenes = XXXXXXX.available(scene=request.matchdict['scene_id'])
-    for scene in available_scenes:
-        if scene.currentlyrend:
-            status[scene] = UserJob_Model.job_status(scene.jobid)
+# @view_config(route_name='scene_status', renderer='templates/status.jinja2')
+# def scene_status(request):
+#     '''Given sceneID display available previews and rendered photos/links.'''
+#     status = {}
+#     # available_scenes = XXXXXXX.available(scene=request.matchdict['scene_id'])
+#     for scene in available_scenes:
+#         if scene.currentlyrend:
+#             status[scene] = UserJob_Model.job_status(scene.jobid)
 
-    currently_rendering = XXXXXXX.currentlyrend(scene=request.matchdict['scene_id'])
-    return {'band_combo': available_scenes, 'status': status}
+#     currently_rendering = XXXXXXX.currentlyrend(scene=request.matchdict['scene_id'])
+#     return {'band_combo': available_scenes, 'status': status}
 
 
 @view_config(route_name='done', renderer='json')
