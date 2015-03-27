@@ -49,7 +49,7 @@ def adjust_team_size(conn, workers, number_queued_jobs):
     running_workers = list_running_workers(workers)
     parttime_workers = list_parttime_workers(workers)
     stopped_parttime_workers = list_stopped_workers(parttime_workers)
-    if number_queued_jobs > LIMITS['med']:
+    if number_queued_jobs >= LIMITS['med']:
         number_running = len(running_workers)
         worker_deficit = TEAMS['B'] - number_running
         if worker_deficit > 0:
@@ -65,11 +65,12 @@ def adjust_team_size(conn, workers, number_queued_jobs):
                     tag_instances(spawn_reservation.instances,
                                   'Name',
                                   NEW_WORKER_STATS['Name'])
-    elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
+    elif LIMITS['med'] > number_queued_jobs >= LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
             for stopped in stopped_parttime_workers:
                 stopped.start()
+    elif LIMITS['low'] / 2 > number_queued_jobs:
 
 
 def spawn_workers(conn, count):
@@ -120,6 +121,11 @@ def list_parttime_workers(workers):
     '''Return list of parttime workers.'''
     return [worker for worker in workers
             if worker.tags['Schedule'] == 'parttime']
+
+
+def list_contract_workers(workers):
+    return [worker for worker in workers
+            if worker.tags['Schedule'] == NEW_WORKER_STATS['Schedule']]
 
 
 def tag_instances(instances, tag_value_dict):
