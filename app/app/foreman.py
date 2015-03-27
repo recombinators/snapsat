@@ -85,7 +85,8 @@ def spawn_workers(conn, count):
 
 
 def kill_workers(conn, workers):
-    pass
+    for worker in workers:
+        worker.terminate
 
 
 def list_worker_instances(conn, worker_type):
