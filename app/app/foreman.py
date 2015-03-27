@@ -20,7 +20,7 @@ NEW_WORKER_STATS = {'AMI': 'ami-517b5561',
                     'INSTANCE_TYPE': 't2.medium',
                     'AVAILIBILITY_ZONE': 'us-west-2a',
                     'Name': 'landsatAWS_worker',
-                    'Schedule': 'contracter',
+                    'Schedule': 'contractor',
                     }
 
 
