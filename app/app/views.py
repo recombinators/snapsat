@@ -68,6 +68,14 @@ def done(request):
     UserJob_Model.set_job_status(pk, status, url)
 
 
+def preview_url(scene, band1, band2, band3):
+    '''get link for preview url'''
+    root = 'ec2-52-11-232-129.us-west-2.compute.amazonaws.com'
+    # root = 'localhost:6543'
+    url = 'http://{}/{}/{}/{}/{}/preview.png'.format(root, scene, band1, band2, band3)
+    return url
+
+
 @view_config(route_name='ajax', renderer='json')
 def scene_options_ajax(request):
     """View for ajax request returns dict with all available scenes centered on
@@ -79,12 +87,19 @@ def scene_options_ajax(request):
 
     scenes_dict = []
     for i, scene in enumerate(scenes):
+        normal = preview_url(scene.entityid, 4, 3, 2)
+        heat = preview_url(scene.entityid, 5, 4, 3)
+        veggie = preview_url(scene.entityid, 5, 3, 2)
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %B %d'),
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
                             'path': scene.path,
-                            'row': scene.row})
+                            'row': scene.row,
+                            'normal': normal,
+                            'heat': heat,
+                            'veggie': veggie
+                            })
 
     scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 

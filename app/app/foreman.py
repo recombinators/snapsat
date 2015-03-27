@@ -5,6 +5,13 @@ from sqs import (make_SQS_connection, get_queue, build_job_message, send_message
 from operator import attrgetter
 
 JOBS_QUEUE = 'landsat_jobs_queue'
+STATE_CODES = {'pending': 0,
+               'runnning': 16,
+               'shutting-down': 32,
+               'terminated': 48,
+               'stopping': 64,
+               'stopped': 80
+               }
 
 
 def make_EC2_connection(region_name, aws_access_key_id, aws_secret_access_key):
@@ -19,7 +26,11 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
     make_SQS_connection(region_name, aws_access_key_id, aws_secret_access_key)
     jobs_queue = get_queue(conn, JOBS_QUEUE)
     number_queued_jobs = queue_size(jobs_queue)
-    pass
+
+    list_worker_instances(conn, 'landsatAWS_worker')
+
+    if number_queued_jobs > 20:
+        pass
 
 
 def spawn_worker(conn):
@@ -39,6 +50,13 @@ def list_worker_instances(conn, worker_type):
     return instances
 
 
+def list_running_workers(workers):
+    return [worker for worker in workers if worker.state_code == STATE_CODES['runnning']]
+
+
+def list_stopped_workers(workers):
+    return [worker for worker in workers if worker.state_code == STATE_CODES['stopped']]
+
 if __name__ == '__main__':
     import os
 
@@ -49,5 +67,7 @@ if __name__ == '__main__':
     conn = make_EC2_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     worker_type = 'landsatAWS_worker'
     workers = list_worker_instances(conn, worker_type)
-    import pdb; pdb.set_trace()
+    running = list_running_workers(workers)
+    stopped = list_stopped_workers(workers)
+    import ipdb; ipdb.set_trace()
     print(workers)
