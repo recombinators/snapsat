@@ -19,8 +19,8 @@ NEW_WORKER_STATS = {'AMI': 'ami-517b5561',
                     'SECURITY_GROUP': 'launch-wizard-1',
                     'INSTANCE_TYPE': 't2.medium',
                     'AVAILIBILITY_ZONE': 'us-west-2a',
-                    'SUBNET_ID': 'subnet-85ff7ce0',
-                    'NAME': 'landsatAWS_worker'
+                    'Name': 'landsatAWS_worker',
+                    'Schedule': 'contracter',
                     }
 
 
@@ -64,7 +64,7 @@ def adjust_team_size(conn, workers, number_queued_jobs):
                     spawn_reservation = spawn_workers(conn, worker_deficit)
                     tag_instances(spawn_reservation.instances,
                                   'Name',
-                                  NEW_WORKER_STATS['landsatAWS_worker'])
+                                  NEW_WORKER_STATS['Name'])
     elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
@@ -75,13 +75,12 @@ def adjust_team_size(conn, workers, number_queued_jobs):
 def spawn_workers(conn, count):
     '''Create COUNT more workers.'''
     return conn.run_instances(NEW_WORKER_STATS['AMI'],
-                              in_count=count,
+                              min_count=count,
                               max_count=count,
                               key_name=NEW_WORKER_STATS['KEY_PAIR'],
                               security_groups=[NEW_WORKER_STATS['SECURITY_GROUP']],
                               instance_type=NEW_WORKER_STATS['INSTANCE_TYPE'],
-                              placement=NEW_WORKER_STATS['AVAILIBILITY_ZONE'],
-                              subnet_id=NEW_WORKER_STATS['SUBNET_ID']
+                              placement=NEW_WORKER_STATS['AVAILIBILITY_ZONE']
                               )
 
 
@@ -122,10 +121,11 @@ def list_parttime_workers(workers):
             if worker.tags['Schedule'] == 'parttime']
 
 
-def tag_instances(instances, key, value):
-    '''Add tag to instances. Expects a list of instances.'''
+def tag_instances(instances, tag_value_dict):
+    '''Add tags to instances. Expects a list of instances and a dict of
+       tag: value.'''
     for instance in instances:
-        instance.add_tag(key, value=value)
+        instance.add_tags(tag_value_dict)
 
 
 if __name__ == '__main__':
@@ -135,14 +135,21 @@ if __name__ == '__main__':
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     REGION = 'us-west-2'
 
-    conn = make_EC2_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    EC2conn = make_EC2_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     worker_type = 'landsatAWS_worker'
-    workers = list_worker_instances(conn, worker_type)
+    workers = list_worker_instances(EC2conn, worker_type)
     running_workers = list_running_workers(workers)
     parttime_workers = list_parttime_workers(workers)
     stopped_parttime_workers = list_stopped_workers(parttime_workers)
     number_running = len(running_workers)
     worker_deficit = TEAMS['B'] - number_running
-    tag_instances(running_workers, 'Test', 'Testing')
+    spawn_reservation = spawn_workers(EC2conn, 1)
     import ipdb; ipdb.set_trace()
+    tag_instances(spawn_reservation.instances,
+                  {'Name': NEW_WORKER_STATS['Name'],
+                   'Schedule': NEW_WORKER_STATS['Schedule']}
+                  )
+    workers = list_worker_instances(EC2conn, 'landsatAWS_worker')
+    pending = list_pending_instances(workers)
+    print(pending)
     print(workers)
