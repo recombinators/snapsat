@@ -18,8 +18,7 @@
 
 
     <form action="/request/{{scene_id}}" method="post" id="request_form_{{scene_id}}">
-        <div id='combinations' class='display-inline-block'>
-            <h4 class="customband">Request another custom band combination</h4>
+        <div id='combinations'>
             <div class="radiobox">
                 <input type="radio" name="band_combo" value="432" checked>
                 <label>Normal Colors: 4, 3, 2</label><br>
@@ -29,9 +28,7 @@
                 <label>Veggie Popping: 5, 3, 2</label><br>
             </div>
         </div>
-        <button form="request_form_{{scene_id}}" formmethod="post" type="submit">
-            Request
-        </button>
+        <button class='blue' form="request_form_{{scene_id}}" formmethod="post" type="submit">Start processing!</button>
     </form>
 </div>
 
