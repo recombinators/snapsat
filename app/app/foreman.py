@@ -31,13 +31,19 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
     number_queued_jobs = queue_size(jobs_queue)
 
     workers = list_worker_instances(conn, 'landsatAWS_worker')
+    running_workers = list_running_workers(workers)
     running_parttime_workers = list_running_parttime_workers(workers)
     stopped_parttime_workers = list_stopped_parttime_workers(workers)
 
     if number_queued_jobs > LIMITS['med']:
+        worker_deficit = TEAMS['B'] - len(running_workers)
+        if worker_deficit > 0:
+            if len(stopped_parttime_workers) > 0:
+                for stopped in stopped_parttime_workers:
+                    stopped.start()
 
-    if LIMITS['med'] > number_queued_jobs > LIMITS['low']:
-        worker_deficit = TEAMS['A'] - len(running_parttime_workers)
+    elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
+        worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
             for stopped in stopped_parttime_workers:
                 stopped.start()
@@ -75,6 +81,12 @@ def list_stopped_parttime_workers(workers):
     return [worker for worker in workers
             if worker.state_code == STATE_CODES['stopped']
             and worker.tags['Schedule'] == 'parttime']
+
+
+def list_pending_instances(workers):
+    return [worker for worker in workers
+            if worker.state_code == STATE_CODES['pending']]
+
 
 if __name__ == '__main__':
     import os
