@@ -890,29 +890,23 @@ body {
     padding: 0;
     color: #666;
 }
-a {
-    color: #000;
-}
+
+a { color: #000; }
+
 td > a {
     font-weight: normal;
 }
-h1, h2 {
-    font-family: "adriane";
-}
 
-h2 {
-    font-size: 2rem;
-}
-
-
-h1 { font-size: 4rem; }
-h1 a {
+h1, h2 { font-family: "adriane"; }
+h1 {
     border-left: 20px solid yellow;
     padding-left: 20px;
+    font-size: 4rem;
 }
 h2 {
     border-left: 10px solid yellow;
     padding-left: 20px;
+    font-size: 2rem;
 }
 
 .map-container{
@@ -942,17 +936,9 @@ h2 {
   z-index: 100;
 }
 
-.blurb {
-    font-size: 120%;
-}
-
-section {
-    margin-bottom: 4rem;
-}
-
-table {
-    width: 100%;
-}
+.blurb { font-size: 120%; }
+section { margin-bottom: 4rem; }
+table { width: 100%; }
 
 #possibilities > div {
     display: inline-block;
@@ -960,10 +946,5 @@ table {
     width: 30%;
 }
 
-#resources ul {
-    padding-left: 0;
-}
-
-#resources ul li {
-    display: inline
-}
+#resources ul { padding-left: 0; }
+#resources ul li { display: inline }

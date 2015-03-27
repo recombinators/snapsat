@@ -2,6 +2,10 @@
 
 {% block content %}
 
+<header>
+    <h1><a href='/'>Snapsat</a></h1>
+</header>
+
 <section id='overview'>
     <p class='blurb'>The easiest way to create custom Landsat band composites.</p>
     <p>Offload the chore of installing and configuring the tools required to
@@ -69,40 +73,5 @@
         <li><a href='https://aws.amazon.com/public-data-sets/landsat/'>Amazon AWS</a></li>
     </ul>
 </section>
-
-
-
-<!-- <div class='contentmax'> -->        
-<!--     <div id='available-scenes' class='display-inline-block'> -->
-<!--         <h2>Available scenes</h2> -->
-<!--         <div class='scene_list'> -->
-<!--             {% for s in scenes %} -->
-<!--             <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3> -->
-<!--             <div class='details'> -->
-<!--                 <p>Path: {{ s.path }}</p> -->
-<!--                 <p>Row: {{ s.row }}</p> -->
-<!--                 <p>Cloud coverage: {{ s.cloudcover }}</p> -->
-<!--                 <img src="{{ s.normal }}"> -->
-<!--                 <form action="/request/{{s.entityid}}" method="post" id="request_form"> -->
-<!--                     <div id='combinations' class='display-inline-block'> -->
-<!--                         <h4 class="customband">Select your custom band combinations</h4> -->
-<!--                         <div class="radiobox"> -->
-<!--                             <input type="radio" name="band_combo" value="432" checked> -->
-<!--                             <label>Normal Colors: 4, 3, 2</label><br> -->
-<!--                             <input type="radio" name="band_combo" value="543"> -->
-<!--                             <label>See the Heat: 5, 4, 3</label><br> -->
-<!--                             <input type="radio" name="band_combo" value="532"> -->
-<!--                             <label>Veggie Popping: 5, 3, 2</label><br> -->
-<!--                         </div> -->
-<!--                     </div> -->    
-<!--                     <button form="request_form" formmethod="post" type="submit"> -->
-<!--                         Request -->
-<!--                     </button> -->
-<!--                 </form> -->
-<!--             </div> -->
-<!--             {% endfor %} -->
-<!--         </div> -->
-<!--     </div> -->
-<!-- </div> -->
 
 {% endblock %}
