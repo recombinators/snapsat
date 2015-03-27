@@ -1,18 +1,13 @@
-from boto.sqs.connection import SQSConnection
-from boto.sqs import regions
+from boto.sqs import connect_to_region
 
 
-def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
+def make_SQS_connection(region_name, aws_access_key_id, aws_secret_access_key):
     '''Make an SQSconnection to an AWS account. Pass in region, AWS access
        key id, and AWS secret access key'''
-    for reg in regions():
-        if reg.name == region_name:
-            region = reg
-            break
 
-    return SQSConnection(aws_access_key_id=aws_access_key_id,
-                         aws_secret_access_key=aws_secret_access_key,
-                         region=region)
+    return connect_to_region(region_name,
+                             aws_access_key_id=aws_access_key_id,
+                             aws_secret_access_key=aws_secret_access_key)
 
 
 def get_queue(conn, queue_name):
@@ -117,7 +112,7 @@ if __name__ == '__main__':
     REGION = 'us-west-2'
 
     # import pdb; pdb.set_trace()
-    conn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    conn = make_SQS_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     queue = get_queue(conn, LANDSAT_JOBS_QUEUE)
     message = build_job_message(job_id=1, email='test@test.com', scene_id='LC80470272015005LGN00',
                                 band_1=4, band_2=3, band_3=2)

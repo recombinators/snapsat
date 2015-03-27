@@ -18,6 +18,7 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'boto',
+    'pyramid_jinja2',
     ]
 
 setup(name='app',

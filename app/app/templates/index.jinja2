@@ -1,6 +1,7 @@
 {% extends "base.jinja2" %}
 
 {% block content %}
+<<<<<<< HEAD
 <header class='mtx container center align-center'>
     <h1><a href='/'>Landsat.club</a></h1>
 </header>
@@ -63,4 +64,101 @@
         </div>
     </div>
 </div> -->
+=======
+
+<section id='overview'>
+    <p class='blurb'>The easiest way to create custom Landsat band composites.</p>
+    <p>Offload the chore of installing and configuring the tools required to
+        work with Landsat data to Snapsat. Find the scene you want, tell us
+        which bands you'd like used, and wait 10 minutes. That's it!</p>
+</section>
+
+<section id='possibilities'>
+    <h2>What's possible</h2>
+    <div>
+        <h3>Combo 1</h3>
+        <img src='http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'>
+    </div>
+    <div>
+        <h3>Combo 2</h3>
+        <img src='http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'>
+    </div>
+    <div>
+        <h3>Combo 3</h3>
+        <img src='http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'>
+    </div>
+
+</section>
+
+<section id='where'>
+    <h2>Choose a location</h2>
+    <p class='blurb'>Use the map on the left to select a location.</p>
+</section>
+
+<section id='scenes'>
+    <h2>Pick a date</h2>
+    <p class='blurb'>We have data for each of the following:</p>
+    <table>
+        <thead>
+            <tr>
+                <td>Date</td> <td>Path</td> <td>Row</td> <td>Cloud coverage</td> <td>Download</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for s in scenes %}
+            <tr>
+                <td>{{ s.acquisitiondate }}</td>
+                <td>{{ s.path }}</td>
+                <td>{{ s.row }}</td>
+                <td>{{ s.cloudcover }}</td>
+                <td><a href=''>Request</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</section>
+
+<section id='resources'>
+    <h2>Learn more</h2>
+</section>
+
+<footer>
+    <h2>More about the project</h2>
+</footer>
+
+
+
+<!-- <div class='contentmax'> -->        
+<!--     <div id='available-scenes' class='display-inline-block'> -->
+<!--         <h2>Available scenes</h2> -->
+<!--         <div class='scene_list'> -->
+<!--             {% for s in scenes %} -->
+<!--             <h3 class='js-trigger mbn'>{{ s.acquisitiondate }}</h3> -->
+<!--             <div class='details'> -->
+<!--                 <p>Path: {{ s.path }}</p> -->
+<!--                 <p>Row: {{ s.row }}</p> -->
+<!--                 <p>Cloud coverage: {{ s.cloudcover }}</p> -->
+<!--                 <img src="{{ s.normal }}"> -->
+<!--                 <form action="/request/{{s.entityid}}" method="post" id="request_form"> -->
+<!--                     <div id='combinations' class='display-inline-block'> -->
+<!--                         <h4 class="customband">Select your custom band combinations</h4> -->
+<!--                         <div class="radiobox"> -->
+<!--                             <input type="radio" name="band_combo" value="432" checked> -->
+<!--                             <label>Normal Colors: 4, 3, 2</label><br> -->
+<!--                             <input type="radio" name="band_combo" value="543"> -->
+<!--                             <label>See the Heat: 5, 4, 3</label><br> -->
+<!--                             <input type="radio" name="band_combo" value="532"> -->
+<!--                             <label>Veggie Popping: 5, 3, 2</label><br> -->
+<!--                         </div> -->
+<!--                     </div> -->    
+<!--                     <button form="request_form" formmethod="post" type="submit"> -->
+<!--                         Request -->
+<!--                     </button> -->
+<!--                 </form> -->
+<!--             </div> -->
+<!--             {% endfor %} -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
+
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 {% endblock %}

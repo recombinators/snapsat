@@ -90,14 +90,17 @@ class UserJob_Model(Base):
                 starttime=datetime.utcnow(),
                 ):
         '''Create new job in db.'''
+        import pdb; pdb.set_trace()
         try:
             session = DBSession
+            current_time = datetime.utcnow()
             job = UserJob_Model(entityid=entityid,
                                 band1=band1,
                                 band2=band2,
                                 band3=band3,
                                 jobstatus=0,
-                                starttime=datetime.utcnow()
+                                starttime=current_time,
+                                lastmodified=current_time
                                 )
             session.add(job)
             session.flush()
@@ -137,7 +140,6 @@ class UserJob_Model(Base):
             except:
                 print 'Could not update Rendered db'
 
-
     @classmethod
     def job_status(cls, jobid):
         '''Get jobstatus for jobid passed in.'''
@@ -155,6 +157,15 @@ class UserJob_Model(Base):
             print 'database write failed'
             return None
         return status_key[job.jobstatus]
+
+    @classmethod
+    def job_times(cls, jobid):
+        '''Get times for jobid passed in.'''
+        try:
+            job = DBSession.query(cls).get(jobid)
+            return job.starttime, job.lastmodified
+        except:
+            print 'database operation failed'
 
 
 class Rendered_Model(Base):
@@ -187,7 +198,8 @@ class Rendered_Model(Base):
     def update(cls, jobid, currentlyrend, renderurl):
         '''Method updates entry into db given jobid and optional url.'''
         try:
-            DBSession.query(cls).filter(cls.jobid == jobid).update({"currentlyrend": currentlyrend,"renderurl": renderurl})
+            DBSession.query(cls).filter(cls.jobid == jobid).update({
+                "currentlyrend": currentlyrend, "renderurl": renderurl})
         except:
             print 'could not update db'
 
@@ -208,7 +220,8 @@ class Rendered_Model(Base):
             output = DBSession.query(cls).filter(cls.entityid == entityid,
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
-                                                 cls.band3 == band3).count()
+                                                 cls.band3 == band3,
+                                                 cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed'
             return None

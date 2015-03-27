@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 require('./map.js');
-// require('./longpoll.js');
 require('./typekit.js');
+<<<<<<< HEAD
 require('./detail.js');
 require('./send-email.js')
 
@@ -13,34 +13,41 @@ $(document).on('click', '.js-trigger', function() {
 });
 
 },{"jquery":6}],3:[function(require,module,exports){
+=======
+// require('./detail.js');
+
+},{"./map.js":2,"./typekit.js":3}],2:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 require('mapbox.js');
 var $ = require('jquery');
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
-var map = L.mapbox.map('map', 'jacques.lh797p9e', { 
-    zoomControl: true,
-    attributionControl: false
-});
 
-map.addControl(L.mapbox.geocoderControl('mapbox.places',{ keepOpen: true }));
-map.setView([47.568, -122.582], 9);
-map.scrollWheelZoom.disable();
+// Create a basemap
+var map = L.mapbox.map('map', 'jacques.lh797p9e', {zoomControl: true})
+    .setView([47.568, -122.582], 9)
+    .scrollWheelZoom.disable()
+    .addControl(L.mapbox.geocoderControl('mapbox.places'));
 
 
+// Once a user finishes moving the map, send an AJAX request to Pyramid
+// which will repopulate the HTML with an updated list of the Landsat
+// scenes present.
 map.on('moveend', function() {
-    var center = map.getCenter();
-    var lat = center.lat;
-    var lng = center.lng;
 
+    // Define the center of the map.
+    var center = map.getCenter(),
+        lat = center.lat,
+        lng = center.lng;
+
+    // Submit a post request with the relevant information.
     $.ajax({
         url: "/ajax",
         dataType: "json",
-        data: {
-            'lat': lat,
-            'lng': lng,
-        },
+        data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
+<<<<<<< HEAD
         // Update site contents with new data
         data = json.scenes
         // $('.scene_list').html('');
@@ -175,6 +182,48 @@ jQuery(function($)
 });
 
 },{}],5:[function(require,module,exports){
+=======
+
+        data = json.scenes;
+
+        $('.scene_list').html('');
+            for (var i in data) {
+                var pad = "000";
+                var r = data[i].row;
+                var p = data[i].path;
+                var r_result = (pad+r).slice(-pad.length);
+                var p_result = (pad+p).slice(-pad.length);
+
+                $('.scene_list').append(
+                    "<h3 class='js-trigger mbn'>" + data[i].acquisitiondate + "</h3>" +
+                    "<div class='details'>" +
+                        "<p>Path:" + data[i].path + "</p>" +
+                        "<p>Row:" + data[i].row + "</p>" +
+                        "<p>Cloud coverage:" + data[i].cloudcover + "</p>" +
+                        "<img src='https://s3-us-west-2.amazonaws.com/landsat-pds/L8/" + p_result + "/" + r_result + "/" + data[i].entityid + "/" + data[i].entityid + "_thumb_large.jpg'>" +
+                        "<form action='/request/" + data[i].entityid + "' method='post' id='request_form'>" +
+                        "<div id='combinations' class='display-inline-block'>" +
+                        "<h4 class='customband'>Select your custom band combinations</h4>" +
+                        "<div class='radiobox'>" +
+                        "<input type='radio' name='band_combo' value='432' checked>" + 
+                            "<label>Normal Colors: 4, 3, 2</label><br>" +
+                        "<input type='radio' name='band_combo' value='543'>" +
+                            "<label>See the Heat: 5, 4, 3</label><br>" +
+                        "<input type='radio' name='band_combo' value='532'>" +
+                            "<label>Veggie Popping: 5, 3, 2</label><br>" +
+                        "</div>" +
+                        "</div>" +    
+                        "<button form='request_form' formmethod='post' type='submit'>" +
+                            "Request" +
+                            "</button>" +
+                        "</form>" +
+                    "</div>");
+            }
+    });
+});
+
+},{"jquery":4,"mapbox.js":19}],3:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 (function(d) {
     var config = {
         kitId: 'wqn0qec',
@@ -183,7 +232,11 @@ jQuery(function($)
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
 
+<<<<<<< HEAD
 },{}],6:[function(require,module,exports){
+=======
+},{}],4:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -9390,7 +9443,11 @@ return jQuery;
 
 }));
 
+<<<<<<< HEAD
 },{}],7:[function(require,module,exports){
+=======
+},{}],5:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -9485,7 +9542,11 @@ function corslite(url, callback, cors) {
 
 if (typeof module !== 'undefined') module.exports = corslite;
 
+<<<<<<< HEAD
 },{}],8:[function(require,module,exports){
+=======
+},{}],6:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 /*
  Leaflet, a JavaScript library for mobile-friendly interactive maps. http://leafletjs.com
  (c) 2010-2013, Vladimir Agafonkin
@@ -18666,7 +18727,11 @@ L.Map.include({
 
 
 }(window, document));
+<<<<<<< HEAD
 },{}],9:[function(require,module,exports){
+=======
+},{}],7:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -19219,7 +19284,11 @@ L.Map.include({
 
 }));
 
+<<<<<<< HEAD
 },{}],10:[function(require,module,exports){
+=======
+},{}],8:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 var html_sanitize = require('./sanitizer-bundle.js');
 
 module.exports = function(_) {
@@ -19239,7 +19308,11 @@ function cleanUrl(url) {
 
 function cleanId(id) { return id; }
 
+<<<<<<< HEAD
 },{"./sanitizer-bundle.js":11}],11:[function(require,module,exports){
+=======
+},{"./sanitizer-bundle.js":9}],9:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 
 // Copyright (C) 2010 Google Inc.
 //
@@ -21687,7 +21760,11 @@ if (typeof module !== 'undefined') {
     module.exports = html_sanitize;
 }
 
+<<<<<<< HEAD
 },{}],12:[function(require,module,exports){
+=======
+},{}],10:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 module.exports={
   "author": {
     "name": "Mapbox"
@@ -21875,10 +21952,15 @@ module.exports={
     "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
+  "readme": "ERROR: No README data found!"
 }
 
+<<<<<<< HEAD
 },{}],13:[function(require,module,exports){
+=======
+},{}],11:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 module.exports = {
@@ -21888,7 +21970,11 @@ module.exports = {
     REQUIRE_ACCESS_TOKEN: true
 };
 
+<<<<<<< HEAD
 },{}],14:[function(require,module,exports){
+=======
+},{}],12:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var util = require('./util'),
@@ -22010,7 +22096,11 @@ module.exports.featureLayer = function(_, options) {
     return new FeatureLayer(_, options);
 };
 
+<<<<<<< HEAD
 },{"./marker":29,"./request":30,"./simplestyle":32,"./url":34,"./util":35,"sanitize-caja":10}],15:[function(require,module,exports){
+=======
+},{"./marker":27,"./request":28,"./simplestyle":30,"./url":32,"./util":33,"sanitize-caja":8}],13:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var Feedback = L.Class.extend({
@@ -22024,7 +22114,11 @@ var Feedback = L.Class.extend({
 
 module.exports = new Feedback();
 
+<<<<<<< HEAD
 },{}],16:[function(require,module,exports){
+=======
+},{}],14:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var util = require('./util'),
@@ -22125,7 +22219,11 @@ module.exports = function(url, options) {
     return geocoder;
 };
 
+<<<<<<< HEAD
 },{"./feedback":15,"./request":30,"./url":34,"./util":35}],17:[function(require,module,exports){
+=======
+},{"./feedback":13,"./request":28,"./url":32,"./util":33}],15:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var geocoder = require('./geocoder'),
@@ -22317,7 +22415,11 @@ module.exports.geocoderControl = function(_, options) {
     return new GeocoderControl(_, options);
 };
 
+<<<<<<< HEAD
 },{"./geocoder":16,"./util":35}],18:[function(require,module,exports){
+=======
+},{"./geocoder":14,"./util":33}],16:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 function utfDecode(c) {
@@ -22335,7 +22437,11 @@ module.exports = function(data) {
     };
 };
 
+<<<<<<< HEAD
 },{}],19:[function(require,module,exports){
+=======
+},{}],17:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var util = require('./util'),
@@ -22535,7 +22641,11 @@ module.exports.gridControl = function(_, options) {
     return new GridControl(_, options);
 };
 
+<<<<<<< HEAD
 },{"./util":35,"mustache":9,"sanitize-caja":10}],20:[function(require,module,exports){
+=======
+},{"./util":33,"mustache":7,"sanitize-caja":8}],18:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var util = require('./util'),
@@ -22760,11 +22870,19 @@ module.exports.gridLayer = function(_, options) {
     return new GridLayer(_, options);
 };
 
+<<<<<<< HEAD
 },{"./grid":18,"./load_tilejson":25,"./request":30,"./util":35}],21:[function(require,module,exports){
 require('./leaflet');
 require('./mapbox');
 
 },{"./leaflet":23,"./mapbox":27}],22:[function(require,module,exports){
+=======
+},{"./grid":16,"./load_tilejson":23,"./request":28,"./util":33}],19:[function(require,module,exports){
+require('./leaflet');
+require('./mapbox');
+
+},{"./leaflet":21,"./mapbox":25}],20:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var InfoControl = L.Control.extend({
@@ -22881,10 +22999,17 @@ module.exports.infoControl = function(options) {
     return new InfoControl(options);
 };
 
+<<<<<<< HEAD
 },{"sanitize-caja":10}],23:[function(require,module,exports){
 window.L = require('leaflet/dist/leaflet-src');
 
 },{"leaflet/dist/leaflet-src":8}],24:[function(require,module,exports){
+=======
+},{"sanitize-caja":8}],21:[function(require,module,exports){
+window.L = require('leaflet/dist/leaflet-src');
+
+},{"leaflet/dist/leaflet-src":6}],22:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var LegendControl = L.Control.extend({
@@ -22953,7 +23078,11 @@ module.exports.legendControl = function(options) {
     return new LegendControl(options);
 };
 
+<<<<<<< HEAD
 },{"sanitize-caja":10}],25:[function(require,module,exports){
+=======
+},{"sanitize-caja":8}],23:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var request = require('./request'),
@@ -22979,7 +23108,11 @@ module.exports = {
     }
 };
 
+<<<<<<< HEAD
 },{"./request":30,"./url":34,"./util":35}],26:[function(require,module,exports){
+=======
+},{"./request":28,"./url":32,"./util":33}],24:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var util = require('./util'),
@@ -23215,7 +23348,11 @@ module.exports.map = function(element, _, options) {
     return new LMap(element, _, options);
 };
 
+<<<<<<< HEAD
 },{"./feature_layer":14,"./feedback":15,"./grid_control":19,"./grid_layer":20,"./info_control":22,"./legend_control":24,"./load_tilejson":25,"./mapbox_logo":28,"./share_control":31,"./tile_layer":33,"./util":35}],27:[function(require,module,exports){
+=======
+},{"./feature_layer":12,"./feedback":13,"./grid_control":17,"./grid_layer":18,"./info_control":20,"./legend_control":22,"./load_tilejson":23,"./mapbox_logo":26,"./share_control":29,"./tile_layer":31,"./util":33}],25:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var geocoderControl = require('./geocoder_control'),
@@ -23268,7 +23405,11 @@ window.L.Icon.Default.imagePath =
     '//api.tiles.mapbox.com/mapbox.js/' + 'v' +
     require('../package.json').version + '/images';
 
+<<<<<<< HEAD
 },{"../package.json":12,"./config":13,"./feature_layer":14,"./feedback":15,"./geocoder":16,"./geocoder_control":17,"./grid_control":19,"./grid_layer":20,"./info_control":22,"./legend_control":24,"./map":26,"./marker":29,"./share_control":31,"./simplestyle":32,"./tile_layer":33,"mustache":9,"sanitize-caja":10}],28:[function(require,module,exports){
+=======
+},{"../package.json":10,"./config":11,"./feature_layer":12,"./feedback":13,"./geocoder":14,"./geocoder_control":15,"./grid_control":17,"./grid_layer":18,"./info_control":20,"./legend_control":22,"./map":24,"./marker":27,"./share_control":29,"./simplestyle":30,"./tile_layer":31,"mustache":7,"sanitize-caja":8}],26:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var MapboxLogoControl = L.Control.extend({
@@ -23302,7 +23443,11 @@ module.exports.mapboxLogoControl = function(options) {
     return new MapboxLogoControl(options);
 };
 
+<<<<<<< HEAD
 },{}],29:[function(require,module,exports){
+=======
+},{}],27:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var url = require('./url'),
@@ -23369,7 +23514,11 @@ module.exports = {
     createPopup: createPopup
 };
 
+<<<<<<< HEAD
 },{"./url":34,"./util":35,"sanitize-caja":10}],30:[function(require,module,exports){
+=======
+},{"./url":32,"./util":33,"sanitize-caja":8}],28:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var corslite = require('corslite'),
@@ -23401,7 +23550,11 @@ module.exports = function(url, callback) {
     }
 };
 
+<<<<<<< HEAD
 },{"./config":13,"./util":35,"corslite":7}],31:[function(require,module,exports){
+=======
+},{"./config":11,"./util":33,"corslite":5}],29:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var urlhelper = require('./url');
@@ -23504,7 +23657,11 @@ module.exports.shareControl = function(_, options) {
     return new ShareControl(_, options);
 };
 
+<<<<<<< HEAD
 },{"./load_tilejson":25,"./url":34}],32:[function(require,module,exports){
+=======
+},{"./load_tilejson":23,"./url":32}],30:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 // an implementation of the simplestyle spec for polygon and linestring features
@@ -23551,7 +23708,11 @@ module.exports = {
     defaults: defaults
 };
 
+<<<<<<< HEAD
 },{}],33:[function(require,module,exports){
+=======
+},{}],31:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var util = require('./util');
@@ -23647,7 +23808,11 @@ module.exports.tileLayer = function(_, options) {
     return new TileLayer(_, options);
 };
 
+<<<<<<< HEAD
 },{"./load_tilejson":25,"./util":35}],34:[function(require,module,exports){
+=======
+},{"./load_tilejson":23,"./util":33}],32:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 var config = require('./config'),
@@ -23691,7 +23856,11 @@ module.exports.tileJSON = function(urlOrMapID, accessToken) {
     return url;
 };
 
+<<<<<<< HEAD
 },{"../package.json":12,"./config":13}],35:[function(require,module,exports){
+=======
+},{"../package.json":10,"./config":11}],33:[function(require,module,exports){
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 'use strict';
 
 module.exports = {

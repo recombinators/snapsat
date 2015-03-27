@@ -862,6 +862,7 @@ body { padding: 1em; }
 
 body {
     margin: 0;
+<<<<<<< HEAD
     padding: 1%;
     background-color: #ECECEA;
 }
@@ -869,6 +870,16 @@ body {
 .map-container{
     position: relative;
     height: 600px;
+=======
+    padding: 0;
+}
+
+.map-container{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 32.8%;
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 }
 
 #map {
@@ -879,9 +890,10 @@ body {
     box-shadow: 3px 3px 8px #9ea1b3;
 }
 
-h1 {
-    font-family: 'aw-conqueror-carved';
-    font-size: 4rem;
+.contain {
+    position: relative;
+    margin-left: 32.8%;
+    padding: 4rem 2rem;
 }
 
 .reticle {
@@ -891,15 +903,20 @@ h1 {
   z-index: 100;
 }
 
+<<<<<<< HEAD
 .details {
     display: none;
+=======
+.blurb {
+    font-size: 120%;
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 }
 
-.display-inline-block {
-    width: 33%;
-    vertical-align: top;
+section {
+    margin-bottom: 4rem;
 }
 
+<<<<<<< HEAD
 .mbn {
     cursor: pointer;
 }
@@ -913,11 +930,17 @@ h1 {
     width: 100%;
     padding: 5%;
     text-align: center;
+=======
+table {
+    width: 100%;
+>>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 }
 .contentmax 
 
-.radiobox {
-		text-align: left;
+#possibilities > div {
+    display: inline-block;
+    vertical-align: top;
+    width: 30%;
 }
 
 .availible-scenes {
