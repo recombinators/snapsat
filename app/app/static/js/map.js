@@ -55,12 +55,12 @@ map.on('moveend', function() {
         //                     "<label>Veggie Popping: 5, 3, 2</label><br>" +
         //                 "</div>" +
         //                 "</div>" +    
-        //                 "<button form='request_form' formmethod='post' type='submit'>" +
-        //                     "Request" +
-        //                     "</button>" +
+        //                 
         //                 "</form>" +
         //             "</div>");
-        //     };
+        //     };"<button form='request_form' formmethod='post' type='submit'>" +
+        //                     "Request" +
+        //                     "</button>" +
         $('#date-select').html('');
         for (i in data){
             $('#date-select').append(
