@@ -61,7 +61,8 @@ def scene_status(request):
     worker_start_time = {}
     worker_lastmod_time = {}
     elapsed_worker_time = {}
-    available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
+    scene_id = request.matchdict['scene_id']
+    available_scenes = Rendered_Model.available(scene_id)
     for scene in available_scenes:
         if scene.currentlyrend or scene.renderurl:
             worker_start_time, worker_lastmod_time = (
@@ -71,11 +72,16 @@ def scene_status(request):
                 scene.elapsed_worker_time = str(datetime.utcnow() - worker_start_time)
             else:
                 scene.elapsed_worker_time = str(worker_lastmod_time - worker_start_time)
+    preview_urls = {}
+    preview_urls['normal'] = preview_url(scene_id, 4, 3, 2)
+    preview_urls['heat'] = preview_url(scene_id, 5, 4, 3)
+    preview_urls['veggie'] = preview_url(scene_id, 5, 3, 2)
 
     return {'scene_id': request.matchdict['scene_id'],
             'available_scenes': available_scenes,
             'status': status,
-            'elapsed_worker_time': elapsed_worker_time}
+            'elapsed_worker_time': elapsed_worker_time,
+            'preview_urls': preview_urls}
 
 
 @view_config(route_name='done', renderer='json')

@@ -16,6 +16,10 @@
     {% endif %}
     {% endfor %}
 
+    <p><img src="{{ preview_urls['normal'] }}"></p>
+    <p><img src="{{ preview_urls['heat'] }}"></p>
+    <p><img src="{{ preview_urls['veggie'] }}"></p>
+
 
     <form action="/request/{{scene_id}}" method="post" id="request_form_{{scene_id}}">
         <div id='combinations' class='display-inline-block'>
