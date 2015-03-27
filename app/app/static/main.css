@@ -862,16 +862,8 @@ body { padding: 1em; }
 
 body {
     margin: 0;
-<<<<<<< HEAD
     padding: 1%;
     background-color: #ECECEA;
-}
-
-.map-container{
-    position: relative;
-    height: 600px;
-=======
-    padding: 0;
 }
 
 .map-container{
@@ -879,7 +871,7 @@ body {
     top: 0;
     bottom: 0;
     width: 32.8%;
->>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
+
 }
 
 #map {
@@ -903,20 +895,18 @@ body {
   z-index: 100;
 }
 
-<<<<<<< HEAD
 .details {
     display: none;
-=======
+
 .blurb {
     font-size: 120%;
->>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 }
 
 section {
     margin-bottom: 4rem;
 }
 
-<<<<<<< HEAD
+
 .mbn {
     cursor: pointer;
 }
@@ -930,10 +920,8 @@ section {
     width: 100%;
     padding: 5%;
     text-align: center;
-=======
-table {
+.table {
     width: 100%;
->>>>>>> 553222fe97399ddf05161dfa0f704e8cf8f0197f
 }
 .contentmax 
 
