@@ -53,7 +53,7 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
                 number_pending = len(list_pending_instances(workers))
                 worker_deficit = TEAMS['B'] - number_pending + number_running
                 if worker_deficit > 0:
-
+                    spawn_workers(conn, worker_deficit)
     elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
