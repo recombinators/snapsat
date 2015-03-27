@@ -52,19 +52,18 @@ def adjust_team_size(conn, workers, number_queued_jobs):
     if number_queued_jobs >= LIMITS['med']:
         number_running = len(running_workers)
         worker_deficit = TEAMS['B'] - number_running
-        if worker_deficit > 0:
-            if len(stopped_parttime_workers) > 0:
-                for stopped in stopped_parttime_workers:
-                    stopped.start()
-                workers = list_worker_instances(conn, 'landsatAWS_worker')
-                number_running = len(list_running_workers(workers))
-                number_pending = len(list_pending_instances(workers))
-                worker_deficit = TEAMS['B'] - number_pending + number_running
-                if worker_deficit > 0:
-                    spawn_reservation = spawn_workers(conn, worker_deficit)
-                    tag_instances(spawn_reservation.instances,
-                                  'Name',
-                                  NEW_WORKER_STATS['Name'])
+        if worker_deficit > 0 and len(stopped_parttime_workers) > 0:
+            for stopped in stopped_parttime_workers:
+                stopped.start()
+            workers = list_worker_instances(conn, 'landsatAWS_worker')
+            number_running = len(list_running_workers(workers))
+            number_pending = len(list_pending_instances(workers))
+            worker_deficit = TEAMS['B'] - number_pending + number_running
+            if worker_deficit > 0:
+                spawn_reservation = spawn_workers(conn, worker_deficit)
+                tag_instances(spawn_reservation.instances,
+                              'Name',
+                              NEW_WORKER_STATS['Name'])
     elif LIMITS['med'] > number_queued_jobs >= LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
