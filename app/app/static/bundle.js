@@ -72,16 +72,15 @@ map.on('moveend', function() {
         //                 
         //                 "</form>" +
         //             "</div>");
-        //    };
-            "<button form='request_form' formmethod='post' type='submit'>" +
-                            "Request" +
-                            "</button>" +
+        //     };"<button form='request_form' formmethod='post' type='submit'>" +
+        //                     "Request" +
+        //                     "</button>" +
         $('#date-select').html('');
         for (i in data){
             $('#date-select').append(
                  '<option value="scene-{{loop.index}}">' + data[i].acquisitiondate + " | Cloud Cover " + data[i].cloudcover + ' %</option>'
                 );
-
+            
         };
     });
 });
