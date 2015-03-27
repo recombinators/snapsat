@@ -25,10 +25,10 @@ def index(request):
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     '''Make request for scene, add to queue, add to db.'''
-    EC2conn = make_EC2_connection(REGION,
-                                  AWS_ACCESS_KEY_ID,
-                                  AWS_SECRET_ACCESS_KEY)
-    foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    # EC2conn = make_EC2_connection(REGION,
+    #                               AWS_ACCESS_KEY_ID,
+    #                               AWS_SECRET_ACCESS_KEY)
+    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
@@ -61,7 +61,8 @@ def scene_status(request):
     worker_start_time = {}
     worker_lastmod_time = {}
     elapsed_worker_time = {}
-    available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
+    scene_id = request.matchdict['scene_id']
+    available_scenes = Rendered_Model.available(scene_id)
     for scene in available_scenes:
         if scene.currentlyrend or scene.renderurl:
             worker_start_time, worker_lastmod_time = (
@@ -71,11 +72,16 @@ def scene_status(request):
                 scene.elapsed_worker_time = str(datetime.utcnow() - worker_start_time)
             else:
                 scene.elapsed_worker_time = str(worker_lastmod_time - worker_start_time)
+    preview_urls = {}
+    preview_urls['normal'] = preview_url(scene_id, 4, 3, 2)
+    preview_urls['heat'] = preview_url(scene_id, 5, 4, 3)
+    preview_urls['veggie'] = preview_url(scene_id, 5, 3, 2)
 
     return {'scene_id': request.matchdict['scene_id'],
             'available_scenes': available_scenes,
             'status': status,
-            'elapsed_worker_time': elapsed_worker_time}
+            'elapsed_worker_time': elapsed_worker_time,
+            'preview_urls': preview_urls}
 
 
 @view_config(route_name='done', renderer='json')
