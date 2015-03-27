@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<script type="text/javascript" src="https://mandrillapp.com/api/docs/js/mandrill.js"></script>
+<script type="text/javascript" src="send-email.js"></script>
 <header>
     <h1><a href='/'>Landsat.club</a></h1>
 </header>
@@ -34,7 +36,82 @@
         <button form="request_form_{{scene_id}}" formmethod="post" type="submit">
             Request
         </button>
-    </form>
+        <h3 id="request-email">If you don't feel like waiting, feel free to give us your email and we will send you a link to download your image!</h3>
+<form class="form-horizontal" id="contact_form">
+<fieldset>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="name">Name</label>  
+  <div class="col-md-5">
+  <input id="name" name="name" type="text" placeholder="Enter your name here" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="email">Email</label>  
+  <div class="col-md-5">
+  <input id="email" name="email" type="text" placeholder="Enter your email address" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="submit"></label>
+  <div class="col-md-4">
+    <button id="submit" name="submit" class="btn btn-primary">Send Message</button>
+  </div>
+</div>
+
+</fieldset>
+</form>         
+</form>
 </div>
 </div>
+<script type="text/javascript">
+    jQuery(function($)  
+{
+    $("#contact_form").submit(function()
+    {
+        var email = $("#email").val(); // get email field value
+        var name = $("#name").val(); // get name field value
+        var msg = $("#msg").val(); // get message field value
+        $.ajax(
+        {
+            type: "POST",
+            url: "https://mandrillapp.com/api/1.0/messages/send.json",
+            data: {
+                'key': 'MVwUkVnqFAKo_0RU0GB4yQ',
+                'message': {
+                    'from_email': email,
+                    'from_name': name,
+                    'headers': {
+                        'Reply-To': email
+                    },
+                    'subject': 'This is actually from landsat',
+                    'text': "Hey cool landsat user, your sick pics are ready! Follow this link to download them *|LANDSATLINK|*.",
+                    'to': [
+                    {
+                        'email': email,
+                        'name': name,
+                        'type': 'to'
+                    }]
+                }
+            }
+        })
+        .done(function(response) {
+            alert('Your message has been sent. Thank you!'); // show success message
+            $("#name").val(''); // reset field after successful submission
+            $("#email").val(''); // reset field after successful submission
+        })
+        .fail(function(response) {
+            alert('Error sending message.');
+        });
+        return false; // prevent page refresh
+    });
+});
+</script>
 {% endblock %}
