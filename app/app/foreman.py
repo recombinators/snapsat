@@ -41,7 +41,12 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
             if len(stopped_parttime_workers) > 0:
                 for stopped in stopped_parttime_workers:
                     stopped.start()
-
+                workers = list_worker_instances(conn, 'landsatAWS_worker')
+                number_running = len(list_running_workers(workers))
+                number_pending = len(list_pending_instances(workers))
+                worker_deficit = TEAMS['B'] - number_pending + number_running
+                if worker_deficit > 0:
+                    pass
     elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
