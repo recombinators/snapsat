@@ -14,7 +14,7 @@ STATE_CODES = {'pending': 0,
                }
 LIMITS = {'low': 20, 'med': 50}
 TEAMS = {'A': 5, 'B': 10}
-NEW_WORKER_STATS = {'AMI': 'ami-517b5561',
+NEW_WORKER_STATS = {'AMI': 'ami-1f57792f',
                     'KEY_PAIR': 'landsatproject',
                     'SECURITY_GROUP': 'launch-wizard-1',
                     'INSTANCE_TYPE': 't2.medium',
