@@ -100,16 +100,14 @@ def list_running_workers(workers):
             if worker.state_code == STATE_CODES['runnning']]
 
 
-def list_running_parttime_workers(workers):
+def list_parttime_workers(workers):
     return [worker for worker in workers
-            if worker.state_code == STATE_CODES['runnning']
-            and worker.tags['Schedule'] == 'parttime']
+            if worker.tags['Schedule'] == 'parttime']
 
 
-def list_stopped_parttime_workers(workers):
+def list_stopped_workers(workers):
     return [worker for worker in workers
-            if worker.state_code == STATE_CODES['stopped']
-            and worker.tags['Schedule'] == 'parttime']
+            if worker.state_code == STATE_CODES['stopped']]
 
 
 def list_pending_instances(workers):
