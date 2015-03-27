@@ -12,16 +12,16 @@
 <section id='possibilities'>
     <h2>What's possible</h2>
     <div>
-        <h3>Combo 1</h3>
-        <img src='http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'>
+        <h3>Natural color</h3>
+        <img src='http://www.exelisvis.com/Portals/0/blogs/imageryspeaks/JoePeters/_2_NaturalColor.jpg'>
     </div>
     <div>
-        <h3>Combo 2</h3>
-        <img src='http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'>
+        <h3>Color infrared</h3>
+        <img src='http://www.exelisvis.com/Portals/0/blogs/imageryspeaks/JoePeters/_3_CIR.jpg'>
     </div>
     <div>
-        <h3>Combo 3</h3>
-        <img src='http://placekitten.com.s3.amazonaws.com/homepage-samples/408/287.jpg'>
+        <h3>Urban false color</h3>
+        <img src='http://www.exelisvis.com/Portals/0/blogs/imageryspeaks/JoePeters/_4_FalseColor_Urban_764.jpg'>
     </div>
 
 </section>
@@ -33,11 +33,11 @@
 
 <section id='scenes'>
     <h2>Pick a date</h2>
-    <p class='blurb'>We have data for each of the following:</p>
+    <p class='blurb'>We have data for each of these dates:</p>
     <table>
         <thead>
             <tr>
-                <td>Date</td> <td>Path</td> <td>Row</td> <td>Cloud coverage</td> <td>Download</td>
+                <th>Date</th> <th>Path</th> <th>Row</th> <th>Cloud coverage</th> <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -47,7 +47,7 @@
                 <td>{{ s.path }}</td>
                 <td>{{ s.row }}</td>
                 <td>{{ s.cloudcover }}</td>
-                <td><a href=''>Request</a></td>
+                <td><a href='/scene/{{ s.entityid }}'>Start processing</a></td>
             </tr>
         {% endfor %}
     </table>
@@ -55,11 +55,23 @@
 
 <section id='resources'>
     <h2>Learn more</h2>
-</section>
 
-<footer>
-    <h2>More about the project</h2>
-</footer>
+    <h3>Created by</h3>
+    <ul>
+        <li><a href='https://github.com/constanthatz'>Constantine Hatzis</a></li>
+        <li><a href='https://github.com/poolbath1'>Joel Stanner</a></li>
+        <li><a href='https://github.com/bm5w'>Mark Saiget</a></li>
+        <li><a href='https://github.com/Jakealope'>Jake Anderson</a></li>
+        <li><a href='https://github.com/jacquestardie'>Jacques Tardie</a></li>
+    </ul>
+    <h3>With special thanks to:</h3>
+    <ul>
+        <li><a href='https://github.com/cewing'>Cris Ewing</a></li>
+        <li><a href='https://github.com/recombinators/little-worker'>Little Worker</a></li>
+        <li><a href='https://developmentseed.org/'>Developmentseed</a></li>
+        <li><a href='https://aws.amazon.com/public-data-sets/landsat/'>Amazon AWS</a></li>
+    </ul>
+</section>
 
 
 
