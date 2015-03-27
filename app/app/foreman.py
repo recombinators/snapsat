@@ -84,7 +84,7 @@ def spawn_workers(conn, count):
                               )
 
 
-def kill_workers(conn):
+def kill_workers(conn, workers):
     pass
 
 

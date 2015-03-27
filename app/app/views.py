@@ -47,6 +47,13 @@ def request_scene(request):
                                     band_1=band1,
                                     band_2=band2,
                                     band_3=band3)
+        print(SQSconn)
+        print(jobs_queue)
+        print(message)
+        print(message['body'])
+        print(message['attributes'])
+
+        import pdb; pdb.set_trace()
         send_message(SQSconn,
                      jobs_queue,
                      message['body'],
