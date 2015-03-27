@@ -3,6 +3,7 @@ from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
                      Rendered_Model,)
 from sqs import (make_SQS_connection, get_queue, build_job_message,
                  send_message, queue_size,)
+from foreman import foreman
 import os
 from pyramid.httpexceptions import HTTPFound
 import operator

@@ -33,16 +33,18 @@ def make_EC2_connection(region_name, aws_access_key_id, aws_secret_access_key):
 
 def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
     '''Manage workers and queue.'''
-    make_SQS_connection(region_name, aws_access_key_id, aws_secret_access_key)
-    jobs_queue = get_queue(conn, JOBS_QUEUE)
+    SQSconn = make_SQS_connection(region_name,
+                                  aws_access_key_id,
+                                  aws_secret_access_key)
+    jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
     number_queued_jobs = queue_size(jobs_queue)
 
     workers = list_worker_instances(conn, 'landsatAWS_worker')
 
-    adjust_team_size(workers, number_queued_jobs)
+    adjust_team_size(conn, workers, number_queued_jobs)
 
 
-def adjust_team_size(workers, number_queued_jobs):
+def adjust_team_size(conn, workers, number_queued_jobs):
     '''Check status of queue and spawn/kill workers as needed'''
     running_workers = list_running_workers(workers)
     parttime_workers = list_parttime_workers(workers)
