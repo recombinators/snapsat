@@ -1,6 +1,9 @@
 from pyramid.view import view_config
-from .models import PathAndRow_Model, SceneList_Model, UserJob_Model, Rendered_Model
-from sqs import make_connection, get_queue, build_job_message, send_message
+from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
+                     Rendered_Model,)
+from sqs import (make_SQS_connection, get_queue, build_job_message,
+                 send_message, queue_size,)
+from foreman import (foreman, make_EC2_connection,)
 import os
 from pyramid.httpexceptions import HTTPFound
 import operator
@@ -12,6 +15,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 JOBS_QUEUE = 'landsat_jobs_queue'
 REGION = 'us-west-2'
 
+
 @view_config(route_name='index', renderer='templates/index.jinja2')
 def index(request):
     '''Index page.'''
@@ -21,12 +25,18 @@ def index(request):
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     '''Make request for scene, add to queue, add to db.'''
+    EC2conn = make_EC2_connection(REGION,
+                                  AWS_ACCESS_KEY_ID,
+                                  AWS_SECRET_ACCESS_KEY)
+    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
     if not Rendered_Model.already_available(scene_id, band1, band2, band3):
-        SQSconn = make_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+        SQSconn = make_SQS_connection(REGION,
+                                      AWS_ACCESS_KEY_ID,
+                                      AWS_SECRET_ACCESS_KEY)
         jobs_queue = get_queue(SQSconn, JOBS_QUEUE)
         pk = UserJob_Model.new_job(entityid=scene_id,
                                    band1=band1,
@@ -37,7 +47,10 @@ def request_scene(request):
                                     band_1=band1,
                                     band_2=band2,
                                     band_3=band3)
-        send_message(SQSconn, jobs_queue, message['body'], message['attributes'])
+        send_message(SQSconn,
+                     jobs_queue,
+                     message['body'],
+                     message['attributes'])
     return HTTPFound(location='/scene/{}'.format(scene_id))
 
 
@@ -50,8 +63,6 @@ def scene_status(request):
     elapsed_worker_time = {}
     available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
-        if scene.currentlyrend:
-            status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
         if scene.currentlyrend or scene.renderurl:
             worker_start_time, worker_lastmod_time = (
                 UserJob_Model.job_times(scene.jobid)
