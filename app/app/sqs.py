@@ -12,8 +12,20 @@ def make_SQS_connection(region_name, aws_access_key_id, aws_secret_access_key):
 
 
 def get_queue(conn, queue_name):
+    print('\n')
+    print('\n')
+    print('\n')
+    print(conn)
+    print(queue_name)
     '''Create a queue with the given name, or get an existing queue with that
        name from the AWS connection.'''
+
+    # import pdb; pdb.set_trace()
+    print(conn.get_queue(queue_name))
+    print('\n')
+    print('\n')
+    print('\n')
+
     return conn.get_queue(queue_name)
 
 
