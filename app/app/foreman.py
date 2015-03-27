@@ -38,19 +38,13 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
     number_queued_jobs = queue_size(jobs_queue)
 
     workers = list_worker_instances(conn, 'landsatAWS_worker')
+
+    adjust_team_size(workers, number_queued_jobs)
+
+
+def adjust_team_size(workers, number_queued_jobs):
     running_workers = list_running_workers(workers)
-    running_parttime_workers = list_running_parttime_workers(workers)
-    stopped_parttime_workers = list_stopped_parttime_workers(workers)
-
-    adjust_team_size(workers,
-                     running_workers,
-                     running_parttime_workers,
-                     stopped_parttime_workers,
-                     number_queued_jobs)
-
-
-def adjust_team_size(workers, running_workers, running_parttime_workers,
-                     stopped_parttime_workers, number_queued_jobs):
+    stopped_parttime_workers = list_stopped_workers(running_workers)
     if number_queued_jobs > LIMITS['med']:
         worker_deficit = TEAMS['B'] - len(running_workers)
         if worker_deficit > 0:
@@ -100,11 +94,6 @@ def list_running_workers(workers):
             if worker.state_code == STATE_CODES['runnning']]
 
 
-def list_parttime_workers(workers):
-    return [worker for worker in workers
-            if worker.tags['Schedule'] == 'parttime']
-
-
 def list_stopped_workers(workers):
     return [worker for worker in workers
             if worker.state_code == STATE_CODES['stopped']]
@@ -113,6 +102,11 @@ def list_stopped_workers(workers):
 def list_pending_instances(workers):
     return [worker for worker in workers
             if worker.state_code == STATE_CODES['pending']]
+
+
+def list_parttime_workers(workers):
+    return [worker for worker in workers
+            if worker.tags['Schedule'] == 'parttime']
 
 
 if __name__ == '__main__':
