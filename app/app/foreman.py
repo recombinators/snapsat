@@ -32,7 +32,7 @@ def make_EC2_connection(region_name, aws_access_key_id, aws_secret_access_key):
 
 
 def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
-    '''Check status of queue and spawn/kill workers as needed'''
+    '''Manage workers and queue.'''
     make_SQS_connection(region_name, aws_access_key_id, aws_secret_access_key)
     jobs_queue = get_queue(conn, JOBS_QUEUE)
     number_queued_jobs = queue_size(jobs_queue)
@@ -43,10 +43,13 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
 
 
 def adjust_team_size(workers, number_queued_jobs):
+    '''Check status of queue and spawn/kill workers as needed'''
     running_workers = list_running_workers(workers)
-    stopped_parttime_workers = list_stopped_workers(running_workers)
+    parttime_workers = list_parttime_workers(workers)
+    stopped_parttime_workers = list_stopped_workers(parttime_workers)
     if number_queued_jobs > LIMITS['med']:
-        worker_deficit = TEAMS['B'] - len(running_workers)
+        number_running = len(running_workers)
+        worker_deficit = TEAMS['B'] - number_running
         if worker_deficit > 0:
             if len(stopped_parttime_workers) > 0:
                 for stopped in stopped_parttime_workers:
@@ -127,7 +130,10 @@ if __name__ == '__main__':
     conn = make_EC2_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     worker_type = 'landsatAWS_worker'
     workers = list_worker_instances(conn, worker_type)
-    running = list_running_parttime_workers(workers)
-    stopped = list_stopped_parttime_workers(workers)
+    running_workers = list_running_workers(workers)
+    parttime_workers = list_parttime_workers(workers)
+    stopped_parttime_workers = list_stopped_workers(parttime_workers)
+    number_running = len(running_workers)
+    worker_deficit = TEAMS['B'] - number_running
     import ipdb; ipdb.set_trace()
     print(workers)
