@@ -863,12 +863,13 @@ body { padding: 1em; }
 body {
     margin: 0;
     padding: 0;
-    background-color: #ECECEA;
 }
 
 .map-container{
-    position: relative;
-    height: 500px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 32.8%;
 }
 
 #map {
@@ -878,9 +879,10 @@ body {
     width: 100%;
 }
 
-h1 {
-    font-family: 'aw-conqueror-carved';
-    font-size: 4rem;
+.contain {
+    position: relative;
+    margin-left: 32.8%;
+    padding: 4rem 2rem;
 }
 
 .reticle {
@@ -888,32 +890,4 @@ h1 {
   top: calc(49% - 50px);
   left: calc(49% - 50px);
   z-index: 100;
-}
-
-.details {
-    display: none;
-    
-}
-
-.display-inline-block {
-    width: 33%;
-    vertical-align: top;
-}
-
-.mbn {
-    cursor: pointer;
-}
-
-.customband {
-    text-align: left;
-    font-size: .85em;
-}
-
-.contentmax {
-    text-align: center;
-    padding: 5%;
-}
-
-.radiobox {
-		text-align: left;
 }
