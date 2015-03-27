@@ -1,8 +1,7 @@
 from __future__ import unicode_literals
 from boto.ec2.connection import EC2Connection
 from boto.ec2 import get_region
-from sqs import (make_SQS_connection, get_queue, build_job_message, send_message,
-                 queue_size,)
+from sqs import (make_SQS_connection, get_queue, queue_size,)
 from operator import attrgetter
 
 JOBS_QUEUE = 'landsat_jobs_queue'
@@ -20,7 +19,8 @@ NEW_WORKER_STATS = {'AMI': 'ami-517b5561',
                     'SECURITY_GROUP': 'launch-wizard-1',
                     'INSTANCE_TYPE': 't2.medium',
                     'AVAILIBILITY_ZONE': 'us-west-2a',
-                    'SUBNET_ID': 'subnet-85ff7ce0'
+                    'SUBNET_ID': 'subnet-85ff7ce0',
+                    'NAME': 'landsatAWS_worker'
                     }
 
 
@@ -56,7 +56,10 @@ def adjust_team_size(workers, number_queued_jobs):
                 number_pending = len(list_pending_instances(workers))
                 worker_deficit = TEAMS['B'] - number_pending + number_running
                 if worker_deficit > 0:
-                    spawn_workers(conn, worker_deficit)
+                    spawn_reservation = spawn_workers(conn, worker_deficit)
+                    tag_instances(spawn_reservation.instances,
+                                  'Name',
+                                  NEW_WORKER_STATS['landsatAWS_worker'])
     elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
@@ -107,6 +110,11 @@ def list_pending_instances(workers):
 def list_parttime_workers(workers):
     return [worker for worker in workers
             if worker.tags['Schedule'] == 'parttime']
+
+
+def tag_instances(instances, key, value):
+    for instance in instances:
+        instance.add_tag(key, value=value)
 
 
 if __name__ == '__main__':
