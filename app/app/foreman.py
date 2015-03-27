@@ -73,6 +73,7 @@ def adjust_team_size(conn, workers, number_queued_jobs):
 
 
 def spawn_workers(conn, count):
+    '''Create COUNT more workers.'''
     return conn.run_instances(NEW_WORKER_STATS['AMI'],
                               in_count=count,
                               max_count=count,
@@ -98,26 +99,31 @@ def list_worker_instances(conn, worker_type):
 
 
 def list_running_workers(workers):
+    '''Return list of runnning workers.'''
     return [worker for worker in workers
             if worker.state_code == STATE_CODES['runnning']]
 
 
 def list_stopped_workers(workers):
+    '''Return list of stopped workers.'''
     return [worker for worker in workers
             if worker.state_code == STATE_CODES['stopped']]
 
 
 def list_pending_instances(workers):
+    '''Return list of pending workers.'''
     return [worker for worker in workers
             if worker.state_code == STATE_CODES['pending']]
 
 
 def list_parttime_workers(workers):
+    '''Return list of parttime workers.'''
     return [worker for worker in workers
             if worker.tags['Schedule'] == 'parttime']
 
 
 def tag_instances(instances, key, value):
+    '''Add tag to instances. Expects a list of instances.'''
     for instance in instances:
         instance.add_tag(key, value=value)
 
@@ -137,5 +143,6 @@ if __name__ == '__main__':
     stopped_parttime_workers = list_stopped_workers(parttime_workers)
     number_running = len(running_workers)
     worker_deficit = TEAMS['B'] - number_running
+    tag_instances(running_workers, 'Test', 'Testing')
     import ipdb; ipdb.set_trace()
     print(workers)
