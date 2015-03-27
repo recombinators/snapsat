@@ -64,12 +64,13 @@ def scene_status(request):
     available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
         if scene.currentlyrend or scene.renderurl:
+            worker_start_time, worker_lastmod_time = (
+                UserJob_Model.job_times(scene.jobid))
             if scene.currentlyrend:
                 status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-            worker_start_time, worker_lastmod_time = (
-                UserJob_Model.job_times(scene.jobid)
-                )
-            scene.elapsed_worker_time = str(worker_lastmod_time - worker_start_time)
+                scene.elapsed_worker_time = str(datetime.utcnow() - worker_start_time)
+            else:
+                scene.elapsed_worker_time = str(worker_lastmod_time - worker_start_time)
 
     return {'scene_id': request.matchdict['scene_id'],
             'available_scenes': available_scenes,
