@@ -3,15 +3,16 @@ require('./map.js');
 // require('./longpoll.js');
 require('./typekit.js');
 require('./detail.js');
+require('./send-email.js')
 
-},{"./detail.js":2,"./map.js":3,"./typekit.js":4}],2:[function(require,module,exports){
+},{"./detail.js":2,"./map.js":3,"./send-email.js":4,"./typekit.js":5}],2:[function(require,module,exports){
 var $ = require('jquery');
 
 $(document).on('click', '.js-trigger', function() {
     $(this).next('.details').toggle();
 });
 
-},{"jquery":5}],3:[function(require,module,exports){
+},{"jquery":6}],3:[function(require,module,exports){
 require('mapbox.js');
 var $ = require('jquery');
 
@@ -86,7 +87,94 @@ map.on('moveend', function() {
 });
 
 
-},{"jquery":5,"mapbox.js":20}],4:[function(require,module,exports){
+},{"jquery":6,"mapbox.js":21}],4:[function(require,module,exports){
+// function log(obj) {
+//     $('#response').text(JSON.stringify(obj));
+// }
+
+// var m = new mandrill.Mandrill('MVwUkVnqFAKo_0RU0GB4yQ');
+
+// // API call parameters
+// var params = {
+//     "message": {
+//         "from_email":"example@gmail.com",
+//         "to":[{"email":"jake.anderson486@gmail.com"}],
+//         "subject": "Sending a text email from the Mandrill API",
+//         "html": "<p>Hey *|COOLFRIEND|*, your sick pics are ready! Follow this link to download them *|LANDSATLINK|*.</p>",
+//         "autotext": "true",
+//         "track_opens": "true",
+//         "track_clicks": "true",
+//         "merge_vars": [
+//             {
+//                 "rcpt": "your_recipient_address",
+//                 "vars": [
+//                     {
+//                         "name": "COOLFRIEND",
+//                         "content": "Your friend's name"
+//                     },
+//                     {
+//                         "name": "LANDSATLINK",
+//                         "content": "5 awesome years"
+//                     }
+//                 ]
+//             }
+//         ]
+//     }
+
+// };
+
+// function sendTheMail() {
+// // Send the email!
+
+//     m.messages.send(params, function(res) {
+//         log(res);
+//     }, function(err) {
+//         log(err);
+//     });
+// }
+jQuery(function($)  
+{
+    $("#contact_form").submit(function()
+    {
+        var email = $("#email").val(); // get email field value
+        var name = $("#name").val(); // get name field value
+        var msg = $("#msg").val(); // get message field value
+        $.ajax(
+        {
+            type: "POST",
+            url: "https://mandrillapp.com/api/1.0/messages/send.json",
+            data: {
+                'key': 'MVwUkVnqFAKo_0RU0GB4yQ',
+                'message': {
+                    'from_email': email,
+                    'from_name': name,
+                    'headers': {
+                        'Reply-To': email
+                    },
+                    'subject': 'testing from landsat',
+                    'text': "Hey cool landsat user, your sick pics are ready! Follow this link to download them *|LANDSATLINK|*.",
+                    'to': [
+                    {
+                        'email': email,
+                        'name': name,
+                        'type': 'to'
+                    }]
+                }
+            }
+        })
+        .done(function(response) {
+            alert('Your message has been sent. Thank you!'); // show success message
+            $("#name").val(''); // reset field after successful submission
+            $("#email").val(''); // reset field after successful submission
+        })
+        .fail(function(response) {
+            alert('Error sending message.');
+        });
+        return false; // prevent page refresh
+    });
+});
+
+},{}],5:[function(require,module,exports){
 (function(d) {
     var config = {
         kitId: 'wqn0qec',
@@ -95,7 +183,7 @@ map.on('moveend', function() {
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -9302,7 +9390,7 @@ return jQuery;
 
 }));
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -9397,7 +9485,7 @@ function corslite(url, callback, cors) {
 
 if (typeof module !== 'undefined') module.exports = corslite;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  Leaflet, a JavaScript library for mobile-friendly interactive maps. http://leafletjs.com
  (c) 2010-2013, Vladimir Agafonkin
@@ -18578,7 +18666,7 @@ L.Map.include({
 
 
 }(window, document));
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -19131,7 +19219,7 @@ L.Map.include({
 
 }));
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var html_sanitize = require('./sanitizer-bundle.js');
 
 module.exports = function(_) {
@@ -19151,7 +19239,7 @@ function cleanUrl(url) {
 
 function cleanId(id) { return id; }
 
-},{"./sanitizer-bundle.js":10}],10:[function(require,module,exports){
+},{"./sanitizer-bundle.js":11}],11:[function(require,module,exports){
 
 // Copyright (C) 2010 Google Inc.
 //
@@ -21599,7 +21687,7 @@ if (typeof module !== 'undefined') {
     module.exports = html_sanitize;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports={
   "author": {
     "name": "Mapbox"
@@ -21790,7 +21878,7 @@ module.exports={
   "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -21800,7 +21888,7 @@ module.exports = {
     REQUIRE_ACCESS_TOKEN: true
 };
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -21922,7 +22010,7 @@ module.exports.featureLayer = function(_, options) {
     return new FeatureLayer(_, options);
 };
 
-},{"./marker":28,"./request":29,"./simplestyle":31,"./url":33,"./util":34,"sanitize-caja":9}],14:[function(require,module,exports){
+},{"./marker":29,"./request":30,"./simplestyle":32,"./url":34,"./util":35,"sanitize-caja":10}],15:[function(require,module,exports){
 'use strict';
 
 var Feedback = L.Class.extend({
@@ -21936,7 +22024,7 @@ var Feedback = L.Class.extend({
 
 module.exports = new Feedback();
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22037,7 +22125,7 @@ module.exports = function(url, options) {
     return geocoder;
 };
 
-},{"./feedback":14,"./request":29,"./url":33,"./util":34}],16:[function(require,module,exports){
+},{"./feedback":15,"./request":30,"./url":34,"./util":35}],17:[function(require,module,exports){
 'use strict';
 
 var geocoder = require('./geocoder'),
@@ -22229,7 +22317,7 @@ module.exports.geocoderControl = function(_, options) {
     return new GeocoderControl(_, options);
 };
 
-},{"./geocoder":15,"./util":34}],17:[function(require,module,exports){
+},{"./geocoder":16,"./util":35}],18:[function(require,module,exports){
 'use strict';
 
 function utfDecode(c) {
@@ -22247,7 +22335,7 @@ module.exports = function(data) {
     };
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22447,7 +22535,7 @@ module.exports.gridControl = function(_, options) {
     return new GridControl(_, options);
 };
 
-},{"./util":34,"mustache":8,"sanitize-caja":9}],19:[function(require,module,exports){
+},{"./util":35,"mustache":9,"sanitize-caja":10}],20:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22672,11 +22760,11 @@ module.exports.gridLayer = function(_, options) {
     return new GridLayer(_, options);
 };
 
-},{"./grid":17,"./load_tilejson":24,"./request":29,"./util":34}],20:[function(require,module,exports){
+},{"./grid":18,"./load_tilejson":25,"./request":30,"./util":35}],21:[function(require,module,exports){
 require('./leaflet');
 require('./mapbox');
 
-},{"./leaflet":22,"./mapbox":26}],21:[function(require,module,exports){
+},{"./leaflet":23,"./mapbox":27}],22:[function(require,module,exports){
 'use strict';
 
 var InfoControl = L.Control.extend({
@@ -22793,10 +22881,10 @@ module.exports.infoControl = function(options) {
     return new InfoControl(options);
 };
 
-},{"sanitize-caja":9}],22:[function(require,module,exports){
+},{"sanitize-caja":10}],23:[function(require,module,exports){
 window.L = require('leaflet/dist/leaflet-src');
 
-},{"leaflet/dist/leaflet-src":7}],23:[function(require,module,exports){
+},{"leaflet/dist/leaflet-src":8}],24:[function(require,module,exports){
 'use strict';
 
 var LegendControl = L.Control.extend({
@@ -22865,7 +22953,7 @@ module.exports.legendControl = function(options) {
     return new LegendControl(options);
 };
 
-},{"sanitize-caja":9}],24:[function(require,module,exports){
+},{"sanitize-caja":10}],25:[function(require,module,exports){
 'use strict';
 
 var request = require('./request'),
@@ -22891,7 +22979,7 @@ module.exports = {
     }
 };
 
-},{"./request":29,"./url":33,"./util":34}],25:[function(require,module,exports){
+},{"./request":30,"./url":34,"./util":35}],26:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -23127,7 +23215,7 @@ module.exports.map = function(element, _, options) {
     return new LMap(element, _, options);
 };
 
-},{"./feature_layer":13,"./feedback":14,"./grid_control":18,"./grid_layer":19,"./info_control":21,"./legend_control":23,"./load_tilejson":24,"./mapbox_logo":27,"./share_control":30,"./tile_layer":32,"./util":34}],26:[function(require,module,exports){
+},{"./feature_layer":14,"./feedback":15,"./grid_control":19,"./grid_layer":20,"./info_control":22,"./legend_control":24,"./load_tilejson":25,"./mapbox_logo":28,"./share_control":31,"./tile_layer":33,"./util":35}],27:[function(require,module,exports){
 'use strict';
 
 var geocoderControl = require('./geocoder_control'),
@@ -23180,7 +23268,7 @@ window.L.Icon.Default.imagePath =
     '//api.tiles.mapbox.com/mapbox.js/' + 'v' +
     require('../package.json').version + '/images';
 
-},{"../package.json":11,"./config":12,"./feature_layer":13,"./feedback":14,"./geocoder":15,"./geocoder_control":16,"./grid_control":18,"./grid_layer":19,"./info_control":21,"./legend_control":23,"./map":25,"./marker":28,"./share_control":30,"./simplestyle":31,"./tile_layer":32,"mustache":8,"sanitize-caja":9}],27:[function(require,module,exports){
+},{"../package.json":12,"./config":13,"./feature_layer":14,"./feedback":15,"./geocoder":16,"./geocoder_control":17,"./grid_control":19,"./grid_layer":20,"./info_control":22,"./legend_control":24,"./map":26,"./marker":29,"./share_control":31,"./simplestyle":32,"./tile_layer":33,"mustache":9,"sanitize-caja":10}],28:[function(require,module,exports){
 'use strict';
 
 var MapboxLogoControl = L.Control.extend({
@@ -23214,7 +23302,7 @@ module.exports.mapboxLogoControl = function(options) {
     return new MapboxLogoControl(options);
 };
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var url = require('./url'),
@@ -23281,7 +23369,7 @@ module.exports = {
     createPopup: createPopup
 };
 
-},{"./url":33,"./util":34,"sanitize-caja":9}],29:[function(require,module,exports){
+},{"./url":34,"./util":35,"sanitize-caja":10}],30:[function(require,module,exports){
 'use strict';
 
 var corslite = require('corslite'),
@@ -23313,7 +23401,7 @@ module.exports = function(url, callback) {
     }
 };
 
-},{"./config":12,"./util":34,"corslite":6}],30:[function(require,module,exports){
+},{"./config":13,"./util":35,"corslite":7}],31:[function(require,module,exports){
 'use strict';
 
 var urlhelper = require('./url');
@@ -23416,7 +23504,7 @@ module.exports.shareControl = function(_, options) {
     return new ShareControl(_, options);
 };
 
-},{"./load_tilejson":24,"./url":33}],31:[function(require,module,exports){
+},{"./load_tilejson":25,"./url":34}],32:[function(require,module,exports){
 'use strict';
 
 // an implementation of the simplestyle spec for polygon and linestring features
@@ -23463,7 +23551,7 @@ module.exports = {
     defaults: defaults
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var util = require('./util');
@@ -23559,7 +23647,7 @@ module.exports.tileLayer = function(_, options) {
     return new TileLayer(_, options);
 };
 
-},{"./load_tilejson":24,"./util":34}],33:[function(require,module,exports){
+},{"./load_tilejson":25,"./util":35}],34:[function(require,module,exports){
 'use strict';
 
 var config = require('./config'),
@@ -23603,7 +23691,7 @@ module.exports.tileJSON = function(urlOrMapID, accessToken) {
     return url;
 };
 
-},{"../package.json":11,"./config":12}],34:[function(require,module,exports){
+},{"../package.json":12,"./config":13}],35:[function(require,module,exports){
 'use strict';
 
 module.exports = {
