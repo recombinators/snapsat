@@ -130,6 +130,7 @@ class UserJob_Model(Base):
                                      table_key[int(status)]: current_time,
                                      "lastmodified": current_time
                                      })
+            transaction.commit()
         except:
             print 'database write failed'
         # Tell render_cache db we have this image now
