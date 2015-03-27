@@ -62,7 +62,7 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
 
 
 def spawn_workers(conn, count):
-    return conn.run_instances(AMI,
+    return conn.run_instances(NEW_WORKER_STATS['AMI'],
                               in_count=count,
                               max_count=count,
                               key_name=NEW_WORKER_STATS['KEY_PAIR'],
