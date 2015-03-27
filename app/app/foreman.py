@@ -42,6 +42,15 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
     running_parttime_workers = list_running_parttime_workers(workers)
     stopped_parttime_workers = list_stopped_parttime_workers(workers)
 
+    adjust_team_size(workers,
+                     running_workers,
+                     running_parttime_workers,
+                     stopped_parttime_workers,
+                     number_queued_jobs)
+
+
+def adjust_team_size(workers, running_workers, running_parttime_workers,
+                     stopped_parttime_workers, number_queued_jobs):
     if number_queued_jobs > LIMITS['med']:
         worker_deficit = TEAMS['B'] - len(running_workers)
         if worker_deficit > 0:
