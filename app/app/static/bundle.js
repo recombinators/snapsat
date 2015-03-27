@@ -21773,8 +21773,7 @@ module.exports={
     "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
-  "readme": "ERROR: No README data found!"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
 }
 
 },{}],11:[function(require,module,exports){
