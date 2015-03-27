@@ -92,12 +92,14 @@ class UserJob_Model(Base):
         '''Create new job in db.'''
         try:
             session = DBSession
+            current_time = datetime.datetime()
             job = UserJob_Model(entityid=entityid,
                                 band1=band1,
                                 band2=band2,
                                 band3=band3,
                                 jobstatus=0,
-                                starttime=datetime.utcnow()
+                                starttime=current_time,
+                                lastmodified=current_time
                                 )
             session.add(job)
             session.flush()
