@@ -90,9 +90,10 @@ class UserJob_Model(Base):
                 starttime=datetime.utcnow(),
                 ):
         '''Create new job in db.'''
+        import pdb; pdb.set_trace()
         try:
             session = DBSession
-            current_time = datetime.datetime()
+            current_time = datetime.utcnow()
             job = UserJob_Model(entityid=entityid,
                                 band1=band1,
                                 band2=band2,
