@@ -2,7 +2,7 @@ from boto.sqs.connection import SQSConnection
 from boto.sqs import regions
 
 
-def make_connection(region_name, aws_access_key_id, aws_secret_access_key):
+def make_SQS_connection(region_name, aws_access_key_id, aws_secret_access_key):
     '''Make an SQSconnection to an AWS account. Pass in region, AWS access
        key id, and AWS secret access key'''
     for reg in regions():
