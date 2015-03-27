@@ -15,6 +15,13 @@ STATE_CODES = {'pending': 0,
                }
 LIMITS = {'low': 20, 'med': 50}
 TEAMS = {'A': 5, 'B': 10}
+NEW_WORKER_STATS = {'AMI': 'ami-517b5561',
+                    'KEY_PAIR': 'landsatproject',
+                    'SECURITY_GROUP': 'launch-wizard-1',
+                    'INSTANCE_TYPE': 't2.medium',
+                    'AVAILIBILITY_ZONE': 'us-west-2a',
+                    'SUBNET_ID': 'subnet-85ff7ce0'
+                    }
 
 
 def make_EC2_connection(region_name, aws_access_key_id, aws_secret_access_key):
@@ -46,7 +53,7 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
                 number_pending = len(list_pending_instances(workers))
                 worker_deficit = TEAMS['B'] - number_pending + number_running
                 if worker_deficit > 0:
-                    pass
+
     elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_workers)
         if worker_deficit > 0:
@@ -54,11 +61,19 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
                 stopped.start()
 
 
-def spawn_worker(conn):
-    pass
+def spawn_workers(conn, count):
+    return conn.run_instances(AMI,
+                              in_count=count,
+                              max_count=count,
+                              key_name=NEW_WORKER_STATS['KEY_PAIR'],
+                              security_groups=[NEW_WORKER_STATS['SECURITY_GROUP']],
+                              instance_type=NEW_WORKER_STATS['INSTANCE_TYPE'],
+                              placement=NEW_WORKER_STATS['AVAILIBILITY_ZONE'],
+                              subnet_id=NEW_WORKER_STATS['SUBNET_ID']
+                              )
 
 
-def kill_worker(conn):
+def kill_workers(conn):
     pass
 
 
