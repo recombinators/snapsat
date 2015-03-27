@@ -144,3 +144,7 @@ h1 {
     border-style: solid;
     border-color: transparent #fff;    
 }
+
+#manage_reply_enquiry {
+    display:none;
+}
