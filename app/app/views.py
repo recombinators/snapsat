@@ -71,6 +71,8 @@ def scene_status(request):
     available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
         if scene.currentlyrend or scene.renderurl:
+            if scene.currentlyrend:
+                status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
             worker_start_time, worker_lastmod_time = (
                 UserJob_Model.job_times(scene.jobid)
                 )
