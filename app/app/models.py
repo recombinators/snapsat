@@ -137,7 +137,6 @@ class UserJob_Model(Base):
             except:
                 print 'Could not update Rendered db'
 
-
     @classmethod
     def job_status(cls, jobid):
         '''Get jobstatus for jobid passed in.'''
@@ -155,6 +154,15 @@ class UserJob_Model(Base):
             print 'database write failed'
             return None
         return status_key[job.jobstatus]
+
+    @classmethod
+    def job_times(cls, jobid):
+        '''Get times for jobid passed in.'''
+        try:
+            job = DBSession.query(cls).get(jobid)
+            return job.starttime, job.lastmodified
+        except:
+            print 'database operation failed'
 
 
 class Rendered_Model(Base):

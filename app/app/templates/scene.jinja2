@@ -16,6 +16,9 @@
                 {% for s in available_scenes %}
                     <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
                     <p><img src="{{ s.previewurl }}"></p>
+                    {% if s.elapsed_worker_time %}
+                        <p>Process Time: {{ s.elapsed_worker_time }}</p>
+                    {% endif %}
                     {% if s.renderurl %}
                         <a href="{{ s.renderurl }}">Download Full Zip</a>
                     {% elif s.currentlyrend %}

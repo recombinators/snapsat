@@ -4,6 +4,8 @@ from sqs import make_connection, get_queue, build_job_message, send_message
 import os
 from pyramid.httpexceptions import HTTPFound
 import operator
+from datetime import datetime
+
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -43,11 +45,23 @@ def request_scene(request):
 def scene_status(request):
     '''Given sceneID display available previews and rendered photos/links.'''
     status = {}
+    worker_start_time = {}
+    worker_lastmod_time = {}
+    elapsed_worker_time = {}
     available_scenes = Rendered_Model.available(request.matchdict['scene_id'])
     for scene in available_scenes:
         if scene.currentlyrend:
             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-    return {'scene_id': request.matchdict['scene_id'], 'available_scenes': available_scenes, 'status': status}
+        if scene.currentlyrend or scene.renderurl:
+            worker_start_time, worker_lastmod_time = (
+                UserJob_Model.job_times(scene.jobid)
+                )
+            scene.elapsed_worker_time = str(worker_lastmod_time - worker_start_time)
+
+    return {'scene_id': request.matchdict['scene_id'],
+            'available_scenes': available_scenes,
+            'status': status,
+            'elapsed_worker_time': elapsed_worker_time}
 
 
 @view_config(route_name='done', renderer='json')
@@ -95,3 +109,4 @@ def scene_options_ajax(request):
     scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
     return {'scenes': scenes_dict}
+
