@@ -71,6 +71,13 @@ def adjust_team_size(conn, workers, number_queued_jobs):
             for stopped in stopped_parttime_workers:
                 stopped.start()
     elif LIMITS['low'] / 2 > number_queued_jobs:
+        contractor_workers = list_contractor_workers(workers)
+        if contractor_workers:
+            kill_workers(contractor_workers)
+    elif LIMITS['low'] / 4 > number_queued_jobs:
+        parttime_workers = list_parttime_workers(workers)
+        if parttime_workers:
+            stop_workers(parttime_workers)
 
 
 def spawn_workers(conn, count):
@@ -85,9 +92,16 @@ def spawn_workers(conn, count):
                               )
 
 
-def kill_workers(conn, workers):
+def kill_workers(workers):
+    '''Terminate worker instances. Expects list of workers.'''
     for worker in workers:
         worker.terminate
+
+
+def stop_workers(workers):
+    '''Stop worker instances. Expects list of workers.'''
+    for worker in workers:
+        worker.stop
 
 
 def list_worker_instances(conn, worker_type):
@@ -123,7 +137,8 @@ def list_parttime_workers(workers):
             if worker.tags['Schedule'] == 'parttime']
 
 
-def list_contract_workers(workers):
+def list_contractor_workers(workers):
+    '''Return list of contractor workers.'''
     return [worker for worker in workers
             if worker.tags['Schedule'] == NEW_WORKER_STATS['Schedule']]
 
