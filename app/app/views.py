@@ -25,10 +25,10 @@ def index(request):
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     '''Make request for scene, add to queue, add to db.'''
-    # EC2conn = make_EC2_connection(REGION,
-    #                               AWS_ACCESS_KEY_ID,
-    #                               AWS_SECRET_ACCESS_KEY)
-    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    EC2conn = make_EC2_connection(REGION,
+                                  AWS_ACCESS_KEY_ID,
+                                  AWS_SECRET_ACCESS_KEY)
+    foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
