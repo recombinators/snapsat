@@ -74,3 +74,21 @@ body {
   left: calc(49% - 50px);
   z-index: 100;
 }
+
+.blurb {
+    font-size: 120%;
+}
+
+section {
+    margin-bottom: 4rem;
+}
+
+table {
+    width: 100%;
+}
+
+#possibilities > div {
+    display: inline-block;
+    vertical-align: top;
+    width: 30%;
+}
