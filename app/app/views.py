@@ -122,4 +122,3 @@ def scene_options_ajax(request):
     scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
     return {'scenes': scenes_dict}
-

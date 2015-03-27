@@ -142,11 +142,11 @@ class UserJob_Model(Base):
     @classmethod
     def job_status(cls, jobid):
         '''Get jobstatus for jobid passed in.'''
-        status_key = {0: "Created",
+        status_key = {0: "In queue",
                       1: "Downloading",
-                      2: "Processings",
+                      2: "Processing",
                       3: "Compressing",
-                      4: "Uploading to S3",
+                      4: "Uploading to server",
                       5: "Done",
                       10: "Failed"}
         try:
@@ -192,6 +192,7 @@ class Rendered_Model(Base):
                              band3=jobQuery.band3,
                              currentlyrend=currentlyrend)
         DBSession.add(job)
+        transaction.commit()
 
     @classmethod
     def update(cls, jobid, currentlyrend, renderurl):
