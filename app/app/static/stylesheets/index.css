@@ -92,3 +92,11 @@ table {
     vertical-align: top;
     width: 30%;
 }
+
+#resources ul {
+    padding-left: 0;
+}
+
+#resources ul li {
+    display: inline
+}
