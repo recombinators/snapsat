@@ -34,10 +34,13 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
     running_parttime_workers = list_running_parttime_workers(workers)
     stopped_parttime_workers = list_stopped_parttime_workers(workers)
 
-    if number_queued_jobs > 20:
+    if number_queued_jobs > LIMITS['med']:
+
+    if LIMITS['med'] > number_queued_jobs > LIMITS['low']:
         worker_deficit = TEAMS['A'] - len(running_parttime_workers)
         if worker_deficit > 0:
-            pass
+            for stopped in stopped_parttime_workers:
+                stopped.start()
 
 
 def spawn_worker(conn):
@@ -55,6 +58,11 @@ def list_worker_instances(conn, worker_type):
     instances = conn.get_only_instances(filters=filters)
     instances.sort(key=attrgetter('launch_time'), reverse=True)
     return instances
+
+
+def list_running_workers(workers):
+    return [worker for worker in workers
+            if worker.state_code == STATE_CODES['runnning']]
 
 
 def list_running_parttime_workers(workers):
