@@ -3,33 +3,35 @@ var $ = require('jquery');
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
-var map = L.mapbox.map('map', 'jacques.lh797p9e', { 
-    zoomControl: true,
-    attributionControl: false
-});
 
-map.addControl(L.mapbox.geocoderControl('mapbox.places',{ keepOpen: true }));
-map.setView([47.568, -122.582], 9);
-map.scrollWheelZoom.disable();
+// Create a basemap
+var map = L.mapbox.map('map', 'jacques.lh797p9e', {zoomControl: true})
+    .setView([47.568, -122.582], 9)
+    .scrollWheelZoom.disable()
+    .addControl(L.mapbox.geocoderControl('mapbox.places'));
 
 
+// Once a user finishes moving the map, send an AJAX request to Pyramid
+// which will repopulate the HTML with an updated list of the Landsat
+// scenes present.
 map.on('moveend', function() {
-    var center = map.getCenter();
-    var lat = center.lat;
-    var lng = center.lng;
 
+    // Define the center of the map.
+    var center = map.getCenter(),
+        lat = center.lat,
+        lng = center.lng;
+
+    // Submit a post request with the relevant information.
     $.ajax({
         url: "/ajax",
         dataType: "json",
-        data: {
-            'lat': lat,
-            'lng': lng,
-        },
+        data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
-        // Update site contents with new data
-        data = json.scenes
+
+        data = json.scenes;
+
         $('.scene_list').html('');
-            for (i in data){
+            for (var i in data) {
                 var pad = "000";
                 var r = data[i].row;
                 var p = data[i].path;
@@ -60,7 +62,6 @@ map.on('moveend', function() {
                             "</button>" +
                         "</form>" +
                     "</div>");
-            };
+            }
     });
 });
-
