@@ -5,10 +5,10 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 
 
 // Create a basemap
-var map = L.mapbox.map('map', 'jacques.lh797p9e', {zoomControl: true})
-    .setView([47.568, -122.582], 9)
-    .scrollWheelZoom.disable()
-    .addControl(L.mapbox.geocoderControl('mapbox.places'));
+var map = L.mapbox.map('map', 'jacques.lh797p9e', {zoomControl: true});
+map.setView([47.568, -122.582], 9);
+map.scrollWheelZoom.disable();
+map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 
 
 // Once a user finishes moving the map, send an AJAX request to Pyramid
@@ -30,38 +30,20 @@ map.on('moveend', function() {
 
         data = json.scenes;
 
-        $('.scene_list').html('');
+        $('table').html('');
             for (var i in data) {
-                var pad = "000";
-                var r = data[i].row;
-                var p = data[i].path;
-                var r_result = (pad+r).slice(-pad.length);
-                var p_result = (pad+p).slice(-pad.length);
+                var pad = "000",
+                    r = data[i].row, r_result = (pad+r).slice(-pad.length),
+                    p = data[i].path, p_result = (pad+p).slice(-pad.length);
 
-                $('.scene_list').append(
-                    "<h3 class='js-trigger mbn'>" + data[i].acquisitiondate + "</h3>" +
-                    "<div class='details'>" +
-                        "<p>Path:" + data[i].path + "</p>" +
-                        "<p>Row:" + data[i].row + "</p>" +
-                        "<p>Cloud coverage:" + data[i].cloudcover + "</p>" +
-                        "<img src='https://s3-us-west-2.amazonaws.com/landsat-pds/L8/" + p_result + "/" + r_result + "/" + data[i].entityid + "/" + data[i].entityid + "_thumb_large.jpg'>" +
-                        "<form action='/request/" + data[i].entityid + "' method='post' id='request_form'>" +
-                        "<div id='combinations' class='display-inline-block'>" +
-                        "<h4 class='customband'>Select your custom band combinations</h4>" +
-                        "<div class='radiobox'>" +
-                        "<input type='radio' name='band_combo' value='432' checked>" + 
-                            "<label>Normal Colors: 4, 3, 2</label><br>" +
-                        "<input type='radio' name='band_combo' value='543'>" +
-                            "<label>See the Heat: 5, 4, 3</label><br>" +
-                        "<input type='radio' name='band_combo' value='532'>" +
-                            "<label>Veggie Popping: 5, 3, 2</label><br>" +
-                        "</div>" +
-                        "</div>" +    
-                        "<button form='request_form' formmethod='post' type='submit'>" +
-                            "Request" +
-                            "</button>" +
-                        "</form>" +
-                    "</div>");
+                $('table').append(
+                    "<tr>" +
+                        "<td>" + data[i].acquisitiondate + "</td>" +
+                        "<td>" + data[i].path + "</td>" +
+                        "<td>" + data[i].row + "</td>" +
+                        "<td>" + data[i].cloudcover + "</td>" +
+                        "<td><a href='/scene/" + data[i].entityid + "'>Start processing</a></td>" +
+                    "</tr>");
             }
     });
 });
