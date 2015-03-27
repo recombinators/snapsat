@@ -3,7 +3,7 @@ from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
                      Rendered_Model,)
 from sqs import (make_SQS_connection, get_queue, build_job_message,
                  send_message, queue_size,)
-from foreman import foreman
+from foreman import (foreman, make_EC2_connection,)
 import os
 from pyramid.httpexceptions import HTTPFound
 import operator
@@ -23,6 +23,10 @@ def index(request):
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     '''Make request for scene, add to queue, add to db.'''
+    EC2conn = make_EC2_connection(REGION,
+                                  AWS_ACCESS_KEY_ID,
+                                  AWS_SECRET_ACCESS_KEY)
+    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
