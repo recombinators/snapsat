@@ -47,29 +47,33 @@ def foreman(conn, region_name, aws_access_key_id, aws_secret_access_key):
 def adjust_team_size(conn, workers, number_queued_jobs):
     '''Check status of queue and spawn/kill workers as needed'''
     running_workers = list_running_workers(workers)
+    fulltime_workers = list_fulltime_workers(workers)
     parttime_workers = list_parttime_workers(workers)
     stopped_parttime_workers = list_stopped_workers(parttime_workers)
-    if number_queued_jobs > LIMITS['med']:
-        number_running = len(running_workers)
-        worker_deficit = TEAMS['B'] - number_running
-        if worker_deficit > 0:
-            if len(stopped_parttime_workers) > 0:
-                for stopped in stopped_parttime_workers:
-                    stopped.start()
-                workers = list_worker_instances(conn, 'landsatAWS_worker')
-                number_running = len(list_running_workers(workers))
-                number_pending = len(list_pending_instances(workers))
-                worker_deficit = TEAMS['B'] - number_pending + number_running
-                if worker_deficit > 0:
-                    spawn_reservation = spawn_workers(conn, worker_deficit)
-                    tag_instances(spawn_reservation.instances,
-                                  'Name',
-                                  NEW_WORKER_STATS['Name'])
-    elif LIMITS['med'] > number_queued_jobs > LIMITS['low']:
-        worker_deficit = TEAMS['A'] - len(running_workers)
-        if worker_deficit > 0:
-            for stopped in stopped_parttime_workers:
+    number_running = len(running_workers)
+    number_parttime = len(parttime_workers)
+    number_fulltime = len(fulltime_workers)
+
+    if number_queued_jobs >= LIMITS['med'] and TEAMS['B'] > number_running:
+        for stopped in stopped_parttime_workers:
                 stopped.start()
+        needed_contractors = TEAMS['B'] - number_parttime - number_fulltime
+        spawn_reservation = spawn_workers(conn, needed_contractors)
+        tag_instances(spawn_reservation.instances,
+                      {'Name': NEW_WORKER_STATS['Name'],
+                       'Schedule': NEW_WORKER_STATS['Schedule']}
+                      )
+    elif LIMITS['med'] > number_queued_jobs >= LIMITS['low'] and TEAMS['A'] > number_running:
+        for stopped in stopped_parttime_workers:
+            stopped.start()
+    elif LIMITS['low'] / 2 > number_queued_jobs:
+        contractor_workers = list_contractor_workers(workers)
+        if contractor_workers:
+            kill_workers(contractor_workers)
+    elif LIMITS['low'] / 4 > number_queued_jobs:
+        parttime_workers = list_parttime_workers(workers)
+        if parttime_workers:
+            stop_workers(parttime_workers)
 
 
 def spawn_workers(conn, count):
@@ -84,9 +88,16 @@ def spawn_workers(conn, count):
                               )
 
 
-def kill_workers(conn, workers):
+def kill_workers(workers):
+    '''Terminate worker instances. Expects list of workers.'''
     for worker in workers:
         worker.terminate
+
+
+def stop_workers(workers):
+    '''Stop worker instances. Expects list of workers.'''
+    for worker in workers:
+        worker.stop
 
 
 def list_worker_instances(conn, worker_type):
@@ -120,6 +131,18 @@ def list_parttime_workers(workers):
     '''Return list of parttime workers.'''
     return [worker for worker in workers
             if worker.tags['Schedule'] == 'parttime']
+
+
+def list_fulltime_workers(workers):
+    '''Return list of fulltime workers.'''
+    return [worker for worker in workers
+            if worker.tags['Schedule'] == 'fulltime']
+
+
+def list_contractor_workers(workers):
+    '''Return list of contractor workers.'''
+    return [worker for worker in workers
+            if worker.tags['Schedule'] == NEW_WORKER_STATS['Schedule']]
 
 
 def tag_instances(instances, tag_value_dict):
