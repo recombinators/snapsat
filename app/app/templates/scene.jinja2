@@ -1,42 +1,68 @@
 {% extends "base.jinja2" %}
 
 {% block content %}
+<header>
+    <h1>Create a composite</h1>
+</header>
+
 <div id='available-scenes' class='display-inline-block'>
+
+    <h2>Examples</h2>
+    <section id='possibilities'>
+        <div>
+            <img src="{{ preview_urls['normal'] }}">
+        </div>
+        <div>
+            <img src="{{ preview_urls['heat'] }}">
+        </div>
+        <div>
+            <img src="{{ preview_urls['veggie'] }}">
+        </div>
+    </section>
+
     <h2>Available scenes for {{ scene_id }}</h2>
     {% for s in available_scenes %}
-    <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-    <p><img src="{{ s.previewurl }}"></p>
-    {% if s.elapsed_worker_time %}
-    <p>Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-    {% endif %}
-    {% if s.renderurl %}
-    <a href="{{ s.renderurl }}">Download Full Zip</a>
-    {% elif s.currentlyrend %}
-    <p>Current status: {{ status[s.jobid] }} </p>
-    {% endif %}
+
+        {% if s.renderurl %}
+            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+            {% if s.previewurl %}
+                <p><img src="{{ s.previewurl }}"></p>
+            {% endif %}
+            <a href="{{ s.renderurl }}">Download Full Zip</a>
+            {% if s.elapsed_worker_time %}
+                <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
+            {% endif %}
+        {% elif s.currentlyrend %}
+            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+            <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
+            {% if s.elapsed_worker_time %}
+                <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
+            {% endif %}
+        {% endif %}
     {% endfor %}
 
-    <p><img src="{{ preview_urls['normal'] }}"></p>
-    <p><img src="{{ preview_urls['heat'] }}"></p>
-    <p><img src="{{ preview_urls['veggie'] }}"></p>
 
+
+    <h2>Choose a combination</h2>
 
     <form action="/request/{{scene_id}}" method="post" id="request_form_{{scene_id}}">
-        <div id='combinations' class='display-inline-block'>
-            <h4 class="customband">Request another custom band combination</h4>
-            <div class="radiobox">
-                <input type="radio" name="band_combo" value="432" checked>
-                <label>Normal Colors: 4, 3, 2</label><br>
+        <div id='combinations'>
+            <div class='display-block'>
+                <label>Natural color</label>
+                <input class='' type="radio" name="band_combo" value="432" checked>
+            </div>
+            <div class='display-block'>
+                <label>Color infrared</label>
                 <input type="radio" name="band_combo" value="543">
-                <label>See the Heat: 5, 4, 3</label><br>
+            </div>
+            <div class='display-block'>
+                <label>Urban false color</label>
                 <input type="radio" name="band_combo" value="532">
-                <label>Veggie Popping: 5, 3, 2</label><br>
             </div>
         </div>
-        <button form="request_form_{{scene_id}}" formmethod="post" type="submit">
-            Request
-        </button>
+        <button form="request_form_{{scene_id}}" formmethod="post" type="submit">Start processing!</button>
     </form>
+
 </div>
 
 {% endblock %}

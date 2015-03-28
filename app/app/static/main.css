@@ -826,6 +826,31 @@ body { padding: 1em; }
 		margin-right: 2rem;
 	}
 }
+button,
+.button {
+  font-size: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  line-height: 1.125rem;
+  padding: .5rem 1rem;
+  margin: 0;
+  height: auto;
+  border: 1px solid transparent;
+  vertical-align: middle;
+  -webkit-appearance: none;
+}
+
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.button:hover {
+  text-decoration: none;
+}
 
 
 /* Uncomment and redefine the variables below to change to the generated stylesheet. */
@@ -863,6 +888,25 @@ body { padding: 1em; }
 body {
     margin: 0;
     padding: 0;
+    color: #666;
+}
+
+a { color: #000; }
+
+td > a {
+    font-weight: normal;
+}
+
+h1, h2 { font-family: "adriane"; }
+h1 {
+    border-left: 20px solid yellow;
+    padding-left: 20px;
+    font-size: 4rem;
+}
+h2 {
+    border-left: 10px solid yellow;
+    padding-left: 20px;
+    font-size: 2rem;
 }
 
 .map-container{
@@ -892,17 +936,9 @@ body {
   z-index: 100;
 }
 
-.blurb {
-    font-size: 120%;
-}
-
-section {
-    margin-bottom: 4rem;
-}
-
-table {
-    width: 100%;
-}
+.blurb { font-size: 120%; }
+section { margin-bottom: 4rem; }
+table { width: 100%; }
 
 #possibilities > div {
     display: inline-block;
@@ -910,10 +946,5 @@ table {
     width: 30%;
 }
 
-#resources ul {
-    padding-left: 0;
-}
-
-#resources ul li {
-    display: inline
-}
+#resources ul { padding-left: 0; }
+#resources ul li { display: inline }
