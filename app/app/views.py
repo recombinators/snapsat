@@ -69,9 +69,12 @@ def scene_status(request):
                 UserJob_Model.job_times(scene.jobid))
             if scene.currentlyrend:
                 status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-                scene.elapsed_worker_time = str(datetime.utcnow() - worker_start_time)
+                elapsed_time = str(datetime.utcnow() - worker_start_time)
             else:
-                scene.elapsed_worker_time = str(worker_lastmod_time - worker_start_time)
+                elapsed_time = str(worker_lastmod_time - worker_start_time)
+            # format datetime object
+            elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
+            scene.elapsed_worker_time = elapsed_time.split('.')[0]
     preview_urls = {}
     preview_urls['normal'] = preview_url(scene_id, 4, 3, 2)
     preview_urls['heat'] = preview_url(scene_id, 5, 4, 3)
