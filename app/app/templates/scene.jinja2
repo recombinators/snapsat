@@ -7,7 +7,7 @@
 
 <div id='available-scenes' class='display-inline-block'>
 
-    <h2>Examples</h2>
+    <h2>Previews</h2>
     <section id='possibilities'>
         <div>
             <img src="{{ preview_urls['normal'] }}">
@@ -20,26 +20,26 @@
         </div>
     </section>
 
-    <h2>Available scenes for {{ scene_id }}</h2>
-    {% for s in available_scenes %}
+    {% if available_scenes %}
+        <h2>Available scenes for {{ scene_id }}</h2>
+        {% for s in available_scenes %}
 
-        {% if s.renderurl %}
-            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-            {% if s.previewurl %}
-                <p><img src="{{ s.previewurl }}"></p>
+            {% if s.renderurl %}
+                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+                <a href="{{ s.renderurl }}">Download Full Zip</a>
+                {% if s.elapsed_worker_time %}
+                    <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
+                {% endif %}
+            {% elif s.currentlyrend %}
+                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+                <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
+                {% if s.elapsed_worker_time %}
+                    <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
+                {% endif %}
             {% endif %}
-            <a href="{{ s.renderurl }}">Download Full Zip</a>
-            {% if s.elapsed_worker_time %}
-                <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
-            {% endif %}
-        {% elif s.currentlyrend %}
-            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-            <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
-            {% if s.elapsed_worker_time %}
-                <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
+
 
 
 
