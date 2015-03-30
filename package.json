@@ -7,7 +7,8 @@
     "start": "gunicorn --paste app/development.ini --reload",
     "bundle": "watchify assets/js/index.js -o bundle.js",
     "develop": "gulp develop",
-    "production": "gulp production"
+    "production": "gulp production",
+    "document": "pycco app/**/*.py -p"
   },
   "repository": {
     "type": "git",
