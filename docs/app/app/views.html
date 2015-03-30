@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">foreman</span> <span class="kn">import</span> <span class="n">foreman</span><span class="p">,</span> <span class="n">make_EC2_connection</span>
+<span class="kn">from</span> <span class="nn">pyramid.httpexceptions</span> <span class="kn">import</span> <span class="n">HTTPFound</span>
+<span class="kn">from</span> <span class="nn">pyramid.view</span> <span class="kn">import</span> <span class="n">view_config</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">PathAndRow</span><span class="p">,</span> <span class="n">SceneList</span><span class="p">,</span> <span class="n">UserJob</span><span class="p">,</span> <span class="n">Rendered</span>
+<span class="kn">from</span> <span class="nn">sqs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">make_SQS_connection</span><span class="p">,</span> <span class="n">get_queue</span><span class="p">,</span> <span class="n">build_job_message</span><span class="p">,</span>
+    <span class="n">send_message</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">)</span>
+
+
+<span class="n">AWS_ACCESS_KEY_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;AWS_ACCESS_KEY_ID&#39;</span><span class="p">]</span>
+<span class="n">AWS_SECRET_ACCESS_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;AWS_SECRET_ACCESS_KEY&#39;</span><span class="p">]</span>
+<span class="n">JOBS_QUEUE</span> <span class="o">=</span> <span class="s">&#39;landsat_jobs_queue&#39;</span>
+<span class="n">REGION</span> <span class="o">=</span> <span class="s">&#39;us-west-2&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h3><span id="index" href="index"> index </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@view_config</span><span class="p">(</span><span class="n">route_name</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="s">&#39;templates/index.jinja2&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <h2>Index page</h2>
+<p>Generates an a Jinja2-templated Index with the following context:</p>
+<ul>
+<li>Acquisition date</li>
+<li>Cloud cover</li>
+<li>Download URL</li>
+<li>Entity ID</li>
+<li>Path</li>
+<li>Row</li>
+<li>Normal</li>
+<li>Heat</li>
+<li>Veggie</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">scene_options_ajax</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <h3><span id="ajax" href="ajax"> ajax </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@view_config</span><span class="p">(</span><span class="n">route_name</span><span class="o">=</span><span class="s">&#39;ajax&#39;</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">scene_options_ajax</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>View for ajax request returns dict with all available scenes.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">lat</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="mf">47.614848</span><span class="p">))</span>
+    <span class="n">lng</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;lng&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.3359059</span><span class="p">))</span>
+    <span class="n">scenes</span> <span class="o">=</span> <span class="n">SceneList</span><span class="o">.</span><span class="n">scenelist</span><span class="p">(</span><span class="n">PathAndRow</span><span class="o">.</span><span class="n">pathandrow</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">))</span>
+
+    <span class="n">scenes_dict</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">scene</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scenes</span><span class="p">):</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">preview_url</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">entityid</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">heat</span> <span class="o">=</span> <span class="n">preview_url</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">entityid</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">veggie</span> <span class="o">=</span> <span class="n">preview_url</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">entityid</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">scenes_dict</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s">&#39;acquisitiondate&#39;</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">acquisitiondate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y %B </span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),</span>
+        <span class="s">&#39;cloudcover&#39;</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">cloudcover</span><span class="p">,</span>
+        <span class="s">&#39;download_url&#39;</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">download_url</span><span class="p">,</span>
+        <span class="s">&#39;entityid&#39;</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">entityid</span><span class="p">,</span>
+        <span class="s">&#39;path&#39;</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+        <span class="s">&#39;row&#39;</span><span class="p">:</span> <span class="n">scene</span><span class="o">.</span><span class="n">row</span><span class="p">,</span>
+        <span class="s">&#39;normal&#39;</span><span class="p">:</span> <span class="n">normal</span><span class="p">,</span>
+        <span class="s">&#39;heat&#39;</span><span class="p">:</span> <span class="n">heat</span><span class="p">,</span>
+        <span class="s">&#39;veggie&#39;</span><span class="p">:</span> <span class="n">veggie</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="s">&#39;acquisitiondate&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;scenes&#39;</span><span class="p">:</span> <span class="n">scenes_dict</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <h3><span id="request" href="request"> request </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@view_config</span><span class="p">(</span><span class="n">route_name</span><span class="o">=</span><span class="s">&#39;request_scene&#39;</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">request_scene</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Make request for scene, add to queue, add to db.</p>
+<p>EC2conn = make_EC2_connection(REGION,
+                              AWS_ACCESS_KEY_ID,
+                              AWS_SECRET_ACCESS_KEY)
+foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">band1</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;band_combo&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">band2</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;band_combo&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">band3</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;band_combo&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">scene_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">matchdict</span><span class="p">[</span><span class="s">&#39;scene_id&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Rendered</span><span class="o">.</span><span class="n">already_available</span><span class="p">(</span><span class="n">scene_id</span><span class="p">,</span> <span class="n">band1</span><span class="p">,</span> <span class="n">band2</span><span class="p">,</span> <span class="n">band3</span><span class="p">):</span>
+        <span class="n">SQSconn</span> <span class="o">=</span> <span class="n">make_SQS_connection</span><span class="p">(</span><span class="n">REGION</span><span class="p">,</span>
+                                      <span class="n">AWS_ACCESS_KEY_ID</span><span class="p">,</span>
+                                      <span class="n">AWS_SECRET_ACCESS_KEY</span><span class="p">)</span>
+        <span class="n">jobs_queue</span> <span class="o">=</span> <span class="n">get_queue</span><span class="p">(</span><span class="n">SQSconn</span><span class="p">,</span> <span class="n">JOBS_QUEUE</span><span class="p">)</span>
+        <span class="n">pk</span> <span class="o">=</span> <span class="n">UserJob</span><span class="o">.</span><span class="n">new_job</span><span class="p">(</span>
+                <span class="n">entityid</span><span class="o">=</span><span class="n">scene_id</span><span class="p">,</span> <span class="n">band1</span><span class="o">=</span><span class="n">band1</span><span class="p">,</span> <span class="n">band2</span><span class="o">=</span><span class="n">band2</span><span class="p">,</span> <span class="n">band3</span><span class="o">=</span><span class="n">band3</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">build_job_message</span><span class="p">(</span>
+                <span class="n">job_id</span><span class="o">=</span><span class="n">pk</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">scene_id</span><span class="o">=</span><span class="n">scene_id</span><span class="p">,</span>
+                <span class="n">band_1</span><span class="o">=</span><span class="n">band1</span><span class="p">,</span> <span class="n">band_2</span><span class="o">=</span><span class="n">band2</span><span class="p">,</span> <span class="n">band_3</span><span class="o">=</span><span class="n">band3</span><span class="p">)</span>
+        <span class="n">send_message</span><span class="p">(</span><span class="n">SQSconn</span><span class="p">,</span>
+                     <span class="n">jobs_queue</span><span class="p">,</span>
+                     <span class="n">message</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">],</span>
+                     <span class="n">message</span><span class="p">[</span><span class="s">&#39;attributes&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">HTTPFound</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="s">&#39;/scene/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scene_id</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <h3><span id="scene_status" href="scene_status"> scene_status </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@view_config</span><span class="p">(</span><span class="n">route_name</span><span class="o">=</span><span class="s">&#39;scene_status&#39;</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="s">&#39;templates/scene.jinja2&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">scene_status</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Given sceneID display available previews and rendered photos/links.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">status</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">worker_start_time</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">worker_lastmod_time</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">elapsed_worker_time</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">scene_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">matchdict</span><span class="p">[</span><span class="s">&#39;scene_id&#39;</span><span class="p">]</span>
+    <span class="n">available_scenes</span> <span class="o">=</span> <span class="n">Rendered</span><span class="o">.</span><span class="n">available</span><span class="p">(</span><span class="n">scene_id</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">scene</span> <span class="ow">in</span> <span class="n">available_scenes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">scene</span><span class="o">.</span><span class="n">currentlyrend</span> <span class="ow">or</span> <span class="n">scene</span><span class="o">.</span><span class="n">renderurl</span><span class="p">:</span>
+            <span class="n">worker_start_time</span><span class="p">,</span> <span class="n">worker_lastmod_time</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">UserJob</span><span class="o">.</span><span class="n">job_times</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">jobid</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">scene</span><span class="o">.</span><span class="n">currentlyrend</span><span class="p">:</span>
+                <span class="n">status</span><span class="p">[</span><span class="n">scene</span><span class="o">.</span><span class="n">jobid</span><span class="p">]</span> <span class="o">=</span> <span class="n">UserJob</span><span class="o">.</span><span class="n">job_status</span><span class="p">(</span><span class="n">scene</span><span class="o">.</span><span class="n">jobid</span><span class="p">)</span>
+                <span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="n">worker_start_time</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">worker_lastmod_time</span> <span class="o">-</span> <span class="n">worker_start_time</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>format datetime object</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">elapsed_time</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">elapsed_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">elapsed_worker_time</span> <span class="o">=</span> <span class="n">elapsed_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">preview_urls</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">preview_urls</span><span class="p">[</span><span class="s">&#39;normal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preview_url</span><span class="p">(</span><span class="n">scene_id</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">preview_urls</span><span class="p">[</span><span class="s">&#39;heat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preview_url</span><span class="p">(</span><span class="n">scene_id</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">preview_urls</span><span class="p">[</span><span class="s">&#39;veggie&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preview_url</span><span class="p">(</span><span class="n">scene_id</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;scene_id&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">matchdict</span><span class="p">[</span><span class="s">&#39;scene_id&#39;</span><span class="p">],</span>
+            <span class="s">&#39;available_scenes&#39;</span><span class="p">:</span> <span class="n">available_scenes</span><span class="p">,</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="n">status</span><span class="p">,</span>
+            <span class="s">&#39;elapsed_worker_time&#39;</span><span class="p">:</span> <span class="n">elapsed_worker_time</span><span class="p">,</span>
+            <span class="s">&#39;preview_urls&#39;</span><span class="p">:</span> <span class="n">preview_urls</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <h3><span id="done" href="done"> done </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@view_config</span><span class="p">(</span><span class="n">route_name</span><span class="o">=</span><span class="s">&#39;done&#39;</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="s">&#39;json&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">done</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Given post request from worker, in db, update job status.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">pk</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;job_id&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">)</span>
+    <span class="n">UserJob</span><span class="o">.</span><span class="n">set_job_status</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Get link for preview url.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">preview_url</span><span class="p">(</span><span class="n">scene</span><span class="p">,</span> <span class="n">band1</span><span class="p">,</span> <span class="n">band2</span><span class="p">,</span> <span class="n">band3</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">root</span> <span class="o">=</span> <span class="s">&#39;ec2-54-187-23-173.us-west-2.compute.amazonaws.com&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://{}/{}/{}/{}/{}/preview.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">root</span><span class="p">,</span> <span class="n">scene</span><span class="p">,</span> <span class="n">band1</span><span class="p">,</span> <span class="n">band2</span><span class="p">,</span> <span class="n">band3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">url</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>models.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>models.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">UnicodeText</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">or_</span><span class="p">,</span> <span class="n">and_</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">scoped_session</span><span class="p">,</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">zope.sqlalchemy</span> <span class="kn">import</span> <span class="n">ZopeTransactionExtension</span>
+<span class="kn">import</span> <span class="nn">transaction</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">DBSession</span> <span class="o">=</span> <span class="n">scoped_session</span><span class="p">(</span><span class="n">sessionmaker</span><span class="p">(</span><span class="n">extension</span><span class="o">=</span><span class="n">ZopeTransactionExtension</span><span class="p">()))</span>
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h4>Model for the database table containing Landsat 8 paths and rows.</h4>
+<ul>
+<li><strong>GID</strong> - The unique ID for each entry.</li>
+<li><strong>Geom</strong> - The physical geometry of each entry.</li>
+<li><strong>Path</strong></li>
+<li><strong>Row</strong></li>
+<li><strong>Mode</strong> - Ascending (night), or Descending (day)</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">PathAndRow</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;paths&#39;</span>
+
+    <span class="n">gid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>For a Lat/Lon coordinate, returns the Path and Row containing it.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">pathandrow</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">.</span><span class="n">ST_Within</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">ST_SetSRID</span><span class="p">(</span>
+                    <span class="n">func</span><span class="o">.</span><span class="n">ST_MakePoint</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">),</span> <span class="mi">4236</span><span class="p">),</span>
+                    <span class="n">func</span><span class="o">.</span><span class="n">ST_SetSRID</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">geom</span><span class="p">,</span> <span class="mi">4236</span><span class="p">)),</span>
+                <span class="n">cls</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">u&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">u&#39;----&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <h4>Model for AWS S3 scene list.</h4>
+<ul>
+<li><strong>Entity ID</strong> - The Scene ID for the entry.</li>
+<li><strong>Acquisition date</strong> - The date the image was taken.</li>
+<li><strong>Cloud cover</strong> - The percent cloud cover for each Scene.</li>
+<li><strong>Path</strong></li>
+<li><strong>Row</strong></li>
+<li><strong>Download URL</strong> - The AWS S3 entry URL.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">SceneList</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Define the table and column names for the SceneList model.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;path_row&#39;</span>
+    <span class="n">entityid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">acquisitiondate</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span>
+    <span class="n">cloudcover</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Float</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">download_url</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Return the list of Scenes which we're interested in.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">scenelist</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">pr_output</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">new</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pr_output</span><span class="p">:</span>
+            <span class="n">new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">and_</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">row</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p><strong>Model for the user job queue.</strong></p>
+<p>Possible job statuses:</p>
+<ol>
+<li>Created</li>
+<li>Queued</li>
+<li>Processing</li>
+<li>Done (Failed)</li>
+<li>Done (Success)</li>
+</ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">UserJob</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Define the table and column names for UserJob model.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;user_job&#39;</span>
+    <span class="n">jobid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">entityid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span>
+    <span class="n">userip</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span>
+    <span class="n">band1</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">band2</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">band3</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">jobstatus</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">starttime</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">lastmodified</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">status1time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span>
+    <span class="n">status2time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span>
+    <span class="n">status3time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span>
+    <span class="n">status4time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span>
+    <span class="n">status5time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span>
+    <span class="n">status10time</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Create new job in db.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">new_job</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span>
+                <span class="n">entityid</span><span class="o">=</span><span class="n">entityid</span><span class="p">,</span>
+                <span class="n">band1</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                <span class="n">band2</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="n">band3</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">jobstatus</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">starttime</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">(),</span>
+                <span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="n">session</span> <span class="o">=</span> <span class="n">DBSession</span>
+            <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">UserJob</span><span class="p">(</span>
+                    <span class="n">entityid</span><span class="o">=</span><span class="n">entityid</span><span class="p">,</span>
+                    <span class="n">band1</span><span class="o">=</span><span class="n">band1</span><span class="p">,</span>
+                    <span class="n">band2</span><span class="o">=</span><span class="n">band2</span><span class="p">,</span>
+                    <span class="n">band3</span><span class="o">=</span><span class="n">band3</span><span class="p">,</span>
+                    <span class="n">jobstatus</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">starttime</span><span class="o">=</span><span class="n">current_time</span><span class="p">,</span>
+                    <span class="n">lastmodified</span><span class="o">=</span><span class="n">current_time</span>
+                    <span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+            <span class="n">pk</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">jobid</span>
+            <span class="n">transaction</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">Rendered</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Could not add job to rendered db&#39;</span>
+        <span class="k">return</span> <span class="n">pk</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>Set jobstatus for jobid passed in.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_job_status</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">jobid</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">table_key</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s">&quot;status1time&quot;</span><span class="p">,</span>
+                     <span class="mi">2</span><span class="p">:</span> <span class="s">&quot;status2time&quot;</span><span class="p">,</span>
+                     <span class="mi">3</span><span class="p">:</span> <span class="s">&quot;status3time&quot;</span><span class="p">,</span>
+                     <span class="mi">4</span><span class="p">:</span> <span class="s">&quot;status4time&quot;</span><span class="p">,</span>
+                     <span class="mi">5</span><span class="p">:</span> <span class="s">&quot;status5time&quot;</span><span class="p">,</span>
+                     <span class="mi">10</span><span class="p">:</span> <span class="s">&quot;status10time&quot;</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+            <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">jobid</span> <span class="o">==</span> <span class="n">jobid</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                                    <span class="p">{</span><span class="s">&quot;jobstatus&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">,</span>
+                                     <span class="n">table_key</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">)]:</span> <span class="n">current_time</span><span class="p">,</span>
+                                     <span class="s">&quot;lastmodified&quot;</span><span class="p">:</span> <span class="n">current_time</span>
+                                     <span class="p">})</span>
+            <span class="n">transaction</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;database write failed&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>Tell render_cache db we have this image now</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Rendered</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">jobid</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&#39;Could not update Rendered db&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Get jobstatus for jobid passed in.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">job_status</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">jobid</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">status_key</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s">&quot;In queue&quot;</span><span class="p">,</span>
+                      <span class="mi">1</span><span class="p">:</span> <span class="s">&quot;Downloading&quot;</span><span class="p">,</span>
+                      <span class="mi">2</span><span class="p">:</span> <span class="s">&quot;Processing&quot;</span><span class="p">,</span>
+                      <span class="mi">3</span><span class="p">:</span> <span class="s">&quot;Compressing&quot;</span><span class="p">,</span>
+                      <span class="mi">4</span><span class="p">:</span> <span class="s">&quot;Uploading to server&quot;</span><span class="p">,</span>
+                      <span class="mi">5</span><span class="p">:</span> <span class="s">&quot;Done&quot;</span><span class="p">,</span>
+                      <span class="mi">10</span><span class="p">:</span> <span class="s">&quot;Failed&quot;</span><span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">job</span><span class="o">.</span><span class="n">jobstatus</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Database write failed.&#39;</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">status_key</span><span class="p">[</span><span class="n">job</span><span class="o">.</span><span class="n">jobstatus</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p>Get times for jobid passed in.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">job_times</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">jobid</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">job</span><span class="o">.</span><span class="n">starttime</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">lastmodified</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Database operation failed.&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>Model for the already rendered files.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Rendered</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>Define the table and columns the Rendered model will have.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;render_cache&#39;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">jobid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">entityid</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span>
+    <span class="n">band1</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">band2</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">band3</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+    <span class="n">previewurl</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span>
+    <span class="n">renderurl</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">UnicodeText</span><span class="p">)</span>
+    <span class="n">rendercount</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">currentlyrend</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Boolean</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>Method adds entry into db given jobid and optional url.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">jobid</span><span class="p">,</span> <span class="n">currentlyrend</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">jobQuery</span> <span class="o">=</span> <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">UserJob</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="n">Rendered</span><span class="p">(</span>
+                <span class="n">entityid</span><span class="o">=</span><span class="n">jobQuery</span><span class="o">.</span><span class="n">entityid</span><span class="p">,</span>
+                <span class="n">jobid</span><span class="o">=</span><span class="n">jobid</span><span class="p">,</span>
+                <span class="n">band1</span><span class="o">=</span><span class="n">jobQuery</span><span class="o">.</span><span class="n">band1</span><span class="p">,</span>
+                <span class="n">band2</span><span class="o">=</span><span class="n">jobQuery</span><span class="o">.</span><span class="n">band2</span><span class="p">,</span>
+                <span class="n">band3</span><span class="o">=</span><span class="n">jobQuery</span><span class="o">.</span><span class="n">band3</span><span class="p">,</span>
+                <span class="n">currentlyrend</span><span class="o">=</span><span class="n">currentlyrend</span>
+                <span class="p">)</span>
+        <span class="n">DBSession</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="n">transaction</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>Method updates entry into db given jobid and optional url.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">jobid</span><span class="p">,</span> <span class="n">currentlyrend</span><span class="p">,</span> <span class="n">renderurl</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">jobid</span> <span class="o">==</span> <span class="n">jobid</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="s">&quot;currentlyrend&quot;</span><span class="p">:</span> <span class="n">currentlyrend</span><span class="p">,</span> <span class="s">&quot;renderurl&quot;</span><span class="p">:</span> <span class="n">renderurl</span><span class="p">})</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Unable to update DB.&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>Return list of existing jobs for a given sceneID.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">available</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">entityid</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rendered</span> <span class="o">=</span> <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">entityid</span> <span class="o">==</span> <span class="n">entityid</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">rendered</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Database query failed&#39;</span>
+            <span class="k">return</span> <span class="bp">None</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p>Check if given image is already rendered.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">already_available</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">entityid</span><span class="p">,</span> <span class="n">band1</span><span class="p">,</span> <span class="n">band2</span><span class="p">,</span> <span class="n">band3</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">entityid</span> <span class="o">==</span> <span class="n">entityid</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">band1</span> <span class="o">==</span> <span class="n">band1</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">band2</span> <span class="o">==</span> <span class="n">band2</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">band3</span> <span class="o">==</span> <span class="n">band3</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">renderurl</span><span class="o">.</span><span class="n">isnot</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Database query failed&#39;</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">output</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p>If this scene/band has already been requested, increase the count</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">DBSession</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">entityid</span> <span class="o">==</span> <span class="n">entityid</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">band1</span> <span class="o">==</span> <span class="n">band1</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">band2</span> <span class="o">==</span> <span class="n">band2</span><span class="p">,</span>
+                    <span class="n">cls</span><span class="o">.</span><span class="n">band3</span> <span class="o">==</span> <span class="n">band3</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&quot;rendercount&quot;</span><span class="p">:</span> <span class="n">cls</span><span class="o">.</span><span class="n">rendercount</span><span class="o">+</span><span class="mi">1</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">output</span> <span class="o">!=</span> <span class="mi">0</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>foreman.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>foreman.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">boto.ec2.connection</span> <span class="kn">import</span> <span class="n">EC2Connection</span>
+<span class="kn">from</span> <span class="nn">boto.ec2</span> <span class="kn">import</span> <span class="n">get_region</span>
+<span class="kn">from</span> <span class="nn">sqs</span> <span class="kn">import</span> <span class="n">make_SQS_connection</span><span class="p">,</span> <span class="n">get_queue</span><span class="p">,</span> <span class="n">queue_size</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Define status key-pairs</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">JOBS_QUEUE</span> <span class="o">=</span> <span class="s">&#39;landsat_jobs_queue&#39;</span>
+<span class="n">STATE_CODES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;pending&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;runnning&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="s">&#39;shutting-down&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s">&#39;terminated&#39;</span><span class="p">:</span> <span class="mi">48</span><span class="p">,</span>
+    <span class="s">&#39;stopping&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="s">&#39;stopped&#39;</span><span class="p">:</span> <span class="mi">80</span>
+    <span class="p">}</span>
+<span class="n">LIMITS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;low&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s">&#39;med&#39;</span><span class="p">:</span> <span class="mi">50</span>
+    <span class="p">}</span>
+<span class="n">TEAMS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;A&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s">&#39;B&#39;</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">}</span>
+<span class="n">NEW_WORKER_STATS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;AMI&#39;</span><span class="p">:</span> <span class="s">&#39;ami-853618b5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;KEY_PAIR&#39;</span><span class="p">:</span> <span class="s">&#39;landsatproject&#39;</span><span class="p">,</span>
+    <span class="s">&#39;SECURITY_GROUP&#39;</span><span class="p">:</span> <span class="s">&#39;launch-wizard-1&#39;</span><span class="p">,</span>
+    <span class="s">&#39;INSTANCE_TYPE&#39;</span><span class="p">:</span> <span class="s">&#39;t2.medium&#39;</span><span class="p">,</span>
+    <span class="s">&#39;AVAILIBILITY_ZONE&#39;</span><span class="p">:</span> <span class="s">&#39;us-west-2a&#39;</span><span class="p">,</span>
+    <span class="s">&#39;Name&#39;</span><span class="p">:</span> <span class="s">&#39;landsatAWS_worker&#39;</span><span class="p">,</span>
+    <span class="s">&#39;Schedule&#39;</span><span class="p">:</span> <span class="s">&#39;contractor&#39;</span><span class="p">,</span>
+    <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Make EC2 connection to AWS</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">make_EC2_connection</span><span class="p">(</span><span class="n">region_name</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">EC2Connection</span><span class="p">(</span><span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">aws_access_key_id</span><span class="p">,</span>
+                         <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">aws_secret_access_key</span><span class="p">,</span>
+                         <span class="n">region</span><span class="o">=</span><span class="n">get_region</span><span class="p">(</span><span class="n">region_name</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Manage workers and queue.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">foreman</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">region_name</span><span class="p">,</span> <span class="n">aws_access_key_id</span><span class="p">,</span> <span class="n">aws_secret_access_key</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">SQSconn</span> <span class="o">=</span> <span class="n">make_SQS_connection</span><span class="p">(</span><span class="n">region_name</span><span class="p">,</span>
+                                  <span class="n">aws_access_key_id</span><span class="p">,</span>
+                                  <span class="n">aws_secret_access_key</span><span class="p">)</span>
+    <span class="n">jobs_queue</span> <span class="o">=</span> <span class="n">get_queue</span><span class="p">(</span><span class="n">SQSconn</span><span class="p">,</span> <span class="n">JOBS_QUEUE</span><span class="p">)</span>
+    <span class="n">number_queued_jobs</span> <span class="o">=</span> <span class="n">queue_size</span><span class="p">(</span><span class="n">jobs_queue</span><span class="p">)</span>
+    <span class="n">workers</span> <span class="o">=</span> <span class="n">list_worker_instances</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="s">&#39;landsatAWS_worker&#39;</span><span class="p">)</span>
+    <span class="n">adjust_team_size</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">workers</span><span class="p">,</span> <span class="n">number_queued_jobs</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Check status of queue and spawn/kill workers as needed.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">adjust_team_size</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">workers</span><span class="p">,</span> <span class="n">number_queued_jobs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">running_workers</span> <span class="o">=</span> <span class="n">list_running_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">fulltime_workers</span> <span class="o">=</span> <span class="n">list_fulltime_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">parttime_workers</span> <span class="o">=</span> <span class="n">list_parttime_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">stopped_parttime_workers</span> <span class="o">=</span> <span class="n">list_stopped_workers</span><span class="p">(</span><span class="n">parttime_workers</span><span class="p">)</span>
+    <span class="n">number_running</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">running_workers</span><span class="p">)</span>
+    <span class="n">number_parttime</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parttime_workers</span><span class="p">)</span>
+    <span class="n">number_fulltime</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fulltime_workers</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">number_queued_jobs</span> <span class="o">&gt;=</span> <span class="n">LIMITS</span><span class="p">[</span><span class="s">&#39;med&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">TEAMS</span><span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">number_running</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">stopped</span> <span class="ow">in</span> <span class="n">stopped_parttime_workers</span><span class="p">:</span>
+                <span class="n">stopped</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">needed_contractors</span> <span class="o">=</span> <span class="n">TEAMS</span><span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">number_parttime</span> <span class="o">-</span> <span class="n">number_fulltime</span>
+        <span class="n">spawn_reservation</span> <span class="o">=</span> <span class="n">spawn_workers</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">needed_contractors</span><span class="p">)</span>
+        <span class="n">tag_instances</span><span class="p">(</span><span class="n">spawn_reservation</span><span class="o">.</span><span class="n">instances</span><span class="p">,</span>
+                      <span class="p">{</span><span class="s">&#39;Name&#39;</span><span class="p">:</span> <span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;Name&#39;</span><span class="p">],</span>
+                       <span class="s">&#39;Schedule&#39;</span><span class="p">:</span> <span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;Schedule&#39;</span><span class="p">]}</span>
+                      <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">LIMITS</span><span class="p">[</span><span class="s">&#39;med&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">number_queued_jobs</span> <span class="o">&gt;=</span> <span class="n">LIMITS</span><span class="p">[</span><span class="s">&#39;low&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">TEAMS</span><span class="p">[</span><span class="s">&#39;A&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">number_running</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">stopped</span> <span class="ow">in</span> <span class="n">stopped_parttime_workers</span><span class="p">:</span>
+            <span class="n">stopped</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">LIMITS</span><span class="p">[</span><span class="s">&#39;low&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="n">number_queued_jobs</span><span class="p">:</span>
+        <span class="n">contractor_workers</span> <span class="o">=</span> <span class="n">list_contractor_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">contractor_workers</span><span class="p">:</span>
+            <span class="n">kill_workers</span><span class="p">(</span><span class="n">contractor_workers</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">LIMITS</span><span class="p">[</span><span class="s">&#39;low&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">&gt;</span> <span class="n">number_queued_jobs</span><span class="p">:</span>
+        <span class="n">parttime_workers</span> <span class="o">=</span> <span class="n">list_parttime_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parttime_workers</span><span class="p">:</span>
+            <span class="n">stop_workers</span><span class="p">(</span><span class="n">parttime_workers</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Create COUNT more workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">spawn_workers</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">conn</span><span class="o">.</span><span class="n">run_instances</span><span class="p">(</span><span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;AMI&#39;</span><span class="p">],</span>
+                              <span class="n">min_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+                              <span class="n">max_count</span><span class="o">=</span><span class="n">count</span><span class="p">,</span>
+                              <span class="n">key_name</span><span class="o">=</span><span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;KEY_PAIR&#39;</span><span class="p">],</span>
+                              <span class="n">security_groups</span><span class="o">=</span><span class="p">[</span><span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;SECURITY_GROUP&#39;</span><span class="p">]],</span>
+                              <span class="n">instance_type</span><span class="o">=</span><span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;INSTANCE_TYPE&#39;</span><span class="p">],</span>
+                              <span class="n">placement</span><span class="o">=</span><span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;AVAILIBILITY_ZONE&#39;</span><span class="p">]</span>
+                              <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Terminate worker instances. Expects list of workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">kill_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span><span class="p">:</span>
+        <span class="n">worker</span><span class="o">.</span><span class="n">terminate</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Stop worker instances. Expects list of workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">stop_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span><span class="p">:</span>
+        <span class="n">worker</span><span class="o">.</span><span class="n">stop</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>Return list of worker instances in order of launch time, most recent first.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_worker_instances</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">worker_type</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">filters</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;tag:Name&#39;</span><span class="p">:</span> <span class="n">worker_type</span><span class="p">}</span>
+    <span class="n">instances</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">get_only_instances</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+    <span class="n">instances</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s">&#39;launch_time&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">instances</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Return list of runnning workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_running_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">[</span><span class="n">worker</span> <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span>
+            <span class="k">if</span> <span class="n">worker</span><span class="o">.</span><span class="n">state_code</span> <span class="o">==</span> <span class="n">STATE_CODES</span><span class="p">[</span><span class="s">&#39;runnning&#39;</span><span class="p">]]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Return list of stopped workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_stopped_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">[</span><span class="n">worker</span> <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span>
+            <span class="k">if</span> <span class="n">worker</span><span class="o">.</span><span class="n">state_code</span> <span class="o">==</span> <span class="n">STATE_CODES</span><span class="p">[</span><span class="s">&#39;stopped&#39;</span><span class="p">]]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p>Return list of pending workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_pending_instances</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">[</span><span class="n">worker</span> <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span>
+            <span class="k">if</span> <span class="n">worker</span><span class="o">.</span><span class="n">state_code</span> <span class="o">==</span> <span class="n">STATE_CODES</span><span class="p">[</span><span class="s">&#39;pending&#39;</span><span class="p">]]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>Return list of parttime workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_parttime_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">[</span><span class="n">worker</span> <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span>
+            <span class="k">if</span> <span class="n">worker</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Schedule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;parttime&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>Return list of fulltime workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_fulltime_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">[</span><span class="n">worker</span> <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span>
+            <span class="k">if</span> <span class="n">worker</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Schedule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;fulltime&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>Return list of contractor workers.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_contractor_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">[</span><span class="n">worker</span> <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span>
+            <span class="k">if</span> <span class="n">worker</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s">&#39;Schedule&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;Schedule&#39;</span><span class="p">]]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>Add tags to instances. Expects a list of instances and a dict of tag: value.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">tag_instances</span><span class="p">(</span><span class="n">instances</span><span class="p">,</span> <span class="n">tag_value_dict</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">instances</span><span class="p">:</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_tags</span><span class="p">(</span><span class="n">tag_value_dict</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="n">AWS_ACCESS_KEY_ID</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;AWS_ACCESS_KEY_ID&#39;</span><span class="p">]</span>
+    <span class="n">AWS_SECRET_ACCESS_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;AWS_SECRET_ACCESS_KEY&#39;</span><span class="p">]</span>
+    <span class="n">REGION</span> <span class="o">=</span> <span class="s">&#39;us-west-2&#39;</span>
+
+    <span class="n">EC2conn</span> <span class="o">=</span> <span class="n">make_EC2_connection</span><span class="p">(</span><span class="n">REGION</span><span class="p">,</span> <span class="n">AWS_ACCESS_KEY_ID</span><span class="p">,</span> <span class="n">AWS_SECRET_ACCESS_KEY</span><span class="p">)</span>
+    <span class="n">worker_type</span> <span class="o">=</span> <span class="s">&#39;landsatAWS_worker&#39;</span>
+    <span class="n">workers</span> <span class="o">=</span> <span class="n">list_worker_instances</span><span class="p">(</span><span class="n">EC2conn</span><span class="p">,</span> <span class="n">worker_type</span><span class="p">)</span>
+    <span class="n">running_workers</span> <span class="o">=</span> <span class="n">list_running_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">parttime_workers</span> <span class="o">=</span> <span class="n">list_parttime_workers</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="n">stopped_parttime_workers</span> <span class="o">=</span> <span class="n">list_stopped_workers</span><span class="p">(</span><span class="n">parttime_workers</span><span class="p">)</span>
+    <span class="n">number_running</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">running_workers</span><span class="p">)</span>
+    <span class="n">worker_deficit</span> <span class="o">=</span> <span class="n">TEAMS</span><span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">number_running</span>
+    <span class="n">spawn_reservation</span> <span class="o">=</span> <span class="n">spawn_workers</span><span class="p">(</span><span class="n">EC2conn</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">tag_instances</span><span class="p">(</span><span class="n">spawn_reservation</span><span class="o">.</span><span class="n">instances</span><span class="p">,</span>
+                  <span class="p">{</span><span class="s">&#39;Name&#39;</span><span class="p">:</span> <span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;Name&#39;</span><span class="p">],</span>
+                   <span class="s">&#39;Schedule&#39;</span><span class="p">:</span> <span class="n">NEW_WORKER_STATS</span><span class="p">[</span><span class="s">&#39;Schedule&#39;</span><span class="p">]}</span>
+                  <span class="p">)</span>
+    <span class="n">workers</span> <span class="o">=</span> <span class="n">list_worker_instances</span><span class="p">(</span><span class="n">EC2conn</span><span class="p">,</span> <span class="s">&#39;landsatAWS_worker&#39;</span><span class="p">)</span>
+    <span class="n">pending</span> <span class="o">=</span> <span class="n">list_pending_instances</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">workers</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
