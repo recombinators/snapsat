@@ -1,5 +1,6 @@
-# import sqlalchemy as sa
-from sqlalchemy import Column, update, Index, Integer, Boolean, UnicodeText, func, DateTime, Float, or_, and_
+from sqlalchemy import (
+        Column, Integer, Boolean, UnicodeText,
+        func, DateTime, Float, or_, and_)
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -10,8 +11,16 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class PathAndRow_Model(Base):
-    '''Model for path and row table.'''
+class PathAndRow(Base):
+    """
+    #### Model for the database table containing Landsat 8 paths and rows.
+
+    - **GID** - The unique ID for each entry.
+    - **Geom** - The physical geometry of each entry.
+    - **Path**
+    - **Row**
+    - **Mode** - Ascending (night), or Descending (day)
+    """
     __tablename__ = 'paths'
 
     gid = Column(UnicodeText, primary_key=True, autoincrement=True)
@@ -22,46 +31,65 @@ class PathAndRow_Model(Base):
 
     @classmethod
     def pathandrow(cls, lat, lon):
-        """Output path and row that contains lat lon."""
+        """
+        For a Lat/Lon coordinate, returns the Path and Row containing it.
+        """
         try:
-            scene = (DBSession.query(cls)
-                    .filter(func.ST_Within(func.ST_SetSRID(func
-                            .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
-                    )
-            return scene
+            return (DBSession.query(cls).filter(
+                func.ST_Within(func.ST_SetSRID(
+                    func.ST_MakePoint(lon, lat), 4236),
+                    func.ST_SetSRID(cls.geom, 4236)),
+                cls.mode == u'D').all())
         except:
             return u'----'
 
 
-class SceneList_Model(Base):
-    '''Model for AWS S3 scene list.'''
+class SceneList(Base):
+    """
+    #### Model for AWS S3 scene list.
+
+    - **Entity ID** - The Scene ID for the entry.
+    - **Acquisition date** - The date the image was taken.
+    - **Cloud cover** - The percent cloud cover for each Scene.
+    - **Path**
+    - **Row**
+    - **Download URL** - The AWS S3 entry URL.
+    """
+
+    # Define the table and column names for the SceneList model.
     __tablename__ = 'path_row'
     entityid = Column(UnicodeText, primary_key=True)
-    acquisitiondate = Column(DateTime, nullable=False)
-    cloudcover = Column(Float, nullable=False)
-    path = Column(Integer, nullable=False)
-    row = Column(Integer, nullable=False)
-    download_url = Column(UnicodeText, nullable=False)
+    acquisitiondate = Column(DateTime)
+    cloudcover = Column(Float)
+    path = Column(Integer)
+    row = Column(Integer)
+    download_url = Column(UnicodeText)
 
     @classmethod
     def scenelist(cls, pr_output):
-        '''For Constantine'''
+        """
+        Return the list of Scenes which we're interested in.
+        """
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
         return DBSession.query(cls).filter(or_(*new))
 
 
-class UserJob_Model(Base):
-    '''Model for the user job queue. Possible job statuses:
-    0 - Created
-    1 - Queued
-    2 - Processing
-    3 - Done (Failed)
-    4 - Done (Success)
-    '''
+class UserJob(Base):
+    """
+    **Model for the user job queue.**
 
+    Possible job statuses:
+
+    0. Created
+    1. Queued
+    2. Processing
+    3. Done (Failed)
+    4. Done (Success)
+    """
+
+    # Define the table and column names for UserJob model.
     __tablename__ = 'user_job'
     jobid = Column(Integer, primary_key=True)
     entityid = Column(UnicodeText)
@@ -89,18 +117,21 @@ class UserJob_Model(Base):
                 jobstatus=0,
                 starttime=datetime.utcnow(),
                 ):
-        '''Create new job in db.'''
+        """
+        Create new job in db.
+        """
         try:
             session = DBSession
             current_time = datetime.utcnow()
-            job = UserJob_Model(entityid=entityid,
-                                band1=band1,
-                                band2=band2,
-                                band3=band3,
-                                jobstatus=0,
-                                starttime=current_time,
-                                lastmodified=current_time
-                                )
+            job = UserJob(
+                    entityid=entityid,
+                    band1=band1,
+                    band2=band2,
+                    band3=band3,
+                    jobstatus=0,
+                    starttime=current_time,
+                    lastmodified=current_time
+                    )
             session.add(job)
             session.flush()
             session.refresh(job)
@@ -108,15 +139,18 @@ class UserJob_Model(Base):
             transaction.commit()
         except:
             return None
+
         try:
-            Rendered_Model.add(pk, True)
+            Rendered.add(pk, True)
         except:
             print 'Could not add job to rendered db'
         return pk
 
     @classmethod
     def set_job_status(cls, jobid, status, url=None):
-        '''Set jobstatus for jobid passed in.'''
+        """
+        Set jobstatus for jobid passed in.
+        """
         table_key = {1: "status1time",
                      2: "status2time",
                      3: "status3time",
@@ -136,13 +170,15 @@ class UserJob_Model(Base):
         # Tell render_cache db we have this image now
         if int(status) == 5:
             try:
-                Rendered_Model.update(jobid, False, url)
+                Rendered.update(jobid, False, url)
             except:
                 print 'Could not update Rendered db'
 
     @classmethod
     def job_status(cls, jobid):
-        '''Get jobstatus for jobid passed in.'''
+        """
+        Get jobstatus for jobid passed in.
+        """
         status_key = {0: "In queue",
                       1: "Downloading",
                       2: "Processing",
@@ -154,22 +190,27 @@ class UserJob_Model(Base):
             job = DBSession.query(cls).get(jobid)
             print job.jobstatus
         except:
-            print 'database write failed'
+            print 'Database write failed.'
             return None
         return status_key[job.jobstatus]
 
     @classmethod
     def job_times(cls, jobid):
-        '''Get times for jobid passed in.'''
+        """
+        Get times for jobid passed in.
+        """
         try:
             job = DBSession.query(cls).get(jobid)
             return job.starttime, job.lastmodified
         except:
-            print 'database operation failed'
+            print 'Database operation failed.'
 
 
-class Rendered_Model(Base):
-    '''Model for the already rendered files'''
+class Rendered(Base):
+    """
+    Model for the already rendered files.
+    """
+    # Define the table and columns the Rendered model will have.
     __tablename__ = 'render_cache'
     id = Column(Integer, primary_key=True)
     jobid = Column(Integer)
@@ -184,53 +225,67 @@ class Rendered_Model(Base):
 
     @classmethod
     def add(cls, jobid, currentlyrend):
-        '''Method adds entry into db given jobid and optional url.'''
-        jobQuery = DBSession.query(UserJob_Model).get(jobid)
-        job = Rendered_Model(entityid=jobQuery.entityid,
-                             jobid=jobid,
-                             band1=jobQuery.band1,
-                             band2=jobQuery.band2,
-                             band3=jobQuery.band3,
-                             currentlyrend=currentlyrend)
+        """
+        Method adds entry into db given jobid and optional url.
+        """
+        jobQuery = DBSession.query(UserJob).get(jobid)
+        job = Rendered(
+                entityid=jobQuery.entityid,
+                jobid=jobid,
+                band1=jobQuery.band1,
+                band2=jobQuery.band2,
+                band3=jobQuery.band3,
+                currentlyrend=currentlyrend
+                )
         DBSession.add(job)
         transaction.commit()
 
     @classmethod
     def update(cls, jobid, currentlyrend, renderurl):
-        '''Method updates entry into db given jobid and optional url.'''
+        """
+        Method updates entry into db given jobid and optional url.
+        """
         try:
             DBSession.query(cls).filter(cls.jobid == jobid).update({
                 "currentlyrend": currentlyrend, "renderurl": renderurl})
         except:
-            print 'could not update db'
+            print 'Unable to update DB.'
 
     @classmethod
     def available(cls, entityid):
-        '''Return list of existing jobs for a given sceneID.'''
+        """
+        Return list of existing jobs for a given sceneID.
+        """
         try:
-            rendered = DBSession.query(cls).filter(cls.entityid == entityid).all()
+            rendered = DBSession.query(cls).filter(
+                    cls.entityid == entityid).all()
+            return rendered
         except:
             print 'Database query failed'
             return None
-        return rendered
 
     @classmethod
     def already_available(cls, entityid, band1, band2, band3):
-        '''Check if given image is already rendered'''
+        """
+        Check if given image is already rendered.
+        """
         try:
-            output = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                 cls.band1 == band1,
-                                                 cls.band2 == band2,
-                                                 cls.band3 == band3,
-                                                 cls.renderurl.isnot(None)).count()
+            output = DBSession.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.band1 == band1,
+                    cls.band2 == band2,
+                    cls.band3 == band3,
+                    cls.renderurl.isnot(None)
+                    ).count()
         except:
             print 'Database query failed'
             return None
         if output != 0:
-            # if this scene/band has already been requested, increase the count
-            existing = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                   cls.band1 == band1,
-                                                   cls.band2 == band2,
-                                                   cls.band3 == band3).update({
-                                                   "rendercount": cls.rendercount+1})
+            # If this scene/band has already been requested, increase the count
+            DBSession.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.band1 == band1,
+                    cls.band2 == band2,
+                    cls.band3 == band3
+                    ).update({"rendercount": cls.rendercount+1})
         return output != 0
