@@ -56,67 +56,63 @@ class FunctionalTest(unittest.TestCase):
 
 class HomePageTest(FunctionalTest):
 
+    def map_move(self, key_move, repeat=1, sleep_time=.5):
+        """Move the map with a repeat and sleep"""
+        map_ = self.browser.find_element_by_id("map")
+        key_moves = {
+            'zoom_in': self.browser.find_element_by_class_name("leaflet-control-zoom-in").click(),
+            'zoom_out': self.browser.find_element_by_class_name("leaflet-control-zoom-out").click(),
+            'arrow_down': map_.send_keys(Keys.ARROW_DOWN),
+            'arrow_right': map_.send_keys(Keys.ARROW_RIGHT),
+            'arrow_left': map_.send_keys(Keys.ARROW_LEFT),
+            'arrow_up': map_.send_keys(Keys.ARROW_UP),
+        }
+
+        for _ in range(repeat):
+            key_moves[key_move]
+            sleep(sleep_time)
+
     def test_home_page_loads(self):
         #Billy sees the landsat.club homepage and rejoices.
-        self.browser.get('http://develop.landsat.club')
-        self.assertIn('Snapsat',
-                      self.browser.page_source)
-        zoom_in = self.browser.find_element_by_class_name("leaflet-control-zoom-in")
-        zoom_out = self.browser.find_element_by_class_name("leaflet-control-zoom-out")
-        map = self.browser.find_element_by_id("map")
-        map.send_keys(Keys.ARROW_DOWN)
-        sleep(.75)
-        map.send_keys(Keys.ARROW_DOWN)
-        sleep(.75)
-        zoom_out.click()
-        sleep(.75)
-        zoom_out.click()
-        sleep(.75)
-        zoom_out.click()
-        sleep(.75)
-        zoom_out.click()
+        self.browser.get('localhost:8000')
 
-        map.send_keys(Keys.ARROW_DOWN)
-        sleep(.75)
-        map.send_keys(Keys.ARROW_DOWN)
-        sleep(.75)
-        map.send_keys(Keys.ARROW_DOWN)
-        sleep(.75)
-        map.send_keys(Keys.ARROW_RIGHT)
-        map.send_keys(Keys.ARROW_LEFT)
-        map.send_keys(Keys.ARROW_DOWN)
-        zoom_in.click()
-        zoom_in.click()
-        sleep(.5)
-        zoom_in.click()
-        sleep(.75)
-        zoom_in.click()
-        sleep(.75)
-        zoom_in.click()
-        sleep(.5)
-        zoom_in.click()
-        sleep(.5)
-        zoom_in.click()
-        sleep(.5)
-        zoom_in.click()
-        sleep(.5)
-        zoom_in.click()
-        sleep(.5)
-        zoom_in.click()
-        sleep(.75)
-        zoom_in.click()
-        sleep(5)
-        self.browser.find_element_by_class_name('leaflet-control-mapbox-geocoder-toggle').click()
-        self.browser.find_element_by_xpath('//*[@id="map"]/div[2]/div[1]/div[2]/div[2]/form/input').send_keys('10010', Keys.RETURN)
-        
-        
-        sleep(.75)
-        zoom_out.click()
-        sleep(.75)
-        zoom_out.click()
-        sleep(.75)
-        zoom_out.click()
-        sleep(.75)
-        zoom_out.click()
-        
-        sleep(600)
+        self.map_move('zoom_in', repeat=5)
+        self.map_move('arrow_right', repeat=5, sleep_time=.75)
+
+
+        #zoom_in.click()
+        #zoom_in.click()
+        #sleep(.5)
+        #zoom_in.click()
+        #sleep(.75)
+        #zoom_in.click()
+        #sleep(.75)
+        #zoom_in.click()
+        #sleep(.5)
+        #zoom_in.click()
+        #sleep(.5)
+        #zoom_in.click()
+        #sleep(.5)
+        #zoom_in.click()
+        #sleep(.5)
+        #zoom_in.click()
+        #sleep(.5)
+        #zoom_in.click()
+        #sleep(.75)
+        #zoom_in.click()
+        #sleep(5)
+        #self.browser.find_element_by_class_name('leaflet-control-mapbox-geocoder-toggle').click()
+        #self.browser.find_element_by_xpath('//*[@id="map"]/div[2]/div[1]/div[2]/div[2]/form/input').send_keys('10010', Keys.RETURN)
+        #
+        #
+        #sleep(.75)
+        #zoom_out.click()
+        #sleep(.75)
+        #zoom_out.click()
+        #sleep(.75)
+        #zoom_out.click()
+        #sleep(.75)
+        #zoom_out.click()
+        #
+        #sleep(600)
+        #
