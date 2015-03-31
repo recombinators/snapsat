@@ -106,6 +106,7 @@ class UserJob_Model(Base):
             session.refresh(job)
             pk = job.jobid
             transaction.commit()
+            transaction.begin() # could do this or a subtransacation, ie open a transaction at the beginning of this method.
         except:
             return None
         try:
@@ -130,6 +131,7 @@ class UserJob_Model(Base):
                                      table_key[int(status)]: current_time,
                                      "lastmodified": current_time
                                      })
+            transaction.commit()
         except:
             print 'database write failed'
         # Tell render_cache db we have this image now
