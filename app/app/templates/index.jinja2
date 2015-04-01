@@ -26,7 +26,7 @@
 </section>
 
 
-<section id='path_row'>
+<div class='path_row_grouping'.
 {% for group in scenes|groupby('sliced') %}
 <div>
     <table>
@@ -46,7 +46,7 @@
     </table>
 </div>
 {% endfor %}
-<section>
+<div>
 
 
 <section id='date'>
@@ -59,7 +59,7 @@
         </thead>
         <tbody>
         </tbody>
-
+        <div class='date_grouping'.
         {% for s in scenes %}
             <tr>
                 <td>{{ s.acquisitiondate }}</td>
@@ -70,6 +70,7 @@
                 <td>{{ s.sliced }}</td>
             </tr>
         {% endfor %}
+        </div>
     </table>
 </section>
 {% endblock %}
