@@ -216,7 +216,7 @@ class Rendered_Model(Base):
         return rendered
 
     @classmethod
-    def already_available(cls, entityid, band1, band2, band3):
+    def full_render_availability(cls, entityid, band1, band2, band3):
         '''Check if given image is already rendered'''
         try:
             output = DBSession.query(cls).filter(cls.entityid == entityid,
