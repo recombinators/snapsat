@@ -36,34 +36,6 @@ $(document).ready(function() {
 		$('html,body').animate({scrollTop: targetOffset}, 1000);
 	});
 
-	// Menu Scroll Hide
-	var nav = $('.menubar');
-	var scroll = $('.menubar').attr('data-scroll');
-	$(function(){
-		$('.menubar').data('size','big');
-		if (scroll == 'false') {
-			nav.css({
-				marginTop:'0px'
-			});
-		};
-	});
-	$(window).scroll(function(){
-		if ($('body').scrollTop() > 0 && scroll == 'true') {
-			if (nav.data('size') == 'big') {
-				nav.data('size','small').stop().animate({
-					marginTop:'0px'
-				}, 300);
-			}
-		} else {
-			if (nav.data('size') == 'small' && scroll == 'true') {
-				nav.data('size','big').stop().animate({
-					marginTop:'-80px'
-				}, 300);
-			}
-			
-		}
-	});
-
 	// Text Rotator
 	$('.rotate').each(function(){
 		var el = $(this);
@@ -100,32 +72,6 @@ $(document).ready(function() {
 		}
 	);
 
-	// Services Icon Hover
-	var original_text = $('p#services').text();
-	var services_p = $('p#services');
-	$('div.servicesitem').hover(
-		function () {
-			var text = $(this).children('.front').children('p').text();
-			$(services_p).fadeOut(200,function(){ $(services_p).text(text).fadeIn(200); });
-		},
-		function () {
-			$(services_p).fadeOut(200,function(){ $(services_p).text(original_text).fadeIn(200); });
-		}
-	);
-
-	// Testimonials Icon Hover
-	var original_t_text = $('p#testimonials').text();
-	var testimonials_p = $('p#testimonials');
-	$('div.logos img').hover(
-		function () {
-			var text = $(this).attr('data-text');
-			$(testimonials_p).fadeOut(200,function(){ $(testimonials_p).text(text).fadeIn(200); });
-		},
-		function () {
-			$(testimonials_p).fadeOut(200,function(){ $(testimonials_p).text(original_text).fadeIn(200); });
-		}
-	);
-
 	// About Us Quote Hover
 	$('div.quotefade').hover(
 		function () {
@@ -135,32 +81,5 @@ $(document).ready(function() {
 			$(this).children('div.quotehover').fadeOut('slow');
 		}
 	);
-
-	// Portfolio
-	$(function(){
-		$('ul.portfolio').mixitup({
-			targetSelector: '.item',
-			filterSelector: '.filter',
-			easing: 'smooth',
-			effects: ['fade'],
-			layoutMode: 'grid',
-			targetDisplayGrid: 'inline-block'
-		});
-	});
-
-	// Blog Post Open
-	$('a.openpost').click(function(){
-		var id = $(this).attr('data-id');
-		$('#snippets').hide();
-		$('article.full[data-id="'+id+'"]').show();
-		$('#postsfull').fadeIn();
-	});
-	$('a.backtoblog').click(function(){
-		$('#postsfull').hide();
-		$('article.full').hide();
-		$('#snippets').fadeIn();
-	});
-
-
 
 });
