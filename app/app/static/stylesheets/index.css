@@ -9,7 +9,6 @@
 @import 'tables.css';
 @import 'layout.css';
 @import 'flexbox.css';
-@import 'buttons.css';
 
 
 /* Uncomment and redefine the variables below to change to the generated stylesheet. */
@@ -58,13 +57,9 @@ td > a {
 
 h1, h2 { font-family: "adriane"; }
 h1 {
-    border-left: 20px solid yellow;
-    padding-left: 20px;
     font-size: 4rem;
 }
 h2 {
-    border-left: 10px solid yellow;
-    padding-left: 20px;
     font-size: 2rem;
 }
 
