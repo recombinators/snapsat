@@ -121,7 +121,7 @@ def scene_options_ajax(request):
     scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
     scenes_dict = []
     for i, scene in enumerate(scenes):
-        scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %B %d'),
+        scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
