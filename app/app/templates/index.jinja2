@@ -32,7 +32,7 @@
     <table>
         <tbody>
             <tr><strong>{{ group.grouper }}</strong></tr>
-                <div class='path_row_grouping'>
+                <div id='path_row_sub_grouping'>
                 {% for s in group.list %}
                     <tr>
                         <td>{{ s.acquisitiondate }}</td>
@@ -43,13 +43,12 @@
                         <td>{{ s.sliced }}</td>
                     </tr>
                 {% endfor %}
-                <div>
+                </div>
         </tbody>
     </table>
 </div>
 {% endfor %}
-
-
+<div>
 
 <section id='date'>
     <h2>Choose a date</h2>
