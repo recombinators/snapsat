@@ -130,19 +130,13 @@ def scene_options_ajax(request):
     scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
     scenes_dict = []
     for i, scene in enumerate(scenes):
-        normal = preview_url(scene.entityid, 4, 3, 2)
-        heat = preview_url(scene.entityid, 5, 4, 3)
-        veggie = preview_url(scene.entityid, 5, 3, 2)
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %B %d'),
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
                             'sliced': scene.entityid[0:8],
                             'path': scene.path,
-                            'row': scene.row,
-                            'normal': normal,
-                            'heat': heat,
-                            'veggie': veggie
+                            'row': scene.row
                             })
 
     scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
