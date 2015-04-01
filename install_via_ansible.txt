@@ -1,0 +1,1 @@
+-e /home/landsatawsuser/snapsat_checkout/app/
