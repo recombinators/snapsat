@@ -26,12 +26,13 @@
 </section>
 
 
-<div class='path_row_grouping'.
+<div class='path_row_grouping'>
 {% for group in scenes|groupby('sliced') %}
 <div>
     <table>
         <tbody>
             <tr><strong>{{ group.grouper }}</strong></tr>
+                <div class='path_row_grouping'>
                 {% for s in group.list %}
                     <tr>
                         <td>{{ s.acquisitiondate }}</td>
@@ -41,12 +42,13 @@
                         <td><a href='/scene/{{ s.entityid }}'</a>{{ s.entityid }}</td>
                         <td>{{ s.sliced }}</td>
                     </tr>
-            {% endfor %}
+                {% endfor %}
+                <div>
         </tbody>
     </table>
 </div>
 {% endfor %}
-<div>
+
 
 
 <section id='date'>
