@@ -16,13 +16,13 @@
     {% if available_scenes %}
         <h2>Available scenes for {{ scene_id }}</h2>
         {% for s in available_scenes %}
+            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
             {% if s.previewurl %}
                 <img src="{{ s.previewurl }}">
             {% else %}
                 <img src=/static/no_preview.png>
             {% endif %}
             {% if s.renderurl %}
-                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
                 <a href="{{ s.renderurl }}">Download Full Zip</a>
                 {% if s.elapsed_worker_time %}
                     <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
