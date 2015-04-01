@@ -30,16 +30,20 @@ map.on('moveend', function() {
 
         scenes = json.scenes;
 
-        // $('path_row_grouping').html('');
-        //         $('path_row_grouping').append(
-        //             "<tr>" +
-        //                 "<td>" + scenes[i].acquisitiondate + "</td>" +
-        //                 "<td>" + scenes[i].path + "</td>" +
-        //                 "<td>" + scenes[i].row + "</td>" +
-        //                 "<td>" + scenes[i].cloudcover + "</td>" +
-        //                 "<td><a href='/scene/" + scenes[i].entityid + "'>Start processing</a></td>" +
-        //                 "<td>" + scenes[i].sliced + "</td>" +
-        //             "</tr>");
+        $('path_row_grouping').html('');
+            for (var i in scenes) {
+                var pad = "000",
+                    r = scenes[i].row, r_result = (pad+r).slice(-pad.length),
+                    p = scenes[i].path, p_result = (pad+p).slice(-pad.length);
+                $('path_row_grouping').append(
+                    "<tr>" +
+                        "<td>" + scenes[i].acquisitiondate + "</td>" +
+                        "<td>" + scenes[i].path + "</td>" +
+                        "<td>" + scenes[i].row + "</td>" +
+                        "<td>" + scenes[i].cloudcover + "</td>" +
+                        "<td><a href='/scene/" + scenes[i].entityid + "'>" + scenes[i].entityid + "</a></td>" +
+                        "<td>" + scenes[i].sliced + "</td>" +
+                    "</tr>");
 
         $('date_grouping').html('');
             for (var i in scenes) {
@@ -52,7 +56,7 @@ map.on('moveend', function() {
                         "<td>" + scenes[i].path + "</td>" +
                         "<td>" + scenes[i].row + "</td>" +
                         "<td>" + scenes[i].cloudcover + "</td>" +
-                        "<td><a href='/scene/" + scenes[i].entityid + "'>Start processing</a></td>" +
+                        "<td><a href='/scene/" + scenes[i].entityid + "'>" + scenes[i].entityid + "</a></td>" +
                         "<td>" + scenes[i].sliced + "</td>" +
                     "</tr>");
             }
