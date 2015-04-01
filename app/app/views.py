@@ -16,7 +16,7 @@ JOBS_QUEUE = 'landsat_jobs_queue'
 REGION = 'us-west-2'
 
 
-@view_config(route_name='index', renderer='templates/index.jinja2')
+@view_config(route_name='index', renderer='templates/index.html')
 def index(request):
     '''Index page.'''
     return scene_options_ajax(request)
