@@ -24,6 +24,7 @@ def index(request):
 
 
 def add_to_queue(queue, request):
+    """Helper method for adding request to queue and adding to db"""
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
@@ -51,22 +52,15 @@ def add_to_queue(queue, request):
 
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
-    '''Make request for scene, add to queue, add to db.'''
-    # EC2conn = make_EC2_connection(REGION,
-    #                               AWS_ACCESS_KEY_ID,
-    #                               AWS_SECRET_ACCESS_KEY)
-    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    """Request scene full render and preview render"""
+    add_to_queue(PREVIEW_QUEUE, request)
     add_to_queue(RENDER_QUEUE, request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
-    '''Make request for scene, add to queue, add to db.'''
-    # EC2conn = make_EC2_connection(REGION,
-    #                               AWS_ACCESS_KEY_ID,
-    #                               AWS_SECRET_ACCESS_KEY)
-    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    """Request for preview only"""
     add_to_queue(PREVIEW_QUEUE, request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
