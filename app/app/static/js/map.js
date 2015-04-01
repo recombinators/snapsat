@@ -44,9 +44,19 @@ map.on('moveend', function() {
         //                 "<td>" + scenes[i].sliced + "</td>" +
         //             "</tr>");
         //     }
-        $('#date_grouping').html('');
+        $('#date').html('');
+            $('#date').append(
+                "<h2>Choose a date</h2>" +
+                "<table>" +
+                    "<thead>" +
+                        "<tr>" +
+                            "<td>Acquisition date</td> <td>Path</td> <td>Row</td> <td>Percent cloud cover</td>" +
+                        "</tr>" +
+                    "</thead>" +
+                    "<tbody>");
+
             for (var j in scenes) {
-                $('#date_grouping').append(
+                $('#date').append(
                     "<tr>" +
                         "<td>" + scenes[j].acquisitiondate + "</td>" +
                         "<td>" + scenes[j].path + "</td>" +
@@ -56,5 +66,9 @@ map.on('moveend', function() {
                         "<td>" + scenes[j].sliced + "</td>" +
                     "</tr>");
             }
+
+            $('#date').append(
+                    "</tbody>" +
+                "</table>");
     });
 });
