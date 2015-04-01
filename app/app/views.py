@@ -52,25 +52,6 @@ def request_scene(request):
                      render_queue,
                      message['body'],
                      message['attributes'])
-
-    if not Rendered_Model.preview_render_availability(scene_id, band1, band2, band3):
-        SQSconn = make_SQS_connection(REGION,
-                                      AWS_ACCESS_KEY_ID,
-                                      AWS_SECRET_ACCESS_KEY)
-        preview_queue = get_queue(SQSconn, PREVIEW_QUEUE)
-        pk = UserJob_Model.new_job(entityid=scene_id,
-                                   band1=band1,
-                                   band2=band2,
-                                   band3=band3)
-        message = build_job_message(job_id=pk, email='test@test.com',
-                                    scene_id=scene_id,
-                                    band_1=band1,
-                                    band_2=band2,
-                                    band_3=band3)
-        send_message(SQSconn,
-                     preview_queue,
-                     message['body'],
-                     message['attributes'])
     return HTTPFound(location='/scene/{}'.format(scene_id))
 
 
