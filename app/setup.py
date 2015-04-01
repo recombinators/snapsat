@@ -19,6 +19,7 @@ requires = [
     'waitress',
     'boto',
     'pyramid_jinja2',
+    'selenium'
     ]
 
 setup(name='app',
