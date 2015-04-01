@@ -33,7 +33,7 @@ def request_scene(request):
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
-    if not Rendered_Model.already_available(scene_id, band1, band2, band3):
+    if not Rendered_Model.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
