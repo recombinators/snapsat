@@ -37,7 +37,36 @@ html, body {
 	letter-spacing: 0.025em;
 	-webkit-font-smoothing: subpixel-antialiased;
 }
-
+/******************************************************************
+	jCarousel
+******************************************************************/
+.jcarousel-prev, .jcarousel-next {
+	width: 20px;
+	height: 20px;
+	background-image: url(../img/carouselcontrols.png);
+	background-repeat: no-repeat;
+	background-color: #6093e7;
+	cursor: pointer;
+	position: absolute;
+}
+.jcarousel-prev-disabled, .jcarousel-next-disabled {
+	width: 20px;
+	height: 20px;
+	background-image: url(../img/carouselcontrols.png);
+	background-repeat: no-repeat;
+	background-color: #cfcfcf;
+	cursor: pointer;
+	position: absolute;
+}
+.jcarousel-next, .jcarousel-next-disabled {
+	background-position: -20px 0px;
+	top: -25px;
+	right: 0px;
+}
+.jcarousel-prev, .jcarousel-prev-disabled {
+	top: -25px;
+	right: 22px;
+}
 /******************************************************************
 	General
 ******************************************************************/								
@@ -430,27 +459,27 @@ a.socialicon {
 }
 a.socialicon.linkedin {
 	/*background-position: 0px 0px;*/
-	background-image: url(../img/linkedin.png);
+	background-image: url(/static/img/linkedin.png);
 }
 a.socialicon.linkedin:hover {
 	/*background-position: 0px -30px;*/
-	background-image: url(../img/linkedin.png);
+	background-image: url(/static/img/linkedin.png);
 }
 
 a.socialicon.github {
 	/*background-position: -30px 0px;*/
-	background-image: url(../img/gitHub.png);
+	background-image: url(/static/img/gitHub.png);
 }
 a.socialicon.github:hover {
 	/*background-position: -30px 0px;*/
-	background-image: url(../img/gitHub.png);
+	background-image: url(/static/img/gitHub.png);
 }
 a.socialicon.twitter {
 	margin-top: 4.5%;
-	background-image: url(../img/Twitter.png);
+	background-image: url(/static/img/Twitter.png);
 }
 a.socialicon.twitter:hover {
-	background-image: url(../img/Twitter.png);
+	background-image: url(/static/img/Twitter.png);
 }
 /******************************************************************
 	Footer
