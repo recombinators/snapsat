@@ -30,19 +30,20 @@ map.on('moveend', function() {
 
         data = json.scenes;
 
-        $('table').html('');
+        $('path_row_grouping').html('');
             for (var i in data) {
                 var pad = "000",
                     r = data[i].row, r_result = (pad+r).slice(-pad.length),
                     p = data[i].path, p_result = (pad+p).slice(-pad.length);
 
-                $('table').append(
+                $('path_row_grouping').append(
                     "<tr>" +
                         "<td>" + data[i].acquisitiondate + "</td>" +
                         "<td>" + data[i].path + "</td>" +
                         "<td>" + data[i].row + "</td>" +
                         "<td>" + data[i].cloudcover + "</td>" +
                         "<td><a href='/scene/" + data[i].entityid + "'>Start processing</a></td>" +
+                        "<td>" + data[i].sliced + "</td>" +
                     "</tr>");
             }
     });
