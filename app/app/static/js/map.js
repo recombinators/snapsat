@@ -29,35 +29,31 @@ map.on('moveend', function() {
     }).done(function(json) {
 
         scenes = json.scenes;
-
-        $('path_row_grouping').html('');
-            for (var i in scenes) {
-                var pad = "000",
-                    r = scenes[i].row, r_result = (pad+r).slice(-pad.length),
-                    p = scenes[i].path, p_result = (pad+p).slice(-pad.length);
-                $('path_row_grouping').append(
+        // $('path_row_grouping').html('');
+        //     for (var i in scenes) {
+        //         var pad = "000",
+        //             r = scenes[i].row, r_result = (pad+r).slice(-pad.length),
+        //             p = scenes[i].path, p_result = (pad+p).slice(-pad.length);
+        //         $('path_row_grouping').append(
+        //             "<tr>" +
+        //                 "<td>" + scenes[i].acquisitiondate + "</td>" +
+        //                 "<td>" + scenes[i].path + "</td>" +
+        //                 "<td>" + scenes[i].row + "</td>" +
+        //                 "<td>" + scenes[i].cloudcover + "</td>" +
+        //                 "<td><a href='/scene/" + scenes[i].entityid + "'>" + scenes[i].entityid + "</a></td>" +
+        //                 "<td>" + scenes[i].sliced + "</td>" +
+        //             "</tr>");
+        //     }
+        $('#date_grouping').html('');
+            for (var j in scenes) {
+                $('#date_grouping').append(
                     "<tr>" +
-                        "<td>" + scenes[i].acquisitiondate + "</td>" +
-                        "<td>" + scenes[i].path + "</td>" +
-                        "<td>" + scenes[i].row + "</td>" +
-                        "<td>" + scenes[i].cloudcover + "</td>" +
-                        "<td><a href='/scene/" + scenes[i].entityid + "'>" + scenes[i].entityid + "</a></td>" +
-                        "<td>" + scenes[i].sliced + "</td>" +
-                    "</tr>");
-
-        $('date_grouping').html('');
-            for (var i in scenes) {
-                var pad = "000",
-                    r = scenes[i].row, r_result = (pad+r).slice(-pad.length),
-                    p = scenes[i].path, p_result = (pad+p).slice(-pad.length);
-                $('date_grouping').append(
-                    "<tr>" +
-                        "<td>" + scenes[i].acquisitiondate + "</td>" +
-                        "<td>" + scenes[i].path + "</td>" +
-                        "<td>" + scenes[i].row + "</td>" +
-                        "<td>" + scenes[i].cloudcover + "</td>" +
-                        "<td><a href='/scene/" + scenes[i].entityid + "'>" + scenes[i].entityid + "</a></td>" +
-                        "<td>" + scenes[i].sliced + "</td>" +
+                        "<td>" + scenes[j].acquisitiondate + "</td>" +
+                        "<td>" + scenes[j].path + "</td>" +
+                        "<td>" + scenes[j].row + "</td>" +
+                        "<td>" + scenes[j].cloudcover + "</td>" +
+                        "<td><a href='/scene/" + scenes[j].entityid + "'>" + scenes[j].entityid + "</a></td>" +
+                        "<td>" + scenes[j].sliced + "</td>" +
                     "</tr>");
             }
     });

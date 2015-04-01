@@ -28,27 +28,27 @@
 
 <div id='path_row_grouping'>
 {% for group in scenes|groupby('sliced') %}
-<div>
-    <table>
-        <tbody>
-            <tr><strong>{{ group.grouper }}</strong></tr>
-                <div id='path_row_sub_grouping'>
-                {% for s in group.list %}
-                    <tr>
-                        <td>{{ s.acquisitiondate }}</td>
-                        <td>{{ s.path }}</td>
-                        <td>{{ s.row }}</td>
-                        <td>{{ s.cloudcover }}</td>
-                        <td><a href='/scene/{{ s.entityid }}'</a>{{ s.entityid }}</td>
-                        <td>{{ s.sliced }}</td>
-                    </tr>
-                {% endfor %}
-                </div>
-        </tbody>
-    </table>
-</div>
+    <div>
+        <table>
+            <tbody>
+                <tr><strong>{{ group.grouper }}</strong></tr>
+                    <div id='path_row_sub_grouping'>
+                    {% for s in group.list %}
+                        <tr>
+                            <td>{{ s.acquisitiondate }}</td>
+                            <td>{{ s.path }}</td>
+                            <td>{{ s.row }}</td>
+                            <td>{{ s.cloudcover }}</td>
+                            <td><a href='/scene/{{ s.entityid }}'</a>{{ s.entityid }}</td>
+                            <td>{{ s.sliced }}</td>
+                        </tr>
+                    {% endfor %}
+                    </div>
+            </tbody>
+        </table>
+    </div>
 {% endfor %}
-<div>
+</div>
 
 <section id='date'>
     <h2>Choose a date</h2>
@@ -60,7 +60,7 @@
         </thead>
         <tbody>
         </tbody>
-        <div id='date_grouping'.
+        <div id='date_grouping'>
         {% for s in scenes %}
             <tr>
                 <td>{{ s.acquisitiondate }}</td>
