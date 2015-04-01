@@ -60,15 +60,20 @@ class HomePageTest(FunctionalTest):
         """Move the map with a repeat and sleep"""
         map_ = self.browser.find_element_by_id("map")
         key_moves = {
-            'zoom_in': self.browser.find_element_by_class_name("leaflet-control-zoom-in").click(),
-            'zoom_out': self.browser.find_element_by_class_name("leaflet-control-zoom-out").click(),
-            'arrow_down': map_.send_keys(Keys.ARROW_DOWN),
-            'arrow_right': map_.send_keys(Keys.ARROW_RIGHT),
-            'arrow_left': map_.send_keys(Keys.ARROW_LEFT),
-            'arrow_up': map_.send_keys(Keys.ARROW_UP),
+            'zoom_in': 'self.browser.find_element_by_class_name("leaflet-control-zoom-in").click()',
+            'zoom_out': 'self.browser.find_element_by_class_name("leaflet-control-zoom-out").click()',
+            'arrow_down': 'map_.send_keys(Keys.ARROW_DOWN)',
+            'arrow_right': 'map_.send_keys(Keys.ARROW_RIGHT)',
+            'arrow_left': 'map_.send_keys(Keys.ARROW_LEFT)',
+            'arrow_up': 'map_.send_keys(Keys.ARROW_UP)',
         }
 
         for _ in range(repeat):
+            
+            import pdb; pdb.set_trace()
+            
+                
+            
             key_moves[key_move]
             sleep(sleep_time)
 
@@ -76,7 +81,7 @@ class HomePageTest(FunctionalTest):
         #Billy sees the landsat.club homepage and rejoices.
         self.browser.get('localhost:8000')
 
-        self.map_move('zoom_in', repeat=5)
+        self.map_move('zoom_out', repeat=5, sleep_time=1)
         self.map_move('arrow_right', repeat=5, sleep_time=.75)
 
 
