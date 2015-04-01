@@ -46,12 +46,28 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #ECECEA;
+    color: #666;
+}
+
+a { color: #000; }
+
+td > a {
+    font-weight: normal;
+}
+
+h1, h2 { font-family: "adriane"; }
+h1 {
+    font-size: 4rem;
+}
+h2 {
+    font-size: 2rem;
 }
 
 .map-container{
-    position: relative;
-    height: 500px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 32.8%;
 }
 
 #map {
@@ -61,9 +77,10 @@ body {
     width: 100%;
 }
 
-h1 {
-    font-family: 'aw-conqueror-carved';
-    font-size: 4rem;
+.contain {
+    position: relative;
+    margin-left: 32.8%;
+    padding: 4rem 2rem;
 }
 
 .reticle {
@@ -73,30 +90,15 @@ h1 {
   z-index: 100;
 }
 
-.details {
-    display: none;
-    
-}
+.blurb { font-size: 120%; }
+section { margin-bottom: 4rem; }
+table { width: 100%; }
 
-.display-inline-block {
-    width: 33%;
+#possibilities > div {
+    display: inline-block;
     vertical-align: top;
+    width: 30%;
 }
 
-.mbn {
-    cursor: pointer;
-}
-
-.customband {
-    text-align: left;
-    font-size: .85em;
-}
-
-.contentmax {
-    text-align: center;
-    padding: 5%;
-}
-
-.radiobox {
-		text-align: left;
-}
+#resources ul { padding-left: 0; }
+#resources ul li { display: inline }

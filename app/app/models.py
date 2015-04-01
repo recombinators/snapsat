@@ -92,18 +92,21 @@ class UserJob_Model(Base):
         '''Create new job in db.'''
         try:
             session = DBSession
+            current_time = datetime.utcnow()
             job = UserJob_Model(entityid=entityid,
                                 band1=band1,
                                 band2=band2,
                                 band3=band3,
                                 jobstatus=0,
-                                starttime=datetime.utcnow()
+                                starttime=current_time,
+                                lastmodified=current_time
                                 )
             session.add(job)
             session.flush()
             session.refresh(job)
             pk = job.jobid
             transaction.commit()
+            transaction.begin() # could do this or a subtransacation, ie open a transaction at the beginning of this method.
         except:
             return None
         try:
@@ -128,6 +131,7 @@ class UserJob_Model(Base):
                                      table_key[int(status)]: current_time,
                                      "lastmodified": current_time
                                      })
+            transaction.commit()
         except:
             print 'database write failed'
         # Tell render_cache db we have this image now
@@ -137,15 +141,14 @@ class UserJob_Model(Base):
             except:
                 print 'Could not update Rendered db'
 
-
     @classmethod
     def job_status(cls, jobid):
         '''Get jobstatus for jobid passed in.'''
-        status_key = {0: "Created",
+        status_key = {0: "In queue",
                       1: "Downloading",
-                      2: "Processings",
+                      2: "Processing",
                       3: "Compressing",
-                      4: "Uploading to S3",
+                      4: "Uploading to server",
                       5: "Done",
                       10: "Failed"}
         try:
@@ -155,6 +158,15 @@ class UserJob_Model(Base):
             print 'database write failed'
             return None
         return status_key[job.jobstatus]
+
+    @classmethod
+    def job_times(cls, jobid):
+        '''Get times for jobid passed in.'''
+        try:
+            job = DBSession.query(cls).get(jobid)
+            return job.starttime, job.lastmodified
+        except:
+            print 'database operation failed'
 
 
 class Rendered_Model(Base):
@@ -182,12 +194,14 @@ class Rendered_Model(Base):
                              band3=jobQuery.band3,
                              currentlyrend=currentlyrend)
         DBSession.add(job)
+        transaction.commit()
 
     @classmethod
     def update(cls, jobid, currentlyrend, renderurl):
         '''Method updates entry into db given jobid and optional url.'''
         try:
-            DBSession.query(cls).filter(cls.jobid == jobid).update({"currentlyrend": currentlyrend,"renderurl": renderurl})
+            DBSession.query(cls).filter(cls.jobid == jobid).update({
+                "currentlyrend": currentlyrend, "renderurl": renderurl})
         except:
             print 'could not update db'
 
