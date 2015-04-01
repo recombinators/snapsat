@@ -121,7 +121,7 @@ def scene_options_ajax(request):
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
-                            'sliced': scene.entityid[0:8],
+                            'sliced': scene.entityid[3:9],
                             'path': scene.path,
                             'row': scene.row,
                             'normal': normal,

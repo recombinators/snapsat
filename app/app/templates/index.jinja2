@@ -3,7 +3,7 @@
 {% block content %}
 
 <header>
-    <h1><a href='/'>Snapsat Develop</a></h1>
+    <h1><a href='/'>Snapsat</a></h1>
 </header>
 
 <section id='overview'>
@@ -23,51 +23,30 @@
 
 <section id='scene'>
     <h2>Choose a scene</h2>
+    {% for group in scenes|groupby('sliced') %}
+    <div>
+        <h3>{{ group.grouper }}</strong></h3>
+        <!-- <h3>{{ group.path }} {{ group.row }}</h3> -->
+        <table>
+            <thead>
+                <tr>
+                    <td>Acquisition date</td> <td>Path</td> <td>Row</td> <td>Percent cloud cover</td> <td>Scene ID</td>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for s in group.list %}
+                        <tr>
+                            <td>{{ s.acquisitiondate }}</td>
+                            <td>{{ s.path }}</td>
+                            <td>{{ s.row }}</td>
+                            <td>{{ s.cloudcover }}</td>
+                            <td>{{ s.entityid }}</td>
+                        </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
 </section>
 
-
-{% for group in scenes|groupby('sliced') %}
-<div>
-    <table>
-        <tbody>
-            <tr><strong>{{ group.grouper }}</strong></tr>
-                {% for s in group.list %}
-                    <tr>
-                        <td>{{ s.acquisitiondate }}</td>
-                        <td>{{ s.path }}</td>
-                        <td>{{ s.row }}</td>
-                        <td>{{ s.cloudcover }}</td>
-                        <td>{{ s.entityid }}</td>
-                        <td>{{ s.sliced }}</td>
-                    </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endfor %}
-
-
-<section id='date'>
-    <h2>Choose a date</h2>
-    <table>
-        <thead>
-            <tr>
-                <td>Acquisition date</td> <td>Path</td> <td>Row</td> <td>Percent cloud cover</td>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-
-        {% for s in scenes %}
-            <tr>
-                <td>{{ s.acquisitiondate }}</td>
-                <td>{{ s.path }}</td>
-                <td>{{ s.row }}</td>
-                <td>{{ s.cloudcover }}</td>
-                <td>{{ s.entityid }}</td>
-                <td>{{ s.sliced }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-</section>
 {% endblock %}
