@@ -112,7 +112,6 @@ def scene_options_ajax(request):
     lng = float(request.params.get('lng', -122.3359059))
 
     scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
-
     scenes_dict = []
     for i, scene in enumerate(scenes):
         normal = preview_url(scene.entityid, 4, 3, 2)
@@ -122,6 +121,7 @@ def scene_options_ajax(request):
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
+                            'sliced': scene.entityid[0:8],
                             'path': scene.path,
                             'row': scene.row,
                             'normal': normal,

@@ -3,7 +3,7 @@
 {% block content %}
 
 <header>
-    <h1><a href='/'>Snapsat</a></h1>
+    <h1><a href='/'>Snapsat Develop</a></h1>
 </header>
 
 <section id='overview'>
@@ -13,65 +13,61 @@
         which bands you'd like used, and wait 10 minutes. That's it!</p>
 </section>
 
-<section id='possibilities'>
-    <h2>What's possible</h2>
-    <p>Landsat composites typically entail combining 3 bands into a single image. 
-        With <strong>11</strong> different bands, that works out to <strong>165</strong> different combinations that you can make. Here are some of the most common.</p>
-    <div>
-        <h3>Natural color</h3>
-        <img src='http://www.exelisvis.com/Portals/0/blogs/imageryspeaks/JoePeters/_2_NaturalColor.jpg'>
-    </div>
-    <div>
-        <h3>Color infrared</h3>
-        <img src='http://www.exelisvis.com/Portals/0/blogs/imageryspeaks/JoePeters/_3_CIR.jpg'>
-    </div>
-    <div>
-        <h3>Urban false color</h3>
-        <img src='http://www.exelisvis.com/Portals/0/blogs/imageryspeaks/JoePeters/_4_FalseColor_Urban_764.jpg'>
-    </div>
-
-</section>
 
 <section id='where'>
     <h2>Choose a location</h2>
     <p class='blurb'>Use the map on the left to select a location.</p>
 </section>
 
-<section id='scenes'>
-    <h2>Pick a date</h2>
-    <p class='blurb'>We have data for each of these dates:</p>
+<!-- TODO: ARRANGE BY SCENE -->
+
+<section id='scene'>
+    <h2>Choose a scene</h2>
+</section>
+
+
+{% for group in scenes|groupby('sliced') %}
+<div>
     <table>
         <tbody>
+            <tr><strong>{{ group.grouper }}</strong></tr>
+                {% for s in group.list %}
+                    <tr>
+                        <td>{{ s.acquisitiondate }}</td>
+                        <td>{{ s.path }}</td>
+                        <td>{{ s.row }}</td>
+                        <td>{{ s.cloudcover }}</td>
+                        <td>{{ s.entityid }}</td>
+                        <td>{{ s.sliced }}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+
+
+<section id='date'>
+    <h2>Choose a date</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>Acquisition date</td> <td>Path</td> <td>Row</td> <td>Percent cloud cover</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+
         {% for s in scenes %}
             <tr>
                 <td>{{ s.acquisitiondate }}</td>
                 <td>{{ s.path }}</td>
                 <td>{{ s.row }}</td>
                 <td>{{ s.cloudcover }}</td>
-                <td><a href='/scene/{{ s.entityid }}'>Start processing</a></td>
+                <td>{{ s.entityid }}</td>
+                <td>{{ s.sliced }}</td>
             </tr>
         {% endfor %}
     </table>
 </section>
-
-<section id='resources'>
-    <h2>Learn more</h2>
-
-    <h3>Created by</h3>
-    <ul>
-        <li><a href='https://github.com/constanthatz'>Constantine Hatzis</a></li>
-        <li><a href='https://github.com/poolbath1'>Joel Stanner</a></li>
-        <li><a href='https://github.com/bm5w'>Mark Saiget</a></li>
-        <li><a href='https://github.com/Jakealope'>Jake Anderson</a></li>
-        <li><a href='https://github.com/jacquestardie'>Jacques Tardie</a></li>
-    </ul>
-    <h3>With special thanks to:</h3>
-    <ul>
-        <li><a href='https://github.com/cewing'>Cris Ewing</a></li>
-        <li><a href='https://github.com/recombinators/little-worker'>Little Worker</a></li>
-        <li><a href='https://developmentseed.org/'>Developmentseed</a></li>
-        <li><a href='https://aws.amazon.com/public-data-sets/landsat/'>Amazon AWS</a></li>
-    </ul>
-</section>
-
 {% endblock %}
