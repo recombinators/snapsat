@@ -95,16 +95,12 @@ def scene_status(request):
             # format datetime object
             elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
             scene.elapsed_worker_time = elapsed_time.split('.')[0]
-    preview_urls = {}
-    preview_urls['normal'] = preview_url(scene_id, 4, 3, 2)
-    preview_urls['heat'] = preview_url(scene_id, 5, 4, 3)
-    preview_urls['veggie'] = preview_url(scene_id, 5, 3, 2)
 
     return {'scene_id': request.matchdict['scene_id'],
             'available_scenes': available_scenes,
             'status': status,
-            'elapsed_worker_time': elapsed_worker_time,
-            'preview_urls': preview_urls}
+            'elapsed_worker_time': elapsed_worker_time
+            }
 
 
 @view_config(route_name='done', renderer='json')
