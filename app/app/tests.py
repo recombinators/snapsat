@@ -1,7 +1,5 @@
 import unittest
-import transaction
 import os
-import app
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
@@ -56,68 +54,58 @@ class FunctionalTest(unittest.TestCase):
 
 class HomePageTest(FunctionalTest):
 
-    def map_move(self, key_move, repeat=1, sleep_time=.5):
-        """Move the map with a repeat and sleep"""
-        map_ = self.browser.find_element_by_id("map")
-        key_moves = {
-            'zoom_in': 'self.browser.find_element_by_class_name("leaflet-control-zoom-in").click()',
-            'zoom_out': 'self.browser.find_element_by_class_name("leaflet-control-zoom-out").click()',
-            'arrow_down': 'map_.send_keys(Keys.ARROW_DOWN)',
-            'arrow_right': 'map_.send_keys(Keys.ARROW_RIGHT)',
-            'arrow_left': 'map_.send_keys(Keys.ARROW_LEFT)',
-            'arrow_up': 'map_.send_keys(Keys.ARROW_UP)',
-        }
-
+    def zoom_in(self, repeat=1, sleep_time=1):
         for _ in range(repeat):
-            
-            import pdb; pdb.set_trace()
-            
-                
-            
-            key_moves[key_move]
+            (self.browser.find_element_by_class_name(
+                "leaflet-control-zoom-in").click()
+            )
             sleep(sleep_time)
 
+    def zoom_out(self, repeat=1, sleep_time=1):
+        for _ in range(repeat):
+            (self.browser.find_element_by_class_name(
+                "leaflet-control-zoom-out").click()
+            )
+            sleep(sleep_time)
+
+    def arrow_down(self, repeat=1, sleep_time=1):
+        for _ in range(repeat):
+            self.browser.find_element_by_id("map").send_keys(Keys.ARROW_DOWN)
+            sleep(sleep_time)
+
+    def arrow_right(self, repeat=1, sleep_time=1):
+        for _ in range(repeat):
+            self.browser.find_element_by_id("map").send_keys(Keys.ARROW_RIGHT)
+            sleep(sleep_time)
+
+    def arrow_left(self, repeat=1, sleep_time=1):
+        for _ in range(repeat):
+            self.browser.find_element_by_id("map").send_keys(Keys.ARROW_LEFT)
+            sleep(sleep_time)
+
+    def arrow_up(self, repeat=1, sleep_time=1):
+        for _ in range(repeat):
+            self.browser.find_element_by_id("map").send_keys(Keys.ARROW_UP)
+            sleep(sleep_time)
+
+    # Tests here
     def test_home_page_loads(self):
-        #Billy sees the landsat.club homepage and rejoices.
+        #Billy sees the landsat.club homepage and rejoices. Clicking ensues.
         self.browser.get('localhost:8000')
 
-        self.map_move('zoom_out', repeat=5, sleep_time=1)
-        self.map_move('arrow_right', repeat=5, sleep_time=.75)
+        self.zoom_out(repeat=5, sleep_time=.5)
+        self.arrow_right(repeat=5, sleep_time=.2)
+        self.arrow_down(repeat=3, sleep_time=.2)
 
+        self.browser.find_element_by_class_name(
+            'leaflet-control-mapbox-geocoder-toggle').click()
 
-        #zoom_in.click()
-        #zoom_in.click()
-        #sleep(.5)
-        #zoom_in.click()
-        #sleep(.75)
-        #zoom_in.click()
-        #sleep(.75)
-        #zoom_in.click()
-        #sleep(.5)
-        #zoom_in.click()
-        #sleep(.5)
-        #zoom_in.click()
-        #sleep(.5)
-        #zoom_in.click()
-        #sleep(.5)
-        #zoom_in.click()
-        #sleep(.5)
-        #zoom_in.click()
-        #sleep(.75)
-        #zoom_in.click()
-        #sleep(5)
-        #self.browser.find_element_by_class_name('leaflet-control-mapbox-geocoder-toggle').click()
-        #self.browser.find_element_by_xpath('//*[@id="map"]/div[2]/div[1]/div[2]/div[2]/form/input').send_keys('10010', Keys.RETURN)
-        #
-        #
-        #sleep(.75)
-        #zoom_out.click()
-        #sleep(.75)
-        #zoom_out.click()
-        #sleep(.75)
-        #zoom_out.click()
-        #sleep(.75)
-        #zoom_out.click()
-        #
-        #sleep(600)
-        #
+        map_input_form = '//*[@id="map"]/div[2]/div[1]/div[2]/div[2]/form/input'
+        (self.browser.find_element_by_xpath(map_input_form)
+         .send_keys('10010', Keys.RETURN)
+        )
+
+        sleep(.75)
+        self.zoom_out(repeat=3)
+
+        self.assertIn('Snapsat', self.browser.page_source)
