@@ -29,6 +29,7 @@ map.on('moveend', function() {
     }).done(function(json) {
 
         scenes = json.scenes_date;
+        scenes_pr = json.scenes_path_row;
         // $('path_row_grouping').html('');
         //     for (var i in scenes) {
         //         var pad = "000",
@@ -44,6 +45,15 @@ map.on('moveend', function() {
         //                 "<td>" + scenes[i].sliced + "</td>" +
         //             "</tr>");
         //     }
+        $('#pathrowgrouping').html('');
+            for (var i in scenes) {
+                var num = i;
+                var n = num.toString();
+                cls = 'tab'.concat(n);
+                $('#pathrowgrouping').append(
+                    $('<table></table>').addClass(cls)
+                    );
+
         $('#dategrouping').html('');
             for (var j in scenes) {
                 $('#dategrouping').append(
