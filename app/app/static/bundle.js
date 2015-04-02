@@ -35,6 +35,7 @@ map.on('moveend', function() {
     }).done(function(json) {
 
         scenes = json.scenes_date;
+        scenes_pr = json.scenes_path_row;
         // $('path_row_grouping').html('');
         //     for (var i in scenes) {
         //         var pad = "000",
@@ -50,6 +51,31 @@ map.on('moveend', function() {
         //                 "<td>" + scenes[i].sliced + "</td>" +
         //             "</tr>");
         //     }
+        $('#pathrowgrouping').html('');
+            for (var i in scenes_pr) {
+                var num = i;
+                var n = num.toString();
+                var id = 'tab'.concat(n);
+                $('#pathrowgrouping').append(
+                    $('<table></table>').attr('id', id)
+                    );
+
+                var scenes_path_row = scenes_pr[i];
+                var newid = '#'.concat(id);
+                $(newid).html('');
+                for (var k in scenes_path_row) {
+                    $(newid).append(
+                        "<tr>" +
+                        "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
+                        "<td>" + scenes_path_row[k].path + "</td>" +
+                        "<td>" + scenes_path_row[k].row + "</td>" +
+                        "<td>" + scenes_path_row[k].cloudcover + "</td>" +
+                        "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                        "<td>" + scenes_path_row[k].sliced + "</td>" +
+                    "</tr>");
+                }
+            }
+
         $('#dategrouping').html('');
             for (var j in scenes) {
                 $('#dategrouping').append(

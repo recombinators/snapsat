@@ -46,13 +46,29 @@ map.on('moveend', function() {
         //             "</tr>");
         //     }
         $('#pathrowgrouping').html('');
-            for (var i in scenes) {
+            for (var i in scenes_pr) {
                 var num = i;
                 var n = num.toString();
-                cls = 'tab'.concat(n);
+                var id = 'tab'.concat(n);
                 $('#pathrowgrouping').append(
-                    $('<table></table>').addClass(cls)
+                    $('<table></table>').attr('id', id)
                     );
+
+                var scenes_path_row = scenes_pr[i];
+                var newid = '#'.concat(id);
+                $(newid).html('');
+                for (var k in scenes_path_row) {
+                    $(newid).append(
+                        "<tr>" +
+                        "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
+                        "<td>" + scenes_path_row[k].path + "</td>" +
+                        "<td>" + scenes_path_row[k].row + "</td>" +
+                        "<td>" + scenes_path_row[k].cloudcover + "</td>" +
+                        "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                        "<td>" + scenes_path_row[k].sliced + "</td>" +
+                    "</tr>");
+                }
+            }
 
         $('#dategrouping').html('');
             for (var j in scenes) {
