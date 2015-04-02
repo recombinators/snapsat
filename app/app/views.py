@@ -39,11 +39,17 @@ def add_to_queue(queue, request):
                                        band1=band1,
                                        band2=band2,
                                        band3=band3)
-        message = build_job_message(job_id=pk, email='test@test.com',
-                                    scene_id=scene_id,
-                                    band_1=band1,
-                                    band_2=band2,
-                                    band_3=band3)
+            message = build_job_message(job_id=pk, email='test@test.com',
+                                        scene_id=scene_id,
+                                        band_1=band1,
+                                        band_2=band2,
+                                        band_3=band3)
+        else:
+            message = build_job_message(job_id=0, email='test@test.com',
+                                        scene_id=scene_id,
+                                        band_1=band1,
+                                        band_2=band2,
+                                        band_3=band3)
         send_message(SQSconn,
                      render_queue,
                      message['body'],
