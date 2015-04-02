@@ -1,6 +1,6 @@
 from pyramid.view import view_config
-from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
-                     Rendered_Model,)
+from .models import (Paths_Model, PathRow_Model, UserJob_Model,
+                     RenderCache_Model,)
 from sqs import (make_SQS_connection, get_queue, build_job_message,
                  send_message, queue_size,)
 import os
@@ -28,16 +28,16 @@ def add_to_queue_full(request):
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
-    if not Rendered_Model.full_render_availability(scene_id, band1, band2, band3):
+    if not RenderCache_Model.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, RENDER_QUEUE)
-        pk = UserJob_Model.new_job(entityid=scene_id,
+        jobid = UserJob_Model.new_job(entityid=scene_id,
                                    band1=band1,
                                    band2=band2,
                                    band3=band3)
-        message = build_job_message(job_id=pk, email='test@test.com',
+        message = build_job_message(job_id=jobid, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
                                     band_2=band2,
@@ -47,6 +47,8 @@ def add_to_queue_full(request):
                      message['body'],
                      message['attributes'])
 
+    return jobid
+
 
 def add_to_queue_preview(request):
     """Helper method for adding request to queue and adding to db"""
@@ -54,7 +56,10 @@ def add_to_queue_preview(request):
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
-    if not Rendered_Model.preview_render_availability(scene_id, band1, band2, band3):
+    if not RenderCache_Model.preview_render_availability(scene_id,
+                                                      band1,
+                                                      band2,
+                                                      band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
@@ -74,7 +79,7 @@ def add_to_queue_preview(request):
 def request_scene(request):
     """Request scene full render and preview render"""
     add_to_queue_preview(request)
-    add_to_queue_full(request)
+    jobid = add_to_queue_full(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
@@ -85,12 +90,17 @@ def request_preview(request):
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
-@view_config(route_name='scene_status', renderer='templates/scene.jinja2')
-def scene_status(request):
-    '''Given sceneID display available previews and rendered photos/links.'''
-    status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
+@view_config(route_name='scene_page', renderer='templates/scene.jinja2')
+def scene_page(request):
+    """
+    Given sceneID display available previews, rendered photos/links, status of
+    jobs in process.
+    """
     scene_id = request.matchdict['scene_id']
-    available_scenes = Rendered_Model.available(scene_id)
+    available_scenes = RenderCache_Model.available(scene_id)
+    
+    status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
+    
     for scene in available_scenes:
         if scene.currentlyrend or scene.renderurl:
             worker_start_time, worker_lastmod_time = (
@@ -120,22 +130,14 @@ def done(request):
     UserJob_Model.set_job_status(pk, status, url)
 
 
-def preview_url(scene, band1, band2, band3):
-    '''get link for preview url'''
-    root = 'ec2-54-187-23-173.us-west-2.compute.amazonaws.com'
-    # root = 'localhost:6543'
-    url = 'http://{}/{}/{}/{}/{}/preview.png'.format(root, scene, band1, band2, band3)
-    return url
-
-
-@view_config(route_name='ajax', renderer='json')
+@view_config(route_name='scene_options_ajax', renderer='json')
 def scene_options_ajax(request):
     """View for ajax request returns dict with all available scenes centered on
        map."""
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
-    scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
+    scenes = PathRow_Model.scenelist(Paths_Model.pathandrow(lat, lng))
     scenes_dict = []
     for i, scene in enumerate(scenes):
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
@@ -167,6 +169,7 @@ def status_poll(request):
     """
     Poll database for render job status.
     """
+    jobid = request.params.get('jobid')
     job_info = UserJob_Model.job_status_and_times(jobid)
 
     return {'job_info': job_info}

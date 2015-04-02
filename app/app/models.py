@@ -10,7 +10,7 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class PathAndRow_Model(Base):
+class Paths_Model(Base):
     '''Model for path and row table.'''
     __tablename__ = 'paths'
 
@@ -34,7 +34,7 @@ class PathAndRow_Model(Base):
             return u'----'
 
 
-class SceneList_Model(Base):
+class PathRow_Model(Base):
     '''Model for AWS S3 scene list.'''
     __tablename__ = 'path_row'
     entityid = Column(UnicodeText, primary_key=True)
@@ -110,7 +110,7 @@ class UserJob_Model(Base):
         except:
             return None
         try:
-            Rendered_Model.add(pk, True)
+            RenderCache_Model.add(pk, True)
         except:
             print 'Could not add job to rendered db'
         return pk
@@ -137,7 +137,7 @@ class UserJob_Model(Base):
         # Tell render_cache db we have this image now
         if int(status) == 5:
             try:
-                Rendered_Model.update(jobid, False, url)
+                RenderCache_Model.update(jobid, False, url)
             except:
                 print 'Could not update Rendered db'
 
@@ -183,7 +183,7 @@ class UserJob_Model(Base):
             print 'database operation failed'
 
 
-class Rendered_Model(Base):
+class RenderCache_Model(Base):
     '''Model for the already rendered files'''
     __tablename__ = 'render_cache'
     id = Column(Integer, primary_key=True)
@@ -201,7 +201,7 @@ class Rendered_Model(Base):
     def add(cls, jobid, currentlyrend):
         '''Method adds entry into db given jobid and optional url.'''
         jobQuery = DBSession.query(UserJob_Model).get(jobid)
-        job = Rendered_Model(entityid=jobQuery.entityid,
+        job = RenderCache_Model(entityid=jobQuery.entityid,
                              jobid=jobid,
                              band1=jobQuery.band1,
                              band2=jobQuery.band2,
