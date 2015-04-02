@@ -19,7 +19,7 @@
             {% if s.renderurl %}
                 <a href="{{ s.renderurl }}">Download Full Zip</a>
                 {% if s.elapsed_worker_time %}
-                    <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
+                    <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
                 {% endif %}
             {% elif s.currentlyrend %}
                 <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
