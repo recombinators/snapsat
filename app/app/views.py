@@ -8,7 +8,7 @@ import os
 from pyramid.httpexceptions import HTTPFound
 import operator
 from datetime import datetime
-
+import itertools
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -26,10 +26,6 @@ def index(request):
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     '''Make request for scene, add to queue, add to db.'''
-    # EC2conn = make_EC2_connection(REGION,
-    #                               AWS_ACCESS_KEY_ID,
-    #                               AWS_SECRET_ACCESS_KEY)
-    # foreman(EC2conn, REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
@@ -139,6 +135,16 @@ def scene_options_ajax(request):
                             'row': scene.row
                             })
 
-    scenes_dict.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
+    scenes_date = sorted(scenes_dict,
+                         key=operator.itemgetter('acquisitiondate'),
+                         reverse=True)
+    scenes_pr = sorted(scenes_dict,
+                       key=operator.itemgetter('sliced'),
+                       reverse=False)
 
-    return {'scenes': scenes_dict}
+    scenes_path_row = []
+    for key, items in itertools.groupby(scenes_pr, operator.itemgetter('sliced')):
+        scenes_path_row.append(list(items))
+
+    return {'scenes_date': scenes_date,
+            'scenes_path_row': scenes_path_row}

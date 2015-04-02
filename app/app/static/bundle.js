@@ -34,7 +34,7 @@ map.on('moveend', function() {
         data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
 
-        scenes = json.scenes;
+        scenes = json.scenes_date;
         // $('path_row_grouping').html('');
         //     for (var i in scenes) {
         //         var pad = "000",
