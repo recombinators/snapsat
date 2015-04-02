@@ -35,6 +35,7 @@ $(document).ready(function() {
 		var targetOffset = $('div.blockquote').offset().top-80;
 		$('html,body').animate({scrollTop: targetOffset}, 1000);
 	});
+
 	// Menu Scroll Hide
 	var nav = $('.menubar');
 	var scroll = $('.menubar').attr('data-scroll');
@@ -62,6 +63,7 @@ $(document).ready(function() {
 			
 		}
 	});
+	
 	// Text Rotator
 	$('.rotate').each(function(){
 		var el = $(this);
