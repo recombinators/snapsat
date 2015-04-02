@@ -161,3 +161,10 @@ def scene_options_ajax(request):
 
     return {'scenes_date': scenes_date,
             'scenes_path_row': scenes_path_row}
+
+
+@view_config(route_name='done', renderer='json')
+def status_poll(request):
+    """
+    Poll database for render job status.
+    """
