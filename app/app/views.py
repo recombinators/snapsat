@@ -3,7 +3,6 @@ from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
                      Rendered_Model,)
 from sqs import (make_SQS_connection, get_queue, build_job_message,
                  send_message, queue_size,)
-from foreman import (foreman, make_EC2_connection,)
 import os
 from pyramid.httpexceptions import HTTPFound
 import operator
@@ -168,3 +167,6 @@ def status_poll(request):
     """
     Poll database for render job status.
     """
+    job_info = UserJob_Model.job_status_and_times(jobid)
+
+    return {'job_info': job_info}

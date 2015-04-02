@@ -174,8 +174,11 @@ class UserJob_Model(Base):
         Get status and times for jobid passed in.
         """
         try:
-            job = DBSession.query(cls).get(jobid)
-            return job.status, job.starttime, job.lastmodified
+            job_info = DBSession.query(UserJob_Model.jobstatus,
+                                       UserJob_Model.starttime,
+                                       UserJob_Model.lastmodified).filter(
+                UserJob_Model.jobid == 346).one()
+            return job_info
         except:
             print 'database operation failed'
 
