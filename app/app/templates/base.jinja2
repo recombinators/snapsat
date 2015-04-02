@@ -9,14 +9,12 @@
         <link rel="icon" type="image/ico" href="/static/favicon.ico">
     </head>
     <body>
-        <div class='map-container'>
-            <div id='map'>
-                <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
-            </div>
-        </div>
-        <div class='contain'>
-            {% block content %}{% endblock %}
-        </div>
+        <!-- <div class='map-container'> -->
+        <!--     <div id='map'> -->
+        <!--         <span class="reticle bold red h3"><img src='/static/logo.svg'></span> -->
+        <!--     </div> -->
+        <!-- </div> -->
+        {% block content %}{% endblock %}
 
         <script src='/static/bundle.js'></script>
         <script src='/static/js/gauges.js'></script>

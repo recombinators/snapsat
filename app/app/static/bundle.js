@@ -34,21 +34,47 @@ map.on('moveend', function() {
         data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
 
-        data = json.scenes;
+        scenes = json.scenes_date;
+        scenes_pr = json.scenes_path_row;
+        
+        $('#pathrowgrouping').html('');
+            for (var i in scenes_pr) {
+                var num = i;
+                var n = num.toString();
+                var id = 'tab'.concat(n);
+                $('#pathrowgrouping').append(
+                    $('<table></table>').attr('id', id)
+                    );
 
-        $('table').html('');
-            for (var i in data) {
-                var pad = "000",
-                    r = data[i].row, r_result = (pad+r).slice(-pad.length),
-                    p = data[i].path, p_result = (pad+p).slice(-pad.length);
+                var scenes_path_row = scenes_pr[i];
+                var newid = '#'.concat(id);
+                $(newid).html('');
+                    $(newid).append(
+                        "<tr><td><strong>" + scenes_path_row[0].sliced + "</strong></td></tr>"
+                        );
+                    for (var k in scenes_path_row) {
+                        $(newid).append(
+                            "<tr>" +
+                                "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
+                                "<td>" + scenes_path_row[k].path + "</td>" +
+                                "<td>" + scenes_path_row[k].row + "</td>" +
+                                "<td>" + scenes_path_row[k].cloudcover + "</td>" +
+                                "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                                "<td>" + scenes_path_row[k].sliced + "</td>" +
+                            "</tr>");
+                    }
+            }
 
-                $('table').append(
+        $('#dategrouping').html('');
+            for (var j in scenes) {
+                $('#dategrouping').append(
                     "<tr>" +
-                        "<td>" + data[i].acquisitiondate + "</td>" +
-                        "<td>" + data[i].path + "</td>" +
-                        "<td>" + data[i].row + "</td>" +
-                        "<td>" + data[i].cloudcover + "</td>" +
-                        "<td><a href='/scene/" + data[i].entityid + "'>Start processing</a></td>" +
+                        "<td>" + scenes[j].acquisitiondate + "</td>" +
+                        "<td>" + scenes[j].path + "</td>" +
+                        "<td>" + scenes[j].row + "</td>" +
+                        "<td>" + scenes[j].cloudcover + "</td>" +
+                        "<td><a href='/scene/" + scenes[j].entityid + "'>" + scenes[j].entityid + "</a></td>" +
+                        "<td>" + scenes[j].sliced + "</td>" +
                     "</tr>");
             }
     });

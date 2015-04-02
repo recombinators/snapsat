@@ -1,0 +1,28 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+
+<div class='map-container'>
+    <div id='map'>
+        <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
+    </div>
+</div>
+
+<section id='scenes'>
+    <h2>Pick a date</h2>
+    <p class='blurb'>We have data for each of these dates:</p>
+    <table>
+        <tbody>
+        {% for s in scenes %}
+            <tr>
+                <td>{{ s.acquisitiondate }}</td>
+                <td>{{ s.path }}</td>
+                <td>{{ s.row }}</td>
+                <td>{{ s.cloudcover }}</td>
+                <td><a href='/scene/{{ s.entityid }}'>Start processing</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</section>
+
+{% endblock %}
