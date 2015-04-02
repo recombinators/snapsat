@@ -74,10 +74,7 @@ def request_preview(request):
 @view_config(route_name='scene_status', renderer='templates/scene.jinja2')
 def scene_status(request):
     '''Given sceneID display available previews and rendered photos/links.'''
-    status = {}
-    worker_start_time = {}
-    worker_lastmod_time = {}
-    elapsed_worker_time = {}
+    status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
     scene_id = request.matchdict['scene_id']
     available_scenes = Rendered_Model.available(scene_id)
     for scene in available_scenes:
