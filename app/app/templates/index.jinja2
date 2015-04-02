@@ -32,7 +32,6 @@
         <table>
             <tbody>
                 <tr><strong>{{ group[0].sliced }}</strong></tr>
-                    <div id='pathrowsubgrouping'>
                     {% for s in group %}
                         <tr>
                             <td>{{ s.acquisitiondate }}</td>
@@ -43,7 +42,6 @@
                             <td>{{ s.sliced }}</td>
                         </tr>
                     {% endfor %}
-                    </div>
             </tbody>
         </table>
     </div>

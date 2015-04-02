@@ -57,17 +57,20 @@ map.on('moveend', function() {
                 var scenes_path_row = scenes_pr[i];
                 var newid = '#'.concat(id);
                 $(newid).html('');
-                for (var k in scenes_path_row) {
                     $(newid).append(
-                        "<tr>" +
-                        "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
-                        "<td>" + scenes_path_row[k].path + "</td>" +
-                        "<td>" + scenes_path_row[k].row + "</td>" +
-                        "<td>" + scenes_path_row[k].cloudcover + "</td>" +
-                        "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
-                        "<td>" + scenes_path_row[k].sliced + "</td>" +
-                    "</tr>");
-                }
+                        "<tr><td><strong>" + scenes_path_row[0].sliced + "</strong></td></tr>"
+                        );
+                    for (var k in scenes_path_row) {
+                        $(newid).append(
+                            "<tr>" +
+                                "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
+                                "<td>" + scenes_path_row[k].path + "</td>" +
+                                "<td>" + scenes_path_row[k].row + "</td>" +
+                                "<td>" + scenes_path_row[k].cloudcover + "</td>" +
+                                "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                                "<td>" + scenes_path_row[k].sliced + "</td>" +
+                            "</tr>");
+                    }
             }
 
         $('#dategrouping').html('');
