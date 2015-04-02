@@ -96,11 +96,13 @@ def scene_page(request):
     Given sceneID display available previews, rendered photos/links, status of
     jobs in process.
     """
+
     scene_id = request.matchdict['scene_id']
-    available_scenes = RenderCache_Model.available(scene_id)
-    
+    available_scenes = RenderCache_Model.get_rendered(scene_id)
+    get_in_process_jobs(scene_id)
+
     status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
-    
+
     for scene in available_scenes:
         if scene.currentlyrend or scene.renderurl:
             worker_start_time, worker_lastmod_time = (
@@ -121,13 +123,17 @@ def scene_page(request):
             }
 
 
-@view_config(route_name='done', renderer='json')
-def done(request):
-    '''Given post request from worker, in db, update job status.'''
-    pk = request.params.get('job_id')
-    status = request.params.get('status')
-    url = request.params.get('url')
-    UserJob_Model.set_job_status(pk, status, url)
+def get_available_scenes(scene_id):
+    available_scenes = RenderCache_Model.available(scene_id)
+    return available_scenes
+
+
+def get_rendered_previews(request):
+    pass
+
+
+def get_in_process_jobs(request):
+    pass
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
