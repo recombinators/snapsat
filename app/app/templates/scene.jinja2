@@ -13,8 +13,6 @@
             <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
             {% if s.previewurl %}
                 <img src="{{ s.previewurl }}">
-            {% else %}
-                <img src=/static/img/no_preview.png>
             {% endif %}
             {% if s.renderurl %}
                 <a href="{{ s.renderurl }}">Download Full Zip</a>
