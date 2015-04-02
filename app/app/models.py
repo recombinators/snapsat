@@ -1,5 +1,5 @@
 # import sqlalchemy as sa
-from sqlalchemy import Column, update, Index, Integer, Boolean, UnicodeText, func, DateTime, Float, or_, and_
+from sqlalchemy import Column, Integer, Boolean, UnicodeText, func, DateTime, Float, or_, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -168,6 +168,17 @@ class UserJob_Model(Base):
         except:
             print 'database operation failed'
 
+    @classmethod
+    def job_status_and_times(cls, jobid):
+        """
+        Get status and times for jobid passed in.
+        """
+        try:
+            job = DBSession.query(cls).get(jobid)
+            return job.status, job.starttime, job.lastmodified
+        except:
+            print 'database operation failed'
+
 
 class Rendered_Model(Base):
     '''Model for the already rendered files'''
@@ -229,11 +240,11 @@ class Rendered_Model(Base):
             return None
         if output != 0:
             # if this scene/band has already been requested, increase the count
-            existing = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                   cls.band1 == band1,
-                                                   cls.band2 == band2,
-                                                   cls.band3 == band3).update({
-                                                   "rendercount": cls.rendercount+1})
+            DBSession.query(cls).filter(cls.entityid == entityid,
+                                        cls.band1 == band1,
+                                        cls.band2 == band2,
+                                        cls.band3 == band3).update({
+                                        "rendercount": cls.rendercount+1})
         return output != 0
 
     @classmethod
