@@ -26,48 +26,48 @@
 </section>
 
 
-{% for group in scenes|groupby('sliced') %}
-<div>
-    <table>
-        <tbody>
-            <tr><strong>{{ group.grouper }}</strong></tr>
-                {% for s in group.list %}
-                    <tr>
-                        <td>{{ s.acquisitiondate }}</td>
-                        <td>{{ s.path }}</td>
-                        <td>{{ s.row }}</td>
-                        <td>{{ s.cloudcover }}</td>
-                        <td>{{ s.entityid }}</td>
-                        <td>{{ s.sliced }}</td>
-                    </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<div id='pathrowgrouping'>
+{% for group in scenes_path_row %}
+    <div>
+        <table>
+            <tbody>
+                <tr><strong>{{ group[0].sliced }}</strong></tr>
+                    {% for s in group %}
+                        <tr>
+                            <td>{{ s.acquisitiondate }}</td>
+                            <td>{{ s.path }}</td>
+                            <td>{{ s.row }}</td>
+                            <td>{{ s.cloudcover }}</td>
+                            <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
+                            <td>{{ s.sliced }}</td>
+                        </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endfor %}
-
+</div>
 
 <section id='date'>
     <h2>Choose a date</h2>
-    <table>
+    <table id='dategrouping'>
         <thead>
             <tr>
                 <td>Acquisition date</td> <td>Path</td> <td>Row</td> <td>Percent cloud cover</td>
             </tr>
         </thead>
         <tbody>
-        </tbody>
-
-        {% for s in scenes %}
+        {% for s in scenes_date %}
             <tr>
                 <td>{{ s.acquisitiondate }}</td>
                 <td>{{ s.path }}</td>
                 <td>{{ s.row }}</td>
                 <td>{{ s.cloudcover }}</td>
-                <td>{{ s.entityid }}</td>
+                <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
                 <td>{{ s.sliced }}</td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 </section>
 {% endblock %}

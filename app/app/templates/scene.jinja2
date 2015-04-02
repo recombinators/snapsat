@@ -7,25 +7,16 @@
 
 <div id='available-scenes' class='display-inline-block'>
 
-    <h2>Previews</h2>
-    <section id='possibilities'>
-        <div>
-            <img src="{{ preview_urls['normal'] }}">
-        </div>
-        <div>
-            <img src="{{ preview_urls['heat'] }}">
-        </div>
-        <div>
-            <img src="{{ preview_urls['veggie'] }}">
-        </div>
-    </section>
-
     {% if available_scenes %}
         <h2>Available scenes for {{ scene_id }}</h2>
         {% for s in available_scenes %}
-
+            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+            {% if s.previewurl %}
+                <img src="{{ s.previewurl }}">
+            {% else %}
+                <img src=/static/img/no_preview.png>
+            {% endif %}
             {% if s.renderurl %}
-                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
                 <a href="{{ s.renderurl }}">Download Full Zip</a>
                 {% if s.elapsed_worker_time %}
                     <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
@@ -45,7 +36,7 @@
 
     <h2>Choose a combination</h2>
 
-    <form action="/request/{{scene_id}}" method="post" id="request_form_{{scene_id}}">
+    <form method="post" id="request_form_{{scene_id}}">
         <div id='combinations'>
             <div class='display-block'>
                 <label>Natural color</label>
@@ -60,7 +51,8 @@
                 <input type="radio" name="band_combo" value="532">
             </div>
         </div>
-        <button form="request_form_{{scene_id}}" formmethod="post" type="submit">Start processing!</button>
+        <button form="request_form_{{scene_id}}" formaction="/request_p/{{scene_id}}" formmethod="post" type="submit">Render Preview</button>
+        <button form="request_form_{{scene_id}}" formaction="/request/{{scene_id}}" formmethod="post" type="submit">Render Full Image</button>
     </form>
 
 </div>

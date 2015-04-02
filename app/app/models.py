@@ -235,3 +235,18 @@ class Rendered_Model(Base):
                                                    cls.band3 == band3).update({
                                                    "rendercount": cls.rendercount+1})
         return output != 0
+
+    @classmethod
+    def preview_render_availability(cls, entityid, band1, band2, band3):
+        '''Check if given preview image is already rendered'''
+        try:
+            output = DBSession.query(cls).filter(cls.entityid == entityid,
+                                                 cls.band1 == band1,
+                                                 cls.band2 == band2,
+                                                 cls.band3 == band3,
+                                                 cls.previewurl.isnot(None)).count()
+        except:
+            print 'Database query failed'
+            return None
+
+        return output != 0
