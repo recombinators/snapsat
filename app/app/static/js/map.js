@@ -28,22 +28,37 @@ map.on('moveend', function() {
         data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
 
-        scenes = json.scenes;
-        // $('path_row_grouping').html('');
-        //     for (var i in scenes) {
-        //         var pad = "000",
-        //             r = scenes[i].row, r_result = (pad+r).slice(-pad.length),
-        //             p = scenes[i].path, p_result = (pad+p).slice(-pad.length);
-        //         $('path_row_grouping').append(
-        //             "<tr>" +
-        //                 "<td>" + scenes[i].acquisitiondate + "</td>" +
-        //                 "<td>" + scenes[i].path + "</td>" +
-        //                 "<td>" + scenes[i].row + "</td>" +
-        //                 "<td>" + scenes[i].cloudcover + "</td>" +
-        //                 "<td><a href='/scene/" + scenes[i].entityid + "'>" + scenes[i].entityid + "</a></td>" +
-        //                 "<td>" + scenes[i].sliced + "</td>" +
-        //             "</tr>");
-        //     }
+        scenes = json.scenes_date;
+        scenes_pr = json.scenes_path_row;
+        
+        $('#pathrowgrouping').html('');
+            for (var i in scenes_pr) {
+                var num = i;
+                var n = num.toString();
+                var id = 'tab'.concat(n);
+                $('#pathrowgrouping').append(
+                    $('<table></table>').attr('id', id)
+                    );
+
+                var scenes_path_row = scenes_pr[i];
+                var newid = '#'.concat(id);
+                $(newid).html('');
+                    $(newid).append(
+                        "<tr><td><strong>" + scenes_path_row[0].sliced + "</strong></td></tr>"
+                        );
+                    for (var k in scenes_path_row) {
+                        $(newid).append(
+                            "<tr>" +
+                                "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
+                                "<td>" + scenes_path_row[k].path + "</td>" +
+                                "<td>" + scenes_path_row[k].row + "</td>" +
+                                "<td>" + scenes_path_row[k].cloudcover + "</td>" +
+                                "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                                "<td>" + scenes_path_row[k].sliced + "</td>" +
+                            "</tr>");
+                    }
+            }
+
         $('#dategrouping').html('');
             for (var j in scenes) {
                 $('#dategrouping').append(

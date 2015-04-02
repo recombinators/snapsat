@@ -27,13 +27,12 @@
 
 
 <div id='pathrowgrouping'>
-{% for group in scenes|groupby('sliced') %}
+{% for group in scenes_path_row %}
     <div>
         <table>
             <tbody>
-                <tr><strong>{{ group.grouper }}</strong></tr>
-                    <div id='pathrowsubgrouping'>
-                    {% for s in group.list %}
+                <tr><strong>{{ group[0].sliced }}</strong></tr>
+                    {% for s in group %}
                         <tr>
                             <td>{{ s.acquisitiondate }}</td>
                             <td>{{ s.path }}</td>
@@ -43,7 +42,6 @@
                             <td>{{ s.sliced }}</td>
                         </tr>
                     {% endfor %}
-                    </div>
             </tbody>
         </table>
     </div>
@@ -59,7 +57,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for s in scenes %}
+        {% for s in scenes_date %}
             <tr>
                 <td>{{ s.acquisitiondate }}</td>
                 <td>{{ s.path }}</td>
