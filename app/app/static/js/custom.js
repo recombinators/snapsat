@@ -36,6 +36,34 @@ $(document).ready(function() {
 		$('html,body').animate({scrollTop: targetOffset}, 1000);
 	});
 
+	// Menu Scroll Hide
+	var nav = $('.menubar');
+	var scroll = $('.menubar').attr('data-scroll');
+	$(function(){
+		$('.menubar').data('size','big');
+		if (scroll == 'false') {
+			nav.css({
+				marginTop:'0px'
+			});
+		};
+	});
+	$(window).scroll(function(){
+		if ($('body').scrollTop() > 0 && scroll == 'true') {
+			if (nav.data('size') == 'big') {
+				nav.data('size','small').stop().animate({
+					marginTop:'0px'
+				}, 300);
+			}
+		} else {
+			if (nav.data('size') == 'small' && scroll == 'true') {
+				nav.data('size','big').stop().animate({
+					marginTop:'-80px'
+				}, 300);
+			}
+			
+		}
+	});
+	
 	// Text Rotator
 	$('.rotate').each(function(){
 		var el = $(this);
@@ -43,7 +71,7 @@ $(document).ready(function() {
 		el.html(text[0]);
 		setInterval(function() {
 			el.animate({
-              textShadowBlur:20,
+              textShadowBlur:0,
               opacity: 0
             }, 500 , function() {
               index = $.inArray(el.html(), text)

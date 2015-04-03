@@ -1,20 +1,20 @@
-<!doctype html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Snapsat, where wondering becomes knowing</title>
 <!-- Load CSS -->
-<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 <!-- Load Icon Font -->
-<link href="css/webfont.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/webfont.css" rel="stylesheet" type="text/css" />
 <!-- Load jQuery library -->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <!-- Load jCarousel js -->
-<script type="text/javascript" src="js/jquery.jcarousel.js"></script>
+<script type="text/javascript" src="/static/js/jquery.jcarousel.js"></script>
 <!-- Load MixItUup js -->
-<script type="text/javascript" src="js/jquery.mixitup.js"></script>
+<script type="text/javascript" src="/static/js/jquery.mixitup.js"></script>
 <!-- Load js -->
-<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="/static/js/custom.js"></script>
+<!-- Google analytics -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -27,21 +27,76 @@
 </head>
 <!-- Start Body -->
 <body>	
+	<!-- Start Menu -->
+	<div class="menubar" data-scroll="true">
+		<!-- <a href="#" class="logo"></a> -->
+		<ul class="mainmenu">
+			<li class="active"><a href="#home">Home</a></li>
+			<li><a href="#mission">Mission</a></li>
+			<li><a href="#thanks">Special Thanks</a></li>
+			<li><a href="#about">About us</a></li>
+			<li><a href="#contact">Contact us</a></li>
+			
+		</ul>
+	</div>
+	<!-- End Menu -->
 	<!-- Start Home -->
 	<a class="scroll" id="home"></a>
 	<div class="home hero">
 		<div class="overlay"></div>
 		<div class="herowrapper">
 			<h1>We are currently under construction, please come back soon!</h1>
-			<h1>We are Snapsat, the go to for <b class="rotate color">exploration,information,imagination</b>.</h1>
+			<h1>We are Snapsat, the go-to for <b class="rotate color">exploration,information,imagination</b>.</h1>
 		</div>
 		<a href="javascript:void(0);" class="scrolldown">
-			<h3>More about us</h3>
+			<h3>More about Snapsat</h3>
 			<div data-icon="&#xe017;" class="icon"></div>
 		</a>
 	</div>
 	<!-- End Home -->
-	
+	<!-- Start BlockQuote -->
+	<div class="blockquote main">
+		<blockquote>The earth is a beautiful place. Now everyone can see it.</blockquote>
+	</div>
+	<!-- End BlockQuote -->
+	<!-- Start Section Divider -->
+	<div class="section divider">
+		<h2>Our Mission</h2>
+		<a class="scroll" id="mission"></a>
+		
+	</div>
+	<!-- End Section Divider -->
+	<!-- Start Content -->
+	<div class="content">
+		<p class="mission">Here at Snapsat our mission is to take the freely availible Landsat images and deliver them to you in a fast, reliable, easy-to-use format. We want the general public be be able to see our wonderful planet in a full range of colors without the hassle of downloading giant files, installing heavy programs, or trying to process the images. With our service you can simply search or scroll to your desired location, pick a date you are interested in, click the 'start processing' button, and we will give you a preview of your scene while its downloading! Simple as that!</p>
+	</div>
+	<!-- End Content -->
+
+	<!-- Start Section Divider -->
+	<div class="section divider">
+		<h2>Special Thanks</h2>
+		<a class="scroll" id="thanks"></a>
+	</div>
+	<!-- End Section Divider -->
+	<!-- Start Content -->
+	<div class="content" id="thanks">
+	<p>We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies.</p>
+		<ol class="thanks">
+		<li><a href="http://www.ansible.com/home">Ansible</a></li>
+		<li><a href="http://aws.amazon.com/s3/">Amazon S3</a></li>
+		<li><a href="http://aws.amazon.com/rds/">Amazon RDS</a></li>
+		<li><a href="http://aws.amazon.com/sqs/">Amazon SQS</a></li>
+		<li><a href="http://aws.amazon.com/">Amazon Web Services</a></li>
+		<li><a href="https://www.codefellows.org/">Code Fellows</a></li>
+		<li><a href="http://crisewing.com/">Cris Ewing</a></li>
+		<li><a href="https://raw.githubusercontent.com/jacquestardie/gifs/master/baby.gif">Little Worker</a></li>
+		<li><a href="http://www.postgresql.org/">Posgresql</a></li>
+		<li><a href="http://postgis.net/">Postgis</a></li>
+		<li><a href="http://www.pylonsproject.org/">Pyramid</a></li>
+		<li><a href="http://www.sqlalchemy.org/">SQLAlchemy</a></li>
+		</ol>
+	</div>
+	<!-- End Content -->
 	<!-- Start Section Divider -->
 	<div class="section divider">
 		<h2>Our Team</h2>
@@ -52,13 +107,10 @@
 	<!-- Start Content -->
 	<div class="content">
 
-		<!-- Start Main Paragraph -->
-		<p class="main dark-gray">“The imagery is just so beautiful. I can’t believe how beautiful it is.” —Kass Green, Landsat scientist</p>
-		<!-- Start Main Paragraph -->
 
 		<!-- Start Person Block -->
 		<div class="person">
-				<img src="img/constantine.jpg">
+				<img src="/static/img/constantine.jpg">
 			<div class="info">
 				<h2>Constantine Hatzis</h2>
 				<h4 class="light-gray">CEO</h4>
@@ -73,7 +125,7 @@
 
 		<!-- Start Person Block -->
 		<div class="person">
-				<img src="img/jacques.jpg">
+				<img src="/static/img/jacques.jpg">
 			<div class="info">
 				<h2>Jacques Tardie</h2>
 				<h4 class="light-gray">CEO</h4>
@@ -88,7 +140,7 @@
 		
 		<!-- Start Person Block -->
 		<div class="person">
-				<img src="img/jake.jpg">
+				<img src="/static/img/jake.jpg">
 			<div class="info">
 				<h2>Jake Anderson</h2>
 				<h4 class="light-gray">CEO</h4>
@@ -104,7 +156,7 @@
 		
 		<!-- Start Person Block -->
 		<div class="person">
-				<img src="img/joel.jpg">
+				<img src="/static/img/joel.jpg">
 			<div class="info">
 				<h2>Joel Stanner</h2>
 				<h4 class="light-gray">CEO</h4>
@@ -119,7 +171,7 @@
 
 		<!-- Start Person Block -->
 		<div class="person">
-				<img src="img/mark.jpg">
+				<img src="/static/img/mark.jpg">
 			<div class="info">
 				<h2>Mark Saiget</h2>
 				<h4 class="light-gray">CEO</h4>
@@ -134,7 +186,17 @@
 
 	</div>
 	<!-- End Content -->
-
+	<!-- Start Section Divider -->
+	<div class="section divider">
+		<h2>Contact Us</h2>
+		<a class="scroll" id="contact"></a>
+	</div>
+	<!-- End Section Divider -->
+	<!-- Start Content -->
+	<div class="content" id="contact">
+	<p>If you would like to contact us please feel free to hit us up on <a href="https://twitter.com/therealsnapsat">Twitter</a><br> or email us at <a href="mailto:landsat.club@gmail.com">landsat.club@gmail.com</a></p>
+	</div>
+	<!-- End Content -->
 	<footer class="footer">
 		<h6>© Copyright 2015 | Snapsat</h6></a>
 	</footer>
