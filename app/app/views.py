@@ -112,10 +112,6 @@ def scene_page(request):
         else:
             rendered_composites.append(composite)
 
-    # status_poll(rendering_composites)
-
-    # status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
-
     # for scene in rendered_composites:
     #     if scene.currentlyrend or scene.renderurl:
     #         worker_start_time, worker_lastmod_time = (

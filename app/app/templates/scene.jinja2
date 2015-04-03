@@ -5,30 +5,33 @@
     <h1>Create a composite</h1>
 </header>
 
-<div id='available-scenes' class='display-inline-block'>
-
+<div id='rendered_composites' class='display-inline-block'>
     {% if rendered_composites %}
         <h2>Rendered composites for {{ scene_id }}</h2>
-        {% for s in rendered_composites %}
-            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-            {% if s.previewurl %}
-                <img src="{{ s.previewurl }}">
-            {% else %}
+        {% for composite in rendered_composites %}
+            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+            {% if composite.previewurl %}
+                <img src="{{ composite.previewurl }}">
             {% endif %}
-            {% if s.renderurl %}
-                <a href="{{ s.renderurl }}">Download Full Zip</a>
-                {% if s.elapsed_worker_time %}
-                    <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
-                {% endif %}
-            {% elif s.currentlyrend %}
-                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
-                {% if s.elapsed_worker_time %}
-                    <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-                {% endif %}
+            {% if composite.renderurl %}
+                <a href="{{ composite.renderurl }}">Download Full Zip</a>
             {% endif %}
         {% endfor %}
     {% endif %}
+</div>
+
+<div id='rendering_composites' class='display-inline-block'>
+    {% if rendering_composites %}
+        {% for composite in rendering_composites }
+            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+            <p>Current status: <strong class='red'>{{ status[composite.jobid] }}</strong></p>
+            {% if composite.elapsed_worker_time %}
+                <p>Elapsed Process Time (min:sec): {{ composite.elapsed_worker_time }}</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>
+    
 
 
 
