@@ -106,6 +106,7 @@ def scene_page(request):
         scene_id)
     rendered_composites = []
     rendering_composites = {}
+    # import ipdb; ipdb.set_trace()
     for composite in rendered_rendering_composites:
         if composite.currentlyrend:
             rendering_composites.append(composite)
