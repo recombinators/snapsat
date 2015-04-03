@@ -921,3 +921,15 @@ header {
 
 td a { color: black; }
 td a:hover { color: red; }
+
+.image {
+    position: relative;
+}
+
+.bands {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8)
+}
