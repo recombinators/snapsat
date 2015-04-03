@@ -1,31 +1,36 @@
 {% extends "base.jinja2" %}
 
-{% block content %}
-<header>
-    <h1>Create a composite</h1>
+{% block header %}
+<header class='contain'>
+    <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+    <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
 </header>
+{% endblock %}
 
+{% block content %}
+
+<div class='contain mbx'>
 <div id='available-scenes' class='display-inline-block'>
 
     {% if available_scenes %}
-        <h2>Available scenes for {{ scene_id }}</h2>
+        <h2>Scene: {{ scene_id }}</h2>
         {% for s in available_scenes %}
-            <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-            {% if s.previewurl %}
-                <img src="{{ s.previewurl }}">
-            {% endif %}
-            {% if s.renderurl %}
-                <a href="{{ s.renderurl }}">Download Full Zip</a>
-                {% if s.elapsed_worker_time %}
-                    <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
+            <div class='image'>
+                {% if s.renderurl %}
+                    <a href="{{ s.renderurl }}">Download Full Zip</a>
+                    {% if s.elapsed_worker_time %}
+                        <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
+                    {% endif %}
+                {% elif s.currentlyrend %}
+                    <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
+                    <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
+                    {% if s.elapsed_worker_time %}
+                        <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
+                    {% endif %}
                 {% endif %}
-            {% elif s.currentlyrend %}
-                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
-                {% if s.elapsed_worker_time %}
-                    <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-                {% endif %}
-            {% endif %}
+                <p class='bands'>{{ s.band1 }} {{ s.band2 }} {{ s.band3 }}</p>
+                {% if s.previewurl %}<img src="{{ s.previewurl }}">{% endif %}
+            </div>
         {% endfor %}
     {% endif %}
 
@@ -52,6 +57,8 @@
         <button form="request_form_{{scene_id}}" formaction="/request_p/{{scene_id}}" formmethod="post" type="submit">Render Preview</button>
         <button form="request_form_{{scene_id}}" formaction="/request/{{scene_id}}" formmethod="post" type="submit">Render Full Image</button>
     </form>
+
+</div>
 
 </div>
 
