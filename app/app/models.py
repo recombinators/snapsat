@@ -30,10 +30,10 @@ class PathAndRow_Model(Base):
         """
         try:
             import pdb; pdb.set_trace()
-            scene = (DBSession.query(cls)
-                    .filter(func.ST_Within(func.ST_SetSRID(func
-                            .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
+            scene = (DBSession.query(cls).filter(
+                func.ST_Within(func.ST_SetSRID(
+                    func.ST_MakePoint(float(lon), float(lat)), 4236), 
+                    func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
                     )
             return scene
         except:
@@ -59,6 +59,7 @@ class SceneList_Model(Base):
         """
         new = []
         for x in pr_output:
+            import pdb; pdb.set_trace()
             new.append(and_(cls.row == x.row, cls.path == x.path))
         return DBSession.query(cls).filter(or_(*new))
 
