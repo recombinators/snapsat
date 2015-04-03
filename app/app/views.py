@@ -106,11 +106,18 @@ def scene_page(request):
         scene_id)
     rendered_composites = []
     rendering_composites = []
+    rendering_composites_full_status = []
     for composite in rendered_rendering_composites:
         if composite.currentlyrend:
             rendering_composites.append(composite)
+            jobstatus, starttime, lastmodified = (
+                UserJob_Model.job_status_and_times(composite.jobid))
+            elapsed_time = str(datetime.utcnow() - starttime)
+            elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
+            rendering_composites_full_status.append()
         else:
             rendered_composites.append(composite)
+
 
     # for scene in rendered_composites:
     #     if scene.currentlyrend or scene.renderurl:
