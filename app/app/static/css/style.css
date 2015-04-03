@@ -286,7 +286,7 @@ a.scrolldown {
 	text-align: center;
     padding: 5%;
     font-size: 1em;
-    
+
 }
 .thanks li{
     text-align: center;
@@ -342,6 +342,17 @@ a.socialicon.twitter {
 }
 a.socialicon.twitter:hover {
 	background-image: url(/static/img/Twitter.png);
+}
+/******************************************************************
+	Contact us
+******************************************************************/
+#contact p{
+	text-align: center;
+	padding: 15%;
+	font-size: 1em;
+}
+#contact a{
+	font-size: 1.2em;
 }
 /******************************************************************
 	Footer
