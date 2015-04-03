@@ -105,19 +105,21 @@ def scene_page(request):
     rendered_rendering_composites = RenderCache_Model.get_rendered_rendering(
         scene_id)
     rendered_composites = []
-    rendering_composites = []
-    rendering_composites_full_status = {}
+    rendering_composites = {}
     for composite in rendered_rendering_composites:
         if composite.currentlyrend:
             rendering_composites.append(composite)
             job_status, start_time, last_modified = (
                 UserJob_Model.job_status_and_times(composite.jobid))
             elapsed_time = str(datetime.utcnow() - start_time)
-            rendering_composites_full_status[
+            rendering_composites[
                 composite.jobid] = ({'status': job_status,
                                      'starttime': start_time,
                                      'lastmodified': last_modified,
-                                     'elapsedtime': elapsed_time})
+                                     'elapsedtime': elapsed_time,
+                                     'band1': composite.band1,
+                                     'band2': composite.band2,
+                                     'band3': composite.band3})
         else:
             rendered_composites.append(composite)
 
@@ -137,7 +139,7 @@ def scene_page(request):
 
     return {'scene_id': scene_id,
             'rendered_composites': rendered_composites,
-            'rendering_composites': rendered_composites,
+            'rendering_composites': rendering_composites,
             }
 
 

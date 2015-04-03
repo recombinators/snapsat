@@ -24,9 +24,9 @@
     {% if rendering_composites %}
         {% for composite in rendering_composites }
             <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
-            <p>Current status: <strong class='red'>{{ status[composite.jobid] }}</strong></p>
+            <p>Current status: <strong class='red'>{{ composite.status }}</strong></p>
             {% if composite.elapsed_worker_time %}
-                <p>Elapsed Process Time (min:sec): {{ composite.elapsed_worker_time }}</p>
+                <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsedtime }}</p>
             {% endif %}
         {% endif %}
     {% endif %}
