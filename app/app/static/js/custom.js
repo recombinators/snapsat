@@ -71,7 +71,7 @@ $(document).ready(function() {
 		el.html(text[0]);
 		setInterval(function() {
 			el.animate({
-              textShadowBlur:20,
+              textShadowBlur:0,
               opacity: 0
             }, 500 , function() {
               index = $.inArray(el.html(), text)
