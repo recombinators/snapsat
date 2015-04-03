@@ -1,5 +1,4 @@
 from pyramid.view import view_config
-<<<<<<< HEAD
 from .models import (PathAndRow_Model, SceneList_Model, UserJob_Model,
                      Rendered_Model,)
 from sqs import (make_SQS_connection, get_queue, build_job_message,
@@ -150,11 +149,9 @@ def scene_options_ajax(request):
 
     return {'scenes_date': scenes_date,
             'scenes_path_row': scenes_path_row}
-=======
 
 
 @view_config(route_name='index', renderer='templates/maint.jinja2')
 def index(request):
     '''Index page.'''
     return {}
->>>>>>> static_down
