@@ -1,16 +1,21 @@
 {% extends "base.jinja2" %}
 
+{% block header %}
+<header class='contain'>
+    <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+    <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
+</header>
+{% endblock %}
+
 {% block content %}
 
-<div class='contain'>
+<div class='contain mbx'>
 <div id='available-scenes' class='display-inline-block'>
 
     {% if available_scenes %}
-        <h2>Available scenes for {{ scene_id }}</h2>
+        <h2>Scene: {{ scene_id }}</h2>
         {% for s in available_scenes %}
             <div class='image'>
-                <p class='bands'>{{ s.band1 }} {{ s.band2 }} {{ s.band3 }}</p>
-                {% if s.previewurl %}<img src="{{ s.previewurl }}">{% endif %}
                 {% if s.renderurl %}
                     <a href="{{ s.renderurl }}">Download Full Zip</a>
                     {% if s.elapsed_worker_time %}
@@ -23,6 +28,8 @@
                         <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
                     {% endif %}
                 {% endif %}
+                <p class='bands'>{{ s.band1 }} {{ s.band2 }} {{ s.band3 }}</p>
+                {% if s.previewurl %}<img src="{{ s.previewurl }}">{% endif %}
             </div>
         {% endfor %}
     {% endif %}
@@ -54,4 +61,5 @@
 </div>
 
 </div>
+
 {% endblock %}

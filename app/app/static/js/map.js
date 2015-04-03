@@ -38,7 +38,7 @@ map.on('moveend', function() {
                 var id = 'tab'.concat(n);
 
                 $('#pathrowgrouping').append(
-                    $('<h3 class="mvm">' + scenes_path_row[0].sliced + "</h3>"
+                    $('<h3 class="mvm">' + scenes_path_row[0].sliced + "</h3>")
                 );
 
                 $('#pathrowgrouping').append(
