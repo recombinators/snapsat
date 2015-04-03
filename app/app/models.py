@@ -220,13 +220,14 @@ class RenderCache_Model(Base):
             print 'could not update db'
 
     @classmethod
-    def get_rendered(cls, entityid):
+    def get_rendered_rendering(cls, entityid):
         """
         Return list of existing jobs for a given sceneID.
         """
         try:
             rendered = DBSession.query(cls).filter(
-                cls.entityid == entityid, cls.currentlyrend is not True).all()
+                cls.entityid == entityid,
+                cls.currentlyrend is not True).all()
         except:
             print 'Database query failed'
             return None

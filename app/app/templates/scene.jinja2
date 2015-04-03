@@ -7,14 +7,13 @@
 
 <div id='available-scenes' class='display-inline-block'>
 
-    {% if available_scenes %}
-        <h2>Available scenes for {{ scene_id }}</h2>
-        {% for s in available_scenes %}
+    {% if rendered_composites %}
+        <h2>Rendered composites for {{ scene_id }}</h2>
+        {% for s in rendered_composites %}
             <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
             {% if s.previewurl %}
                 <img src="{{ s.previewurl }}">
             {% else %}
-                <img src=/static/img/no_preview.png>
             {% endif %}
             {% if s.renderurl %}
                 <a href="{{ s.renderurl }}">Download Full Zip</a>

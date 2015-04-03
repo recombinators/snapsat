@@ -34,9 +34,9 @@ def add_to_queue_full(request):
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, RENDER_QUEUE)
         jobid = UserJob_Model.new_job(entityid=scene_id,
-                                   band1=band1,
-                                   band2=band2,
-                                   band3=band3)
+                                      band1=band1,
+                                      band2=band2,
+                                      band3=band3)
         message = build_job_message(job_id=jobid, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
@@ -77,7 +77,9 @@ def add_to_queue_preview(request):
 
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
-    """Request scene full render and preview render"""
+    """
+    Request scene full render and preview render.
+    """
     add_to_queue_preview(request)
     jobid = add_to_queue_full(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
@@ -85,7 +87,9 @@ def request_scene(request):
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
-    """Request for preview only"""
+    """
+    Request for preview only.
+    """
     add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
@@ -98,42 +102,37 @@ def scene_page(request):
     """
 
     scene_id = request.matchdict['scene_id']
-    available_scenes = RenderCache_Model.get_rendered(scene_id)
-    get_in_process_jobs(scene_id)
+    rendered_rendering_composites = RenderCache_Model.get_rendered_rendering(
+        scene_id)
+    rendered_composites = []
+    rendering_composites = []
+    for composite in rendered_rendering_composites:
+        if composite.currentlyrend:
+            rendering_composites.append(composite)
+        else:
+            rendered_composites.append(composite)
 
-    status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
+    # status_poll(rendering_composites)
 
-    for scene in available_scenes:
-        if scene.currentlyrend or scene.renderurl:
-            worker_start_time, worker_lastmod_time = (
-                UserJob_Model.job_times(scene.jobid))
-            if scene.currentlyrend:
-                status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-                elapsed_time = str(datetime.utcnow() - worker_start_time)
-            else:
-                elapsed_time = str(worker_lastmod_time - worker_start_time)
-            # format datetime object
-            elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
-            scene.elapsed_worker_time = elapsed_time.split('.')[0]
+    # status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
 
-    return {'scene_id': request.matchdict['scene_id'],
-            'available_scenes': available_scenes,
-            'status': status,
-            'elapsed_worker_time': elapsed_worker_time
+    # for scene in rendered_composites:
+    #     if scene.currentlyrend or scene.renderurl:
+    #         worker_start_time, worker_lastmod_time = (
+    #             UserJob_Model.job_times(scene.jobid))
+    #         if scene.currentlyrend:
+    #             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
+    #             elapsed_time = str(datetime.utcnow() - worker_start_time)
+    #         else:
+    #             elapsed_time = str(worker_lastmod_time - worker_start_time)
+    #         # format datetime object
+    #         elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
+    #         scene.elapsed_worker_time = elapsed_time.split('.')[0]
+
+    return {'scene_id': scene_id,
+            'rendered_composites': rendered_composites,
+            'rendering_composites': rendered_composites,
             }
-
-
-def get_available_scenes(scene_id):
-    available_scenes = RenderCache_Model.available(scene_id)
-    return available_scenes
-
-
-def get_rendered_previews(request):
-    pass
-
-
-def get_in_process_jobs(request):
-    pass
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
