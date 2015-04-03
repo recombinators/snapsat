@@ -29,10 +29,12 @@ class PathAndRow_Model(Base):
         Output path and row that contains lat lon.
         """
         try:
-            scene = (DBSession.query(cls).filter(
-                func.ST_Within(
-                    func.ST_SetSRID(func.ST_MakePoint(lon, lat), 4236),
-                    func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all())
+            import pdb; pdb.set_trace()
+            scene = (DBSession.query(cls)
+                    .filter(func.ST_Within(func.ST_SetSRID(func
+                            .ST_MakePoint(lon, lat), 4236), func
+                        .ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
+                    )
             return scene
         except:
             return u'----'

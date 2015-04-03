@@ -10,7 +10,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     # Define routes
-    config.add_route('index', '/')
+    config.add_route('landing', '/')
     config.add_route('create', '/create')
     config.add_route('request_scene', '/request/{scene_id}')
     config.add_route('request_preview', '/request_p/{scene_id}')

@@ -44,34 +44,32 @@ def add_to_queue(queue, request):
     scene_id = request.matchdict['scene_id']
 
     if not Rendered_Model.full_render_availability(scene_id, band1, band2, band3):
-        SQSconn = make_SQS_connection(REGION,
-                AWS_ACCESS_KEY_ID,
-                AWS_SECRET_ACCESS_KEY)
+        SQSconn = make_SQS_connection(
+                REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
         render_queue = get_queue(SQSconn, queue)
         if queue == RENDER_QUEUE:
-            pk = UserJob_Model.new_job(entityid=scene_id,
-                    band1=band1,
-                    band2=band2,
-                    band3=band3)
-            message = build_job_message(job_id=pk, email='test@test.com',
+            pk = UserJob_Model.new_job(
+                    entityid=scene_id,
+                    band1=band1, band2=band2, band3=band3)
+            message = build_job_message(
+                    job_id=pk,
+                    email='test@test.com',
                     scene_id=scene_id,
-                    band_1=band1,
-                    band_2=band2,
-                    band_3=band3)
+                    band_1=band1, band_2=band2, band_3=band3)
         else:
-            message = build_job_message(job_id=0, email='test@test.com',
+            message = build_job_message(
+                    job_id=0,
+                    email='test@test.com',
                     scene_id=scene_id,
-                    band_1=band1,
-                    band_2=band2,
-                    band_3=band3)
-            send_message(SQSconn,
+                    band_1=band1, band_2=band2, band_3=band3)
+            send_message(
+                    SQSconn,
                     render_queue,
-                    message['body'],
-                    message['attributes'])
+                    message['body'], message['attributes'])
 
 
 @view_config(route_name='landing', renderer='templates/landing.jinja2')
-def index(request):
+def landing(request):
     """
     Landing page.
     No context is passed in, the page is purely static.
@@ -149,8 +147,9 @@ def scene_options_ajax(request):
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
-    paths = PathAndRow_Model.pathandrow(lat, lng)
-    scenes = SceneList_Model.scenelist(paths)
+    # paths = PathAndRow_Model.pathandrow(lat, lng)
+    # scenes = SceneList_Model.scenelist(paths)
+    scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat,lng))
 
     scenes_dict = []
     for i, scene in enumerate(scenes):
