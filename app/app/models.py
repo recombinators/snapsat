@@ -1,6 +1,6 @@
 from sqlalchemy import (
-        Column, update, Index, Integer,
-        Boolean, UnicodeText, func, DateTime, Float, or_, and_)
+        Column, Integer, Boolean, UnicodeText,
+        func, DateTime, Float, or_, and_)
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -31,7 +31,7 @@ class PathAndRow_Model(Base):
         try:
             scene = (DBSession.query(cls).filter(
                 func.ST_Within(
-                    func.ST_SetSRID(func.ST_MakePoint(lon, lat), 4236), 
+                    func.ST_SetSRID(func.ST_MakePoint(lon, lat), 4236),
                     func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all())
             return scene
         except:
@@ -117,7 +117,9 @@ class UserJob_Model(Base):
             session.refresh(job)
             pk = job.jobid
             transaction.commit()
-            transaction.begin() # could do this or a subtransacation, ie open a transaction at the beginning of this method.
+            # Could do this or a subtransacation,
+            # ie: open a transaction at the beginning of this method.
+            transaction.begin()
         except:
             return None
         try:
