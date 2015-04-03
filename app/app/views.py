@@ -23,7 +23,7 @@ def index(request):
     return scene_options_ajax(request)
 
 
-def add_to_queue(queue, request):
+def add_to_queue_full(request):
     """Helper method for adding request to queue and adding to db"""
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
@@ -33,51 +33,64 @@ def add_to_queue(queue, request):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
-        render_queue = get_queue(SQSconn, queue)
-        if queue == RENDER_QUEUE:
-            pk = UserJob_Model.new_job(entityid=scene_id,
-                                       band1=band1,
-                                       band2=band2,
-                                       band3=band3)
-            message = build_job_message(job_id=pk, email='test@test.com',
-                                        scene_id=scene_id,
-                                        band_1=band1,
-                                        band_2=band2,
-                                        band_3=band3)
-        else:
-            message = build_job_message(job_id=0, email='test@test.com',
-                                        scene_id=scene_id,
-                                        band_1=band1,
-                                        band_2=band2,
-                                        band_3=band3)
+        current_queue = get_queue(SQSconn, RENDER_QUEUE)
+        pk = UserJob_Model.new_job(entityid=scene_id,
+                                   band1=band1,
+                                   band2=band2,
+                                   band3=band3)
+        message = build_job_message(job_id=pk, email='test@test.com',
+                                    scene_id=scene_id,
+                                    band_1=band1,
+                                    band_2=band2,
+                                    band_3=band3)
         send_message(SQSconn,
-                     render_queue,
+                     current_queue,
                      message['body'],
                      message['attributes'])
+
+
+def add_to_queue_preview(request):
+    """Helper method for adding request to queue and adding to db"""
+    band1 = request.params.get('band_combo')[0]
+    band2 = request.params.get('band_combo')[1]
+    band3 = request.params.get('band_combo')[2]
+    scene_id = request.matchdict['scene_id']
+    if not Rendered_Model.preview_render_availability(scene_id, band1, band2, band3):
+        SQSconn = make_SQS_connection(REGION,
+                                      AWS_ACCESS_KEY_ID,
+                                      AWS_SECRET_ACCESS_KEY)
+        current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
+        message = build_job_message(job_id=0, email='test@test.com',
+                                    scene_id=scene_id,
+                                    band_1=band1,
+                                    band_2=band2,
+                                    band_3=band3)
+        send_message(SQSconn,
+                     current_queue,
+                     message['body'],
+                     message['attributes'])
+        print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     """Request scene full render and preview render"""
-    add_to_queue(PREVIEW_QUEUE, request)
-    add_to_queue(RENDER_QUEUE, request)
+    add_to_queue_preview(request)
+    add_to_queue_full(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
     """Request for preview only"""
-    add_to_queue(PREVIEW_QUEUE, request)
+    add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
 @view_config(route_name='scene_status', renderer='templates/scene.jinja2')
 def scene_status(request):
     '''Given sceneID display available previews and rendered photos/links.'''
-    status = {}
-    worker_start_time = {}
-    worker_lastmod_time = {}
-    elapsed_worker_time = {}
+    status, worker_start_time, worker_lastmod_time, elapsed_worker_time = {}, {}, {}, {}
     scene_id = request.matchdict['scene_id']
     available_scenes = Rendered_Model.available(scene_id)
     for scene in available_scenes:

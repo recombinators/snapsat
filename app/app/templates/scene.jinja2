@@ -11,13 +11,11 @@
             <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
             {% if s.previewurl %}
                 <img src="{{ s.previewurl }}">
-            {% else %}
-                <img src=/static/img/no_preview.png>
             {% endif %}
             {% if s.renderurl %}
                 <a href="{{ s.renderurl }}">Download Full Zip</a>
                 {% if s.elapsed_worker_time %}
-                    <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
+                    <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
                 {% endif %}
             {% elif s.currentlyrend %}
                 <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
@@ -37,15 +35,15 @@
     <form method="post" id="request_form_{{scene_id}}">
         <div id='combinations'>
             <div class='display-block'>
-                <label>Natural color</label>
+                <label>Natural color: 4, 3, 2</label>
                 <input class='' type="radio" name="band_combo" value="432" checked>
             </div>
             <div class='display-block'>
-                <label>Color infrared</label>
+                <label>Color infrared: 5, 4, 3</label>
                 <input type="radio" name="band_combo" value="543">
             </div>
             <div class='display-block'>
-                <label>Urban false color</label>
+                <label>Urban false colorL 5, 3, 2</label>
                 <input type="radio" name="band_combo" value="532">
             </div>
         </div>
