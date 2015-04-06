@@ -123,7 +123,7 @@ def add_to_queue_preview(request):
 
 
 @view_config(route_name='request_composite', renderer='json')
-def request_scene(request):
+def request_composite(request):
     """
     Request scene full render and preview render.
     """
@@ -142,8 +142,8 @@ def request_preview(request):
         request.matchdict['scene_id']))
 
 
-@view_config(route_name='scene_page', renderer='templates/scene.jinja2')
-def scene_page(request):
+@view_config(route_name='scene', renderer='templates/scene.jinja2')
+def scene(request):
     """
     Given sceneID display available previews, rendered photos/links, status of
     jobs in process.

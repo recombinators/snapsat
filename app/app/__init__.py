@@ -21,7 +21,7 @@ def main(global_config, **settings):
     config.add_route('create', '/create')
     config.add_route('request_composite', '/request_composite/{scene_id}')
     config.add_route('request_preview', '/request_preview/{scene_id}')
-    config.add_route('scene_page', '/scene/{scene_id}')
+    config.add_route('scene', '/scene/{scene_id}')
     config.add_route('scene_options_ajax', '/scene_options_ajax')
     config.add_route('status_poll', '/status_poll')
     config.scan()
