@@ -59,9 +59,9 @@ class UserBehavior(TaskSet):
                     random_band_set = random.choice(["432", "543", "532"])
                     self.response = self.client.post(
                                         url="request_p/{}".format(scene_id),
-                                        data={'band_combo': "432"}
+                                        data={'band_combo': random_band_set}
                                         )
-                    soup = BeautifulSoup(self.response.text)
+                    # soup = BeautifulSoup(self.response.text)
 
         # @task(1)
         # def select_scene(self):
