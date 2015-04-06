@@ -99,21 +99,17 @@ class UserJob_Model(Base):
         """
         Create new job in db.
         """
+        import ipdb; ipdb.set_trace()
+
+        
         try:
             session = DBSession
             current_time = datetime.utcnow()
-            job = UserJob_Model(entityid=entityid,
-                                band1=band1,
-                                band2=band2,
-                                band3=band3,
-                                jobstatus=0,
-                                starttime=current_time,
-                                lastmodified=current_time,
-                                rendertype=rendertype
-                                )
+            job = UserJob_Model(entityid=entityid,band1=band1,band2=band2,band3=band3,jobstatus=0,starttime=current_time,lastmodified=current_time,rendertype=rendertype)
             session.add(job)
             session.flush()
             session.refresh(job)
+            import ipdb; ipdb.set_trace()
             pk = job.jobid
             transaction.commit()
             # Could do this or a subtransacation,
@@ -210,7 +206,6 @@ class RenderCache_Model(Base):
     band1 = Column(Integer)
     band2 = Column(Integer)
     band3 = Column(Integer)
-    previewurl = Column(UnicodeText)
     renderurl = Column(UnicodeText)
     rendercount = Column(Integer, default=0)
     currentlyrend = Column(Boolean)
@@ -250,11 +245,11 @@ class RenderCache_Model(Base):
         Return list of existing jobs for a given sceneID.
         """
         try:
-            rendered = DBSession.query(cls).filter(
-                cls.entityid == entityid,
-                cls.currentlyrend is not True).all()
+            import ipdb; ipdb.set_trace()
+
+            rendered = DBSession.query(cls).filter(cls.entityid == entityid,cls.currentlyrend is not True).all()
         except:
-            print 'Database query failed'
+            print 'Database query failed get_rendered_rendering'
             return None
         return rendered
 
@@ -268,10 +263,10 @@ class RenderCache_Model(Base):
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
-                                                 cls.rendertype == 'composite',
+                                                 cls.rendertype == u'composite',
                                                  cls.renderurl.isnot(None)).count()
         except:
-            print 'Database query failed'
+            print 'Database query failed full_render_availability'
             return None
         if output != 0:
             # if this scene/band has already been requested, increase the count
@@ -279,8 +274,7 @@ class RenderCache_Model(Base):
                                         cls.band1 == band1,
                                         cls.band2 == band2,
                                         cls.band3 == band3,
-                                        cls.rendertype == 'composite').update({
-                                        "rendercount": cls.rendercount+1})
+                                        cls.rendertype == u'composite').update({"rendercount": cls.rendercount+1})
         return output != 0
 
     @classmethod
@@ -293,10 +287,10 @@ class RenderCache_Model(Base):
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
-                                                 cls.rendertype == 'preview',
+                                                 cls.rendertype == u'preview',
                                                  cls.renderurl.isnot(None)).count()
         except:
-            print 'Database query failed'
+            print 'Database query failed preview_render_availability'
             return None
         if output != 0:
             # if this scene/band has already been requested, increase the count
@@ -304,7 +298,6 @@ class RenderCache_Model(Base):
                                         cls.band1 == band1,
                                         cls.band2 == band2,
                                         cls.band3 == band3,
-                                        cls.rendertype == 'preview').update({
-                                        "rendercount": cls.rendercount+1})
+                                        cls.rendertype == u'preview').update({"rendercount": cls.rendercount+1})
 
         return output != 0

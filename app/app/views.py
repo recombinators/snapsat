@@ -56,7 +56,7 @@ def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
-    import ipdb; ipdb.set_trace()
+    # import ipdb; ipdb.set_trace()
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
@@ -72,11 +72,8 @@ def add_to_queue_composite(request):
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
-        jobid = UserJob_Model.new_job(entityid=scene_id,
-                                      band1=band1,
-                                      band2=band2,
-                                      band3=band3,
-                                      rendertype='composite')
+        jobid = UserJob_Model.new_job(entityid=scene_id,band1=band1,band2=band2,band3=band3,rendertype=u'composite')
+        # import ipdb; ipdb.set_trace()
         message = build_job_message(job_id=jobid, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
@@ -110,7 +107,7 @@ def add_to_queue_preview(request):
                                       band1=band1,
                                       band2=band2,
                                       band3=band3,
-                                      rendertype='preview')
+                                      rendertype=u'preview')
         message = build_job_message(job_id=0, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
@@ -156,7 +153,7 @@ def scene_page(request):
         scene_id)
     rendered_composites = []
     rendering_composites = {}
-    import ipdb; ipdb.set_trace()
+    # import ipdb; ipdb.set_trace()
     if rendered_rendering_composites:
         for composite in rendered_rendering_composites:
             if composite.currentlyrend:
