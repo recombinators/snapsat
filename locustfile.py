@@ -26,7 +26,7 @@ class UserBehavior(TaskSet):
             self.lat = lat
             self.lng = lng
             self.response = self.client.post(
-                url="/ajax",
+                url="/scene_options_ajax",
                 json="True",
                 data={'lat': self.lat, 'lng': self.lng}
                 )
@@ -37,7 +37,7 @@ class UserBehavior(TaskSet):
             self.lng = random.uniform(-1, 1) + self.lng
             print self.lat, self.lng
             self.response = self.client.post(
-                url="/ajax",
+                url="/scene_options_ajax",
                 json="True",
                 data={'lat': self.lat, 'lng': self.lng}
                 )
