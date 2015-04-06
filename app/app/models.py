@@ -278,7 +278,8 @@ class RenderCache_Model(Base):
             DBSession.query(cls).filter(cls.entityid == entityid,
                                         cls.band1 == band1,
                                         cls.band2 == band2,
-                                        cls.band3 == band3).update({
+                                        cls.band3 == band3,
+                                        cls.rendertype == 'composite').update({
                                         "rendercount": cls.rendercount+1})
         return output != 0
 
@@ -297,5 +298,13 @@ class RenderCache_Model(Base):
         except:
             print 'Database query failed'
             return None
+        if output != 0:
+            # if this scene/band has already been requested, increase the count
+            DBSession.query(cls).filter(cls.entityid == entityid,
+                                        cls.band1 == band1,
+                                        cls.band2 == band2,
+                                        cls.band3 == band3,
+                                        cls.rendertype == 'preview').update({
+                                        "rendercount": cls.rendercount+1})
 
         return output != 0
