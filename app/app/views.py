@@ -83,8 +83,6 @@ def add_to_queue_composite(request):
                      message['body'],
                      message['attributes'])
 
-    return jobid
-
 
 def add_to_queue_preview(request):
     """
@@ -118,16 +116,14 @@ def add_to_queue_preview(request):
                      message['attributes'])
         print 'successfully added to preview queue'
 
-    return jobid
-
 
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
     """
     Request scene full render and preview render.
     """
-    jobid = add_to_queue_composite(request)
-    jobid = add_to_queue_preview(request)
+    add_to_queue_composite(request)
+    add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
@@ -136,7 +132,7 @@ def request_preview(request):
     """
     Request for preview only
     """
-    jobid = add_to_queue_preview(request)
+    add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(
         request.matchdict['scene_id']))
 
