@@ -3,8 +3,7 @@
 Why
 ---
 
-The cost of working with Landsat data is dropping fast.
-
+The cost of working with Landsat data is dropping fast due to projects like:
 - [Landsat on AWS](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/)
 - [Libra](http://libra.developmentseed.org/)
 - [developmentseed/landsat-util](https://github.com/developmentseed/landsat-util)
@@ -14,35 +13,10 @@ We want to make it even easier.
 
 Recognizing the impact we're having on the Earth is important, and making it easy to access Landsat data seems like a good way to enable others to help tell better stories about ourselves.
 
-How to use it
--------------
 
-Blood. Sweat. Tears.
-
-How it's built
---------------
-
-- AWS
-  - EC2
-  - SQS
-  - ELB
-  - RDS
-  - S3
-- Pyramid
-- Landsat-util
-- Mapbox
-- Browserify + Gulp
-
-How to contribute
------------------
+Contributing
+------------
 
 - Review our code. We'd love feedback.
 - Submit a Pull Request.
 - Make something awesome with it and tell us about it.
-
-About us
---------
-
-- Who we are
-- Codefellows
-- Special recognition
