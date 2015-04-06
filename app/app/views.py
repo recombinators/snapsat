@@ -32,6 +32,7 @@ Views available:
 6. ajax - Returns a dictionary with all available scenes.
 """
 
+
 @view_config(route_name='landing', renderer='templates/landing.jinja2')
 def landing(request):
     """
