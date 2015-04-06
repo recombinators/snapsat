@@ -89,6 +89,7 @@ class UserJob_Model(Base):
     status4time = Column(DateTime)
     status5time = Column(DateTime)
     status10time = Column(DateTime)
+    rendertype = Column(UnicodeText)
 
     @classmethod
     def new_job(cls,
@@ -200,10 +201,10 @@ class Rendered_Model(Base):
     band1 = Column(Integer)
     band2 = Column(Integer)
     band3 = Column(Integer)
-    previewurl = Column(UnicodeText)
     renderurl = Column(UnicodeText)
     rendercount = Column(Integer, default=0)
     currentlyrend = Column(Boolean)
+    rendertype = Column(UnicodeText)
 
     @classmethod
     def add(cls, jobid, currentlyrend):
