@@ -157,9 +157,8 @@ def scene_page(request):
     if rendered_rendering_composites:
         for composite in rendered_rendering_composites:
             if composite.currentlyrend:
-                rendering_composites.append(composite)
-                job_status, start_time, last_modified = (
-                    UserJob_Model.job_status_and_times(composite.jobid))
+                import ipdb; ipdb.set_trace()
+                job_status, start_time, last_modified = (UserJob_Model.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
                 rendering_composites[
                     composite.jobid] = ({'status': job_status,

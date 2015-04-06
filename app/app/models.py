@@ -99,9 +99,6 @@ class UserJob_Model(Base):
         """
         Create new job in db.
         """
-        import ipdb; ipdb.set_trace()
-
-        
         try:
             session = DBSession
             current_time = datetime.utcnow()
@@ -109,7 +106,6 @@ class UserJob_Model(Base):
             session.add(job)
             session.flush()
             session.refresh(job)
-            import ipdb; ipdb.set_trace()
             pk = job.jobid
             transaction.commit()
             # Could do this or a subtransacation,
@@ -191,7 +187,7 @@ class UserJob_Model(Base):
             job_info = DBSession.query(UserJob_Model.jobstatus,
                                        UserJob_Model.starttime,
                                        UserJob_Model.lastmodified).filter(
-                UserJob_Model.jobid == 346).one()
+                UserJob_Model.jobid == jobid).one()
             return job_info
         except:
             print 'database operation failed'
@@ -245,8 +241,6 @@ class RenderCache_Model(Base):
         Return list of existing jobs for a given sceneID.
         """
         try:
-            import ipdb; ipdb.set_trace()
-
             rendered = DBSession.query(cls).filter(cls.entityid == entityid,cls.currentlyrend is not True).all()
         except:
             print 'Database query failed get_rendered_rendering'
