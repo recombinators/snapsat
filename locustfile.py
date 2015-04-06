@@ -51,16 +51,17 @@ class UserBehavior(TaskSet):
             print random_url
 
             @task(1)
-            class scene_page(self):
+            class scene_page(TaskSet):
                 def on_start(self):
                     self.response = self.client.get(random_url)
 
+                @task
                 def preview(self):
                     self.response = self.client.post(
                                         url="request_p/{}".format(scene_id),
                                         data={'band_combo': "432"}
                                         )
-                    soup = BeautifulSoup(self.response.text)
+                    # soup = BeautifulSoup(self.response.text)
 
         # @task(1)
         # def select_scene(self):
