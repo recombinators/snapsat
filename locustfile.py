@@ -1,5 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import random
 import json
 lat = 47.614848
@@ -47,12 +47,21 @@ class UserBehavior(TaskSet):
             json_data = json.loads(self.response.text)
             random_num = random.randint(0, len(json_data['scenes_date']))
             random_url = json_data["scenes_date"][random_num]["download_url"]
+            scene_id = json_data["scenes_date"][random_num]["entityid"]
             print random_url
 
             @task(1)
             class scene_page(self):
                 def on_start(self):
                     self.response = self.client.get(random_url)
+
+                def preview(self):
+                    random_band_set = random.choice(["432", "543", "532"])
+                    self.response = self.client.post(
+                                        url="request_p/{}".format(scene_id),
+                                        data={'band_combo': "432"}
+                                        )
+                    soup = BeautifulSoup(self.response.text)
 
         # @task(1)
         # def select_scene(self):
