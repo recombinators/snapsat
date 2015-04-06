@@ -26,7 +26,7 @@ class UserBehavior(TaskSet):
             self.lat = lat
             self.lng = lng
             self.response = self.client.post(
-                url="/ajax",
+                url="/scene_options_ajax",
                 json="True",
                 data={'lat': self.lat, 'lng': self.lng}
                 )
@@ -37,31 +37,30 @@ class UserBehavior(TaskSet):
             self.lng = random.uniform(-1, 1) + self.lng
             print self.lat, self.lng
             self.response = self.client.post(
-                url="/ajax",
+                url="/scene_options_ajax",
                 json="True",
                 data={'lat': self.lat, 'lng': self.lng}
                 )
 
         @task(1)
-        def click_link(self):
-            json_data = json.loads(self.response.text)
-            random_num = random.randint(0, len(json_data['scenes_date']))
-            random_url = json_data["scenes_date"][random_num]["download_url"]
-            scene_id = json_data["scenes_date"][random_num]["entityid"]
-            print random_url
+        class Click_link(TaskSet):
+            def on_start(self):
+                json_data = json.loads(self.parent.response.text)
+                random_num = random.randint(0, len(json_data['scenes_date']) - 1)
+                random_url = json_data["scenes_date"][random_num]["download_url"]
+                self.scene_id = json_data["scenes_date"][random_num]["entityid"]
+                print random_url
+                self.response = self.client.get(random_url)
 
-            @task(1)
-            class scene_page(self):
-                def on_start(self):
-                    self.response = self.client.get(random_url)
+            @task
+            def preview(self):
+                self.response = self.client.post(
+                                    url="request_preview/{}".format(self.scene_id),
+                                    data={'band_combo': "432"}
+                                    )
+                print 'requested preview'
 
-                def preview(self):
-                    random_band_set = random.choice(["432", "543", "532"])
-                    self.response = self.client.post(
-                                        url="request_p/{}".format(scene_id),
-                                        data={'band_combo': random_band_set}
-                                        )
-                    # soup = BeautifulSoup(self.response.text)
+                # soup = BeautifulSoup(self.response.text)
 
         # @task(1)
         # def select_scene(self):
