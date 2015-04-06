@@ -3,7 +3,6 @@ import operator
 import itertools
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from foreman import foreman, make_EC2_connection
 from datetime import datetime
 from .models import (
     PathAndRow_Model, SceneList_Model, UserJob_Model, Rendered_Model)
