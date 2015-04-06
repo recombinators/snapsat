@@ -10,10 +10,23 @@
 {% block content %}
 
 {% for composite in composites %}
-
+        <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+        {% if composite.previewurl %}
+            <img src="{{ composite.previewurl }}">
+        {% else %}
+            <img src="/static/img/no_preview.png">
+        {% endif %}
+        {% if composite.compositeurl %}
+            <a href="{{ composite.compositeurl }}">Download Full Zip</a>
+        {% else %}
+             <p>Current status: <strong class='red'>{{ composite.compositestatus }}</strong></p>
+            {% if composite.elapsed_worker_time %}
+                <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsedtime }}</p>
+            {% endif %}
+        {% endif %}
 {% endfor %}
 
-<div id='rendered_composites' class='display-inline-block'>
+<!-- <div id='rendered_composites' class='display-inline-block'>
     {% if rendered_composites %}
         <h2>Rendered composites for {{ scene_id }}</h2>
         {% for composite in rendered_composites %}
@@ -38,7 +51,7 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-</div>
+</div> -->
     
 
 
