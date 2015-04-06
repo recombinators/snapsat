@@ -122,12 +122,13 @@ def add_to_queue_preview(request):
     return jobid
 
 
-@view_config(route_name='request_scene', renderer='json')
+@view_config(route_name='request_composite', renderer='json')
 def request_scene(request):
     """
     Request scene full render and preview render.
     """
     jobid = add_to_queue_composite(request)
+    jobid = add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 
@@ -136,7 +137,7 @@ def request_preview(request):
     """
     Request for preview only
     """
-    add_to_queue_preview(request)
+    jobid = add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(
         request.matchdict['scene_id']))
 
@@ -157,7 +158,7 @@ def scene_page(request):
     if rendered_rendering_composites:
         for composite in rendered_rendering_composites:
             if composite.currentlyrend:
-                import ipdb; ipdb.set_trace()
+                # import ipdb; ipdb.set_trace()
                 job_status, start_time, last_modified = (UserJob_Model.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
                 rendering_composites[

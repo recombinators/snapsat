@@ -19,7 +19,7 @@ def main(global_config, **settings):
     # Define routes
     config.add_route('landing', '/')
     config.add_route('create', '/create')
-    config.add_route('request_scene', '/request/{scene_id}')
+    config.add_route('request_composite', '/request/{scene_id}')
     config.add_route('request_preview', '/request_p/{scene_id}')
     config.add_route('scene_page', '/scene/{scene_id}')
     config.add_route('scene_options_ajax', '/scene_options_ajax')
