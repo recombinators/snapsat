@@ -52,7 +52,7 @@ def create(request):
     return scene_options_ajax(request)
 
 
-def add_to_queue_full(request):
+def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
@@ -125,7 +125,7 @@ def request_scene(request):
     """
     Request scene full render and preview render.
     """
-    jobid = add_to_queue_full(request)
+    jobid = add_to_queue_composite(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
 

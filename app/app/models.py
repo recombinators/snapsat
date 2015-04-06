@@ -214,9 +214,10 @@ class RenderCache_Model(Base):
     renderurl = Column(UnicodeText)
     rendercount = Column(Integer, default=0)
     currentlyrend = Column(Boolean)
+    rendertype = Column(UnicodeText)
 
     @classmethod
-    def add(cls, jobid, currentlyrend):
+    def add(cls, jobid, currentlyrend, rendertype):
         """
         Method adds entry into db given jobid and optional url.
         """
@@ -226,7 +227,9 @@ class RenderCache_Model(Base):
                                 band1=jobQuery.band1,
                                 band2=jobQuery.band2,
                                 band3=jobQuery.band3,
-                                currentlyrend=currentlyrend)
+                                currentlyrend=currentlyrend,
+                                rendertype=rendertype
+                                )
         DBSession.add(job)
         transaction.commit()
 
@@ -265,6 +268,7 @@ class RenderCache_Model(Base):
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
+                                                 cls.rendertype == 'composite',
                                                  cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed'
@@ -288,6 +292,7 @@ class RenderCache_Model(Base):
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
+                                                 cls.rendertype == 'preview',
                                                  cls.previewurl.isnot(None)).count()
         except:
             print 'Database query failed'
