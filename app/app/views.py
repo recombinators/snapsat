@@ -15,7 +15,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 REGION = 'us-west-2'
 
 # Requests are passed into appropriate queues, as defined here.
-RENDER_QUEUE = 'snapsat_render_queue'
+COMPOSITE_QUEUE = 'snapsat_composite_queue'
 PREVIEW_QUEUE = 'snapsat_preview_queue'
 
 
@@ -61,15 +61,19 @@ def add_to_queue_full(request):
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
 
-    if not RenderCache_Model.full_render_availability(scene_id, band1, band2, band3):
+    if not RenderCache_Model.full_render_availability(scene_id,
+                                                      band1,
+                                                      band2,
+                                                      band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
-        current_queue = get_queue(SQSconn, RENDER_QUEUE)
+        current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
         jobid = UserJob_Model.new_job(entityid=scene_id,
                                       band1=band1,
                                       band2=band2,
-                                      band3=band3)
+                                      band3=band3,
+                                      rendertype='composite')
         message = build_job_message(job_id=jobid, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
@@ -92,13 +96,18 @@ def add_to_queue_preview(request):
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
     if not RenderCache_Model.preview_render_availability(scene_id,
-                                                      band1,
-                                                      band2,
-                                                      band3):
+                                                         band1,
+                                                         band2,
+                                                         band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
+        jobid = UserJob_Model.new_job(entityid=scene_id,
+                                      band1=band1,
+                                      band2=band2,
+                                      band3=band3,
+                                      rendertype='preview')
         message = build_job_message(job_id=0, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
