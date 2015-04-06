@@ -19,10 +19,10 @@ def main(global_config, **settings):
     # Define routes
     config.add_route('landing', '/')
     config.add_route('create', '/create')
-    config.add_route('request_scene', '/request/{scene_id}')
-    config.add_route('request_preview', '/request_p/{scene_id}')
-    config.add_route('scene_status', '/scene/{scene_id}')
-    config.add_route('ajax', '/ajax')
-
+    config.add_route('request_composite', '/request_composite/{scene_id}')
+    config.add_route('request_preview', '/request_preview/{scene_id}')
+    config.add_route('scene', '/scene/{scene_id}')
+    config.add_route('scene_options_ajax', '/scene_options_ajax')
+    config.add_route('status_poll', '/status_poll')
     config.scan()
     return config.make_wsgi_app()

@@ -1,8 +1,9 @@
 var $ = require('jquery');
 
-(function poll(){
+$( document ).ready(function() {
+  (function poll(){
     $.ajax({
-        url: '/update',
+        url: '/status_poll',
         success: function(data) {
             console.log(data.value);
         },
@@ -10,4 +11,7 @@ var $ = require('jquery');
         complete: poll,
         timeout: 50000
     });
-})();
+  })();
+});
+
+
