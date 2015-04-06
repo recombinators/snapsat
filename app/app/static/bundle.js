@@ -29,7 +29,7 @@ map.on('moveend', function() {
 
     // Submit a post request with the relevant information.
     $.ajax({
-        url: "/ajax",
+        url: "/scene_options_ajax",
         dataType: "json",
         data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
