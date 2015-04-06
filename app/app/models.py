@@ -84,6 +84,7 @@ class UserJob_Model(Base):
     status4time = Column(DateTime)
     status5time = Column(DateTime)
     status10time = Column(DateTime)
+    rendertype = Column(UnicodeText)
 
     @classmethod
     def new_job(cls,
@@ -93,6 +94,7 @@ class UserJob_Model(Base):
                 band3=2,
                 jobstatus=0,
                 starttime=datetime.utcnow(),
+                rendertype=rendertype
                 ):
         """
         Create new job in db.
@@ -106,7 +108,8 @@ class UserJob_Model(Base):
                                 band3=band3,
                                 jobstatus=0,
                                 starttime=current_time,
-                                lastmodified=current_time
+                                lastmodified=current_time,
+                                rendertype=rendertype
                                 )
             session.add(job)
             session.flush()
