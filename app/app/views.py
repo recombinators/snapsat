@@ -15,7 +15,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 REGION = 'us-west-2'
 
 # Requests are passed into appropriate queues, as defined here.
-RENDER_QUEUE = 'snapsat_render_queue'
+RENDER_QUEUE = 'snapsat_composite_queue'
 PREVIEW_QUEUE = 'snapsat_preview_queue'
 
 
