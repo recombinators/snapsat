@@ -14,6 +14,9 @@ class UserBehavior(TaskSet):
     def index(self):
         self.client.get("/")
 
+    @task(1)
+    def stop(self):
+        self.interrupt()
     # @task(1)
     # def create(self):
     #     print "create"
@@ -31,7 +34,7 @@ class UserBehavior(TaskSet):
                 data={'lat': self.lat, 'lng': self.lng}
                 )
 
-        @task(5)
+        @task(10)
         def move_map(self):
             self.lat = random.uniform(-1, 1) + self.lat
             self.lng = random.uniform(-1, 1) + self.lng
@@ -43,6 +46,10 @@ class UserBehavior(TaskSet):
                 )
 
         @task(1)
+        def stop(self):
+            self.interrupt()
+
+        @task(3)
         class Click_link(TaskSet):
             def on_start(self):
                 json_data = json.loads(self.parent.response.text)
@@ -86,5 +93,5 @@ class UserBehavior(TaskSet):
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 1000
-    max_wait = 5000
+    min_wait = 100
+    max_wait = 1000
