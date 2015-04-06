@@ -73,6 +73,7 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'],
                      message['attributes'])
+        print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_scene', renderer='json')
