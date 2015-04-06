@@ -45,7 +45,7 @@ class UserBehavior(TaskSet):
         @task(1)
         class Click_link(TaskSet):
             def on_start(self):
-                json_data = json.loads(self.response.text)
+                json_data = json.loads(self.parent.response.text)
                 random_num = random.randint(0, len(json_data['scenes_date']) - 1)
                 random_url = json_data["scenes_date"][random_num]["download_url"]
                 self.scene_id = json_data["scenes_date"][random_num]["entityid"]
@@ -55,7 +55,7 @@ class UserBehavior(TaskSet):
             @task
             def preview(self):
                 self.response = self.client.post(
-                                    url="request_p/{}".format(self.scene_id),
+                                    url="request_preview/{}".format(self.scene_id),
                                     data={'band_combo': "432"}
                                     )
                 print 'requested preview'
