@@ -151,44 +151,77 @@ def scene(request):
     scene_id = request.matchdict['scene_id']
     rendered_rendering_composites = RenderCache_Model.get_rendered_rendering(
         scene_id)
-    rendered_composites = []
-    rendering_composites = {}
-    # import ipdb; ipdb.set_trace()
+    composites = {}
+
     if rendered_rendering_composites:
         for composite in rendered_rendering_composites:
-            if composite.currentlyrend:
-                # import ipdb; ipdb.set_trace()
-                job_status, start_time, last_modified = (UserJob_Model.job_status_and_times(composite.jobid))
+            band_combo = '{}{}{}'.format(composite.band1,
+                                         composite.band2,
+                                         composite.band3)
+            if composite.currentlyrend and composite.rendertype == u'composite':
+                job_status, start_time, last_modified = (
+                    UserJob_Model.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
-                rendering_composites[
-                    composite.jobid] = ({'status': job_status,
-                                         'starttime': start_time,
-                                         'lastmodified': last_modified,
-                                         'elapsedtime': elapsed_time,
-                                         'band1': composite.band1,
-                                         'band2': composite.band2,
-                                         'band3': composite.band3})
-            else:
-                rendered_composites.append(composite)
+                update_or_add(composites,
+                              band_combo,
+                              {'compositeurl': False,
+                               'compositestatus': job_status,
+                               'starttime': start_time,
+                               'lastmodified': last_modified,
+                               'elapsedtime': elapsed_time,
+                               'band1': composite.band1,
+                               'band2': composite.band2,
+                               'band3': composite.band3})
 
+            elif composite.currentlyrend and composite.rendertype == u'preview':
+                job_status = UserJob_Model.job_status(composite.jobid)
+                elapsed_time = str(datetime.utcnow() - start_time)
+                update_or_add(composites,
+                              band_combo,
+                              {'previewurl': False,
+                               'previewstatus': job_status,
+                               'band1': composite.band1,
+                               'band2': composite.band2,
+                               'band3': composite.band3})
 
-    # for scene in rendered_composites:
-    #     if scene.currentlyrend or scene.renderurl:
-    #         worker_start_time, worker_lastmod_time = (
-    #             UserJob_Model.job_times(scene.jobid))
-    #         if scene.currentlyrend:
-    #             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-    #             elapsed_time = str(datetime.utcnow() - worker_start_time)
-    #         else:
-    #             elapsed_time = str(worker_lastmod_time - worker_start_time)
-    #         # format datetime object
-    #         elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
-    #         scene.elapsed_worker_time = elapsed_time.split('.')[0]
+            elif not composite.currentlyrend and composite.rendertype == u'composite':
+                job_status, start_time, last_modified = (
+                    UserJob_Model.job_status_and_times(composite.jobid))
+                elapsed_time = str(datetime.utcnow() - start_time)
+                update_or_add(composites,
+                              band_combo,
+                              {'compositeurl': composite.renderurl,
+                               'compositestatus': job_status,
+                               'starttime': start_time,
+                               'lastmodified': last_modified,
+                               'elapsedtime': elapsed_time,
+                               'band1': composite.band1,
+                               'band2': composite.band2,
+                               'band3': composite.band3})
+
+            elif not composite.currentlyrend and composite.rendertype == u'preview':
+                job_status = UserJob_Model.job_status(composite.jobid)
+                elapsed_time = str(datetime.utcnow() - start_time)
+                update_or_add(composites,
+                              band_combo,
+                              {'previewurl': composite.renderurl,
+                               'previewstatus': job_status,
+                               'band1': composite.band1,
+                               'band2': composite.band2,
+                               'band3': composite.band3})
 
     return {'scene_id': scene_id,
-            'rendered_composites': rendered_composites,
-            'rendering_composites': rendering_composites,
+            'composites': composites,
             }
+
+
+def update_or_add(dictionary, band_combo, key_values):
+    if band_combo not in dictionary:
+        dictionary[
+            band_combo] = (key_values)
+    else:
+        dictionary[
+            band_combo].update(key_values)
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')

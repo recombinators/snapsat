@@ -102,7 +102,14 @@ class UserJob_Model(Base):
         try:
             session = DBSession
             current_time = datetime.utcnow()
-            job = UserJob_Model(entityid=entityid,band1=band1,band2=band2,band3=band3,jobstatus=0,starttime=current_time,lastmodified=current_time,rendertype=rendertype)
+            job = UserJob_Model(entityid=entityid,
+                                band1=band1,
+                                band2=band2,
+                                band3=band3,
+                                jobstatus=0,
+                                starttime=current_time,
+                                lastmodified=current_time,
+                                rendertype=rendertype)
             session.add(job)
             session.flush()
             session.refresh(job)
@@ -160,12 +167,12 @@ class UserJob_Model(Base):
                       5: "Done",
                       10: "Failed"}
         try:
-            job = DBSession.query(cls).get(jobid)
-            print job.jobstatus
+            status = DBSession.query(cls.jobstatus).get(jobid)
+            print status
         except:
             print 'database write failed'
             return None
-        return status_key[job.jobstatus]
+        return status_key[status]
 
     @classmethod
     def job_times(cls, jobid):
@@ -184,10 +191,10 @@ class UserJob_Model(Base):
         Get status and times for jobid passed in.
         """
         try:
-            job_info = DBSession.query(UserJob_Model.jobstatus,
-                                       UserJob_Model.starttime,
-                                       UserJob_Model.lastmodified).filter(
-                UserJob_Model.jobid == jobid).one()
+            job_info = DBSession.query(cls.jobstatus,
+                                       cls.starttime,
+                                       cls.lastmodified).filter(
+                cls.jobid == jobid).one()
             return job_info
         except:
             print 'database operation failed'
@@ -241,7 +248,8 @@ class RenderCache_Model(Base):
         Return list of existing jobs for a given sceneID.
         """
         try:
-            rendered = DBSession.query(cls).filter(cls.entityid == entityid,cls.currentlyrend is not True).all()
+            rendered = DBSession.query(cls).filter(cls.entityid == entityid,
+                                                   cls.currentlyrend is not True).all()
         except:
             print 'Database query failed get_rendered_rendering'
             return None
