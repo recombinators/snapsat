@@ -107,7 +107,7 @@ def add_to_queue_preview(request):
                                       band2=band2,
                                       band3=band3,
                                       rendertype=u'preview')
-        message = build_job_message(job_id=0, email='test@test.com',
+        message = build_job_message(job_id=jobid, email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
                                     band_2=band2,
