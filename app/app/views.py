@@ -4,30 +4,67 @@ from .models import (Paths_Model, PathRow_Model, UserJob_Model,
 from sqs import (make_SQS_connection, get_queue, build_job_message,
                  send_message, queue_size,)
 import os
-from pyramid.httpexceptions import HTTPFound
 import operator
-from datetime import datetime
 import itertools
+from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound
+from datetime import datetime
+from .models import (
+    PathAndRow_Model, SceneList_Model, UserJob_Model, Rendered_Model)
+from sqs import (make_SQS_connection, get_queue,
+        build_job_message, send_message, queue_size)
 
+# Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-RENDER_QUEUE = 'snapsat_render_queue'
-PREVIEW_QUEUE = 'snapsat_preview_queue'
 REGION = 'us-west-2'
 
+# Requests are passed into appropriate queues, as defined here.
+RENDER_QUEUE = 'snapsat_render_queue'
+PREVIEW_QUEUE = 'snapsat_preview_queue'
 
-@view_config(route_name='index', renderer='templates/index.jinja2')
-def index(request):
-    '''Index page.'''
+
+"""
+Helper functions:
+1. add_to_queue - Adds a request to the appropriate queue.
+
+Views available:
+1. landing - Landing page.
+2. create - Allow a user to define their area of interest.
+3. request_scene - Requests both the full and preview renders.
+4. request_preview - Requests just the preview render.
+5. scene_status - Given a scene ID display available data.
+6. ajax - Returns a dictionary with all available scenes.
+"""
+
+@view_config(route_name='landing', renderer='templates/landing.jinja2')
+def landing(request):
+    """
+    Landing page.
+    No context is passed in, the page is purely static.
+    """
+    return {}
+
+
+@view_config(route_name='create', renderer='templates/create.jinja2')
+def create(request):
+    """
+    Create page.
+    Allows a user to define their area of interest and receive appropriate
+    lists of scenes for it.
+    """
     return scene_options_ajax(request)
 
 
 def add_to_queue_full(request):
-    """Helper method for adding request to queue and adding to db"""
+    """
+    Helper method for adding request to queue and adding to db.
+    """
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
+
     if not RenderCache_Model.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
@@ -51,7 +88,9 @@ def add_to_queue_full(request):
 
 
 def add_to_queue_preview(request):
-    """Helper method for adding request to queue and adding to db"""
+    """
+    Helper method for adding request to queue and adding to db.
+    """
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
@@ -81,7 +120,6 @@ def request_scene(request):
     """
     Request scene full render and preview render.
     """
-    add_to_queue_preview(request)
     jobid = add_to_queue_full(request)
     return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
 
@@ -89,10 +127,11 @@ def request_scene(request):
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
     """
-    Request for preview only.
+    Request for preview only
     """
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}'.format(
+        request.matchdict['scene_id']))
 
 
 @view_config(route_name='scene_page', renderer='templates/scene.jinja2')
@@ -147,19 +186,20 @@ def scene_page(request):
 
 @view_config(route_name='scene_options_ajax', renderer='json')
 def scene_options_ajax(request):
-    """View for ajax request returns dict with all available scenes centered on
-       map."""
+    """
+    Returns a dictionary with all available scenes around the map's center.
+    """
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
-    scenes = PathRow_Model.scenelist(Paths_Model.pathandrow(lat, lng))
+    scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
     scenes_dict = []
     for i, scene in enumerate(scenes):
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
                             'cloudcover': scene.cloudcover,
                             'download_url': scene.download_url,
                             'entityid': scene.entityid,
-                            'sliced': scene.entityid[0:8],
+                            'sliced': scene.entityid[3:9],
                             'path': scene.path,
                             'row': scene.row
                             })

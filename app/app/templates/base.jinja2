@@ -9,14 +9,14 @@
         <link rel="icon" type="image/ico" href="/static/favicon.ico">
     </head>
     <body>
-        <div class='map-container'>
-            <div id='map'>
-                <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
-            </div>
-        </div>
-        <div class='contain'>
-            {% block content %}{% endblock %}
-        </div>
+        {% block header %}
+            <header class='contain'>
+                <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+                <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
+                <p class='light'>The Landsat 8 satellite gives us a way to see outside the spectrum of light we're typically accustomed to seeing. It's a means of seeing what would otherwise be invisible. And it does so on a global scale. AKA superpowers. If you're already up to date on how Landsat can give you useful information, continue on, otherwise, <a href='/guide'>check out our guide.</a></p>
+            </header>
+        {% endblock %}
+        {% block content %}{% endblock %}
 
         <script src='/static/bundle.js'></script>
         <script src='/static/js/gauges.js'></script>

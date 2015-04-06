@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 # import sqlalchemy as sa
 from sqlalchemy import Column, Integer, Boolean, UnicodeText, func, DateTime, Float, or_, and_
+=======
+from sqlalchemy import (
+        Column, Integer, Boolean, UnicodeText,
+        func, DateTime, Float, or_, and_)
+>>>>>>> develop
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
@@ -11,7 +17,7 @@ Base = declarative_base()
 
 
 class Paths_Model(Base):
-    '''Model for path and row table.'''
+    '''Model for pathstable.'''
     __tablename__ = 'paths'
 
     gid = Column(UnicodeText, primary_key=True, autoincrement=True)
@@ -22,12 +28,14 @@ class Paths_Model(Base):
 
     @classmethod
     def pathandrow(cls, lat, lon):
-        """Output path and row that contains lat lon."""
+        """
+        Output path and row that contains lat lon.
+        """
         try:
-            scene = (DBSession.query(cls)
-                    .filter(func.ST_Within(func.ST_SetSRID(func
-                            .ST_MakePoint(lon, lat), 4236), func
-                        .ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
+            scene = (DBSession.query(cls).filter(
+                func.ST_Within(func.ST_SetSRID(
+                    func.ST_MakePoint(float(lon), float(lat)), 4236), 
+                    func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
                     )
             return scene
         except:
@@ -35,7 +43,7 @@ class Paths_Model(Base):
 
 
 class PathRow_Model(Base):
-    '''Model for AWS S3 scene list.'''
+    '''Model for AWS S3 path and row list.'''
     __tablename__ = 'path_row'
     entityid = Column(UnicodeText, primary_key=True)
     acquisitiondate = Column(DateTime, nullable=False)
@@ -46,7 +54,9 @@ class PathRow_Model(Base):
 
     @classmethod
     def scenelist(cls, pr_output):
-        '''For Constantine'''
+        """
+        For Constantine
+        """
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
@@ -54,13 +64,14 @@ class PathRow_Model(Base):
 
 
 class UserJob_Model(Base):
-    '''Model for the user job queue. Possible job statuses:
+    """
+    Model for the user job queue. Possible job statuses:
     0 - Created
     1 - Queued
     2 - Processing
     3 - Done (Failed)
     4 - Done (Success)
-    '''
+    """
 
     __tablename__ = 'user_job'
     jobid = Column(Integer, primary_key=True)
@@ -89,7 +100,9 @@ class UserJob_Model(Base):
                 jobstatus=0,
                 starttime=datetime.utcnow(),
                 ):
-        '''Create new job in db.'''
+        """
+        Create new job in db.
+        """
         try:
             session = DBSession
             current_time = datetime.utcnow()
@@ -106,7 +119,9 @@ class UserJob_Model(Base):
             session.refresh(job)
             pk = job.jobid
             transaction.commit()
-            transaction.begin() # could do this or a subtransacation, ie open a transaction at the beginning of this method.
+            # Could do this or a subtransacation,
+            # ie: open a transaction at the beginning of this method.
+            transaction.begin()
         except:
             return None
         try:
@@ -117,7 +132,9 @@ class UserJob_Model(Base):
 
     @classmethod
     def set_job_status(cls, jobid, status, url=None):
-        '''Set jobstatus for jobid passed in.'''
+        """
+        Set jobstatus for jobid passed in.
+        """
         table_key = {1: "status1time",
                      2: "status2time",
                      3: "status3time",
@@ -143,7 +160,9 @@ class UserJob_Model(Base):
 
     @classmethod
     def job_status(cls, jobid):
-        '''Get jobstatus for jobid passed in.'''
+        """
+        Get jobstatus for jobid passed in.
+        """
         status_key = {0: "In queue",
                       1: "Downloading",
                       2: "Processing",
@@ -161,7 +180,9 @@ class UserJob_Model(Base):
 
     @classmethod
     def job_times(cls, jobid):
-        '''Get times for jobid passed in.'''
+        """
+        Get times for jobid passed in.
+        """
         try:
             job = DBSession.query(cls).get(jobid)
             return job.starttime, job.lastmodified
@@ -184,7 +205,7 @@ class UserJob_Model(Base):
 
 
 class RenderCache_Model(Base):
-    '''Model for the already rendered files'''
+    '''Model for the already render_cache table'''
     __tablename__ = 'render_cache'
     id = Column(Integer, primary_key=True)
     jobid = Column(Integer)
@@ -199,7 +220,9 @@ class RenderCache_Model(Base):
 
     @classmethod
     def add(cls, jobid, currentlyrend):
-        '''Method adds entry into db given jobid and optional url.'''
+        """
+        Method adds entry into db given jobid and optional url.
+        """
         jobQuery = DBSession.query(UserJob_Model).get(jobid)
         job = RenderCache_Model(entityid=jobQuery.entityid,
                                 jobid=jobid,
@@ -212,7 +235,9 @@ class RenderCache_Model(Base):
 
     @classmethod
     def update(cls, jobid, currentlyrend, renderurl):
-        '''Method updates entry into db given jobid and optional url.'''
+        """
+        Method updates entry into db given jobid and optional url.
+        """
         try:
             DBSession.query(cls).filter(cls.jobid == jobid).update({
                 "currentlyrend": currentlyrend, "renderurl": renderurl})
@@ -235,7 +260,9 @@ class RenderCache_Model(Base):
 
     @classmethod
     def full_render_availability(cls, entityid, band1, band2, band3):
-        '''Check if given image is already rendered'''
+        """
+        Check if given image is already rendered.
+        """
         try:
             output = DBSession.query(cls).filter(cls.entityid == entityid,
                                                  cls.band1 == band1,
@@ -256,7 +283,9 @@ class RenderCache_Model(Base):
 
     @classmethod
     def preview_render_availability(cls, entityid, band1, band2, band3):
-        '''Check if given preview image is already rendered'''
+        """
+        Check if given preview image is already rendered.
+        """
         try:
             output = DBSession.query(cls).filter(cls.entityid == entityid,
                                                  cls.band1 == band1,

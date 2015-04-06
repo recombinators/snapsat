@@ -1,12 +1,13 @@
 import os
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
-
 from .models import DBSession, Base
 
 
 def main(global_config, **settings):
-    '''This function returns a Pyramid WSGI application.'''
+    """
+    Configure and return a WSGI application.
+    """
     settings['sqlalchemy.url'] = os.environ.get('DATABASE_URL')
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
@@ -14,7 +15,10 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
     config.include('pyramid_jinja2')
     config.add_static_view('static', 'static', cache_max_age=3600)
-    config.add_route('index', '/')
+
+    # Define routes
+    config.add_route('landing', '/')
+    config.add_route('create', '/create')
     config.add_route('request_scene', '/request/{scene_id}')
     config.add_route('request_preview', '/request_p/{scene_id}')
     config.add_route('scene_page', '/scene/{scene_id}')

@@ -685,19 +685,19 @@ blockquote {
 
 
 /* Typographic utility classes */
-.light			{ font-weight: 300; }
-.book				{ font-weight: 400; }
-.medium			{ font-weight: 500; }
-.semibold		{ font-weight: 600; }
-.bold				{ font-weight: 700; }
-.black			{ font-weight: 900; }
+.light	    { font-weight: 300; }
+.book		{ font-weight: 400; }
+.medium		{ font-weight: 500; }
+.semibold	{ font-weight: 600; }
+.bold		{ font-weight: 700; }
+.black		{ font-weight: 900; }
 .uppercase	{ text-transform: uppercase; }
-.italic			{ font-style: italic; }
+.italic		{ font-style: italic; }
 
 
 /* Define default variables */
 a {
-	color: #0000ee;
+	color: black;
 	font-weight: 500;
 	text-decoration: none;
 	transition: 0.2s ease-in;
@@ -706,11 +706,11 @@ a {
 a:link,
 a:active
 a:visited {
-	color: #0000ee;
+	color: black;
 }
 
 a:hover {
-	color: #0080ff;
+	color: red;
 	transition: color 0.2s ease-out;
 }
 
@@ -828,21 +828,14 @@ body { padding: 1em; }
 }
 
 
-/* Uncomment and redefine the variables below to change to the generated stylesheet. */
 :root {
 
-	/* TYPOGRAPHY */
-	/* --ms3: ; */
-	/* --ms2: ; */
-	/* --ms1: ; */
-	/* --ms0: ; */
 	/* --copy-font:	; */
 	/* --copy-font-weight: ; */
 	/* --copy-font-color:	; */
 	/* --heading-font: ; */
 	/* --heading-font-color: ; */
 	/* --heading-font-weight: ; */
-	/* --monospace-font: ; */
 	/* --line-height: ; */
 	/* --font-weight-light: ; */
 	/* --font-weight-book:	; */
@@ -850,14 +843,6 @@ body { padding: 1em; }
 	/* --font-weight-semibold: ; */
 	/* --font-weight-bold: ; */
 	/* --font-weight-black: ; */
-
-	/* LINKS */
-	/* --link-color: ; */
-	/* --link-color-hover: ; */
-
-	/* LAYOUT */	
-	/* --container-width: ; */
-
 }
 
 body {
@@ -866,25 +851,17 @@ body {
     color: #666;
 }
 
-a { color: #000; }
+td > a { font-weight: normal; }
 
-td > a {
-    font-weight: normal;
-}
-
-h1, h2 { font-family: "adriane"; }
-h1 {
-    font-size: 4rem;
-}
-h2 {
-    font-size: 2rem;
-}
+h1, h2, h3 { font-family: "adriane"; }
+h1 { font-size: 4rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.4rem; }
 
 .map-container{
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 32.8%;
+    position: relative;
+    min-height: 500px;
+    min-height: 50vh;
 }
 
 #map {
@@ -896,8 +873,8 @@ h2 {
 
 .contain {
     position: relative;
+    max-width: 40rem;
     margin-left: 32.8%;
-    padding: 4rem 2rem;
 }
 
 .reticle {
@@ -907,8 +884,6 @@ h2 {
   z-index: 100;
 }
 
-.blurb { font-size: 120%; }
-section { margin-bottom: 4rem; }
 table { width: 100%; }
 
 #possibilities > div {
@@ -919,3 +894,42 @@ table { width: 100%; }
 
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
+
+th {
+    text-transform: uppercase;
+    font-size: 80%;
+    font-weight: 300;
+}
+
+section h2 {
+    position: relative;
+    left: -2.7rem;
+}
+
+section h2 span {
+    color: red;
+    padding-right: 1rem;
+}
+
+.blurb {
+    font-size: 120%;
+}
+
+header {
+    margin: 3rem 0;
+}
+
+td a { color: black; }
+td a:hover { color: red; }
+
+.image {
+    position: relative;
+}
+
+.bands {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8)
+}
