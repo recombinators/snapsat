@@ -56,10 +56,13 @@ def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
+    import ipdb; ipdb.set_trace()
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
+    
+
 
     if not RenderCache_Model.full_render_availability(scene_id,
                                                       band1,
@@ -153,23 +156,24 @@ def scene_page(request):
         scene_id)
     rendered_composites = []
     rendering_composites = {}
-    # import ipdb; ipdb.set_trace()
-    for composite in rendered_rendering_composites:
-        if composite.currentlyrend:
-            rendering_composites.append(composite)
-            job_status, start_time, last_modified = (
-                UserJob_Model.job_status_and_times(composite.jobid))
-            elapsed_time = str(datetime.utcnow() - start_time)
-            rendering_composites[
-                composite.jobid] = ({'status': job_status,
-                                     'starttime': start_time,
-                                     'lastmodified': last_modified,
-                                     'elapsedtime': elapsed_time,
-                                     'band1': composite.band1,
-                                     'band2': composite.band2,
-                                     'band3': composite.band3})
-        else:
-            rendered_composites.append(composite)
+    import ipdb; ipdb.set_trace()
+    if rendered_rendering_composites:
+        for composite in rendered_rendering_composites:
+            if composite.currentlyrend:
+                rendering_composites.append(composite)
+                job_status, start_time, last_modified = (
+                    UserJob_Model.job_status_and_times(composite.jobid))
+                elapsed_time = str(datetime.utcnow() - start_time)
+                rendering_composites[
+                    composite.jobid] = ({'status': job_status,
+                                         'starttime': start_time,
+                                         'lastmodified': last_modified,
+                                         'elapsedtime': elapsed_time,
+                                         'band1': composite.band1,
+                                         'band2': composite.band2,
+                                         'band3': composite.band3})
+            else:
+                rendered_composites.append(composite)
 
 
     # for scene in rendered_composites:
