@@ -9,30 +9,34 @@
 
 {% block content %}
 
-<div class='contain mbx'>
-<div id='available-scenes' class='display-inline-block'>
 
-    {% if available_scenes %}
-        <h2>Scene: {{ scene_id }}</h2>
-        {% for s in available_scenes %}
-            <div class='image'>
-                {% if s.renderurl %}
-                    <a href="{{ s.renderurl }}">Download Full Zip</a>
-                    {% if s.elapsed_worker_time %}
-                        <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
-                    {% endif %}
-                {% elif s.currentlyrend %}
-                    <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                    <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
-                    {% if s.elapsed_worker_time %}
-                        <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-                    {% endif %}
-                {% endif %}
-                <p class='bands'>{{ s.band1 }} {{ s.band2 }} {{ s.band3 }}</p>
-                {% if s.previewurl %}<img src="{{ s.previewurl }}">{% endif %}
-            </div>
+<div id='rendered_composites' class='display-inline-block'>
+    {% if rendered_composites %}
+        <h2>Rendered composites for {{ scene_id }}</h2>
+        {% for composite in rendered_composites %}
+            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+            {% if composite.previewurl %}
+                <img src="{{ composite.previewurl }}">
+            {% endif %}
+            {% if composite.renderurl %}
+                <a href="{{ composite.renderurl }}">Download Full Zip</a>
+            {% endif %}
         {% endfor %}
     {% endif %}
+</div>
+
+<div id='rendering_composites' class='display-inline-block'>
+    {% if rendering_composites %}
+        {% for composite in rendering_composites %}
+            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+            <p>Current status: <strong class='red'>{{ composite.status }}</strong></p>
+            {% if composite.elapsed_worker_time %}
+                <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsedtime }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+    
 
 
 
@@ -54,8 +58,8 @@
                 <input type="radio" name="band_combo" value="532">
             </div>
         </div>
-        <button form="request_form_{{scene_id}}" formaction="/request_p/{{scene_id}}" formmethod="post" type="submit">Render Preview</button>
-        <button form="request_form_{{scene_id}}" formaction="/request/{{scene_id}}" formmethod="post" type="submit">Render Full Image</button>
+        <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit">Render Preview</button>
+        <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Render Full Image</button>
     </form>
 
 </div>
