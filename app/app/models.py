@@ -294,7 +294,7 @@ class RenderCache_Model(Base):
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
                                                  cls.rendertype == 'preview',
-                                                 cls.previewurl.isnot(None)).count()
+                                                 cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed'
             return None
