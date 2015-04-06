@@ -46,19 +46,24 @@ class UserBehavior(TaskSet):
         class Click_link(TaskSet):
             def on_start(self):
                 json_data = json.loads(self.parent.response.text)
-                random_num = random.randint(0, len(json_data['scenes_date']) - 1)
+                random_num = random.randint(0,
+                                            len(json_data['scenes_date']) - 1)
                 random_url = json_data["scenes_date"][random_num]["download_url"]
                 self.scene_id = json_data["scenes_date"][random_num]["entityid"]
                 print random_url
                 self.response = self.client.get(random_url)
 
-            @task
+            @task(5)
             def preview(self):
                 self.response = self.client.post(
-                                    url="request_preview/{}".format(self.scene_id),
+                                    url="/request_preview/{}".format(self.scene_id),
                                     data={'band_combo': "432"}
                                     )
                 print 'requested preview'
+
+            @task(1)
+            def stop(self):
+                self.interrupt()
 
                 # soup = BeautifulSoup(self.response.text)
 
