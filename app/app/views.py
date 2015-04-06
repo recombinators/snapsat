@@ -1,16 +1,13 @@
-from pyramid.view import view_config
 from models import (Paths_Model, PathRow_Model, UserJob_Model,
                      RenderCache_Model,)
-from sqs import (make_SQS_connection, get_queue, build_job_message,
-                 send_message, queue_size,)
 import os
 import operator
 import itertools
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from datetime import datetime
-from sqs import (make_SQS_connection, get_queue,
-        build_job_message, send_message, queue_size)
+from sqs import (make_SQS_connection, get_queue, build_job_message,
+                 send_message,)
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
