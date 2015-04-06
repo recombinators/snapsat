@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-# import sqlalchemy as sa
-from sqlalchemy import Column, Integer, Boolean, UnicodeText, func, DateTime, Float, or_, and_
-=======
-from sqlalchemy import (
-        Column, Integer, Boolean, UnicodeText,
-        func, DateTime, Float, or_, and_)
->>>>>>> develop
+
+from sqlalchemy import (Column, Integer, Boolean, UnicodeText, func, DateTime,
+                        Float, or_, and_, )
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
