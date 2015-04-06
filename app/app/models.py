@@ -1,4 +1,3 @@
-
 from sqlalchemy import (Column, Integer, Boolean, UnicodeText, func, DateTime,
                         Float, or_, and_, )
 from sqlalchemy.orm import scoped_session, sessionmaker
