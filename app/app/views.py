@@ -187,7 +187,7 @@ def scene_options_ajax(request):
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
-    scenes = SceneList_Model.scenelist(PathAndRow_Model.pathandrow(lat, lng))
+    scenes = PathRow_Model.scenelist(Paths_Model.pathandrow(lat, lng))
     scenes_dict = []
     for i, scene in enumerate(scenes):
         scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),

@@ -11,7 +11,7 @@ Base = declarative_base()
 
 
 class Paths_Model(Base):
-    '''Model for pathstable.'''
+    '''Model for paths table.'''
     __tablename__ = 'paths'
 
     gid = Column(UnicodeText, primary_key=True, autoincrement=True)

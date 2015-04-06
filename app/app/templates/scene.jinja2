@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<<<<<<< HEAD
+
 <div id='rendered_composites' class='display-inline-block'>
     {% if rendered_composites %}
         <h2>Rendered composites for {{ scene_id }}</h2>
@@ -21,30 +21,6 @@
             {% if composite.renderurl %}
                 <a href="{{ composite.renderurl }}">Download Full Zip</a>
             {% endif %}
-=======
-<div class='contain mbx'>
-<div id='available-scenes' class='display-inline-block'>
-
-    {% if available_scenes %}
-        <h2>Scene: {{ scene_id }}</h2>
-        {% for s in available_scenes %}
-            <div class='image'>
-                {% if s.renderurl %}
-                    <a href="{{ s.renderurl }}">Download Full Zip</a>
-                    {% if s.elapsed_worker_time %}
-                        <p>Rendered in (min:sec): {{ s.elapsed_worker_time }}</p>
-                    {% endif %}
-                {% elif s.currentlyrend %}
-                    <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                    <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
-                    {% if s.elapsed_worker_time %}
-                        <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-                    {% endif %}
-                {% endif %}
-                <p class='bands'>{{ s.band1 }} {{ s.band2 }} {{ s.band3 }}</p>
-                {% if s.previewurl %}<img src="{{ s.previewurl }}">{% endif %}
-            </div>
->>>>>>> develop
         {% endfor %}
     {% endif %}
 </div>
