@@ -122,7 +122,7 @@ class UserJob_Model(Base):
         except:
             return None
         try:
-            RenderCache_Model.add(pk, True)
+            RenderCache_Model.add(pk, True, rendertype)
         except:
             print 'Could not add job to rendered db'
         return pk
