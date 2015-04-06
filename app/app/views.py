@@ -119,6 +119,8 @@ def add_to_queue_preview(request):
                      message['attributes'])
         print 'successfully added to preview queue'
 
+    return jobid
+
 
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
