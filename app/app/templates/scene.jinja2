@@ -36,56 +36,45 @@
     <h2>Choose a combination</h2>
 
     <form method="post" id="request_form_{{scene_id}}">
-        <div>
-            <select name='Band 1'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='8'>8</option>
-            </select>
-            <select name='Band 2'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='8'>8</option>
-            </select>
-            <select name='Band 3'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='8'>8</option>
-            </select>
-
-
-        </div>
         <div id='combinations'>
-            <div class='display-block'>
-                <label>Natural color: 4, 3, 2</label>
-                <input class='' type="radio" name="band_combo" value="432" checked>
-            </div>
-            <div class='display-block'>
-                <label>Color infrared: 5, 4, 3</label>
-                <input type="radio" name="band_combo" value="543">
-            </div>
-            <div class='display-block'>
-                <label>5, 3, 2</label>
-                <input type="radio" name="band_combo" value="532">
-            </div>
+            <select name='band1'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+            <select name='band2'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+            <select name='band3'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+
+
         </div>
-        <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit">Render Preview</button>
-        <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Render Full Image</button>
+
+        <div class='inline-block clearfix'>
+            <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+            <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-right">Render Full Image</button>
+        </div>
     </form>
 
 </div>
