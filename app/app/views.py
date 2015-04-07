@@ -6,6 +6,7 @@ from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
+import random
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -242,7 +243,26 @@ def status_poll(request):
     """
     Poll database for render job status.
     """
-    jobid = request.params.get('jobid')
-    job_info = UserJob.job_status_and_times(jobid)
+    # import ipdb; ipdb.set_trace()
+    # jobid = request.params.get('jobid')
+    # job_info = UserJob.job_status_and_times(jobid)
 
-    return {'job_info': job_info}
+    # return {'job_info': job_info}
+    test = [True] * 99 + [False]
+    testbool = random.sample(test, 1)
+    return {'bool': testbool[0]}
+
+
+@view_config(route_name='preview_poll', renderer='json')
+def preview_poll(request):
+    """
+    Poll database for render job status.
+    """
+    # import ipdb; ipdb.set_trace()
+    # jobid = request.params.get('jobid')
+    # job_info = UserJob.job_status_and_times(jobid)
+
+    # return {'job_info': job_info}
+    test = [True] * 99 + [False]
+    testbool = random.sample(test, 1)
+    return {'bool': testbool[0]}
