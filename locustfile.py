@@ -63,10 +63,12 @@ class UserBehavior(TaskSet):
             @task(3)
             def preview(self):
                 rand_band = random.choice(["432", "543", "532"])
+                print self.scene_id
                 self.response = self.client.post(
-                                    url="/request_preview/{}".format(self.scene_id),
-                                    data={'band_combo': rand_band}
-                                    )
+                                url="/request_preview/{}".format(self.scene_id),
+                                json="True",
+                                data={'band_combo': rand_band}
+                                )
                 print 'requested preview'
 
             @task(1)
