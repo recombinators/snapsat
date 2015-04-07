@@ -133,6 +133,7 @@ def request_preview(request):
     Request for preview only
     """
     add_to_queue_preview(request)
+    import pdb; pdb.set_trace()
     return HTTPFound(location='/scene/{}'.format(
         request.matchdict['scene_id']))
 
