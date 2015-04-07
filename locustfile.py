@@ -12,17 +12,29 @@ class UserBehavior(TaskSet):
     def on_start(self):
         pass
 
-    @task
+    @task(1)
     def index(self):
         self.client.get("/")
 
-    @task
+    @task(1)
+    def create(self):
+        self.client.get("/create")
+
+    @task(5)
     class SubTaskCreate(TaskSet):
         def on_start(self):
-            self.lat = random.uniform(-10, 10) + lat
-            self.lng = random.uniform(-10, 10) + lng
-            # response = self.client.get("/create")
-            # print self.lat, self.lng
+            self.lat = random.uniform(-1, 1) + lat
+            self.lng = random.uniform(-1, 1) + lng
+            print self.lat, self.lng
+            self.response = self.client.post(
+                                        url="/scene_options_ajax",
+                                        data={'lat': self.lat, 'lng': self.lng}
+                                             )
+
+        @task(10)
+        def map_move(self):
+            self.lat = random.uniform(-1, 1) + lat
+            self.lng = random.uniform(-1, 1) + lng
             self.response = self.client.post(
                                         url="/scene_options_ajax",
                                         data={'lat': self.lat, 'lng': self.lng}
@@ -30,19 +42,21 @@ class UserBehavior(TaskSet):
 
         @task(3)
         def preview(self):
+            self.map_move()
             json_data = json.loads(self.response.text)
-            print json_data['scenes'][0]
-            random_num = random.randint(0, len(json_data['scenes'][0]) - 1)
-            # random_url = json_data["scenes"][random_num]["download_url"]
-            scene_id = json_data["scenes"][0][random_num]["entityid"]
-            # print random_url
-            # self.response = self.client.get(random_url)
-            rand_band = random.choice(["432", "543", "532"])
-            url = "/request_preview/{}".format(scene_id)
-            print url
-            print rand_band
-            self.client.post(url=url, data={'band_combo': rand_band})
-            print 'requested preview'
+            print json_data["scenes"][0]
+            num_scenes = len(json_data["scenes"][0]) - 1
+            if num_scenes > 0:
+                random_num = random.randint(0, num_scenes)
+                random_url = json_data["scenes"][0][random_num]["download_url"]
+                self.client.get(random_url)
+                scene_id = json_data["scenes"][0][random_num]["entityid"]
+                rand_band = random.choice(["432", "543", "532"])
+                url = "/request_preview/{}".format(scene_id)
+                print url
+                print rand_band
+                self.client.post(url=url, data={'band_combo': rand_band})
+                print 'requested preview'
 
         @task(1)
         def stop(self):
