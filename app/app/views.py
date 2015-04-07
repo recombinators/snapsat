@@ -13,7 +13,8 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 REGION = 'us-west-2'
 
 # Requests are passed into appropriate queues, as defined here.
-RENDER_QUEUE = 'snapsat_render_queue'
+
+COMPOSITE_QUEUE = 'snapsat_composite_queue'
 PREVIEW_QUEUE = 'snapsat_preview_queue'
 
 
@@ -50,10 +51,11 @@ def create(request):
     return scene_options_ajax(request)
 
 
-def add_to_queue_full(request):
+def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
+    # import ipdb; ipdb.set_trace()
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
@@ -64,24 +66,19 @@ def add_to_queue_full(request):
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, RENDER_QUEUE)
-        jobid = UserJob.new_job(entityid=scene_id,
-                                band1=band1,
-                                band2=band2,
-                                band3=band3
-                                )
-        message = build_job_message(job_id=jobid,
-                                    email='test@test.com',
-                                    scene_id=scene_id,
-                                    band_1=band1,
-                                    band_2=band2,
-                                    band_3=band3
-                                    )
+        jobid = UserJob.new_job(
+                entityid=scene_id,
+                band1=band1, band2=band2, band3=band3
+                rendertype=u'composite')
+        message = build_job_message(
+                job_id=jobid,
+                email='test@test.com',
+                scene_id=scene_id,
+                band_1=band1, band_2=band2, band_3=band3)
         send_message(SQSconn,
                      current_queue,
                      message['body'],
                      message['attributes'])
-
-    return jobid
 
 
 def add_to_queue_preview(request):
@@ -92,6 +89,7 @@ def add_to_queue_preview(request):
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
+<<<<<<< HEAD
     if not RenderCache.preview_render_availability(
             scene_id,
             band1, band2, band3):
@@ -101,25 +99,32 @@ def add_to_queue_preview(request):
 
         current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
 
+        jobid = UserJob_Model.new_job(
+                entityid=scene_id,
+                band1=band1, band2=band2, band3=band3,
+                rendertype=u'preview')
+
         message = build_job_message(
                 job_id=0,
                 email='test@test.com',
                 scene_id=scene_id,
                 band_1=band1, band_2=band2, band_3=band3)
 
-        send_message(SQSconn,
-                     current_queue,
-                     message['body'], message['attributes'])
+        send_message(
+                SQSconn,
+                current_queue,
+                message['body'], message['attributes'])
 
         print 'successfully added to preview queue'
 
 
-@view_config(route_name='request_scene', renderer='json')
-def request_scene(request):
+@view_config(route_name='request_composite', renderer='json')
+def request_composite(request):
     """
     Request both the preview and fullsize images for a particular composite.
     """
-    jobid = add_to_queue_full(request)
+    add_to_queue_composite(request)
+    add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(
         request.matchdict['scene_id']))
 
@@ -134,39 +139,63 @@ def request_preview(request):
         request.matchdict['scene_id']))
 
 
-@view_config(route_name='scene_page', renderer='templates/scene.jinja2')
-def scene_page(request):
+@view_config(route_name='scene', renderer='templates/scene.jinja2')
+def scene(request):
     """
     Given sceneID display available previews, rendered photos/links, status of
     jobs in process.
     """
 
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache.get_rendered_rendering(
-        scene_id)
-    rendered_composites = []
-    rendering_composites = {}
-    for composite in rendered_rendering_composites:
-        if composite.currentlyrend:
-            rendering_composites.append(composite)
-            job_status, start_time, last_modified = (
-                UserJob.job_status_and_times(composite.jobid))
-            elapsed_time = str(datetime.utcnow() - start_time)
-            rendering_composites[
-                composite.jobid] = ({'status': job_status,
-                                     'starttime': start_time,
-                                     'lastmodified': last_modified,
-                                     'elapsedtime': elapsed_time,
-                                     'band1': composite.band1,
-                                     'band2': composite.band2,
-                                     'band3': composite.band3})
-        else:
-            rendered_composites.append(composite)
+    rendered_rendering_composites = RenderCache.get_rendered_rendering( scene_id)
 
-    return {'scene_id': scene_id,
-            'rendered_composites': rendered_composites,
-            'rendering_composites': rendering_composites,
-            }
+    composites = {}
+    if rendered_rendering_composites:
+        for composite in rendered_rendering_composites:
+            band_combo = '{}{}{}'.format(composite.band1,
+                                         composite.band2,
+                                         composite.band3)
+            composites[band_combo] = {'band1': composite.band1,
+                                      'band2': composite.band2,
+                                      'band3': composite.band3}
+            if composite.currentlyrend and composite.rendertype == u'composite':
+                job_status, start_time, last_modified = (
+                    UserJob_Model.job_status_and_times(composite.jobid))
+                elapsed_time = str(datetime.utcnow() - start_time)
+                composites[band_combo].update({'compositeurl': False,
+                                               'compositestatus': job_status,
+                                               'starttime': start_time,
+                                               'lastmodified': last_modified,
+                                               'elapsedtime': elapsed_time})
+
+            if composite.currentlyrend and composite.rendertype == u'preview':
+                job_status = UserJob_Model.job_status(composite.jobid)
+                composites[band_combo].update({'previewurl': False,
+                                               'previewstatus': job_status})
+
+            if not composite.currentlyrend and composite.rendertype == u'composite':
+                job_status, start_time, last_modified = (
+                    UserJob_Model.job_status_and_times(composite.jobid))
+                elapsed_time = str(datetime.utcnow() - start_time)
+                composites[band_combo].update({'compositeurl': composite.renderurl,
+                                               'compositestatus': job_status,
+                                               'starttime': start_time,
+                                               'lastmodified': last_modified,
+                                               'elapsedtime': elapsed_time,
+                                               'band1': composite.band1,
+                                               'band2': composite.band2,
+                                               'band3': composite.band3})
+
+            if not composite.currentlyrend and composite.rendertype == u'preview':
+                job_status = UserJob_Model.job_status(composite.jobid)
+                composites[band_combo].update({'compositeurl': False,
+                                               'previewurl': composite.renderurl,
+                                               'previewstatus': job_status,
+                                               'band1': composite.band1,
+                                               'band2': composite.band2,
+                                               'band3': composite.band3})
+
+    return {'scene_id': scene_id, 'composites': composites}
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
