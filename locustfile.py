@@ -56,14 +56,14 @@ class UserBehavior(TaskSet):
         @task(5)
         def preview(self):
             json_data = json.loads(self.response.text)
-            random_num = random.randint(0, len(json_data['scenes']) - 1)
+            random_num = random.randint(0, len(json_data['scenes'][0]) - 1)
             # random_url = json_data["scenes"][random_num]["download_url"]
-            scene_id = json_data["scenes"][random_num]["entityid"]
+            scene_id = json_data["scenes"][0][random_num]["entityid"]
             # print random_url
             # self.response = self.client.get(random_url)
             rand_band = random.choice(["432", "543", "532"])
-            print self.scene_id
-            url = "/request_preview/{}".format(self.scene_id)
+            print scene_id
+            url = "/request_preview/{}".format(scene_id)
             response = self.client.post(url=url, data={'band_combo': rand_band,})
             print 'requested preview'
 
