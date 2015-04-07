@@ -147,17 +147,6 @@ class UserJob(Base):
         return status_key[status[0]]
 
     @classmethod
-    def job_times(cls, jobid):
-        """
-        Get times for jobid passed in.
-        """
-        try:
-            job = Session.query(cls).get(jobid)
-            return job.starttime, job.lastmodified
-        except:
-            print 'Database operation failed.'
-
-    @classmethod
     def job_status_and_times(cls, jobid):
         """
         Get status and times for jobid passed in.
