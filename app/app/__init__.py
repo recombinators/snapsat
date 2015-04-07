@@ -1,7 +1,7 @@
 import os
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
-from .models import DBSession, Base
+from .models import Session, Base
 
 
 def main(global_config, **settings):
@@ -10,7 +10,7 @@ def main(global_config, **settings):
     """
     settings['sqlalchemy.url'] = os.environ.get('DATABASE_URL')
     engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
+    Session.configure(bind=engine)
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
     config.include('pyramid_jinja2')
