@@ -9,36 +9,27 @@
 
 {% block content %}
 
-
-<div id='rendered_composites' class='display-inline-block'>
-    {% if rendered_composites %}
-        <h2>Rendered composites for {{ scene_id }}</h2>
-        {% for composite in rendered_composites %}
-            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
-            {% if composite.previewurl %}
-                <img src="{{ composite.previewurl }}">
+<h2>Scene {{ scene_id }}</h2>
+{% for band_combo, composite in composites.iteritems() %}
+        <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+        {% if composite.previewurl %}
+            <img src="{{ composite.previewurl }}">
+        {% else %}
+            <img src="/static/img/no_preview.png">
+        {% endif %}
+        {% if composite.fullurl %}
+            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+        {% else %}
+            {% if composite.fullstatus %}
+                 <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
+                {% if composite.elapsed_time %}
+                    <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
+                {% endif %}
+            {% else %}
+                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
             {% endif %}
-            {% if composite.renderurl %}
-                <a href="{{ composite.renderurl }}">Download Full Zip</a>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-</div>
-
-<div id='rendering_composites' class='display-inline-block'>
-    {% if rendering_composites %}
-        {% for composite in rendering_composites %}
-            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
-            <p>Current status: <strong class='red'>{{ composite.status }}</strong></p>
-            {% if composite.elapsed_worker_time %}
-                <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsedtime }}</p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-</div>
-    
-
-
+        {% endif %}
+{% endfor %}
 
 
     <h2>Choose a combination</h2>
