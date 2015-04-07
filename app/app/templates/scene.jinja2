@@ -1,39 +1,41 @@
 {% extends "base.jinja2" %}
 
 {% block header %}
-<header class='contain'>
-    <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
-    <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
-</header>
+    <header class='contain'>
+        <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+        <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
+    </header>
 {% endblock %}
 
 {% block content %}
 
-<h2>Scene {{ scene_id }}</h2>
-{% for band_combo, composite in composites.iteritems() %}
-        <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
-        {% if composite.previewurl %}
-            <img src="{{ composite.previewurl }}">
-        {% else %}
-            <img src="/static/img/no_preview.png">
-        {% endif %}
-        {% if composite.fullurl %}
-            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
-        {% else %}
-            {% if composite.fullstatus %}
-                 <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
-                {% if composite.elapsed_time %}
-                    <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
-                {% endif %}
+    <h2>Scene {{ scene_id }}</h2>
+    {% for band_combo, composite in composites.iteritems() %}
+            <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+            {% if composite.previewurl %}
+                <img src="{{ composite.previewurl }}">
             {% else %}
-                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
+                <img src="/static/img/no_preview.png">
             {% endif %}
-        {% endif %}
-{% endfor %}
+            {% if composite.fullurl %}
+                <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+            {% else %}
+                {% if composite.fullstatus %}
+                     <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
+                    {% if composite.elapsed_time %}
+                        <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
+                    {% endif %}
+                {% else %}
+                    <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
+                {% endif %}
+            {% endif %}
+    {% endfor %}
+
+    <div id='longpolltesting'>
+    </div>
 
 
     <h2>Choose a combination</h2>
-
     <form method="post" id="request_form_{{scene_id}}">
         <div id='combinations'>
             <div class='display-block'>

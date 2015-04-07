@@ -43,7 +43,7 @@ map.on('moveend', function() {
             var scene = scenes[i],
 
             // Append a heading and a table for each set of scenes.
-            $('.sceneList').append('<h3></h3>'.attr('id', id).val('Test'));
+            // $('.sceneList').append('<h3></h3>'.attr('id', id).val('Test'));
             $('.sceneList').append('<table></table>').attr('id', id);
 
             $(newid).html('');
