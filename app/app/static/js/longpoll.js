@@ -2,30 +2,16 @@ var $ = require('jquery');
 
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
-    (function poll(){
-    $.ajax({
-        url: '/status_poll',
-        dataType: 'json',
-        complete: poll,
-        timeout: 50000
-        }).done(function(data) {
-                $('.longpolltesting').append(
-                    "<p>Hello</p>"
-                );
-            });
-    })();
-
     $(".nopreview").each(function(){
         var jobId = this.id;
         var intervalTime = 1000;
         var intervalID = setInterval(function poll(){
             $.ajax({
-                url: "/preview_poll", 
+                url: "/preview_poll",
+                data: {'jobid': jobId},
                 dataType: "json"
             }).done(function(data){
-                console.log("preview " + data.bool + " " + jobId + " " + " " + intervalID);
                 if(data.bool === false){
-                    console.log('preview stop');
                     clearInterval(intervalID);
                 }
             });
@@ -38,11 +24,11 @@ $(document).ready(function(){
         if (jobId){
             var intervalID = setInterval(function poll(){
                 $.ajax({
-                    url: "/status_poll", 
+                    url: "/status_poll",
+                    data: {'jobid': jobId},
                     dataType: "json"
                 }).done(function(data){
                     if(data.bool === false){
-                        console.log("status stop" + " " + data.bool + " " + jobId + " " + " " + intervalID);
                         clearInterval(intervalID);
                     }
                 });
