@@ -162,7 +162,8 @@ def scene(request):
             # If band combination dictionary is not in composites dictionary,
             # add it and initialize it with band values
             if band_combo not in composites:
-                composites.update({band_combo: {'band1': composite.band1,
+                composites.update({band_combo: {'jobid': composite.jobid,
+                                                'band1': composite.band1,
                                                 'band2': composite.band2,
                                                 'band3': composite.band3}})
 
