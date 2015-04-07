@@ -9,24 +9,16 @@
 @import 'tables.css';
 @import 'layout.css';
 @import 'flexbox.css';
-@import 'buttons.css';
 
 
-/* Uncomment and redefine the variables below to change to the generated stylesheet. */
 :root {
 
-	/* TYPOGRAPHY */
-	/* --ms3: ; */
-	/* --ms2: ; */
-	/* --ms1: ; */
-	/* --ms0: ; */
 	/* --copy-font:	; */
 	/* --copy-font-weight: ; */
 	/* --copy-font-color:	; */
 	/* --heading-font: ; */
 	/* --heading-font-color: ; */
 	/* --heading-font-weight: ; */
-	/* --monospace-font: ; */
 	/* --line-height: ; */
 	/* --font-weight-light: ; */
 	/* --font-weight-book:	; */
@@ -34,14 +26,8 @@
 	/* --font-weight-semibold: ; */
 	/* --font-weight-bold: ; */
 	/* --font-weight-black: ; */
-
-	/* LINKS */
-	/* --link-color: ; */
-	/* --link-color-hover: ; */
-
-	/* LAYOUT */	
-	/* --container-width: ; */
-
+	--link-color: black;
+	--link-color-hover: red;
 }
 
 body {
@@ -50,29 +36,17 @@ body {
     color: #666;
 }
 
-a { color: #000; }
+td > a { font-weight: normal; }
 
-td > a {
-    font-weight: normal;
-}
-
-h1, h2 { font-family: "adriane"; }
-h1 {
-    border-left: 20px solid yellow;
-    padding-left: 20px;
-    font-size: 4rem;
-}
-h2 {
-    border-left: 10px solid yellow;
-    padding-left: 20px;
-    font-size: 2rem;
-}
+h1, h2, h3 { font-family: "adriane"; }
+h1 { font-size: 4rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.4rem; }
 
 .map-container{
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 32.8%;
+    position: relative;
+    min-height: 500px;
+    min-height: 50vh;
 }
 
 #map {
@@ -84,8 +58,8 @@ h2 {
 
 .contain {
     position: relative;
+    max-width: 40rem;
     margin-left: 32.8%;
-    padding: 4rem 2rem;
 }
 
 .reticle {
@@ -95,8 +69,6 @@ h2 {
   z-index: 100;
 }
 
-.blurb { font-size: 120%; }
-section { margin-bottom: 4rem; }
 table { width: 100%; }
 
 #possibilities > div {
@@ -107,3 +79,42 @@ table { width: 100%; }
 
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
+
+th {
+    text-transform: uppercase;
+    font-size: 80%;
+    font-weight: 300;
+}
+
+section h2 {
+    position: relative;
+    left: -2.7rem;
+}
+
+section h2 span {
+    color: red;
+    padding-right: 1rem;
+}
+
+.blurb {
+    font-size: 120%;
+}
+
+header {
+    margin: 3rem 0;
+}
+
+td a { color: black; }
+td a:hover { color: red; }
+
+.image {
+    position: relative;
+}
+
+.bands {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8)
+}

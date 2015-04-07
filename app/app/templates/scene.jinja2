@@ -1,68 +1,96 @@
 {% extends "base.jinja2" %}
 
-{% block content %}
-<header>
-    <h1>Create a composite</h1>
+{% block header %}
+<header class='contain'>
+    <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+    <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
 </header>
+{% endblock %}
 
-<div id='available-scenes' class='display-inline-block'>
+{% block content %}
 
-    <h2>Previews</h2>
-    <section id='possibilities'>
-        <div>
-            <img src="{{ preview_urls['normal'] }}">
-        </div>
-        <div>
-            <img src="{{ preview_urls['heat'] }}">
-        </div>
-        <div>
-            <img src="{{ preview_urls['veggie'] }}">
-        </div>
-    </section>
-
-    {% if available_scenes %}
-        <h2>Available scenes for {{ scene_id }}</h2>
-        {% for s in available_scenes %}
-
-            {% if s.renderurl %}
-                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                <a href="{{ s.renderurl }}">Download Full Zip</a>
-                {% if s.elapsed_worker_time %}
-                    <p>Rendering Duration (min:sec): {{ s.elapsed_worker_time }}</p>
+<div class='contain'>
+<h2>Scene {{ scene_id }}</h2>
+{% for band_combo, composite in composites.iteritems() %}
+        <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+        {% if composite.previewurl %}
+            <img src="{{ composite.previewurl }}">
+        {% else %}
+            <img src="/static/img/no_preview.png">
+        {% endif %}
+        {% if composite.fullurl %}
+            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+        {% else %}
+            {% if composite.fullstatus %}
+                 <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
+                {% if composite.elapsed_time %}
+                    <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
                 {% endif %}
-            {% elif s.currentlyrend %}
-                <p>Bands: {{ s.band1 }}, {{ s.band2 }}, {{ s.band3 }}</p>
-                <p>Current status: <strong class='red'>{{ status[s.jobid] }}</strong></p>
-                {% if s.elapsed_worker_time %}
-                    <p>Elapsed Process Time (min:sec): {{ s.elapsed_worker_time }}</p>
-                {% endif %}
+            {% else %}
+                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
             {% endif %}
-        {% endfor %}
-    {% endif %}
-
-
+        {% endif %}
+{% endfor %}
 
 
     <h2>Choose a combination</h2>
 
-    <form action="/request/{{scene_id}}" method="post" id="request_form_{{scene_id}}">
+    <form method="post" id="request_form_{{scene_id}}">
+        <div>
+            <select name='Band 1'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+            <select name='Band 2'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+            <select name='Band 3'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+
+
+        </div>
         <div id='combinations'>
             <div class='display-block'>
-                <label>Natural color</label>
+                <label>Natural color: 4, 3, 2</label>
                 <input class='' type="radio" name="band_combo" value="432" checked>
             </div>
             <div class='display-block'>
-                <label>Color infrared</label>
+                <label>Color infrared: 5, 4, 3</label>
                 <input type="radio" name="band_combo" value="543">
             </div>
             <div class='display-block'>
-                <label>Urban false color</label>
+                <label>5, 3, 2</label>
                 <input type="radio" name="band_combo" value="532">
             </div>
         </div>
-        <button form="request_form_{{scene_id}}" formmethod="post" type="submit">Start processing!</button>
+        <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit">Render Preview</button>
+        <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Render Full Image</button>
     </form>
 
 </div>
+
+</div>
+
 
 {% endblock %}
