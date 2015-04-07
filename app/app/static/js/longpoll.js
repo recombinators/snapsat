@@ -1,18 +1,21 @@
 var $ = require('jquery');
 
 // Start polling for preview and full render job status and take action when document is ready
-$( document ).ready(function() {
+$(document).ready(function(){
+    console.log('document');
 
-    $(".nopreview").each(function(i, obj){
-        var jobId = $(obj).attr('id');
+    $(".nopreview").each(function(){
+        console.log(this.id);
+        var jobId = this.id
         var intervalTime = 1000;
-        var intervalID = setInterval(startPreviewPoll(jobId, intervalID), intervalTime);
+        // var intervalID = setInterval(startPreviewPoll(jobId, intervalID), intervalTime);
     });
     
     $(".nofull").each(function(){
-        var jobId = $(obj).attr('id');
-        var statusIntervalTime = 10000;
-        var statusIntervalID = setInterval(startStatusPoll(jobId, intervalID), intervalTime);
+        console.log(this.id);
+        var jobId = this.id
+        var intervalTime = 10000;
+        // var intervalID = setInterval(startStatusPoll(jobId, intervalID), intervalTime);
     });
 
 });

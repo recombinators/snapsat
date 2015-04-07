@@ -1,24 +1,27 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-require('./map.js');
-require('./typekit.js');
 require('./longpoll.js');
+require('./typekit.js');
+require('./map.js');
 
 },{"./longpoll.js":2,"./map.js":3,"./typekit.js":4}],2:[function(require,module,exports){
 var $ = require('jquery');
 
 // Start polling for preview and full render job status and take action when document is ready
-$( document ).ready(function() {
+$(document).ready(function(){
+    console.log('document');
 
-    $(".nopreview").each(function(i, obj){
-        var jobId = $(obj).attr('id');
+    $(".nopreview").each(function(){
+        console.log(this.id);
+        var jobId = this.id
         var intervalTime = 1000;
-        var intervalID = setInterval(startPreviewPoll(jobId, intervalID), intervalTime);
+        // var intervalID = setInterval(startPreviewPoll(jobId, intervalID), intervalTime);
     });
     
     $(".nofull").each(function(){
-        var jobId = $(obj).attr('id');
-        var statusIntervalTime = 10000;
-        var statusIntervalID = setInterval(startStatusPoll(jobId, intervalID), intervalTime);
+        console.log(this.id);
+        var jobId = this.id
+        var intervalTime = 10000;
+        // var intervalID = setInterval(startStatusPoll(jobId, intervalID), intervalTime);
     });
 
 });

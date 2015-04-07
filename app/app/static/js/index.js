@@ -1,3 +1,3 @@
-require('./map.js');
-require('./typekit.js');
 require('./longpoll.js');
+require('./typekit.js');
+require('./map.js');
