@@ -235,7 +235,7 @@ class RenderCache(Base):
             output = Session.query(cls).filter(
                     cls.entityid == entityid,
                     cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                    cls.rendertype == u'composite',
+                    cls.rendertype == u'full',
                     cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed full_render_availability'
@@ -246,7 +246,7 @@ class RenderCache(Base):
             Session.query(cls).filter(
                     cls.entityid == entityid,
                     cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                    cls.rendertype == u'composite'
+                    cls.rendertype == u'full'
                     ).update({"rendercount": cls.rendercount+1})
 
         return output != 0

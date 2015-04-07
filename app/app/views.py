@@ -67,7 +67,7 @@ def add_to_queue_composite(request):
         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
         jobid = UserJob.new_job(entityid=scene_id,
                                 band1=band1, band2=band2, band3=band3,
-                                rendertype=u'composite')
+                                rendertype=u'full')
         message = build_job_message(job_id=jobid,
                                     email='test@test.com',
                                     scene_id=scene_id,
