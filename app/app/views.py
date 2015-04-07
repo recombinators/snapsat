@@ -192,39 +192,34 @@ def scene_options_ajax(request):
     """
     Returns a dictionary with all available scenes around the map's center.
     """
+    # Lat/lng values default to Seattle, otherwise from Leaflet .getcenter().
+    lat = float(request.params.get('lat', 47.614848))
+    lng = float(request.params.get('lng', -122.3359059))
 
-    def sceneList(request):
-        """
-        Returns a dictionary with all available scenes around the map's center.
-        """
-        # Lat/lng values default to Seattle, otherwise from Leaflet .getcenter().
-        lat = float(request.params.get('lat', 47.614848))
-        lng = float(request.params.get('lng', -122.3359059))
+    # Filter all available scenes to those which encompass the
+    # lat/lng provided from the user. Then, populate a list with
+    # the information relevant to our view.
+    scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
+    sceneList = []
+    for i, scene in enumerate(scenes):
+        sceneList.append({
+            'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
+            'cloudcover': scene.cloudcover,
+            'download_url': scene.download_url,
+            'entityid': scene.entityid,
+            'sliced': scene.entityid[3:9],
+            'path': scene.path,
+            'row': scene.row})
 
-        # Filter all available scenes to those which encompass the
-        # lat/lng provided from the user. Then, populate a list with
-        # the information relevant to our view.
-        scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
-        sceneList = []
-        for i, scene in enumerate(scenes):
-            sceneList.append({
-                'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
-                'cloudcover': scene.cloudcover,
-                'download_url': scene.download_url,
-                'entityid': scene.entityid,
-                'sliced': scene.entityid[3:9],
-                'path': scene.path,
-                'row': scene.row})
+    # This line may not be necessary.
+    sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
 
-        # This line may not be necessary.
-        sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
+    # Sort the available scenes based on their Path, then Row.
+    outputList = []
+    for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
+        outputList.append(list(items))
 
-        # Sort the available scenes based on their Path, then Row.
-        outputList = []
-        for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
-            outputList.append(list(items))
-
-        return {'scenes': outputList}
+    return {'scenes': outputList}
 
 
 @view_config(route_name='status_poll', renderer='json')
