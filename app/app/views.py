@@ -203,7 +203,7 @@ def scene(request):
                 composites[band_combo].update({'previewjobid': composite.jobid,
                                                'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
-
+    import ipdb; ipdb.set_trace()
     return {'scene_id': scene_id, 'composites': composites}
 
 
@@ -252,9 +252,11 @@ def status_poll(request):
     # job_info = UserJob.job_status_and_times(jobid)
 
     # return {'job_info': job_info}
-    import ipdb; ipdb.set_trace()
     jobid = request.params.get('jobid')
-    job_info = UserJob.job_status_and_times(jobid)
+    job_status, start_time, last_modified = (
+        UserJob.job_status_and_times(jobid))
+    elapsed_time = str(datetime.utcnow() - start_time)
+    job_info = {'status': job_status, 'elapsedtime': elapsed_time}
     return {'job_info': job_info}
     # test = [True] * 99 + [False]
     # testbool = random.sample(test, 1)
