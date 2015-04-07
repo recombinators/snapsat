@@ -65,15 +65,13 @@ def add_to_queue_composite(request):
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
-        jobid = UserJob.new_job(
-                entityid=scene_id,
-                band1=band1, band2=band2, band3=band3,
-                rendertype=u'composite')
-        message = build_job_message(
-                job_id=jobid,
-                email='test@test.com',
-                scene_id=scene_id,
-                band_1=band1, band_2=band2, band_3=band3)
+        jobid = UserJob.new_job(entityid=scene_id,
+                                band1=band1, band2=band2, band3=band3,
+                                rendertype=u'composite')
+        message = build_job_message(job_id=jobid,
+                                    email='test@test.com',
+                                    scene_id=scene_id,
+                                    band_1=band1, band_2=band2, band_3=band3)
         send_message(SQSconn,
                      current_queue,
                      message['body'],
@@ -93,26 +91,23 @@ def add_to_queue_preview(request):
             scene_id,
             band1, band2, band3):
 
-        SQSconn = make_SQS_connection(
-                REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+        SQSconn = make_SQS_connection(REGION,
+                                      AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
         current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
 
-        jobid = UserJob.new_job(
-                entityid=scene_id,
-                band1=band1, band2=band2, band3=band3,
-                rendertype=u'preview')
+        jobid = UserJob.new_job(entityid=scene_id,
+                                band1=band1, band2=band2, band3=band3,
+                                rendertype=u'preview')
 
-        message = build_job_message(
-                job_id=jobid,
-                email='test@test.com',
-                scene_id=scene_id,
-                band_1=band1, band_2=band2, band_3=band3)
+        message = build_job_message(job_id=jobid,
+                                    email='test@test.com',
+                                    scene_id=scene_id,
+                                    band_1=band1, band_2=band2, band_3=band3)
 
-        send_message(
-                SQSconn,
-                current_queue,
-                message['body'], message['attributes'])
+        send_message(SQSconn,
+                     current_queue,
+                     message['body'], message['attributes'])
 
         print 'successfully added to preview queue'
 
