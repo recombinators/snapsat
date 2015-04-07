@@ -20,27 +20,29 @@
         <span class='lead'>2</span>
         Select a date
     </h2>
-    <div class='sceneList'>
-    {% for group in scenes_path_row %}
-        <h3 class='mvm'>{{ group[0].sliced }}</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Date acquired</th> <th>Path</th> <th>Row</th> <th>Cloud cover</th> <th>ID</th>
-                </tr>
-            </thead>
-            <tbody class='js-sceneList'>
-                    {% for s in group %}
-                        <tr>
-                            <td>{{ s.acquisitiondate }}</td>
-                            <td>{{ s.path }}</td>
-                            <td>{{ s.row }}</td>
-                            <td>{{ s.cloudcover }}</td>
-                            <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
-                        </tr>
-                    {% endfor %}
-            </tbody>
-        </table>
+    <div id='pathrowgrouping'>
+    {% for group in scenes %}
+        <div>
+            <h3 class='mvm'>{{ group[0].sliced }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date acquired</th> <th>Path</th> <th>Row</th> <th>Cloud cover</th> <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for s in group %}
+                            <tr>
+                                <td>{{ s.acquisitiondate }}</td>
+                                <td>{{ s.path }}</td>
+                                <td>{{ s.row }}</td>
+                                <td>{{ s.cloudcover }}</td>
+                                <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
+                            </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endfor %}
     </div>
 </section>
