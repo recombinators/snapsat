@@ -36,8 +36,8 @@ class UserBehavior(TaskSet):
 
         @task(10)
         def move_map(self):
-            self.lat = random.uniform(-1, 1) + self.lat
-            self.lng = random.uniform(-1, 1) + self.lng
+            self.lat = random.uniform(-10, 10) + self.lat
+            self.lng = random.uniform(-10, 10) + self.lng
             print self.lat, self.lng
             self.response = self.client.post(
                 url="/scene_options_ajax",
