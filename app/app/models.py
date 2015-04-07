@@ -125,35 +125,6 @@ class UserJob(Base):
         return pk
 
     @classmethod
-    def set_job_status(cls, jobid, status, url=None):
-        """
-        Set jobstatus for jobid passed in.
-        """
-        table_key = {1: "status1time",
-                     2: "status2time",
-                     3: "status3time",
-                     4: "status4time",
-                     5: "status5time",
-                     10: "status10time"}
-        try:
-            current_time = datetime.utcnow()
-            Session.query(cls).filter(
-                    cls.jobid == jobid).update({
-                        "jobstatus": status,
-                        table_key[int(status)]: current_time,
-                        "lastmodified": current_time})
-            transaction.commit()
-        except:
-            print 'Database write failed.'
-
-        # Tell the render_cache database that we have this image now.
-        if int(status) == 5:
-            try:
-                RenderCache.update(jobid, False, url)
-            except:
-                print 'Could not update the Rendered database.'
-
-    @classmethod
     def job_status(cls, jobid):
         """
         Get jobstatus for jobid passed in.
@@ -166,13 +137,14 @@ class UserJob(Base):
                       5: "Done",
                       10: "Failed"}
         try:
-            status = Session.query(cls.jobstatus).get(jobid)
+            status = Session.query(cls.jobstatus).filter(
+                cls.jobid == jobid).one()
             print status
         except:
             print 'Database write failed.'
             return None
 
-        return status_key[status]
+        return status_key[status[0]]
 
     @classmethod
     def job_times(cls, jobid):
@@ -190,13 +162,20 @@ class UserJob(Base):
         """
         Get status and times for jobid passed in.
         """
+        status_key = {0: "In queue",
+                      1: "Downloading",
+                      2: "Processing",
+                      3: "Compressing",
+                      4: "Uploading to server",
+                      5: "Done",
+                      10: "Failed"}
         try:
             job_info = Session.query(
                     cls.jobstatus,
                     cls.starttime,
                     cls.lastmodified).filter(
                         cls.jobid == jobid).one()
-            return job_info
+            return status_key[job_info[0]], job_info[1], job_info[2]
         except:
             print 'Database operation'
 

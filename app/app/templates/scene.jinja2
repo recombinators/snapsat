@@ -18,7 +18,7 @@
             <img src="/static/img/no_preview.png">
         {% endif %}
         {% if composite.compositeurl %}
-            <p>Current status: <strong class='red'><a href="{{ composite.compositeurl }}">Complete! Download Full Zip</a></strong></p>
+            <p>Current status: <strong class='red'><a href="{{ composite.compositeurl }}">{{ composite.compositestatus }}! Download Full Zip</a></strong></p>
         {% else %}
             {% if composite.compositestatus %}
                  <p>Current status: <strong class='red'>{{ composite.compositestatus }}</strong></p>
