@@ -58,7 +58,7 @@ class UserBehavior(TaskSet):
                 url = "/request_preview/{}".format(scene_id)
                 self.client.post(url=url, data={'band_combo': rand_band})
 
-        @task(1)
+        @task(2)
         def full(self):
             """Request full render for random scene."""
             self.map_move()
