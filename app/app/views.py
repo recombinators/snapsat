@@ -241,7 +241,7 @@ def scene_options_ajax(request):
 @view_config(route_name='status_poll', renderer='json')
 def status_poll(request):
     """
-    Poll database for render job status.
+    Poll database for full render job status.
     """
     # import ipdb; ipdb.set_trace()
     # jobid = request.params.get('jobid')
@@ -256,7 +256,7 @@ def status_poll(request):
 @view_config(route_name='preview_poll', renderer='json')
 def preview_poll(request):
     """
-    Poll database for render job status.
+    Poll database for preview render job status.
     """
     # import ipdb; ipdb.set_trace()
     # jobid = request.params.get('jobid')
