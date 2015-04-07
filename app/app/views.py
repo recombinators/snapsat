@@ -55,9 +55,9 @@ def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
-    band1 = request.params.get('band_combo')[0]
-    band2 = request.params.get('band_combo')[1]
-    band3 = request.params.get('band_combo')[2]
+    band1 = request.params.get('band1')
+    band2 = request.params.get('band2')
+    band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
 
     if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
@@ -82,9 +82,9 @@ def add_to_queue_preview(request):
     """
     Helper method for adding request to queue and adding to db.
     """
-    band1 = request.params.get('band_combo')[0]
-    band2 = request.params.get('band_combo')[1]
-    band3 = request.params.get('band_combo')[2]
+    band1 = request.params.get('band1')
+    band2 = request.params.get('band2')
+    band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
 
     if not RenderCache.preview_render_availability(
