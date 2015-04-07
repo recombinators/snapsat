@@ -25,14 +25,13 @@ class UserBehavior(TaskSet):
             # print self.lat, self.lng
             self.response = self.client.post(
                                         url="/scene_options_ajax",
-                                        json="True",
                                         data={'lat': self.lat, 'lng': self.lng}
                                              )
-
 
         @task(3)
         def preview(self):
             json_data = json.loads(self.response.text)
+            print json_data['scenes'][0]
             random_num = random.randint(0, len(json_data['scenes'][0]) - 1)
             # random_url = json_data["scenes"][random_num]["download_url"]
             scene_id = json_data["scenes"][0][random_num]["entityid"]
@@ -48,18 +47,6 @@ class UserBehavior(TaskSet):
         @task(1)
         def stop(self):
             self.interrupt()
-
-        # soup = BeautifulSoup(self.response.text)
-
-
-        # def on_start(self):
-        #     json_data = json.loads(self.parent.response2.text)
-        #     random_num = random.randint(0,
-        #                                 len(json_data['scenes_date']) - 1)
-        #     random_url = json_data["scenes_date"][random_num]["download_url"]
-        #     self.scene_id = json_data["scenes_date"][random_num]["entityid"]
-        #     print random_url
-        #     self.response = self.client.get(random_url)
 
 
 class WebsiteUser(HttpLocust):
