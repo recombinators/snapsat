@@ -153,9 +153,11 @@ def scene(request):
             band_combo = '{}{}{}'.format(composite.band1,
                                          composite.band2,
                                          composite.band3)
-            composites[band_combo] = {'band1': composite.band1,
-                                      'band2': composite.band2,
-                                      'band3': composite.band3}
+            if band_combo not in composites:
+                composites.update({band_combo: {'band1': composite.band1,
+                                                'band2': composite.band2,
+                                                'band3': composite.band3}})
+
             if composite.currentlyrend and composite.rendertype == u'composite':
                 job_status, start_time, last_modified = (
                     UserJob_Model.job_status_and_times(composite.jobid))
@@ -179,19 +181,16 @@ def scene(request):
                                                'compositestatus': job_status,
                                                'starttime': start_time,
                                                'lastmodified': last_modified,
-                                               'elapsedtime': elapsed_time,
-                                               'band1': composite.band1,
-                                               'band2': composite.band2,
-                                               'band3': composite.band3})
+                                               'elapsedtime': elapsed_time})
+                import ipdb; ipdb.set_trace()
+
 
             if not composite.currentlyrend and composite.rendertype == u'preview':
                 job_status = UserJob_Model.job_status(composite.jobid)
-                composites[band_combo].update({'compositeurl': False,
-                                               'previewurl': composite.renderurl,
-                                               'previewstatus': job_status,
-                                               'band1': composite.band1,
-                                               'band2': composite.band2,
-                                               'band3': composite.band3})
+                composites[band_combo].update({'previewurl': composite.renderurl,
+                                               'previewstatus': job_status})
+                import ipdb; ipdb.set_trace()
+
     return {'scene_id': scene_id,
             'composites': composites,
             }
