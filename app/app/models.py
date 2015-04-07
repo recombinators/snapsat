@@ -60,11 +60,13 @@ class PathRow_Model(Base):
 class UserJob_Model(Base):
     """
     Model for the user job queue. Possible job statuses:
-    0 - Created
-    1 - Queued
-    2 - Processing
-    3 - Done (Failed)
-    4 - Done (Success)
+    status_key = {0: "In queue",
+                  1: "Downloading",
+                  2: "Processing",
+                  3: "Compressing",
+                  4: "Uploading to server",
+                  5: "Done",
+                  10: "Failed"}
     """
 
     __tablename__ = 'user_job'
