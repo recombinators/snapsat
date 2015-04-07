@@ -14,15 +14,15 @@ class UserBehavior(TaskSet):
     def index(self):
         self.client.get("/")
 
-    @task(1)
-    def stop(self):
-        self.interrupt()
+    # @task(1)
+    # def stop(self):
+    #     self.interrupt()
     # @task(1)
     # def create(self):
     #     print "create"
     #     self.response = self.client.get("/create")
 
-    @task(10)
+    @task(3)
     class SubTaskCreate(TaskSet):
         def on_start(self):
             self.response = self.client.get("/create")
@@ -93,5 +93,5 @@ class UserBehavior(TaskSet):
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 100
+    min_wait = 500
     max_wait = 1000
