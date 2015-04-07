@@ -6,14 +6,15 @@ from zope.sqlalchemy import ZopeTransactionExtension
 import transaction
 from datetime import datetime
 
-DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
+Session = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class Paths_Model(Base):
-    '''Model for paths table.'''
+class Paths(Base):
+    """
+    Model for paths table.
+    """
     __tablename__ = 'paths'
-
     gid = Column(UnicodeText, primary_key=True, autoincrement=True)
     geom = Column(UnicodeText, nullable=False)
     path = Column(Integer, nullable=False)
@@ -26,7 +27,7 @@ class Paths_Model(Base):
         Output path and row that contains lat lon.
         """
         try:
-            scene = (DBSession.query(cls).filter(
+            scene = (Session.query(cls).filter(
                 func.ST_Within(func.ST_SetSRID(
                     func.ST_MakePoint(float(lon), float(lat)), 4236), 
                     func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
@@ -36,8 +37,10 @@ class Paths_Model(Base):
             return u'----'
 
 
-class PathRow_Model(Base):
-    '''Model for AWS S3 path and row list.'''
+class PathRow(Base):
+    """
+    Model for AWS S3 path and row list.
+    """
     __tablename__ = 'path_row'
     entityid = Column(UnicodeText, primary_key=True)
     acquisitiondate = Column(DateTime, nullable=False)
@@ -54,10 +57,10 @@ class PathRow_Model(Base):
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
-        return DBSession.query(cls).filter(or_(*new))
+        return Session.query(cls).filter(or_(*new))
 
 
-class UserJob_Model(Base):
+class UserJob(Base):
     """
     Model for the user job queue. Possible job statuses:
     0 - Created
@@ -66,7 +69,6 @@ class UserJob_Model(Base):
     3 - Done (Failed)
     4 - Done (Success)
     """
-
     __tablename__ = 'user_job'
     jobid = Column(Integer, primary_key=True)
     entityid = Column(UnicodeText)
@@ -88,40 +90,33 @@ class UserJob_Model(Base):
     @classmethod
     def new_job(cls,
                 entityid=entityid,
-                band1=4,
-                band2=3,
-                band3=2,
+                band1=4, band2=3, band3=2,
                 jobstatus=0,
-                starttime=datetime.utcnow(),
-                ):
+                starttime=datetime.utcnow()):
         """
         Create new job in db.
         """
         try:
-            session = DBSession
+            session = Session
             current_time = datetime.utcnow()
-            job = UserJob_Model(entityid=entityid,
-                                band1=band1,
-                                band2=band2,
-                                band3=band3,
+            job = UserJob(entityid=entityid,
+                                band1=band1, band2=band2, band3=band3,
                                 jobstatus=0,
                                 starttime=current_time,
-                                lastmodified=current_time
-                                )
+                                lastmodified=current_time)
             session.add(job)
             session.flush()
             session.refresh(job)
             pk = job.jobid
             transaction.commit()
-            # Could do this or a subtransacation,
-            # ie: open a transaction at the beginning of this method.
             transaction.begin()
         except:
             return None
+
         try:
-            RenderCache_Model.add(pk, True)
+            RenderCache.add(pk, True)
         except:
-            print 'Could not add job to rendered db'
+            print 'Could not add the job to the Rendered database.'
         return pk
 
     @classmethod
@@ -137,20 +132,21 @@ class UserJob_Model(Base):
                      10: "status10time"}
         try:
             current_time = datetime.utcnow()
-            DBSession.query(cls).filter(cls.jobid == jobid).update(
-                                    {"jobstatus": status,
-                                     table_key[int(status)]: current_time,
-                                     "lastmodified": current_time
-                                     })
+            Session.query(cls).filter(
+                    cls.jobid == jobid).update({
+                        "jobstatus": status,
+                        table_key[int(status)]: current_time,
+                        "lastmodified": current_time})
             transaction.commit()
         except:
-            print 'database write failed'
-        # Tell render_cache db we have this image now
+            print 'Database write failed.'
+
+        # Tell the render_cache database that we have this image now.
         if int(status) == 5:
             try:
-                RenderCache_Model.update(jobid, False, url)
+                RenderCache.update(jobid, False, url)
             except:
-                print 'Could not update Rendered db'
+                print 'Could not update the Rendered database.'
 
     @classmethod
     def job_status(cls, jobid):
@@ -165,11 +161,12 @@ class UserJob_Model(Base):
                       5: "Done",
                       10: "Failed"}
         try:
-            job = DBSession.query(cls).get(jobid)
+            job = Session.query(cls).get(jobid)
             print job.jobstatus
         except:
-            print 'database write failed'
+            print 'Database write failed.'
             return None
+
         return status_key[job.jobstatus]
 
     @classmethod
@@ -178,10 +175,10 @@ class UserJob_Model(Base):
         Get times for jobid passed in.
         """
         try:
-            job = DBSession.query(cls).get(jobid)
+            job = Session.query(cls).get(jobid)
             return job.starttime, job.lastmodified
         except:
-            print 'database operation failed'
+            print 'Database operation failed.'
 
     @classmethod
     def job_status_and_times(cls, jobid):
@@ -189,17 +186,20 @@ class UserJob_Model(Base):
         Get status and times for jobid passed in.
         """
         try:
-            job_info = DBSession.query(UserJob_Model.jobstatus,
-                                       UserJob_Model.starttime,
-                                       UserJob_Model.lastmodified).filter(
-                UserJob_Model.jobid == 346).one()
+            job_info = Session.query(
+                    UserJob.jobstatus,
+                    UserJob.starttime, 
+                    UserJob.lastmodified).filter(
+                        UserJob.jobid == 346).one()
             return job_info
         except:
-            print 'database operation failed'
+            print 'Database operation'
 
 
-class RenderCache_Model(Base):
-    '''Model for the already render_cache table'''
+class RenderCache(Base):
+    """
+    Model for the already render_cache table.
+    """
     __tablename__ = 'render_cache'
     id = Column(Integer, primary_key=True)
     jobid = Column(Integer)
@@ -217,14 +217,14 @@ class RenderCache_Model(Base):
         """
         Method adds entry into db given jobid and optional url.
         """
-        jobQuery = DBSession.query(UserJob_Model).get(jobid)
-        job = RenderCache_Model(entityid=jobQuery.entityid,
+        jobQuery = Session.query(UserJob).get(jobid)
+        job = RenderCache(entityid=jobQuery.entityid,
                                 jobid=jobid,
                                 band1=jobQuery.band1,
                                 band2=jobQuery.band2,
                                 band3=jobQuery.band3,
                                 currentlyrend=currentlyrend)
-        DBSession.add(job)
+        Session.add(job)
         transaction.commit()
 
     @classmethod
@@ -233,7 +233,7 @@ class RenderCache_Model(Base):
         Method updates entry into db given jobid and optional url.
         """
         try:
-            DBSession.query(cls).filter(cls.jobid == jobid).update({
+            Session.query(cls).filter(cls.jobid == jobid).update({
                 "currentlyrend": currentlyrend, "renderurl": renderurl})
         except:
             print 'could not update db'
@@ -244,7 +244,7 @@ class RenderCache_Model(Base):
         Return list of existing jobs for a given sceneID.
         """
         try:
-            rendered = DBSession.query(cls).filter(
+            rendered = Session.query(cls).filter(
                 cls.entityid == entityid,
                 cls.currentlyrend is not True).all()
         except:
@@ -258,7 +258,7 @@ class RenderCache_Model(Base):
         Check if given image is already rendered.
         """
         try:
-            output = DBSession.query(cls).filter(cls.entityid == entityid,
+            output = Session.query(cls).filter(cls.entityid == entityid,
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
@@ -268,7 +268,7 @@ class RenderCache_Model(Base):
             return None
         if output != 0:
             # if this scene/band has already been requested, increase the count
-            DBSession.query(cls).filter(cls.entityid == entityid,
+            Session.query(cls).filter(cls.entityid == entityid,
                                         cls.band1 == band1,
                                         cls.band2 == band2,
                                         cls.band3 == band3).update({
@@ -281,7 +281,7 @@ class RenderCache_Model(Base):
         Check if given preview image is already rendered.
         """
         try:
-            output = DBSession.query(cls).filter(cls.entityid == entityid,
+            output = Session.query(cls).filter(cls.entityid == entityid,
                                                  cls.band1 == band1,
                                                  cls.band2 == band2,
                                                  cls.band3 == band3,
