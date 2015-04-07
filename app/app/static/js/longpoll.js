@@ -29,6 +29,23 @@ function stopPreviewPoll(data, intervalID){
 
 function startPreviewPoll(){
     $.ajax({
+        url: "/preview_poll", 
+        dataType: "json"
+    }).done(function(data){
+        console.log(data.bool);
+        stopPreviewPoll(data.bool, intervalID);
+    });
+}
+
+function stopStatusPoll(data, intervalID){
+    if(data.bool === false){
+        clearInterval(intervalID);
+    }
+}
+
+
+function startStatusPoll(){
+    $.ajax({
         url: "/status_poll", 
         dataType: "json"
     }).done(function(data){
