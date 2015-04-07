@@ -22,28 +22,30 @@ $( document ).ready(function() {
     //         });
     //     });
     // })();
-    var intervalTime = 1000;
-    var intervalID = setInterval(startPreviewPoll, intervalTime);
+    var previewIntervalTime = 1000;
+    var previewIntervalID = setInterval(startPreviewPoll(previewIntervalID), previewIntervalTime);
+    var statusIntervalTime = 10000;
+    var statusIntervalID = setInterval(startStatusPoll(statusIntervalID), statusIntervalTime);
 });
 
-function stopPreviewPoll(data, intervalID){
+function stopPreviewPoll(data, previewintervalID){
     if(data.bool === false){
         clearInterval(intervalID);
     }
 }
 
 
-function startPreviewPoll(){
+function startPreviewPoll(previewIntervalID){
     $.ajax({
         url: "/preview_poll", 
         dataType: "json"
     }).done(function(data){
         console.log(data.bool);
-        stopPreviewPoll(data.bool, intervalID);
+        stopPreviewPoll(data.bool, previewIntervalID);
     });
 }
 
-function stopStatusPoll(data, intervalID){
+function stopStatusPoll(data, statusintervalID){
     if(data.bool === false){
         clearInterval(intervalID);
     }
@@ -56,7 +58,7 @@ function startStatusPoll(){
         dataType: "json"
     }).done(function(data){
         console.log(data.bool);
-        stopPreviewPoll(data.bool, intervalID);
+        stopStatusPoll(data.bool, intervalID);
     });
 }
 
