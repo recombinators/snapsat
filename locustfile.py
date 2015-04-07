@@ -18,29 +18,6 @@ class UserBehavior(TaskSet):
 
     @task
     class SubTaskCreate(TaskSet):
-        # def __init__():
-            # self.response = self.client.get("/create")
-            # self.lat = lat
-            # self.lng = lng
-            # self.move_map()
-            # self.response = self.client.post(
-            #     url="/scene_options_ajax",
-            #     json="True",
-            #     data={'lat': self.lat, 'lng': self.lng}
-            #     )
-
-        # @task(10)
-        # def move_map(self):
-        #     self.lat = random.uniform(-1, 1) + lat
-        #     self.lng = random.uniform(-1, 1) + lng
-        #     # response = self.client.get("/create")
-        #     # print self.lat, self.lng
-        #     response = self.client.post(
-        #         url="/scene_options_ajax",
-        #         json="True",
-        #         data={'lat': self.lat, 'lng': self.lng}
-        #         )
-        #     import pdb; pdb.set_trace()
         def on_start(self):
             self.lat = random.uniform(-10, 10) + lat
             self.lng = random.uniform(-10, 10) + lng
@@ -53,7 +30,7 @@ class UserBehavior(TaskSet):
                                              )
 
 
-        @task(5)
+        @task(3)
         def preview(self):
             json_data = json.loads(self.response.text)
             random_num = random.randint(0, len(json_data['scenes'][0]) - 1)
@@ -62,26 +39,27 @@ class UserBehavior(TaskSet):
             # print random_url
             # self.response = self.client.get(random_url)
             rand_band = random.choice(["432", "543", "532"])
-            print scene_id
             url = "/request_preview/{}".format(scene_id)
-            response = self.client.post(url=url, data={'band_combo': rand_band,})
+            print url
+            print rand_band
+            self.client.post(url=url, data={'band_combo': rand_band})
             print 'requested preview'
 
         @task(1)
         def stop(self):
             self.interrupt()
 
-                # soup = BeautifulSoup(self.response.text)
+        # soup = BeautifulSoup(self.response.text)
 
 
-                # def on_start(self):
-                #     json_data = json.loads(self.parent.response2.text)
-                #     random_num = random.randint(0,
-                #                                 len(json_data['scenes_date']) - 1)
-                #     random_url = json_data["scenes_date"][random_num]["download_url"]
-                #     self.scene_id = json_data["scenes_date"][random_num]["entityid"]
-                #     print random_url
-                #     self.response = self.client.get(random_url)
+        # def on_start(self):
+        #     json_data = json.loads(self.parent.response2.text)
+        #     random_num = random.randint(0,
+        #                                 len(json_data['scenes_date']) - 1)
+        #     random_url = json_data["scenes_date"][random_num]["download_url"]
+        #     self.scene_id = json_data["scenes_date"][random_num]["entityid"]
+        #     print random_url
+        #     self.response = self.client.get(random_url)
 
 
 class WebsiteUser(HttpLocust):
