@@ -18,10 +18,10 @@
             <img src="/static/img/no_preview.png">
         {% endif %}
         {% if composite.fullurl %}
-            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.compositestatus }}! Download Full Zip</a></strong></p>
+            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
         {% else %}
-            {% if composite.compositestatus %}
-                 <p>Current status: <strong class='red'>{{ composite.compositestatus }}</strong></p>
+            {% if composite.fullstatus %}
+                 <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
                 {% if composite.elapsed_time %}
                     <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
                 {% endif %}
