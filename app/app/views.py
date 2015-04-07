@@ -182,14 +182,11 @@ def scene(request):
                                                'starttime': start_time,
                                                'lastmodified': last_modified,
                                                'elapsedtime': elapsed_time})
-                import ipdb; ipdb.set_trace()
-
 
             if not composite.currentlyrend and composite.rendertype == u'preview':
                 job_status = UserJob_Model.job_status(composite.jobid)
                 composites[band_combo].update({'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
-                import ipdb; ipdb.set_trace()
 
     return {'scene_id': scene_id,
             'composites': composites,
