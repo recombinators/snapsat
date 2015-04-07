@@ -14,8 +14,7 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {zoomControl: true});
 map.setView([47.568, -122.582], 7);
 map.scrollWheelZoom.disable();
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
- 
- 
+
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat
 // scenes present.

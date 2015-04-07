@@ -9,8 +9,7 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {zoomControl: true});
 map.setView([47.568, -122.582], 7);
 map.scrollWheelZoom.disable();
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
- 
- 
+
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat
 // scenes present.
@@ -45,8 +44,8 @@ map.on('moveend', function() {
                 var newid = '#'.concat(id);
  
                 $(newid).html('');
-                $(newid).append(
                     "<thead><tr><th>Date acquired</th><th>Path</th><th>Row</th><th>Cloud cover</th><th>ID</th></tr></thead>"
+                    $(newid).append(
                 );
                 for (var k in scenes_path_row) {
                     $(newid).append(
