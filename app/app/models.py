@@ -1,19 +1,20 @@
+import transaction
 from sqlalchemy import (Column, Integer, Boolean, UnicodeText, func, DateTime,
                         Float, or_, and_, )
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from zope.sqlalchemy import ZopeTransactionExtension
-import transaction
 from datetime import datetime
 
-DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
+Session = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class Paths_Model(Base):
-    '''Model for paths table.'''
+class Paths(Base):
+    """
+    Model for paths table.
+    """
     __tablename__ = 'paths'
-
     gid = Column(UnicodeText, primary_key=True, autoincrement=True)
     geom = Column(UnicodeText, nullable=False)
     path = Column(Integer, nullable=False)
@@ -26,9 +27,9 @@ class Paths_Model(Base):
         Output path and row that contains lat lon.
         """
         try:
-            scene = (DBSession.query(cls).filter(
+            scene = (Session.query(cls).filter(
                 func.ST_Within(func.ST_SetSRID(
-                    func.ST_MakePoint(float(lon), float(lat)), 4236), 
+                    func.ST_MakePoint(float(lon), float(lat)), 4236),
                     func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
                     )
             return scene
@@ -36,8 +37,10 @@ class Paths_Model(Base):
             return u'----'
 
 
-class PathRow_Model(Base):
-    '''Model for AWS S3 path and row list.'''
+class PathRow(Base):
+    """
+    Model for AWS S3 path and row list.
+    """
     __tablename__ = 'path_row'
     entityid = Column(UnicodeText, primary_key=True)
     acquisitiondate = Column(DateTime, nullable=False)
@@ -54,10 +57,10 @@ class PathRow_Model(Base):
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
-        return DBSession.query(cls).filter(or_(*new))
+        return Session.query(cls).filter(or_(*new))
 
 
-class UserJob_Model(Base):
+class UserJob(Base):
     """
     Model for the user job queue. Possible job statuses:
     status_key = {0: "In queue",
@@ -68,7 +71,6 @@ class UserJob_Model(Base):
                   5: "Done",
                   10: "Failed"}
     """
-
     __tablename__ = 'user_job'
     jobid = Column(Integer, primary_key=True)
     entityid = Column(UnicodeText)
@@ -91,9 +93,7 @@ class UserJob_Model(Base):
     @classmethod
     def new_job(cls,
                 entityid=entityid,
-                band1=4,
-                band2=3,
-                band3=2,
+                band1=4, band2=3, band3=2,
                 jobstatus=0,
                 starttime=datetime.utcnow(),
                 rendertype=rendertype
@@ -102,30 +102,28 @@ class UserJob_Model(Base):
         Create new job in db.
         """
         try:
-            session = DBSession
+            session = Session
             current_time = datetime.utcnow()
-            job = UserJob_Model(entityid=entityid,
-                                band1=band1,
-                                band2=band2,
-                                band3=band3,
-                                jobstatus=0,
-                                starttime=current_time,
-                                lastmodified=current_time,
-                                rendertype=rendertype)
+            job = UserJob(
+                    entityid=entityid,
+                    band1=band1, band2=band2, band3=band3,
+                    jobstatus=0,
+                    starttime=current_time,
+                    lastmodified=current_time,
+                    rendertype=rendertype)
             session.add(job)
             session.flush()
             session.refresh(job)
             pk = job.jobid
             transaction.commit()
-            # Could do this or a subtransacation,
-            # ie: open a transaction at the beginning of this method.
             transaction.begin()
         except:
             return None
+
         try:
-            RenderCache_Model.add(pk, True, rendertype)
+            RenderCache.add(pk, True, rendertype)
         except:
-            print 'Could not add job to rendered db'
+            print 'Could not add the job to the Rendered database.'
         return pk
 
     @classmethod
@@ -141,24 +139,14 @@ class UserJob_Model(Base):
                       5: "Done",
                       10: "Failed"}
         try:
-            status = DBSession.query(cls.jobstatus).filter(
+            status = Session.query(cls.jobstatus).filter(
                 cls.jobid == jobid).one()
             print status
         except:
-            print 'database write failed'
+            print 'Database write failed.'
             return None
-        return status_key[status[0]]
 
-    @classmethod
-    def job_times(cls, jobid):
-        """
-        Get times for jobid passed in.
-        """
-        try:
-            job = DBSession.query(cls).get(jobid)
-            return job.starttime, job.lastmodified
-        except:
-            print 'database operation failed'
+        return status_key[status[0]]
 
     @classmethod
     def job_status_and_times(cls, jobid):
@@ -173,17 +161,20 @@ class UserJob_Model(Base):
                       5: "Done",
                       10: "Failed"}
         try:
-            job_info = DBSession.query(cls.jobstatus,
-                                       cls.starttime,
-                                       cls.lastmodified).filter(
-                cls.jobid == jobid).one()
+            job_info = Session.query(
+                    cls.jobstatus,
+                    cls.starttime,
+                    cls.lastmodified).filter(
+                        cls.jobid == jobid).one()
             return status_key[job_info[0]], job_info[1], job_info[2]
         except:
-            print 'database operation failed'
+            print 'Database operation'
 
 
-class RenderCache_Model(Base):
-    '''Model for the already render_cache table'''
+class RenderCache(Base):
+    """
+    Model for the already render_cache table.
+    """
     __tablename__ = 'render_cache'
     id = Column(Integer, primary_key=True)
     jobid = Column(Integer)
@@ -201,16 +192,15 @@ class RenderCache_Model(Base):
         """
         Method adds entry into db given jobid and optional url.
         """
-        jobQuery = DBSession.query(UserJob_Model).get(jobid)
-        job = RenderCache_Model(entityid=jobQuery.entityid,
-                                jobid=jobid,
-                                band1=jobQuery.band1,
-                                band2=jobQuery.band2,
-                                band3=jobQuery.band3,
-                                currentlyrend=currentlyrend,
-                                rendertype=rendertype
-                                )
-        DBSession.add(job)
+        jobQuery = Session.query(UserJob).get(jobid)
+        job = RenderCache(
+                entityid=jobQuery.entityid,
+                jobid=jobid,
+                band1=jobQuery.band1, band2=jobQuery.band2, band3=jobQuery.band3,
+                currentlyrend=currentlyrend,
+                rendertype=rendertype)
+
+        Session.add(job)
         transaction.commit()
 
     @classmethod
@@ -219,7 +209,7 @@ class RenderCache_Model(Base):
         Method updates entry into db given jobid and optional url.
         """
         try:
-            DBSession.query(cls).filter(cls.jobid == jobid).update({
+            Session.query(cls).filter(cls.jobid == jobid).update({
                 "currentlyrend": currentlyrend, "renderurl": renderurl})
         except:
             print 'could not update db'
@@ -230,8 +220,9 @@ class RenderCache_Model(Base):
         Return list of existing jobs for a given sceneID.
         """
         try:
-            rendered = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                   cls.currentlyrend is not True).all()
+            rendered = Session.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.currentlyrend is not True).all()
         except:
             print 'Database query failed get_rendered_rendering'
             return None
@@ -243,22 +234,23 @@ class RenderCache_Model(Base):
         Check if given image is already rendered.
         """
         try:
-            output = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                 cls.band1 == band1,
-                                                 cls.band2 == band2,
-                                                 cls.band3 == band3,
-                                                 cls.rendertype == u'composite',
-                                                 cls.renderurl.isnot(None)).count()
+            output = Session.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                    cls.rendertype == u'full',
+                    cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed full_render_availability'
             return None
+
         if output != 0:
             # if this scene/band has already been requested, increase the count
-            DBSession.query(cls).filter(cls.entityid == entityid,
-                                        cls.band1 == band1,
-                                        cls.band2 == band2,
-                                        cls.band3 == band3,
-                                        cls.rendertype == u'composite').update({"rendercount": cls.rendercount+1})
+            Session.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                    cls.rendertype == u'full'
+                    ).update({"rendercount": cls.rendercount+1})
+
         return output != 0
 
     @classmethod
@@ -267,30 +259,21 @@ class RenderCache_Model(Base):
         Check if given preview image is already rendered.
         """
         try:
-            output = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                 cls.band1 == band1,
-                                                 cls.band2 == band2,
-                                                 cls.band3 == band3,
-                                                 cls.rendertype == u'preview',
-                                                 cls.renderurl.isnot(None)).count()
+            output = Session.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                    cls.rendertype == u'preview',
+                    cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed preview_render_availability'
             return None
-        if output != 0:
-            # if this scene/band has already been requested, increase the count
-            DBSession.query(cls).filter(cls.entityid == entityid,
-                                        cls.band1 == band1,
-                                        cls.band2 == band2,
-                                        cls.band3 == band3,
-                                        cls.rendertype == u'preview').update({"rendercount": cls.rendercount+1})
 
         if output != 0:
             # if this scene/band has already been requested, increase the count
-            existing = DBSession.query(cls).filter(cls.entityid == entityid,
-                                                   cls.band1 == band1,
-                                                   cls.band2 == band2,
-                                                   cls.band3 == band3).update({
-                                                   "rendercount": cls.rendercount+1})
-        return output != 0
+            Session.query(cls).filter(
+                    cls.entityid == entityid,
+                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                    cls.rendertype == u'preview'
+                    ).update({"rendercount": cls.rendercount+1})
 
         return output != 0

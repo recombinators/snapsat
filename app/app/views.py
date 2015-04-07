@@ -1,13 +1,11 @@
-from models import (Paths_Model, PathRow_Model, UserJob_Model,
-                     RenderCache_Model,)
 import os
 import operator
 import itertools
+from datetime import datetime
+from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from datetime import datetime
-from sqs import (make_SQS_connection, get_queue, build_job_message,
-                 send_message,)
+from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -57,27 +55,23 @@ def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
-    # import ipdb; ipdb.set_trace()
     band1 = request.params.get('band_combo')[0]
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
 
-    if not RenderCache_Model.full_render_availability(scene_id,
-                                                      band1,
-                                                      band2,
-                                                      band3):
+    if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
-        jobid = UserJob_Model.new_job(entityid=scene_id,band1=band1,band2=band2,band3=band3,rendertype=u'composite')
-        # import ipdb; ipdb.set_trace()
-        message = build_job_message(job_id=jobid, email='test@test.com',
+        jobid = UserJob.new_job(entityid=scene_id,
+                                band1=band1, band2=band2, band3=band3,
+                                rendertype=u'full')
+        message = build_job_message(job_id=jobid,
+                                    email='test@test.com',
                                     scene_id=scene_id,
-                                    band_1=band1,
-                                    band_2=band2,
-                                    band_3=band3)
+                                    band_1=band1, band_2=band2, band_3=band3)
         send_message(SQSconn,
                      current_queue,
                      message['body'],
@@ -92,46 +86,50 @@ def add_to_queue_preview(request):
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
-    if not RenderCache_Model.preview_render_availability(scene_id,
-                                                         band1,
-                                                         band2,
-                                                         band3):
+
+    if not RenderCache.preview_render_availability(
+            scene_id,
+            band1, band2, band3):
+
         SQSconn = make_SQS_connection(REGION,
-                                      AWS_ACCESS_KEY_ID,
-                                      AWS_SECRET_ACCESS_KEY)
+                                      AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+
         current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
-        jobid = UserJob_Model.new_job(entityid=scene_id,
-                                      band1=band1,
-                                      band2=band2,
-                                      band3=band3,
-                                      rendertype=u'preview')
-        message = build_job_message(job_id=jobid, email='test@test.com',
+
+        jobid = UserJob.new_job(entityid=scene_id,
+                                band1=band1, band2=band2, band3=band3,
+                                rendertype=u'preview')
+
+        message = build_job_message(job_id=jobid,
+                                    email='test@test.com',
                                     scene_id=scene_id,
-                                    band_1=band1,
-                                    band_2=band2,
-                                    band_3=band3)
+                                    band_1=band1, band_2=band2, band_3=band3)
+
         send_message(SQSconn,
                      current_queue,
-                     message['body'],
-                     message['attributes'])
+                     message['body'], message['attributes'])
+
         print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
     """
-    Request scene full render and preview render.
+    Request both the preview and fullsize images for a particular composite.
     """
+    # Add full render and preview job to apprpriate queues
     add_to_queue_composite(request)
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}'.format(
+        request.matchdict['scene_id']))
 
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
     """
-    Request for preview only
+    Request the preview image for a particular composite.
     """
+    # Add preview render job to apprpriate queues
     add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(
         request.matchdict['scene_id']))
@@ -144,53 +142,64 @@ def scene(request):
     jobs in process.
     """
 
+    # Get scene id and list of rendered or rendering previews and full
+    # composities from the render_cache table
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache_Model.get_rendered_rendering(
-        scene_id)
+    rendered_rendering_composites = RenderCache.get_rendered_rendering(scene_id)
+
+    # Initialize composties dictionary
     composites = {}
+
+    # Populate composites dictionary with one dictionary per band combination
     if rendered_rendering_composites:
+        # Loop through list of rendered or rendering composites
         for composite in rendered_rendering_composites:
+            # Get band combination and create string for dictionary key
             band_combo = '{}{}{}'.format(composite.band1,
                                          composite.band2,
                                          composite.band3)
+            # If band combination dictionary is not in composites dictionary,
+            # add it and initialize it with band values
             if band_combo not in composites:
                 composites.update({band_combo: {'band1': composite.band1,
                                                 'band2': composite.band2,
                                                 'band3': composite.band3}})
 
-            if composite.currentlyrend and composite.rendertype == u'composite':
+            # For full render of a band combination that is currently being
+            # rendered update dictionary with status and elapsed time.
+            if composite.currentlyrend and composite.rendertype == u'full':
                 job_status, start_time, last_modified = (
-                    UserJob_Model.job_status_and_times(composite.jobid))
+                    UserJob.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'compositeurl': False,
-                                               'compositestatus': job_status,
-                                               'starttime': start_time,
-                                               'lastmodified': last_modified,
+                composites[band_combo].update({'fullurl': False,
+                                               'fullstatus': job_status,
                                                'elapsedtime': elapsed_time})
 
+            # For preview render of a band combination that is currently being
+            # rendered update dictionary with status.
             if composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob_Model.job_status(composite.jobid)
+                job_status = UserJob.job_status(composite.jobid)
                 composites[band_combo].update({'previewurl': False,
                                                'previewstatus': job_status})
 
-            if not composite.currentlyrend and composite.rendertype == u'composite':
+            # For full render of a band combination that has been rendered,
+            # update dictionary with status and elapsed time.
+            if not composite.currentlyrend and composite.rendertype == u'full':
                 job_status, start_time, last_modified = (
-                    UserJob_Model.job_status_and_times(composite.jobid))
+                    UserJob.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'compositeurl': composite.renderurl,
-                                               'compositestatus': job_status,
-                                               'starttime': start_time,
-                                               'lastmodified': last_modified,
+                composites[band_combo].update({'fullurl': composite.renderurl,
+                                               'fullstatus': job_status,
                                                'elapsedtime': elapsed_time})
 
+            # For preview render of a band combination that has been rendered,
+            # update dictionary with status.
             if not composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob_Model.job_status(composite.jobid)
+                job_status = UserJob.job_status(composite.jobid)
                 composites[band_combo].update({'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
 
-    return {'scene_id': scene_id,
-            'composites': composites,
-            }
+    return {'scene_id': scene_id, 'composites': composites}
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
@@ -198,34 +207,34 @@ def scene_options_ajax(request):
     """
     Returns a dictionary with all available scenes around the map's center.
     """
+    # Lat/lng values default to Seattle, otherwise from Leaflet .getcenter().
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
-    scenes = PathRow_Model.scenelist(Paths_Model.pathandrow(lat, lng))
-    scenes_dict = []
+    # Filter all available scenes to those which encompass the
+    # lat/lng provided from the user. Then, populate a list with
+    # the information relevant to our view.
+    scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
+    sceneList = []
     for i, scene in enumerate(scenes):
-        scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
-                            'cloudcover': scene.cloudcover,
-                            'download_url': scene.download_url,
-                            'entityid': scene.entityid,
-                            'sliced': scene.entityid[3:9],
-                            'path': scene.path,
-                            'row': scene.row
-                            })
+        sceneList.append({
+            'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
+            'cloudcover': scene.cloudcover,
+            'download_url': scene.download_url,
+            'entityid': scene.entityid,
+            'sliced': scene.entityid[3:9],
+            'path': scene.path,
+            'row': scene.row})
 
-    scenes_date = sorted(scenes_dict,
-                         key=operator.itemgetter('acquisitiondate'),
-                         reverse=True)
-    scenes_pr = sorted(scenes_dict,
-                       key=operator.itemgetter('sliced'),
-                       reverse=False)
+    # This line may not be necessary.
+    sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
 
-    scenes_path_row = []
-    for key, items in itertools.groupby(scenes_pr, operator.itemgetter('sliced')):
-        scenes_path_row.append(list(items))
+    # Sort the available scenes based on their Path, then Row.
+    outputList = []
+    for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
+        outputList.append(list(items))
 
-    return {'scenes_date': scenes_date,
-            'scenes_path_row': scenes_path_row}
+    return {'scenes': outputList}
 
 
 @view_config(route_name='status_poll', renderer='json')
@@ -234,6 +243,6 @@ def status_poll(request):
     Poll database for render job status.
     """
     jobid = request.params.get('jobid')
-    job_info = UserJob_Model.job_status_and_times(jobid)
+    job_info = UserJob.job_status_and_times(jobid)
 
     return {'job_info': job_info}
