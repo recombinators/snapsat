@@ -243,7 +243,7 @@ def status_poll(request):
     """
     Poll database for full render job status.
     """
-    # import ipdb; ipdb.set_trace()
+    import ipdb; ipdb.set_trace()
     # jobid = request.params.get('jobid')
     # job_info = UserJob.job_status_and_times(jobid)
 
