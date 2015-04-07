@@ -1,13 +1,11 @@
-from models import (Paths_Model, PathRow_Model, UserJob_Model,
-                     RenderCache_Model,)
 import os
 import operator
 import itertools
+from datetime import datetime
+from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from datetime import datetime
-from sqs import (make_SQS_connection, get_queue, build_job_message,
-                 send_message,)
+from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -31,6 +29,7 @@ Views available:
 5. scene_status - Given a scene ID display available data.
 6. ajax - Returns a dictionary with all available scenes.
 """
+
 
 @view_config(route_name='landing', renderer='templates/landing.jinja2')
 def landing(request):
@@ -60,20 +59,23 @@ def add_to_queue_full(request):
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
 
-    if not RenderCache_Model.full_render_availability(scene_id, band1, band2, band3):
+    if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
         current_queue = get_queue(SQSconn, RENDER_QUEUE)
-        jobid = UserJob_Model.new_job(entityid=scene_id,
-                                      band1=band1,
-                                      band2=band2,
-                                      band3=band3)
-        message = build_job_message(job_id=jobid, email='test@test.com',
+        jobid = UserJob.new_job(entityid=scene_id,
+                                band1=band1,
+                                band2=band2,
+                                band3=band3
+                                )
+        message = build_job_message(job_id=jobid,
+                                    email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1,
                                     band_2=band2,
-                                    band_3=band3)
+                                    band_3=band3
+                                    )
         send_message(SQSconn,
                      current_queue,
                      message['body'],
@@ -90,39 +92,42 @@ def add_to_queue_preview(request):
     band2 = request.params.get('band_combo')[1]
     band3 = request.params.get('band_combo')[2]
     scene_id = request.matchdict['scene_id']
-    if not RenderCache_Model.preview_render_availability(scene_id,
-                                                      band1,
-                                                      band2,
-                                                      band3):
-        SQSconn = make_SQS_connection(REGION,
-                                      AWS_ACCESS_KEY_ID,
-                                      AWS_SECRET_ACCESS_KEY)
+    if not RenderCache.preview_render_availability(
+            scene_id,
+            band1, band2, band3):
+
+        SQSconn = make_SQS_connection(
+                REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+
         current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
-        message = build_job_message(job_id=0, email='test@test.com',
-                                    scene_id=scene_id,
-                                    band_1=band1,
-                                    band_2=band2,
-                                    band_3=band3)
+
+        message = build_job_message(
+                job_id=0,
+                email='test@test.com',
+                scene_id=scene_id,
+                band_1=band1, band_2=band2, band_3=band3)
+
         send_message(SQSconn,
                      current_queue,
-                     message['body'],
-                     message['attributes'])
+                     message['body'], message['attributes'])
+
         print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_scene', renderer='json')
 def request_scene(request):
     """
-    Request scene full render and preview render.
+    Request both the preview and fullsize images for a particular composite.
     """
     jobid = add_to_queue_full(request)
-    return HTTPFound(location='/scene/{}'.format(request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}'.format(
+        request.matchdict['scene_id']))
 
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
     """
-    Request for preview only
+    Request the preview image for a particular composite.
     """
     add_to_queue_preview(request)
     return HTTPFound(location='/scene/{}'.format(
@@ -137,16 +142,15 @@ def scene_page(request):
     """
 
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache_Model.get_rendered_rendering(
+    rendered_rendering_composites = RenderCache.get_rendered_rendering(
         scene_id)
     rendered_composites = []
     rendering_composites = {}
-    # import ipdb; ipdb.set_trace()
     for composite in rendered_rendering_composites:
         if composite.currentlyrend:
             rendering_composites.append(composite)
             job_status, start_time, last_modified = (
-                UserJob_Model.job_status_and_times(composite.jobid))
+                UserJob.job_status_and_times(composite.jobid))
             elapsed_time = str(datetime.utcnow() - start_time)
             rendering_composites[
                 composite.jobid] = ({'status': job_status,
@@ -159,20 +163,6 @@ def scene_page(request):
         else:
             rendered_composites.append(composite)
 
-
-    # for scene in rendered_composites:
-    #     if scene.currentlyrend or scene.renderurl:
-    #         worker_start_time, worker_lastmod_time = (
-    #             UserJob_Model.job_times(scene.jobid))
-    #         if scene.currentlyrend:
-    #             status[scene.jobid] = UserJob_Model.job_status(scene.jobid)
-    #             elapsed_time = str(datetime.utcnow() - worker_start_time)
-    #         else:
-    #             elapsed_time = str(worker_lastmod_time - worker_start_time)
-    #         # format datetime object
-    #         elapsed_time = ':'.join(elapsed_time.split(':')[1:3])
-    #         scene.elapsed_worker_time = elapsed_time.split('.')[0]
-
     return {'scene_id': scene_id,
             'rendered_composites': rendered_composites,
             'rendering_composites': rendering_composites,
@@ -184,34 +174,39 @@ def scene_options_ajax(request):
     """
     Returns a dictionary with all available scenes around the map's center.
     """
-    lat = float(request.params.get('lat', 47.614848))
-    lng = float(request.params.get('lng', -122.3359059))
 
-    scenes = PathRow_Model.scenelist(Paths_Model.pathandrow(lat, lng))
-    scenes_dict = []
-    for i, scene in enumerate(scenes):
-        scenes_dict.append({'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
-                            'cloudcover': scene.cloudcover,
-                            'download_url': scene.download_url,
-                            'entityid': scene.entityid,
-                            'sliced': scene.entityid[3:9],
-                            'path': scene.path,
-                            'row': scene.row
-                            })
+    def sceneList(request):
+        """
+        Returns a dictionary with all available scenes around the map's center.
+        """
+        # Lat/lng values default to Seattle, otherwise from Leaflet .getcenter().
+        lat = float(request.params.get('lat', 47.614848))
+        lng = float(request.params.get('lng', -122.3359059))
 
-    scenes_date = sorted(scenes_dict,
-                         key=operator.itemgetter('acquisitiondate'),
-                         reverse=True)
-    scenes_pr = sorted(scenes_dict,
-                       key=operator.itemgetter('sliced'),
-                       reverse=False)
+        # Filter all available scenes to those which encompass the
+        # lat/lng provided from the user. Then, populate a list with
+        # the information relevant to our view.
+        scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
+        sceneList = []
+        for i, scene in enumerate(scenes):
+            sceneList.append({
+                'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
+                'cloudcover': scene.cloudcover,
+                'download_url': scene.download_url,
+                'entityid': scene.entityid,
+                'sliced': scene.entityid[3:9],
+                'path': scene.path,
+                'row': scene.row})
 
-    scenes_path_row = []
-    for key, items in itertools.groupby(scenes_pr, operator.itemgetter('sliced')):
-        scenes_path_row.append(list(items))
+        # This line may not be necessary.
+        sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
 
-    return {'scenes_date': scenes_date,
-            'scenes_path_row': scenes_path_row}
+        # Sort the available scenes based on their Path, then Row.
+        outputList = []
+        for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
+            outputList.append(list(items))
+
+        return {'scenes': outputList}
 
 
 @view_config(route_name='status_poll', renderer='json')
@@ -220,6 +215,6 @@ def status_poll(request):
     Poll database for render job status.
     """
     jobid = request.params.get('jobid')
-    job_info = UserJob_Model.job_status_and_times(jobid)
+    job_info = UserJob.job_status_and_times(jobid)
 
     return {'job_info': job_info}
