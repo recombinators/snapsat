@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 from pyramid import testing
 
-from .models import DBSession
+from .models import Session
 
 
 DEFAULT_WAIT = 5
@@ -19,7 +19,7 @@ class TestMyViewSuccessCondition(unittest.TestCase):
         self.config = testing.setUp()
 
     def tearDown(self):
-        DBSession.remove()
+        Session.remove()
         testing.tearDown()
 
     def test_passing_view(self):
@@ -31,7 +31,7 @@ class TestMyViewFailureCondition(unittest.TestCase):
         self.config = testing.setUp()
 
     def tearDown(self):
-        DBSession.remove()
+        Session.remove()
         testing.tearDown()
 
     def test_failing_view(self):
@@ -47,7 +47,7 @@ class FunctionalTest(unittest.TestCase):
         self.browser.implicitly_wait(DEFAULT_WAIT)
 
     def tearDown(self):
-        DBSession.remove()
+        Session.remove()
         testing.tearDown()
         self.browser.quit()
 
