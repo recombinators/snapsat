@@ -9,7 +9,8 @@
 
 {% block content %}
 
-{% for composite in composites %}
+<h2>Scene {{ scene_id }}</h2>
+{% for band_combo, composite in composites.iteritems() %}
         <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
         {% if composite.previewurl %}
             <img src="{{ composite.previewurl }}">
@@ -19,9 +20,13 @@
         {% if composite.compositeurl %}
             <a href="{{ composite.compositeurl }}">Download Full Zip</a>
         {% else %}
-             <p>Current status: <strong class='red'>{{ composite.compositestatus }}</strong></p>
-            {% if composite.elapsed_worker_time %}
-                <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsedtime }}</p>
+            {% if composite.compositestatus %}
+                 <p>Current status: <strong class='red'>{{ composite.compositestatus }}</strong></p>
+                {% if composite.elapsed_time %}
+                    <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
+                {% endif %}
+            {% else %}
+                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
             {% endif %}
         {% endif %}
 {% endfor %}
