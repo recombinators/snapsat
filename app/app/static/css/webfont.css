@@ -17,7 +17,7 @@
   font-family: "dripicons";
   content: attr(data-icon);
   font-style: normal;
-  font-weight: normal;
+  font-weight: bold;
   font-variant: normal;
   text-transform: none !important;
   speak: none;
