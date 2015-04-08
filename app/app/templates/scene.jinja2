@@ -23,7 +23,8 @@
                             <img src="{{ composite.previewurl }}">
                         {% else %}
                             <div class='nopreview' id='{{composite.previewjobid}}'>
-                            <img src="/static/img/no_preview.png">
+                                <img src="/static/img/no_preview.png">
+                            </div>
                         {% endif %}
                     {% if composite.fullurl %}
                         <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
