@@ -70,30 +70,29 @@ blockquote {
 /* Define default variables */
 :root {
 
-	--ms3:									1.777778rem;
-	--ms2:									1.333333rem;
-	--ms1:									1rem;
-	--ms0:									1rem;
+	--ms3:		                1.777778rem;
+	--ms2:					    1.333333rem;
+	--ms1:						1rem;
+	--ms0:						1rem;
 
-	--copy-font:						freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
+	--copy-font:				freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
 	--copy-font-weight:			var(--font-weight-book);
 	--copy-font-color:			#444;
 
-	--heading-font:					var(--copy-font);
+	--heading-font:				var(--copy-font);
 	--heading-font-color:		#222;
-	--heading-font-weight:	var(--font-weight-medium);
+	--heading-font-weight:	    var(--font-weight-medium);
 
-	--monospace-font:				Consolas;
+	--monospace-font:			Consolas;
 	
-	--line-height:					1.5;
+	--line-height:				1.5;
 
 	--container-width:			40rem;
 
 	--font-weight-light:		300;
 	--font-weight-book:			400;
 	--font-weight-medium:		500;
-	--font-weight-semibold: 600;
+	--font-weight-semibold:     600;
 	--font-weight-bold:			700;
 	--font-weight-black:		900;
 }
-
