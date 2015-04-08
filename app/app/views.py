@@ -212,7 +212,6 @@ def scene(request):
                 composites[band_combo].update({'previewjobid': composite.jobid,
                                                'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
-    import ipdb; ipdb.set_trace()
     return {'scene_id': scene_id, 'composites': composites}
 
 
