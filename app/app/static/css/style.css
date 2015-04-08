@@ -285,6 +285,10 @@ div.person {
 	width: 920px;
 	margin: 20px auto;
 }
+div.person img {
+	width: 250px;
+	height: 250px;
+}
 div.person div.info {
 	width: 520px;
 	float: right;
