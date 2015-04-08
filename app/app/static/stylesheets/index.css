@@ -20,12 +20,11 @@
 	/* --heading-font-color: ; */
 	/* --heading-font-weight: ; */
 	--link-color: black;
-	--link-color-hover: red;
+	--link-color-hover: #d82c2c;
 }
 
-.sans {
-    font-family: var(--copy-font);
-}
+.sans { font-family: var(--copy-font); }
+.serif { font-family: var(--heading-font); }
 
 h1 { font-size: 4rem; }
 h2 { font-size: 2rem; }
@@ -66,7 +65,7 @@ td > a { font-weight: normal; }
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
 
-th, h4 {
+th {
     text-transform: uppercase;
     font-size: 80%;
     font-weight: 300;
@@ -76,12 +75,8 @@ th, h4 {
     font-size: 120%;
 }
 
-header {
-    margin: 3rem 0;
-}
-
 td a { color: black; }
-td a:hover { color: red; }
+td a:hover { color: #d82c2c; }
 
 .image {
     position: relative;
@@ -96,6 +91,7 @@ td a:hover { color: red; }
 }
 
 header {
+    margin: 3rem 0;
     position: fixed;
     top:0;
     left: 0;

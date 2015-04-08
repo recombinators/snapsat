@@ -710,7 +710,7 @@ a:visited {
 }
 
 a:hover {
-	color: red;
+	color: #d82c2c;
 	transition: color 0.2s ease-out;
 }
 
@@ -821,9 +821,8 @@ body {
 	/* --heading-font-weight: ; */
 }
 
-.sans {
-    font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
-}
+.sans { font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif; }
+.serif { font-family: "adriane" ; }
 
 h1 { font-size: 4rem; }
 h2 { font-size: 2rem; }
@@ -864,7 +863,7 @@ td > a { font-weight: normal; }
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
 
-th, h4 {
+th {
     text-transform: uppercase;
     font-size: 80%;
     font-weight: 300;
@@ -874,12 +873,8 @@ th, h4 {
     font-size: 120%;
 }
 
-header {
-    margin: 3rem 0;
-}
-
 td a { color: black; }
-td a:hover { color: red; }
+td a:hover { color: #d82c2c; }
 
 .image {
     position: relative;
@@ -894,6 +889,7 @@ td a:hover { color: red; }
 }
 
 header {
+    margin: 3rem 0;
     position: fixed;
     top:0;
     left: 0;
