@@ -1,0 +1,56 @@
+{% extends "base.jinja2" %}
+
+
+{% block content %}
+
+<section id='where' class='mbx'>
+    <h3 class='red mbn'>1</h3>
+    <h2>Select a location</h2>
+    <div class='map-container'>
+        <div id='map'>
+            <span class="reticle bold red h3"><img src='/static/logo-dark-red.svg'></span>
+        </div>
+    </div>
+</section>
+
+<section class='mbx'>
+    <h3 class='red mbn'>2</h3>
+    <h2>Select a date</h2>
+    <table class='column_titles'>
+        <thead>
+            <tr>
+                <th>Date acquired</th><th>Path</th><th>Row</th><th>Cloud cover</th><th>ID</th>
+            </tr>
+        </thead>
+    </table>
+    <div id='pathrowgrouping'>
+    {% for group in scenes %}
+        <div>
+            <table>
+                <thead class='group_head'>
+                    <tr>
+                        <th>Path-Row: {{ group[0].path}}-{{group[0].path}}</th><th></th><th></th><th></th><th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for s in group %}
+                            <tr>
+                                <td>{{ s.acquisitiondate }}</td>
+                                <td>{{ s.path }}</td>
+                                <td>{{ s.row }}</td>
+                                <td>{{ s.cloudcover }}</td>
+                                <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
+                            </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script type='text/javascript' src='/static/js/map.js'></script>
+{% endblock %}

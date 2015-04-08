@@ -4,21 +4,46 @@
         <meta charset=utf-8 />
         <title>Snapsat</title>
         <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <link rel='icon' type='image/ico' href='/static/favicon.ico'>
         <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
         <link rel='stylesheet' href='/static/main.css'>
-        <link rel="icon" type="image/ico" href="/static/favicon.ico">
+        <script type='text/javascript' src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+        <script type='text/javascript' src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
+        <script src='/static/js/longpoll.js'></script>
     </head>
     <body>
-        <div class='map-container'>
-            <div id='map'>
-                <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
-            </div>
-        </div>
+        {% block header %}
+            <header>
+                <img src='/static/logo-dark-red.svg'>
+                <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+                <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
+                <p class='light mbx'>The Landsat 8 satellite provides a means of seeing light outside the visible spectrum, allowing us to see what would otherwise be invisible to the naked eye. Learn more by reading our <a href='/guide'>Guide</a>.</p>
+
+                <section class='attribution'>
+                    <p>Built by:</p>
+                    <ul class='hanging'>
+                        <li><a href=''>Constantine Hatzis</a></li>
+                        <li><a href=''>Jacques Tardie</a></li>
+                        <li><a href=''>Jake Anderson</a></li>
+                        <li><a href=''>Joel Stanner</a></li>
+                        <li><a href=''>Mark Saiget</a></li>
+                    </ul>
+                </section>
+
+                <section class='newsletter'>
+                    <p><a href='https://tinyletter.com/snapsat'>Newsletter</a></p>
+                </section>
+            </header>
+        {% endblock %}
+
         <div class='contain'>
             {% block content %}{% endblock %}
         </div>
 
-        <script src='/static/bundle.js'></script>
-        <script src='/static/js/gauges.js'></script>
+        <script type='text/javascript' src='/static/bundle.js'></script>
+        <script type='text/javascript' src='/static/js/gauges.js'></script>
+        <script type='text/javascript' src='/static/js/ga.js'></script>
+
+        {% block scripts %}{% endblock %}
     </body>
 </html>

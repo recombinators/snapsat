@@ -11,65 +11,36 @@
 @import 'flexbox.css';
 
 
-/* Uncomment and redefine the variables below to change to the generated stylesheet. */
 :root {
 
-	/* TYPOGRAPHY */
-	/* --ms3: ; */
-	/* --ms2: ; */
-	/* --ms1: ; */
-	/* --ms0: ; */
 	/* --copy-font:	; */
 	/* --copy-font-weight: ; */
-	/* --copy-font-color:	; */
-	/* --heading-font: ; */
+	--copy-font-color: #666;
+	--heading-font: "adriane" ;
 	/* --heading-font-color: ; */
 	/* --heading-font-weight: ; */
-	/* --monospace-font: ; */
-	/* --line-height: ; */
-	/* --font-weight-light: ; */
-	/* --font-weight-book:	; */
-	/* --font-weight-medium: ; */
-	/* --font-weight-semibold: ; */
-	/* --font-weight-bold: ; */
-	/* --font-weight-black: ; */
-
-	/* LINKS */
-	/* --link-color: ; */
-	/* --link-color-hover: ; */
-
-	/* LAYOUT */	
-	/* --container-width: ; */
-
+	--link-color: black;
+	--link-color-hover: #d82c2c;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    color: #666;
-}
+.sans { font-family: var(--copy-font); }
+.serif { font-family: var(--heading-font); }
 
-a { color: #000; }
+h1 { font-size: 4rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.4rem; }
 
-td > a {
-    font-weight: normal;
-}
+td > a { font-weight: normal; }
 
-h1, h2 { font-family: "adriane"; }
-h1 {
-    font-size: 4rem;
-}
-h2 {
-    font-size: 2rem;
-}
 
+.preview-container, 
 .map-container{
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 32.8%;
+    position: relative;
+    min-height: 500px;
+    min-height: 50vh;
 }
 
+#preview,
 #map {
     position: absolute;
     top: 0;
@@ -77,11 +48,6 @@ h2 {
     width: 100%;
 }
 
-.contain {
-    position: relative;
-    margin-left: 32.8%;
-    padding: 4rem 2rem;
-}
 
 .reticle {
   position: absolute;
@@ -89,10 +55,6 @@ h2 {
   left: calc(49% - 50px);
   z-index: 100;
 }
-
-.blurb { font-size: 120%; }
-section { margin-bottom: 4rem; }
-table { width: 100%; }
 
 #possibilities > div {
     display: inline-block;
@@ -102,3 +64,63 @@ table { width: 100%; }
 
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
+
+th {
+    text-transform: uppercase;
+    font-size: 80%;
+    font-weight: 300;
+}
+
+.blurb {
+    font-size: 120%;
+}
+
+td a { color: black; }
+td a:hover { color: #d82c2c; }
+
+.image {
+    position: relative;
+}
+
+.bands {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8)
+}
+
+header {
+    margin: 3rem 0;
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 30rem;
+    padding: 2rem 4rem;
+}
+
+.contain {
+    margin-left: 30rem;
+    margin-top: 3rem;
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-container > div {
+    max-width: 30rem;
+    min-width: 20rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.attribution {
+    font-size: 90%
+}
+
+.group_head{
+    border-top:1rem solid #FFF;
+    } 

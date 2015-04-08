@@ -1,15 +1,7 @@
-/* Custom Media Queries */
-@custom-media --small (min-width: 0rem);
-@custom-media --medium (min-width: 40rem);
-@custom-media --large (min-width: 52rem);
-
-
-/* Responsive padding */
-/* As viewport size increases, increase body padding */
-body { padding: 1em; }
-@media (--medium) { body { padding: 2rem; } }
-@media (--large) { body { padding: 4rem; } }
-
+body {
+    margin: 0;
+    padding: 0;
+}
 
 /* Container */
 .container { max-width: var(--container-width); }

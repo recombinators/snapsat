@@ -1,17 +1,5 @@
-
-/* Unordered list elements will display circles */
-ul li { 
-	list-style-type: circle; 
-}
-
-/* Ordered list elements will display capitalize Roman numerals */
-ol li {
-	list-style-type: upper-roman;
-}
-
-/* Hide list elements */
-.list-style-none { 
-	list-style-type: none;
+li { 
+    list-style-type: none; 
 }
 
 /* Hanging lists */
@@ -19,4 +7,3 @@ ol li {
 .hanging {
 	padding-left: 0;
 }
-
