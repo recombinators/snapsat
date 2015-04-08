@@ -238,6 +238,9 @@ def scene_options_ajax(request):
     for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
         outputList.append(list(items))
 
+    for group in outputList:
+        group.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
+
     return {'scenes': outputList}
 
 
