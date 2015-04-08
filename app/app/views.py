@@ -203,7 +203,9 @@ def scene(request):
                 composites[band_combo].update({'previewjobid': composite.jobid,
                                                'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
-    import ipdb; ipdb.set_trace()
+    # Order composites by band combination.
+    composites = OrderedDict(sorted(composites.items()))
+
     return {'scene_id': scene_id, 'composites': composites}
 
 
