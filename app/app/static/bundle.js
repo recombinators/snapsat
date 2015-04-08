@@ -27,14 +27,24 @@ $(document).ready(function(){
     $(".nofull").each(function(){
         var jobId = this.id;
         var intervalTime = 20000;
-        if (jobId){
+        if(jobId){
             var intervalID = setInterval(function poll(){
                 $.ajax({
                     url: "/status_poll",
                     data: {'jobid': jobId},
                     dataType: "json"
-                }).done(function(data){
-                    if(data.bool === false){
+                }).done(function(json){
+                    var info = json.job_info;
+                    var newid = '#'.concat(jobId);
+                    if(info.job_status != 5 && info.job_status != 10){
+                        console.log('hello');
+                        console.log(info.job_status);
+                        console.log(info.elapsed_time);
+                        $(newid).find("#fullstatus").html(info.job_status);
+                        $(newid).find("#fullelapsedtime").html(info.elapsed_time);
+                    }else{
+                        $(newid).find("#fullstatus").html(info.job_status);
+                        $(newid).find("#fullelapsedtime").html(info.elapsed_time);
                         clearInterval(intervalID);
                     }
                 });

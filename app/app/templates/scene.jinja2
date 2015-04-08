@@ -1,5 +1,5 @@
 {% extends "base.jinja2" %}
-    <script src='/static/js/longpoll.js'></script>
+    
 {% block header %}
     <header class='contain'>
         <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
@@ -24,9 +24,9 @@
             {% else %}
             <div class='nofull' id='{{composite.fulljobid}}'>
                 {% if composite.fullstatus %}
-                     <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
+                     <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
                     {% if composite.elapsed_time %}
-                        <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
+                        <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
                     {% endif %}
                 {% else %}
                     <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>

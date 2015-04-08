@@ -1,5 +1,3 @@
-var $ = require('jquery');
-
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
     $(".nopreview").each(function(){
@@ -20,19 +18,29 @@ $(document).ready(function(){
     
     $(".nofull").each(function(){
         var jobId = this.id;
-        var intervalTime = 20000;
-        if (jobId){
+        var intervalTime = 5000;
+        if(jobId){
             var intervalID = setInterval(function poll(){
                 $.ajax({
                     url: "/status_poll",
                     data: {'jobid': jobId},
                     dataType: "json"
-                }).done(function(data){
-                    if(data.bool === false){
+                }).done(function(json){
+                    var info = json.job_info;
+                    var newid = '#'.concat(jobId);
+                    if(info.status != 'Done' && info.status != 'Failed'){
+                        console.log('hello');
+                        console.log(info.status);
+                        console.log(info.elapsedtime);
+                        $(newid).find("#fullstatus").html(info.status);
+                        $(newid).find("#fullelapsedtime").html(info.elapsedtime);
+                    }else{
+                        $(newid).html(
+                            "<p>Current status: <strong class='red'><a href=" + info.fullurl + ">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>");
                         clearInterval(intervalID);
                     }
                 });
-            });
+            }, intervalTime);
         }
     });
 
