@@ -6,7 +6,7 @@ from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
-import random
+from collections import OrderedDict
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -203,6 +203,7 @@ def scene(request):
                 composites[band_combo].update({'previewjobid': composite.jobid,
                                                'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
+    import ipdb; ipdb.set_trace()
     return {'scene_id': scene_id, 'composites': composites}
 
 

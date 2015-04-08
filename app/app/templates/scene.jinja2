@@ -14,10 +14,10 @@
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview'>
                     <h3 class='composite-description'>{{ composite.band1 }} {{ composite.band2 }} {{ composite.band3 }}</h3>
-                    <div class='nopreview' id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
                             <img src="{{ composite.previewurl }}">
                         {% else %}
+                            <div class='nopreview' id='{{composite.previewjobid}}'>
                             <img src="/static/img/no_preview.png">
                         {% endif %}
                     </div>
