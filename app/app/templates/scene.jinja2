@@ -12,7 +12,7 @@
         <h2>Preview your selection: {{ scene_id }}</h2>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
-                <div class='preview'>
+                <div class='preview' id='{{ band_combo }}'>
                     <h3 class='composite-description'>{{ composite.band1 }} {{ composite.band2 }} {{ composite.band3 }}</h3>
                     <div class='nopreview' id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}

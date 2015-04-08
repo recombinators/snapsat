@@ -132,7 +132,7 @@ def request_preview(request):
     """
     # Add preview render job to apprpriate queues
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(
+    return HTTPFound(location='/scene/{}#445'.format(
         request.matchdict['scene_id']))
 
 
