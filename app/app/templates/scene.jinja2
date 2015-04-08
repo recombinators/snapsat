@@ -37,7 +37,17 @@
                                     <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
                                 {% endif %}
                             {% else %}
-                                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
+                                <p>Current status:
+                                    <strong class='red'>
+                                        <form method="post">
+                                            <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                                            <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                                            <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                                            <button formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Click here to request a full render!</button>
+                                        </form>
+                                    </strong>
+                                </p>
+
                             {% endif %}
                         </div>
                     {% endif %}
