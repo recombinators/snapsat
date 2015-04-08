@@ -246,28 +246,27 @@ def status_poll(request):
     """
     Poll database for full render job status.
     """
-    # import ipdb; ipdb.set_trace()
-    # jobid = request.params.get('jobid')
-    # job_info = UserJob.job_status_and_times(jobid)
 
-    # return {'job_info': job_info}
+    # Get jobid from request
     jobid = request.params.get('jobid')
+    # Query the database for job status, start time, last modified time
     job_status, start_time, last_modified = (
         UserJob.job_status_and_times(jobid))
+    # Calcuate elapsed time
     elapsed_time = str(datetime.utcnow() - start_time)
 
+    # Get render url when job is done
     if job_status == 'Done':
         render_url = RenderCache.get_renderurl(jobid)
     else:
         render_url = None
 
+    # Create job info json output
     job_info = {'jobstatus': job_status,
                 'elapsedtime': elapsed_time,
                 'renderurl': render_url}
+
     return {'job_info': job_info}
-    # test = [True] * 99 + [False]
-    # testbool = random.sample(test, 1)
-    # return {'bool': testbool[0]}
 
 
 @view_config(route_name='preview_poll', renderer='json')
@@ -275,11 +274,20 @@ def preview_poll(request):
     """
     Poll database for preview render job status.
     """
-    # import ipdb; ipdb.set_trace()
-    # jobid = request.params.get('jobid')
-    # job_info = UserJob.job_status_and_times(jobid)
 
-    # return {'job_info': job_info}
-    test = [True] * 99 + [False]
-    testbool = random.sample(test, 1)
-    return {'bool': testbool[0]}
+    # Get jobid from request
+    jobid = request.params.get('jobid')
+    # Query the database for job status
+    job_status = UserJob.job_status(jobid)
+
+    # Get render url when job is done
+    if job_status == 'Done':
+        render_url = RenderCache.get_renderurl(jobid)
+    else:
+        render_url = None
+
+    # Create job info json output
+    job_info = {'jobstatus': job_status,
+                'renderurl': render_url}
+
+    return {'job_info': job_info}

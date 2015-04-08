@@ -8,9 +8,22 @@ $(document).ready(function(){
                 url: "/preview_poll",
                 data: {'jobid': jobId},
                 dataType: "json"
-            }).done(function(data){
-                if(data.bool === false){
-                    clearInterval(intervalID);
+            }).done(function(json){
+                var info = json.job_info;
+                var newid = '#'.concat(jobId);
+                if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+                    $(newid).html(
+                        "<img src='/static/img/no_preview.png'>");
+                }else{
+                    if(info.jobstatus != 'Failed'){
+                        $(newid).html(
+                            "<img src=" + info.renderurl + ">");
+                        clearInterval(intervalID);
+                    }else{
+                        $(newid).html(
+                            "<p><strong class='red'>Preview Failure</strong></p>");
+                        clearInterval(intervalID);
+                    }
                 }
             });
         });
@@ -29,15 +42,18 @@ $(document).ready(function(){
                     var info = json.job_info;
                     var newid = '#'.concat(jobId);
                     if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
-                        console.log('hello');
-                        console.log(info.jobstatus);
-                        console.log(info.elapsedtime);
                         $(newid).find("#fullstatus").html(info.jobstatus);
                         $(newid).find("#fullelapsedtime").html(info.elapsedtime);
                     }else{
-                        $(newid).html(
-                            "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
-                        clearInterval(intervalID);
+                        if(info.jobstatus != 'Failed'){
+                            $(newid).html(
+                                "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
+                            clearInterval(intervalID);
+                        }else{
+                            $(newid).html(
+                                "<p><strong class='red'>Composite Failure</strong></p>");
+                            clearInterval(intervalID);
+                        }
                     }
                 });
             }, intervalTime);

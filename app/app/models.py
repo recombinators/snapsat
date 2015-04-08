@@ -285,7 +285,7 @@ class RenderCache(Base):
         """
         try:
             render_url = Session.query(cls.renderurl).filter(
-                cls.jobid == jobid).all()
+                cls.jobid == jobid).one()
         except:
             print 'Database query failed get_renderurl'
             return None

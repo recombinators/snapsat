@@ -12,13 +12,13 @@
     <h2>Scene {{ scene_id }}</h2>
     {% for band_combo, composite in composites.iteritems() %}
             <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
+            <div class='nopreview' id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
                 <img src="{{ composite.previewurl }}">
             {% else %}
-                <div class='nopreview' id='{{composite.previewjobid}}'>
-                    <img src="/static/img/no_preview.png">
-                </div>
+                <img src="/static/img/no_preview.png">
             {% endif %}
+            </div>
             {% if composite.fullurl %}
                 <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
             {% else %}
