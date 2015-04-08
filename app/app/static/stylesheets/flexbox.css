@@ -1,0 +1,25 @@
+
+/* Flexbox */
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	flex-flow: column wrap;
+	justify-content: baseline;
+	align-items: stretch;
+}
+@media (min-width: 77rem) { 
+	.flex-container { flex-direction: row; }
+}
+
+.flex-item {
+	flex: 1 0 auto;
+}
+
+@media (min-width: 77rem) { 
+	.flex-item { 
+		flex: 1 0 0;
+		margin-right: 2rem;
+	}
+}
+

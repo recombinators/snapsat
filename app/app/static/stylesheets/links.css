@@ -1,0 +1,25 @@
+
+a {
+	color: var(--link-color);
+	font-weight: var(--font-weight-medium);
+	text-decoration: none;
+	transition: 0.2s ease-in;
+}
+
+a:link,
+a:active
+a:visited {
+	color: var(--link-color);
+}
+
+a:hover {
+	color: var(--link-color-hover);
+	transition: color 0.2s ease-out;
+}
+
+/* Default variables */
+:root {
+	--link-color: #0000ee;
+	--link-color-hover: #0080ff;
+}
+
