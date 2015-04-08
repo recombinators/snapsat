@@ -28,15 +28,15 @@ $(document).ready(function(){
                 }).done(function(json){
                     var info = json.job_info;
                     var newid = '#'.concat(jobId);
-                    if(info.status != 'Done' && info.status != 'Failed'){
+                    if(info.status != 'Done' && info.jobstatus != 'Failed'){
                         console.log('hello');
-                        console.log(info.status);
+                        console.log(info.jobstatus);
                         console.log(info.elapsedtime);
-                        $(newid).find("#fullstatus").html(info.status);
+                        $(newid).find("#fullstatus").html(info.jobstatus);
                         $(newid).find("#fullelapsedtime").html(info.elapsedtime);
                     }else{
                         $(newid).html(
-                            "<p>Current status: <strong class='red'><a href=" + info.fullurl + ">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>");
+                            "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
                         clearInterval(intervalID);
                     }
                 });

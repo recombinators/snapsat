@@ -277,3 +277,17 @@ class RenderCache(Base):
                     ).update({"rendercount": cls.rendercount+1})
 
         return output != 0
+
+    @classmethod
+    def get_renderurl(cls, jobid):
+        """
+        Return renderurl for a given jobid
+        """
+        try:
+            render_url = Session.query(cls.renderurl).filter(
+                cls.jobid == jobid).all()
+        except:
+            print 'Database query failed get_renderurl'
+            return None
+
+        return render_url[0]

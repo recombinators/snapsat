@@ -255,7 +255,15 @@ def status_poll(request):
     job_status, start_time, last_modified = (
         UserJob.job_status_and_times(jobid))
     elapsed_time = str(datetime.utcnow() - start_time)
-    job_info = {'status': job_status, 'elapsedtime': elapsed_time}
+
+    if job_status == 'Done':
+        render_url = RenderCache.get_renderurl(jobid)
+    else:
+        render_url = None
+
+    job_info = {'jobstatus': job_status,
+                'elapsedtime': elapsed_time,
+                'renderurl': render_url}
     return {'job_info': job_info}
     # test = [True] * 99 + [False]
     # testbool = random.sample(test, 1)
