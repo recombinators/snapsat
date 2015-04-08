@@ -1,3 +1,4 @@
+var $ = require('jquery');
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
     $(".nopreview").each(function(){

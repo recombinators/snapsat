@@ -224,7 +224,7 @@ div.icon {
 	height: 100%;
 }
 .home.hero {
-	background-image: url(../img/background.jpg);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/background.jpg);
 	background-size: cover;
 }
 .overlay {
@@ -329,27 +329,27 @@ a.socialicon {
 }
 a.socialicon.linkedin {
 	/*background-position: 0px 0px;*/
-	background-image: url(/static/img/linkedin.png);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
 }
 a.socialicon.linkedin:hover {
 	/*background-position: 0px -30px;*/
-	background-image: url(/static/img/linkedin.png);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
 }
 
 a.socialicon.github {
 	/*background-position: -30px 0px;*/
-	background-image: url(/static/img/gitHub.png);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
 }
 a.socialicon.github:hover {
 	/*background-position: -30px 0px;*/
-	background-image: url(/static/img/gitHub.png);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
 }
 a.socialicon.twitter {
 	margin-top: 4.5%;
-	background-image: url(/static/img/Twitter.png);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
 }
 a.socialicon.twitter:hover {
-	background-image: url(/static/img/Twitter.png);
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
 }
 /******************************************************************
 	Contact us
