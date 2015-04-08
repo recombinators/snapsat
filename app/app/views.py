@@ -6,6 +6,7 @@ from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
+import random
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -55,9 +56,9 @@ def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
     """
-    band1 = request.params.get('band_combo')[0]
-    band2 = request.params.get('band_combo')[1]
-    band3 = request.params.get('band_combo')[2]
+    band1 = request.params.get('band1')
+    band2 = request.params.get('band2')
+    band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
 
     if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
@@ -82,9 +83,9 @@ def add_to_queue_preview(request):
     """
     Helper method for adding request to queue and adding to db.
     """
-    band1 = request.params.get('band_combo')[0]
-    band2 = request.params.get('band_combo')[1]
-    band3 = request.params.get('band_combo')[2]
+    band1 = request.params.get('band1')
+    band2 = request.params.get('band2')
+    band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
 
     if not RenderCache.preview_render_availability(
@@ -171,7 +172,8 @@ def scene(request):
                 job_status, start_time, last_modified = (
                     UserJob.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fullurl': False,
+                composites[band_combo].update({'fulljobid': composite.jobid,
+                                               'fullurl': False,
                                                'fullstatus': job_status,
                                                'elapsedtime': elapsed_time})
 
@@ -179,7 +181,8 @@ def scene(request):
             # rendered update dictionary with status.
             if composite.currentlyrend and composite.rendertype == u'preview':
                 job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewurl': False,
+                composites[band_combo].update({'previewjobid': composite.jobid,
+                                               'previewurl': False,
                                                'previewstatus': job_status})
 
             # For full render of a band combination that has been rendered,
@@ -188,7 +191,8 @@ def scene(request):
                 job_status, start_time, last_modified = (
                     UserJob.job_status_and_times(composite.jobid))
                 elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fullurl': composite.renderurl,
+                composites[band_combo].update({'fulljobid': composite.jobid,
+                                               'fullurl': composite.renderurl,
                                                'fullstatus': job_status,
                                                'elapsedtime': elapsed_time})
 
@@ -196,9 +200,9 @@ def scene(request):
             # update dictionary with status.
             if not composite.currentlyrend and composite.rendertype == u'preview':
                 job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewurl': composite.renderurl,
+                composites[band_combo].update({'previewjobid': composite.jobid,
+                                               'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
-
     return {'scene_id': scene_id, 'composites': composites}
 
 
@@ -240,9 +244,50 @@ def scene_options_ajax(request):
 @view_config(route_name='status_poll', renderer='json')
 def status_poll(request):
     """
-    Poll database for render job status.
+    Poll database for full render job status.
     """
+
+    # Get jobid from request
     jobid = request.params.get('jobid')
-    job_info = UserJob.job_status_and_times(jobid)
+    # Query the database for job status, start time, last modified time
+    job_status, start_time, last_modified = (
+        UserJob.job_status_and_times(jobid))
+    # Calcuate elapsed time
+    elapsed_time = str(datetime.utcnow() - start_time)
+
+    # Get render url when job is done
+    if job_status == 'Done':
+        render_url = RenderCache.get_renderurl(jobid)
+    else:
+        render_url = None
+
+    # Create job info json output
+    job_info = {'jobstatus': job_status,
+                'elapsedtime': elapsed_time,
+                'renderurl': render_url}
+
+    return {'job_info': job_info}
+
+
+@view_config(route_name='preview_poll', renderer='json')
+def preview_poll(request):
+    """
+    Poll database for preview render job status.
+    """
+
+    # Get jobid from request
+    jobid = request.params.get('jobid')
+    # Query the database for job status
+    job_status = UserJob.job_status(jobid)
+
+    # Get render url when job is done
+    if job_status == 'Done':
+        render_url = RenderCache.get_renderurl(jobid)
+    else:
+        render_url = None
+
+    # Create job info json output
+    job_info = {'jobstatus': job_status,
+                'renderurl': render_url}
 
     return {'job_info': job_info}
