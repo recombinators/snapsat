@@ -5,20 +5,32 @@ require('./map.js');
 
 },{"./longpoll.js":2,"./map.js":3,"./typekit.js":4}],2:[function(require,module,exports){
 var $ = require('jquery');
-
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
     $(".nopreview").each(function(){
         var jobId = this.id;
-        var intervalTime = 1000;
+        var intervalTime = 5000;
         var intervalID = setInterval(function poll(){
             $.ajax({
                 url: "/preview_poll",
                 data: {'jobid': jobId},
                 dataType: "json"
-            }).done(function(data){
-                if(data.bool === false){
-                    clearInterval(intervalID);
+            }).done(function(json){
+                var info = json.job_info;
+                var newid = '#'.concat(jobId);
+                if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+                    $(newid).html(
+                        "<img src='/static/img/no_preview.png'>");
+                }else{
+                    if(info.jobstatus != 'Failed'){
+                        $(newid).html(
+                            "<img src=" + info.renderurl + ">");
+                        clearInterval(intervalID);
+                    }else{
+                        $(newid).html(
+                            "<p><strong class='red'>Preview Failure</strong></p>");
+                        clearInterval(intervalID);
+                    }
                 }
             });
         });
@@ -26,7 +38,7 @@ $(document).ready(function(){
     
     $(".nofull").each(function(){
         var jobId = this.id;
-        var intervalTime = 20000;
+        var intervalTime = 10000;
         if(jobId){
             var intervalID = setInterval(function poll(){
                 $.ajax({
@@ -36,19 +48,22 @@ $(document).ready(function(){
                 }).done(function(json){
                     var info = json.job_info;
                     var newid = '#'.concat(jobId);
-                    if(info.job_status != 5 && info.job_status != 10){
-                        console.log('hello');
-                        console.log(info.job_status);
-                        console.log(info.elapsed_time);
-                        $(newid).find("#fullstatus").html(info.job_status);
-                        $(newid).find("#fullelapsedtime").html(info.elapsed_time);
+                    if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+                        $(newid).find("#fullstatus").html(info.jobstatus);
+                        $(newid).find("#fullelapsedtime").html(info.elapsedtime);
                     }else{
-                        $(newid).find("#fullstatus").html(info.job_status);
-                        $(newid).find("#fullelapsedtime").html(info.elapsed_time);
-                        clearInterval(intervalID);
+                        if(info.jobstatus != 'Failed'){
+                            $(newid).html(
+                                "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
+                            clearInterval(intervalID);
+                        }else{
+                            $(newid).html(
+                                "<p><strong class='red'>Composite Failure</strong></p>");
+                            clearInterval(intervalID);
+                        }
                     }
                 });
-            });
+            }, intervalTime);
         }
     });
 

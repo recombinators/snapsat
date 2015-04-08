@@ -7,21 +7,19 @@
         <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
         <link rel='stylesheet' href='/static/main.css'>
         <link rel="icon" type="image/ico" href="/static/favicon.ico">
-        <script type='text/javascript' src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
-        <script src='/static/js/longpoll.js'></script>
+        <!-- <script type='text/javascript' src='https://code.jquery.com/jquery-2.1.3.min.js'></script> -->
     </head>
     <body>
         {% block header %}
             <header class='contain'>
-                <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+                <h1 class='mbn'><a href='/'>Snapsat</a><span class='h3 red'>Beta</span></h1>
                 <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
                 <p class='light'>The Landsat 8 satellite gives us a way to see outside the spectrum of light we're typically accustomed to seeing. It's a means of seeing what would otherwise be invisible. And it does so on a global scale. AKA superpowers. If you're already up to date on how Landsat can give you useful information, continue on, otherwise, <a href='/guide'>check out our guide.</a></p>
             </header>
         {% endblock %}
         {% block content %}{% endblock %}
 
-        <!-- <script src='/static/bundle.js'></script> -->
-        
+        <script src='/static/bundle.js'></script>
         <script src='/static/js/gauges.js'></script>
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
