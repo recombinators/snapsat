@@ -2,7 +2,7 @@
 $(document).ready(function(){
     $(".nopreview").each(function(){
         var jobId = this.id;
-        var intervalTime = 1000;
+        var intervalTime = 5000;
         var intervalID = setInterval(function poll(){
             $.ajax({
                 url: "/preview_poll",
@@ -31,7 +31,7 @@ $(document).ready(function(){
     
     $(".nofull").each(function(){
         var jobId = this.id;
-        var intervalTime = 5000;
+        var intervalTime = 10000;
         if(jobId){
             var intervalID = setInterval(function poll(){
                 $.ajax({
