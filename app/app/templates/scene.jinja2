@@ -9,6 +9,7 @@
 
 {% block content %}
 
+<div class='contain'>
     <h2>Scene {{ scene_id }}</h2>
     {% for band_combo, composite in composites.iteritems() %}
             <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
@@ -35,12 +36,43 @@
             {% endif %}
     {% endfor %}
 
-    <div id='longpolltesting'>
-    </div>
-
 
     <h2>Choose a combination</h2>
     <form method="post" id="request_form_{{scene_id}}">
+        <div>
+            <select name='Band 1'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+            <select name='Band 2'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+            <select name='Band 3'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+            </select>
+
+
+        </div>
         <div id='combinations'>
             <div class='display-block'>
                 <label>Natural color: 4, 3, 2</label>
@@ -62,5 +94,6 @@
 </div>
 
 </div>
+
 
 {% endblock %}
