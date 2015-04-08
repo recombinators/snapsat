@@ -16,13 +16,20 @@
 <section class='mbx'>
     <h3 class='red mbn'>2</h3>
     <h2>Select a date</h2>
+    <table class='column_titles'>
+        <thead>
+            <tr>
+                <th>Date acquired</th><th>Path</th><th>Row</th><th>Cloud cover</th><th>ID</th>
+            </tr>
+        </thead>
+    </table>
     <div id='pathrowgrouping'>
     {% for group in scenes %}
         <div>
             <table>
-                <thead>
+                <thead class='group_head'>
                     <tr>
-                        <th>Date acquired</th> <th>Path</th> <th>Row</th> <th>Cloud cover</th> <th>Download</th>
+                        <th>Path-Row: {{ group[0].path}}-{{group[0].path}}</th><th></th><th></th><th></th><th></th>
                     </tr>
                 </thead>
                 <tbody>
