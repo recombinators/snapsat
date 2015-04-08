@@ -24,7 +24,7 @@
                         {% else %}
                             <div class='nopreview' id='{{composite.previewjobid}}'>
                                 <img src="/static/img/no_preview.png">
-                            </div>
+                            </div> <!-- nopreview -->
                         {% endif %}
                     {% if composite.fullurl %}
                         <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
@@ -46,13 +46,13 @@
                                         </form>
                                     </strong>
                                 </p>
-
+                            </div> <!-- nofull -->
                             {% endif %}
-                        </div>
+                        </div> <!-- composite.previewjobid -->
                     {% endif %}
-                </div>
+                </div> <!-- preview -->
             {% endfor %}
-        </div>
+        </div> <!-- preview-container -->
     </section>
 
     <section class='mbx'>
