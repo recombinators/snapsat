@@ -3,6 +3,7 @@
 {% block scripts %}
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.css' rel='stylesheet' />
+    <script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
 {% endblock %}
 
 {% block content %}
@@ -10,6 +11,10 @@
     <section class='mbx'>
         <h3 class='mbn red'>3</h3>
         <h2>Preview your selection: {{ scene_id }}</h2>
+        <section id='visualization'>
+            <!-- <h2>Visualize</h2> -->
+            <div class='graph'></div>  
+        </section>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview'>
