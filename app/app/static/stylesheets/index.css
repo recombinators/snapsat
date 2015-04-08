@@ -115,12 +115,17 @@ header {
     min-width: 20rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
+    background: black;
 }
 
 .attribution {
     font-size: 90%
 }
 
-.group_head{
+.group_hea d{
     border-top:1rem solid #FFF;
-    } 
+} 
+
+.band-red { color: red; }
+.band-green { color: green; }
+.band-blue { color: blue; }

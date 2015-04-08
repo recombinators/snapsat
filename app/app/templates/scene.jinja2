@@ -13,7 +13,11 @@
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview'>
-                    <h3 class='composite-description'>{{ composite.band1 }} {{ composite.band2 }} {{ composite.band3 }}</h3>
+                    <h2 class='composite-description align-center mbn'>
+                        <span class='band-red'>{{ composite.band1 }}</span> 
+                        <span class='band-green'>{{ composite.band2 }}</span> 
+                        <span class='band-blue'>{{ composite.band3 }}</span>
+                    </h2>
                     <div class='nopreview' id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
                             <img src="{{ composite.previewurl }}">
