@@ -46,42 +46,14 @@
         <h2>Generate a new image</h2>
         <form method="post" id="request_form_{{scene_id}}">
             <div id='combinations'>
-                <select name='band1'>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
-                    <option value='11'>11</option>
+                <select name='band1' id='band1' required>
+                    <option selected value='base'>Select Red Band</option>
                 </select>
-                <select name='band2'>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
-                    <option value='11'>11</option>
+                <select name='band2' id='band2' required>
+                    <option selected value='base'>Select Green Band</option>
                 </select>
-                <select name='band3'>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
-                    <option value='9'>9</option>
-                    <option value='10'>10</option>
-                    <option value='11'>11</option>
+                <select name='band3' id='band3' required>
+                    <option selected value='base'>Select Blue Band</option>
                 </select>
             </div>
 
@@ -91,4 +63,7 @@
             </div>
         </form>
     </section>
+
+    <script type='text/javascript' src='/static/js/band.js'></script>
+
 {% endblock %}
