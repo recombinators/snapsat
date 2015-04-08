@@ -28,7 +28,7 @@ $(document).ready(function(){
                 }).done(function(json){
                     var info = json.job_info;
                     var newid = '#'.concat(jobId);
-                    if(info.status != 'Done' && info.jobstatus != 'Failed'){
+                    if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
                         console.log('hello');
                         console.log(info.jobstatus);
                         console.log(info.elapsedtime);
