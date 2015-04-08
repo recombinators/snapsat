@@ -639,7 +639,7 @@ body {
 	font-size: 1rem;
 	font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
 	font-weight: 400;
-	color: #444;
+	color: #666;
 	line-height: 1.5;
 }
 
@@ -655,7 +655,7 @@ body {
 /* Set default heading styles */
 /* Font-sizes defined according to a typographic scale */
 h1, h2, h3, h4, h5, h6 {
-	font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
+	font-family: "adriane" ;
 	color: #222;
 	font-weight: 500;
 	margin: 0 0 1rem;
@@ -715,19 +715,8 @@ a:hover {
 }
 
 /* Default variables */
-/* Unordered list elements will display circles */
-ul li { 
-	list-style-type: circle; 
-}
-
-/* Ordered list elements will display capitalize Roman numerals */
-ol li {
-	list-style-type: upper-roman;
-}
-
-/* Hide list elements */
-.list-style-none { 
-	list-style-type: none;
+li { 
+    list-style-type: none; 
 }
 
 /* Hanging lists */
@@ -741,6 +730,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	max-width: 100%;
+    width: 100%;
 }
 
 th {
@@ -759,15 +749,10 @@ td { vertical-align: top; }
 tr {
 	border-bottom: 2px solid #f4f4f4; 
 }
-/* Custom Media Queries */
-
-
-/* Responsive padding */
-/* As viewport size increases, increase body padding */
-body { padding: 1em; }
-@media (min-width: 40rem) { body { padding: 2rem; } }
-@media (min-width: 52rem) { body { padding: 4rem; } }
-
+body {
+    margin: 0;
+    padding: 0;
+}
 
 /* Container */
 .container { max-width: 40rem; }
@@ -801,9 +786,9 @@ body { padding: 1em; }
 	-webkit-flex-flow: column wrap;
 	    -ms-flex-flow: column wrap;
 	        flex-flow: column wrap;
-	-webkit-justify-content: flex-start;
-	    -ms-flex-pack: start;
-	        justify-content: flex-start;
+	-webkit-justify-content: baseline;
+	    -ms-flex-pack: baseline;
+	        justify-content: baseline;
 	-webkit-align-items: stretch;
 	    -ms-flex-align: stretch;
 	        align-items: stretch;
@@ -832,38 +817,29 @@ body { padding: 1em; }
 
 	/* --copy-font:	; */
 	/* --copy-font-weight: ; */
-	/* --copy-font-color:	; */
-	/* --heading-font: ; */
 	/* --heading-font-color: ; */
 	/* --heading-font-weight: ; */
-	/* --line-height: ; */
-	/* --font-weight-light: ; */
-	/* --font-weight-book:	; */
-	/* --font-weight-medium: ; */
-	/* --font-weight-semibold: ; */
-	/* --font-weight-bold: ; */
-	/* --font-weight-black: ; */
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    color: #666;
+.sans {
+    font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
 }
 
-td > a { font-weight: normal; }
-
-h1, h2, h3 { font-family: "adriane"; }
 h1 { font-size: 4rem; }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.4rem; }
 
+td > a { font-weight: normal; }
+
+
+.preview-container, 
 .map-container{
     position: relative;
     min-height: 500px;
     min-height: 50vh;
 }
 
+#preview,
 #map {
     position: absolute;
     top: 0;
@@ -871,11 +847,6 @@ h3 { font-size: 1.4rem; }
     width: 100%;
 }
 
-.contain {
-    position: relative;
-    max-width: 40rem;
-    margin-left: 32.8%;
-}
 
 .reticle {
   position: absolute;
@@ -883,8 +854,6 @@ h3 { font-size: 1.4rem; }
   left: calc(49% - 50px);
   z-index: 100;
 }
-
-table { width: 100%; }
 
 #possibilities > div {
     display: inline-block;
@@ -895,20 +864,10 @@ table { width: 100%; }
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
 
-th {
+th, h4 {
     text-transform: uppercase;
     font-size: 80%;
     font-weight: 300;
-}
-
-section h2 {
-    position: relative;
-    left: -2.7rem;
-}
-
-section h2 span {
-    color: red;
-    padding-right: 1rem;
 }
 
 .blurb {
@@ -932,4 +891,18 @@ td a:hover { color: red; }
     left: 40%;
     font-size: 3rem;
     color: rgba(255,255,255,0.8)
+}
+
+header {
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 30rem;
+    padding: 2rem 4rem;
+}
+
+.contain {
+    margin-left: 30rem;
+    margin-top: 3rem;
 }

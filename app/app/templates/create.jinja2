@@ -4,22 +4,18 @@
 {% block content %}
 
 <section id='where' class='mbx'>
-    <h2 class='contain'>
-        <span class='lead'>1</span> 
-        Select a location
-    </h2>
+    <h3 class='red mbn'>1</h3>
+    <h2>Select a location</h2>
     <div class='map-container'>
         <div id='map'>
-            <span class="reticle bold red h3"><img src='/static/logo.svg'></span>
+            <span class="reticle bold red h3"><img src='/static/logo-dark-red.svg'></span>
         </div>
     </div>
 </section>
 
-<section class='contain mbx'>
-    <h2>
-        <span class='lead'>2</span>
-        Select a date
-    </h2>
+<section class='mbx'>
+    <h3 class='red mbn'>2</h3>
+    <h2>Select a date</h2>
     <div id='pathrowgrouping'>
     {% for group in scenes %}
         <div>
@@ -46,16 +42,8 @@
     </div>
 </section>
 
-<section class='contain mbx'>
-    <h2>
-        <span class='lead'>3</span>
-        There is no step three!
-    </h2>
-    <p class='light'>We hope you enjoyed Snapsat. If you're looking to learn more about what's possible, <a href='/guide'>visit our guide</a>. If you build something awesome with it, let us know!</p>
-    <p class='light'>Snapsat was built by <a href=''>Constantine</a>, <a href=''>Mark</a>, <a href=''>Jake</a>, <a href=''>Joel</a>, and <a href=''>Jacques</a> at <a href=''>CodeFellows</a>.</p>
-    <p class='light'>We'd love to hear from you!</p>
-</section>
+{% endblock %}
 
-</footer>
-
+{% block scripts %}
+<script type='text/javascript' src='/static/js/map.js'></script>
 {% endblock %}
