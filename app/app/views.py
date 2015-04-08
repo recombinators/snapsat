@@ -126,23 +126,29 @@ def add_to_queue_preview(request):
 def request_composite(request):
     """
     Request both the preview and fullsize images for a particular composite.
+    Redirect to scene page and goto band requested.
     """
     # Add full render and preview job to apprpriate queues
+    bands = (request.params.get('band1') + request.params.get('band2') +
+             request.params.get('band3'))
     add_to_queue_composite(request)
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(
-        request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}#{}'.format(
+        request.matchdict['scene_id'], bands))
 
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
     """
     Request the preview image for a particular composite.
+    Redirect to scene page and goto band requested.
     """
     # Add preview render job to apprpriate queues
+    bands = (request.params.get('band1') + request.params.get('band2') +
+             request.params.get('band3'))
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(
-        request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}#{}'.format(
+        request.matchdict['scene_id'], bands))
 
 
 @view_config(route_name='scene', renderer='templates/scene.jinja2')

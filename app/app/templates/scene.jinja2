@@ -12,7 +12,7 @@
         <h2>Preview your selection: {{ scene_id }}</h2>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
-                <div class='preview'>
+                <div class='preview' id='{{ band_combo }}'>
                     <h2 class='composite-description align-center mbn'>
                         <span class='band-red'>{{ composite.band1 }}</span> 
                         <span class='band-green'>{{ composite.band2 }}</span> 
@@ -36,7 +36,17 @@
                                     <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
                                 {% endif %}
                             {% else %}
-                                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
+                                <p>Current status:
+                                    <strong class='red'>
+                                        <form method="post">
+                                            <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                                            <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                                            <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                                            <button formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Click here to request a full render!</button>
+                                        </form>
+                                    </strong>
+                                </p>
+
                             {% endif %}
                         </div>
                     {% endif %}
@@ -46,18 +56,18 @@
     </section>
 
     <section class='mbx'>
-        <h3 class='mbn red'>4</h3>
+        <h3 class='mbn red'></h3>
         <h2>Generate a new image</h2>
         <form method="post" id="request_form_{{scene_id}}">
             <div id='combinations'>
                 <select name='band1' id='band1' required>
-                    <option selected value='base'>Select Red Band</option>
+                    <option selected value=''>Select Red Band</option>
                 </select>
                 <select name='band2' id='band2' required>
-                    <option selected value='base'>Select Green Band</option>
+                    <option selected value=''>Select Green Band</option>
                 </select>
                 <select name='band3' id='band3' required>
-                    <option selected value='base'>Select Blue Band</option>
+                    <option selected value=''>Select Blue Band</option>
                 </select>
             </div>
 
