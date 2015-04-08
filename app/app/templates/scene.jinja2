@@ -8,90 +8,88 @@
 
 {% block content %}
 
-    <h2>Scene {{ scene_id }}</h2>
-    {% for band_combo, composite in composites.iteritems() %}
-        <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
-        <div class='nopreview' id='{{composite.previewjobid}}'>
-            {% if composite.previewurl %}
-                <img src="{{ composite.previewurl }}">
-            {% else %}
-                <img src="/static/img/no_preview.png">
-            {% endif %}
-        </div>
+    <section class='mbx'>
+        <h3 class='mbn red'>3</h3>
+        <h2>Preview your selection: {{ scene_id }}</h2>
+        <div class='preview-container'>
+            {% for band_combo, composite in composites.iteritems() %}
+                <div class='preview'>
+                    <h3 class='composite-description'>{{ composite.band1 }} {{ composite.band2 }} {{ composite.band3 }}</h3>
+                    <div class='nopreview' id='{{composite.previewjobid}}'>
+                        {% if composite.previewurl %}
+                            <img src="{{ composite.previewurl }}">
+                        {% else %}
+                            <img src="/static/img/no_preview.png">
+                        {% endif %}
+                    </div>
 
-        {% if composite.fullurl %}
-            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
-        {% else %}
-            <div class='nofull' id='{{composite.fulljobid}}'>
-                {% if composite.fullstatus %}
-                     <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
-                    {% if composite.elapsed_time %}
-                        <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
+                    {% if composite.fullurl %}
+                        <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+                    {% else %}
+                        <div class='nofull' id='{{composite.fulljobid}}'>
+                            {% if composite.fullstatus %}
+                                 <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
+                                {% if composite.elapsed_time %}
+                                    <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
+                                {% endif %}
+                            {% else %}
+                                <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
+                            {% endif %}
+                        </div>
                     {% endif %}
-                {% else %}
-                    <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
-                {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class='mbx'>
+        <h3 class='mbn red'>4</h3>
+        <h2>Generate a new image</h2>
+        <form method="post" id="request_form_{{scene_id}}">
+            <div id='combinations'>
+                <select name='band1'>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                </select>
+                <select name='band2'>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                </select>
+                <select name='band3'>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='11'>11</option>
+                </select>
             </div>
-        {% endif %}
-    {% endfor %}
 
-    <div id='longpolltesting'></div>
-
-    <h2>Choose a combination</h2>
-
-    <script type='text/javascript'>
-        var bands = [1, 2, 3, 4, 5, 6, 7, 9, 10, 11];
-        for (var band in bands) {
-            console.log(band);
-        };
-    </script>
-
-    <form method="post" id="request_form_{{scene_id}}">
-        <div id='combinations'>
-            <select name='band1'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='9'>9</option>
-                <option value='10'>10</option>
-                <option value='11'>11</option>
-            </select>
-            <select name='band2'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='9'>9</option>
-                <option value='10'>10</option>
-                <option value='11'>11</option>
-            </select>
-            <select name='band3'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-                <option value='4'>4</option>
-                <option value='5'>5</option>
-                <option value='6'>6</option>
-                <option value='7'>7</option>
-                <option value='8'>8</option>
-                <option value='9'>9</option>
-                <option value='10'>10</option>
-                <option value='11'>11</option>
-            </select>
-        </div>
-
-        <div class='inline-block clearfix'>
-            <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
-            <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-right">Render Full Image</button>
-        </div>
-    </form>
-    </div>
-</div>
+            <div class='inline-block clearfix'>
+                <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+                <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-right">Render Full Image</button>
+            </div>
+        </form>
+    </section>
 {% endblock %}

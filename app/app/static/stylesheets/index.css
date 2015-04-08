@@ -104,3 +104,19 @@ header {
     margin-left: 30rem;
     margin-top: 3rem;
 }
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-container > div {
+    max-width: 30rem;
+    min-width: 20rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.attribution {
+    font-size: 90%
+}
