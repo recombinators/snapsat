@@ -8,117 +8,90 @@
 
 {% block content %}
 
-
-<h3 class='red mbn'>3</h3>
-<h2>Preview your selection</h2>
-
-<div class='preview-container'>
-    <div id='preview'></div>
-</div>
-
-<!-- <script type='text/javascript'> -->
-<!-- L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng'; -->
- 
-<!-- var imageUrl = 'https://farm4.staticflickr.com/3731/14101168818_932d707f90_o.jpg', -->
-<!--     imageBounds = L.latLngBounds([ -->
-<!--         [49.94119, -97.97009], -->
-<!--         [47.76065, -101.18046]]); -->
-
-<!-- // Create a basemap -->
-<!-- var preview = L.mapbox.map('preview', 'jacques.lh797p9e', {zoomControl: true}); -->
-
-<!-- // preview.setView([47.568, -122.582], 7); -->
-<!-- preview.scrollWheelZoom.disable(); -->
-<!-- preview.addControl(L.mapbox.geocoderControl('mapbox.places')); -->
-
-<!-- var overlay = L.imageOverlay(imageUrl, imageBounds) -->
-<!--     .addTo(preview); -->
-<!-- </script> -->
-
-
-<div>
     <h2>Scene {{ scene_id }}</h2>
-
     {% for band_combo, composite in composites.iteritems() %}
-
         <p>Bands: {{ composite.band1 }}, {{ composite.band2 }}, {{ composite.band3 }}</p>
-
-        <div class='flex flex-wrap mxn2'>
+        <div class='nopreview' id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
-            <div class='flex'>
                 <img src="{{ composite.previewurl }}">
-            </div>
             {% else %}
-            <div class='flex'>
                 <img src="/static/img/no_preview.png">
-            </div>
             {% endif %}
         </div>
 
         {% if composite.fullurl %}
-        <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+            <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
         {% else %}
-            {% if composite.fullstatus %}
-                <p>Current status: <strong class='red'>{{ composite.fullstatus }}</strong></p>
-                {% if composite.elapsed_time %}
-                    <p>Elapsed Process Time (hr:min:sec): {{ composite.elapsed_time }}</p>
+            <div class='nofull' id='{{composite.fulljobid}}'>
+                {% if composite.fullstatus %}
+                     <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
+                    {% if composite.elapsed_time %}
+                        <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
+                    {% endif %}
+                {% else %}
+                    <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
                 {% endif %}
-            {% else %}
-            <p>Current status: <strong class='red'>No one has requested the full composite of this band combination. Be the first!</strong></p>
-            {% endif %}
-
+            </div>
         {% endif %}
     {% endfor %}
 
+    <div id='longpolltesting'></div>
 
-<h2>Choose a combination</h2>
+    <h2>Choose a combination</h2>
 
-<form method="post" id="request_form_{{scene_id}}">
-    <div id='combinations'>
-        <select name='band1'>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-        </select>
-        <select name='band2'>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-        </select>
-        <select name='band3'>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-            <option value='7'>7</option>
-            <option value='8'>8</option>
-        </select>
+    <script type='text/javascript'>
+        var bands = [1, 2, 3, 4, 5, 6, 7, 9, 10, 11];
+        for (var band in bands) {
+            console.log(band);
+        };
+    </script>
 
+    <form method="post" id="request_form_{{scene_id}}">
+        <div id='combinations'>
+            <select name='band1'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+                <option value='11'>11</option>
+            </select>
+            <select name='band2'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+                <option value='11'>11</option>
+            </select>
+            <select name='band3'>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+                <option value='6'>6</option>
+                <option value='7'>7</option>
+                <option value='8'>8</option>
+                <option value='9'>9</option>
+                <option value='10'>10</option>
+                <option value='11'>11</option>
+            </select>
+        </div>
 
+        <div class='inline-block clearfix'>
+            <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+            <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-right">Render Full Image</button>
+        </div>
+    </form>
     </div>
-
-    <div class='inline-block clearfix'>
-        <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
-        <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-right">Render Full Image</button>
-    </div>
-</form>
-
 </div>
-
-</div>
-
-
 {% endblock %}
-

@@ -23,7 +23,6 @@ map.on('moveend', function() {
         dataType: "json",
         data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
- 
         // scenes = json.scenes;
         scenes_pr = json.scenes;
          
