@@ -922,3 +922,7 @@ header {
 .attribution {
     font-size: 90%
 }
+
+.group_head{
+    border-top:1rem solid #FFF;
+    } 
