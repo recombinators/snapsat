@@ -14,10 +14,10 @@
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview'>
                     <h3 class='composite-description'>{{ composite.band1 }} {{ composite.band2 }} {{ composite.band3 }}</h3>
-                    <div class='nopreview' id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
                             <img src="{{ composite.previewurl }}">
                         {% else %}
+                            <div class='nopreview' id='{{composite.previewjobid}}'>
                             <img src="/static/img/no_preview.png">
                         {% endif %}
                     </div>
@@ -46,9 +46,15 @@
         <h2>Generate a new image</h2>
         <form method="post" id="request_form_{{scene_id}}">
             <div id='combinations'>
-                <select name='band1' id='band1' required></select>
-                <select name='band2' id='band2' required></select>
-                <select name='band3' id='band3' required></select>
+                <select name='band1' id='band1' required>
+                    <option selected value='base'>Select Red Band</option>
+                </select>
+                <select name='band2' id='band2' required>
+                    <option selected value='base'>Select Green Band</option>
+                </select>
+                <select name='band3' id='band3' required>
+                    <option selected value='base'>Select Blue Band</option>
+                </select>
             </div>
 
             <div class='inline-block clearfix'>
