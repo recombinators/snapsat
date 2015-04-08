@@ -41,8 +41,9 @@ def landing(request):
     """
     return {}
 
+
 @view_config(route_name='guide', renderer='templates/guide.jinja2')
-def create(request):
+def guide(request):
     """
     Guide page.
     """
