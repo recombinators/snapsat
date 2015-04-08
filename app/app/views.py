@@ -42,6 +42,14 @@ def landing(request):
     return {}
 
 
+@view_config(route_name='guide', renderer='templates/guide.jinja2')
+def guide(request):
+    """
+    Guide page.
+    """
+    return {}
+
+
 @view_config(route_name='create', renderer='templates/create.jinja2')
 def create(request):
     """
@@ -50,6 +58,7 @@ def create(request):
     lists of scenes for it.
     """
     return scene_options_ajax(request)
+
 
 
 def add_to_queue_composite(request):
@@ -203,7 +212,6 @@ def scene(request):
                 composites[band_combo].update({'previewjobid': composite.jobid,
                                                'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
-    import ipdb; ipdb.set_trace()
     return {'scene_id': scene_id, 'composites': composites}
 
 
