@@ -35,9 +35,6 @@ a {
 a:hover {
 	color: #6093e7;
 }
-b {
-	font-weight: bold;
-}
 p {
 	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	line-height: 1.6em;
@@ -120,17 +117,6 @@ blockquote:after {
 	-webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.2);
 	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
 }
-.menubar.alt {
-	background-color: #f6f6f6;
-}
-a.logo {
-	float: left;
-	display: block;
-	width: 120px;
-	height: 30px;
-	background-image: url(../img/logo.png);
-	margin: 27px 0px 0px 40px;
-}
 ul.mainmenu {
 	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	float: right;
@@ -163,12 +149,6 @@ ul.mainmenu li.active a {
 /******************************************************************
 	Colors
 ******************************************************************/
-.color {
-	color: #6093e7;
-}
-.dark-gray {
-	color: #4b4b4b;
-}
 .light-gray {
 	color: #cfcfcf;
 }
@@ -181,12 +161,6 @@ ul.mainmenu li.active a {
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
-}
-p.main {
-	font-size: 15px;
-	text-align: center;
-	margin: 50px auto;
-	font-weight: 400;
 }
 div.section.divider {
 	width: 100%;
@@ -255,11 +229,6 @@ div.icon {
 	font-weight: 500;
 	text-shadow: 4px 4px 8px #000;
 }
-
-.herowrapper b {
-	/*background-color: rgba(255, 255, 255, 0.8);*/
-	padding: 0px 5px;
-}
 a.scrolldown {
 	display: block;
 	width: 100%;
@@ -274,10 +243,11 @@ a.scrolldown {
 }
 .scrolldown h3 {
 	text-align: center;
-	font-size: 12px;
+	font-size: 1.6em;
 	text-transform: uppercase;
 	color: #FFF;
-	font-weight: 300;
+	font-weight: 200;
+	text-shadow: 4px 4px 8px #000;
 }
 /******************************************************************
 	Mission
