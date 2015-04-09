@@ -141,3 +141,6 @@ header {
     top: 6px;
 }
 
+.beta {
+    text-transform: uppercase;
+}
