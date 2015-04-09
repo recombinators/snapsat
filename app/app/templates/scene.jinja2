@@ -20,8 +20,9 @@
                         <span class='band-green'>{{ composite.band2 }}</span> 
                         <span class='band-blue'>{{ composite.band3 }}</span>
                     </h2>
-                    <div class='graph'></div>
+                    <div class='graph' id='graph{{composite.previewjobid}}'></div>
                     <div id='{{composite.previewjobid}}'>
+                        <div class='graph'></div>
                         {% if composite.previewurl %}
                             <img src="{{ composite.previewurl }}">
                         {% else %}
@@ -29,6 +30,7 @@
                                 <img src="/static/img/no_preview.png">
                             </div>
                         {% endif %}
+                    </div>
                     {% if composite.fullurl %}
                         <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
                     {% else %}

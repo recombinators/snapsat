@@ -1,16 +1,17 @@
-function graph() {
+function graph(graphId) {
 
-    var width = $(".graph").parent().width();
+    var id = '#'.concat(graphId);
+    var width = $(id).parent().width();
+    var parentId = $(id).parent().attr('id');
     var height = 20;
     var stroke_width = 1;
     var box_fill = "#FFF";
     var stroke_color = "#000";
 
     var font_size = 8;
-
-    var red_band = Number($(".band-red").html());
-    var green_band = Number($(".band-green").html());
-    var blue_band = Number($(".band-blue").html());
+    var red_band = Number($(id).parent().find($(".band-red")).html());
+    var green_band = Number($(id).parent().find($(".band-green")).html());
+    var blue_band = Number($(id).parent().find($(".band-blue")).html());
     var red_color = "red";
     var green_color = "green";
     var blue_color = "blue";
@@ -48,7 +49,7 @@ function graph() {
     }
 
 
-    var svg = d3.selectAll(".graph")
+    var svg = d3.selectAll(id)
         .append("svg")
         .attr("width", width)
         .attr("height", 2 * (height + stroke_width));
@@ -103,5 +104,8 @@ function graph() {
 }
 
 $(document).ready(function(){
-    graph();
+    $(".preview").each(function(){
+        graphId = $(this).find($(".graph")).attr("id");
+        graph(graphId);
+        });
 });
