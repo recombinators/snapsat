@@ -5,7 +5,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {zoomControl: true});
 map.setView([47.568, -122.582], 7);
 map.scrollWheelZoom.disable();
-L.control.fullscreen.addTo(map);
+// L.control.fullscreen.addTo(map);
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
