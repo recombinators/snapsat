@@ -127,3 +127,7 @@ header {
 .group_head{
     border-top:1rem solid #FFF;
     } 
+
+#guide {
+    font-weight: 100;
+}

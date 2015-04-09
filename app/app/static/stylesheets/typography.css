@@ -75,7 +75,7 @@ blockquote {
 	--ms1:						1rem;
 	--ms0:						1rem;
 
-	--copy-font:				freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
+	--copy-font:				"Open Sans", Verdana, Arial, sans-serif;
 	--copy-font-weight:			var(--font-weight-book);
 	--copy-font-color:			#444;
 

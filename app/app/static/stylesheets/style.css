@@ -87,7 +87,7 @@ blockquote {
 	background-color: #f6f6f6;
 	height: 100px;
 	text-align: center;
-	padding-top: 40px;
+	padding: 1.1%;
 	color: #616161;
 	font-weight: 300;
 	font-style: italic;
@@ -104,7 +104,7 @@ blockquote:after {
 }
 #landing {
 	text-align: center;
-	max-width: 100em;
+	max-width: 100%;
 }
 /******************************************************************
 	Menu

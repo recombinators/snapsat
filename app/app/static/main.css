@@ -637,7 +637,7 @@ html {
 /* Set standard typographic style */
 body {
 	font-size: 1rem;
-	font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	font-weight: 400;
 	color: #666;
 	line-height: 1.5;
@@ -748,6 +748,15 @@ td { vertical-align: top; }
 
 tr {
 	border-bottom: 2px solid #f4f4f4; 
+}
+.date {
+    width: 32.6%;
+}
+.pathrow {
+    width: 5.5%;
+}
+.cloud {
+    width: 12%;
 }
 body {
     margin: 0;
@@ -898,7 +907,7 @@ blockquote {
 	background-color: #f6f6f6;
 	height: 100px;
 	text-align: center;
-	padding-top: 40px;
+	padding: 1.1%;
 	color: #616161;
 	font-weight: 300;
 	font-style: italic;
@@ -915,7 +924,7 @@ blockquote:after {
 }
 #landing {
 	text-align: center;
-	max-width: 100em;
+	max-width: 100%;
 }
 /******************************************************************
 	Menu
@@ -1202,7 +1211,7 @@ a.socialicon.twitter:hover {
 	/* --heading-font-weight: ; */
 }
 
-.sans { font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif; }
+.sans { font-family: "Open Sans", Verdana, Arial, sans-serif; }
 .serif { font-family: "adriane" ; }
 
 h1 { font-size: 4rem; }
@@ -1307,3 +1316,7 @@ header {
 .group_head{
     border-top:1rem solid #FFF;
     } 
+
+#guide {
+    font-weight: 100;
+}

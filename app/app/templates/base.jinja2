@@ -13,28 +13,16 @@
         <script type="text/javascript" src="/static/js/custom.js"></script>
         <!-- this is the script for the fullscreen that isn't working yet -->
         <!-- <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.4/Leaflet.fullscreen.min.js'></script> -->
-<link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css' rel='stylesheet' />
+        <!-- <link href='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css' rel='stylesheet' /> -->
     </head>
     <body>
-     <!-- Start Menu -->
-        <div class="menubar" data-scroll="true">
-            <!-- <a href="#" class="logo"></a> -->
-            <ul class="mainmenu">
-                <li class="active"><a href="#home">Home</a></li>
-                <li><a href="#mission">Mission</a></li>
-                <li><a href="#thanks">Special Thanks</a></li>
-                <li><a href="#about">About us</a></li>
-                <li><a href="#contact">Contact us</a></li>
-                <li><a href="/create">Create</a></li>
-            </ul>
-        </div>
         <!-- End Menu -->
         {% block header %}
             <header>
                 <img src='/static/logo-dark-red.svg'>
                 <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
                 <p class='blurb mbl'>The easiest way to create custom Landsat band composites.</p>
-                <p class='light mbx'>The Landsat 8 satellite provides a means of seeing light outside the visible spectrum, allowing us to see what would otherwise be invisible to the naked eye. Learn more by reading our <a href='/guide'>Guide</a>.</p>
+                <p class='light mbx'>The Landsat 8 satellite provides a means of seeing light outside the visible spectrum, allowing us to see what would otherwise be invisible to the naked eye. Learn more by reading our <a id="guide" href='/guide'>Guide</a>.</p>
 
                 <section class='attribution'>
                     <p>Built by:</p>
