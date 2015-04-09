@@ -3,29 +3,32 @@ function graph() {
     //     .domain(d3.extent(dataset, function (d) { return d.Peso; }))
     //     .range(["#fee0d2","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#a50f15","#67000d"]);
 
-    var w = 100,
-        h = 20,
-        p = [30, 20, 40, 0],
-        x = d3.scale.ordinal().rangeRoundBands([0, w - p[1] - p[3]]),
-        y = d3.scale.linear().range([0, h - p[0] - p[2]]),
-        z = d3.scale.ordinal().range(["#fee0d2","#fcbba1","#fc9272","#fb6a4a","#ef3b2c"]),
-        yx = d3.scale.linear().range([0, h - p[0] - p[2]]),
-        format = d3.time.format("%b %Y");
+    var xLowNorm = 435;
+    var widthNorm = 2294;
+
+    var waveLengths = [[435, 451, 1], [452, 512, 2], [533, 590, 3], [636, 673, 4], [851, 879, 5], [1566, 1651, 6], [2107, 2294, 7], [503, 676, 8], [1362, 1384, 9]];
+
+    var width = $(".graph").parent().width();
+    var height = 20;
+    var sw = 1,
+        z = d3.scale.ordinal().range(["#FFF","#FFF","#FFF","#FFF","#FFF"]);
 
     var svg = d3.select(".graph").append("svg:svg")
-        .attr("width", w * 5)
-        .attr("height", h)
+        .attr("width", width)
+        .attr("height", height)
         .append("svg:g");
         // .attr("transform", "translate(" + p[3] + "," + (h - p[2]) + ")");
 
     svg.selectAll("rect")
-      .data(z).enter()
+      .data(waveLengths).enter()
       .append("rect")
-      .attr("fill", function (color){ return color; })
-      .attr("x", function (color, index){ return (index * 12) + "px"; })
+      .attr("stroke-width", sw)
+      .attr("stroke", "#000")
+      .attr("fill", "#FFF")
+      .attr("x", function (color, index){ return (width * ((waveLengths[index][0] - xLowNorm) / widthNorm)) + "px"; })
       .attr("y", 0 + "px")
-      .attr("width", w + "px")
-      .attr("height", h + "px");
+      .attr("width", function (color, index){ return (width * (waveLengths[index][1] - waveLengths[index][0]) / (widthNorm - xLowNorm)) + "px"; })
+      .attr("height", height + "px");
 
 }
 
