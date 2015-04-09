@@ -821,6 +821,8 @@ body {
 		margin-right: 2rem;
 	}
 }
+/*THIS PAGE IS STYLING FOR THE LANDING PAGE PRIMARILY*/
+
 /******************************************************************
 	This is the CSS Reset
 ******************************************************************/
@@ -973,11 +975,6 @@ ul.mainmenu li.active a {
 	margin-bottom: 50px;
 	float: center;
 	border: solid 2px #000;
-}
-.betabutton {
-	float:right;
-	padding-top: 9%;
-	padding-right: 10%;
 }
 
 /******************************************************************
