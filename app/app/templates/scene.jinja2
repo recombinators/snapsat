@@ -3,6 +3,8 @@
 {% block scripts %}
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.css' rel='stylesheet' />
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
 {% endblock %}
 
 {% block content %}
@@ -10,14 +12,16 @@
     <section class='mbx'>
         <h3 class='mbn red'>3</h3>
         <h2>Preview your selection: {{ scene_id }}</h2>
+        <div class='graph' id='reference'></div>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview' id='{{ band_combo }}'>
                     <h2 class='composite-description mbn'>
-                        <span class='band-red'>{{ composite.band1 }}</span> 
+                        <span class='band-blue'>{{ composite.band1 }}</span> 
                         <span class='band-green'>{{ composite.band2 }}</span> 
-                        <span class='band-blue'>{{ composite.band3 }}</span>
+                        <span class='band-red'>{{ composite.band3 }}</span>
                     </h2>
+                    <div class='graph' id='graph{{composite.previewjobid}}'></div>
                     <div id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
                             <img src="{{ composite.previewurl }}">
