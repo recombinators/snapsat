@@ -13,6 +13,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {zoomControl: true});
 map.setView([47.568, -122.582], 7);
 map.scrollWheelZoom.disable();
+// L.control.fullscreen().addTo(map);
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
  
  
@@ -11389,7 +11390,7 @@ L.Map = L.Class.extend({
 		if (!container) {
 			throw new Error('Map container not found.');
 		} else if (container._leaflet) {
-			throw new Error('Map container is already initialized.');
+			throw new error('Map container is already initialized.');
 		}
 
 		container._leaflet = true;

@@ -837,7 +837,9 @@ td > a { font-weight: normal; }
     min-height: 500px;
     min-height: 50vh;
 }
-
+.mapbox-icon {
+    border-bottom: 15;
+}
 #preview,
 #map {
     position: absolute;
