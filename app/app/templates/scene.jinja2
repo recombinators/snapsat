@@ -17,9 +17,9 @@
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview' id='{{ band_combo }}'>
                     <h2 class='composite-description mbn'>
-                        <span class='band-red'>{{ composite.band1 }}</span> 
+                        <span class='band-blue'>{{ composite.band1 }}</span> 
                         <span class='band-green'>{{ composite.band2 }}</span> 
-                        <span class='band-blue'>{{ composite.band3 }}</span>
+                        <span class='band-red'>{{ composite.band3 }}</span>
                     </h2>
                     <div class='graph' id='graph{{composite.previewjobid}}'></div>
                     <div id='{{composite.previewjobid}}'>
@@ -27,7 +27,7 @@
                             <img src="{{ composite.previewurl }}">
                         {% else %}
                             <div class='nopreview' id='{{composite.previewjobid}}'>
-                                <img src="/static/img/no_preview.png">
+                                <div class="loading"><img src="/static/img/no_preview.gif"></div>
                             </div> <!-- nopreview -->
                         {% endif %}
                     </div> <!-- composite.previewjobid -->
@@ -51,8 +51,8 @@
                                         </form>
                                     </strong>
                                 </p>
-                         </div> <!-- nofull -->
                             {% endif %}
+                        </div> <!-- nofull -->
                     {% endif %}
                 </div> <!-- preview -->
             {% endfor %}
@@ -65,13 +65,13 @@
         <form method="post" id="request_form_{{scene_id}}">
             <div id='combinations'>
                 <select name='band1' id='band1' required>
-                    <option selected value=''>Select Red Band</option>
+                    <option selected value=''>Select Blue Band</option>
                 </select>
                 <select name='band2' id='band2' required>
                     <option selected value=''>Select Green Band</option>
                 </select>
                 <select name='band3' id='band3' required>
-                    <option selected value=''>Select Blue Band</option>
+                    <option selected value=''>Select Red Band</option>
                 </select>
             </div>
 
