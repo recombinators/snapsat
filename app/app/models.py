@@ -141,7 +141,6 @@ class UserJob(Base):
         try:
             status = Session.query(cls.jobstatus).filter(
                 cls.jobid == jobid).one()
-            print status
         except:
             print 'Database write failed.'
             return None
