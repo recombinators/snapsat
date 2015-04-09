@@ -129,7 +129,8 @@ header {
 } 
 
 #guide {
-    font-weight: 100;
+    font-weight: bolder;
+    font-size: 15px;
 } 
 
 .band-red { color: red; }
@@ -139,8 +140,4 @@ header {
 .graph {
     position: relative;
     top: 6px;
-}
-
-.beta {
-    text-transform: uppercase;
 }

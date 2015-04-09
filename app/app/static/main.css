@@ -964,9 +964,6 @@ ul.mainmenu li.active a {
 	font-weight: bold;
 	color: #6093e7;
 }
-.menuB {
-	padding-top:20%;
-}
 .landingbuttons {
 	background-color: #FFF;
 	text-align: center;
@@ -1330,7 +1327,8 @@ header {
 } 
 
 #guide {
-    font-weight: 100;
+    font-weight: bolder;
+    font-size: 15px;
 } 
 
 .band-red { color: red; }
@@ -1340,8 +1338,4 @@ header {
 .graph {
     position: relative;
     top: 6px;
-}
-
-.beta {
-    text-transform: uppercase;
 }
