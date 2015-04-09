@@ -54,9 +54,11 @@ class UserBehavior(TaskSet):
                 random_url = json_scenes[random_num]["download_url"]
                 self.client.get(random_url)
                 scene_id = json_scenes[random_num]["entityid"]
-                rand_band = random.choice(["432", "543", "532"])
+                band1, band2, band3 = self.random_bands()
                 url = "/request_preview/{}".format(scene_id)
-                self.client.post(url=url, data={'band_combo': rand_band})
+                self.client.post(url=url, data={'band1': band1,
+                                                'band2': band2,
+                                                'band3': band3})
 
         @task(2)
         def full(self):
@@ -69,14 +71,22 @@ class UserBehavior(TaskSet):
                 random_url = json_scenes[random_num]["download_url"]
                 self.client.get(random_url)
                 scene_id = json_scenes[random_num]["entityid"]
-                rand_band = random.choice(["432", "543", "532"])
+                band1, band2, band3 = self.random_bands()
                 url = "/request_composite/{}".format(scene_id)
-                self.client.post(url=url, data={'band_combo': rand_band})
+                self.client.post(url=url, data={'band1': band1,
+                                                'band2': band2,
+                                                'band3': band3})
 
         @task(1)
         def stop(self):
             """Stop class."""
             self.interrupt()
+
+        def random_bands():
+            """Return 3 random bands (non-repeating) from possible bands."""
+            choices = [1, 2, 3, 4, 5, 6, 7, 9]
+            return random.sample(choices, 3)
+
 
 
 class WebsiteUser(HttpLocust):
