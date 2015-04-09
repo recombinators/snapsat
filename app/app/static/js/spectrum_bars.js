@@ -1,7 +1,7 @@
 function graph(graphId, type) {
 
     var id = '#'.concat(graphId);
-    var width = $(id).parent().width();
+
     var parentId = $(id).parent().attr('id');
     var height = 20;
     var stroke_width = 1;
@@ -20,6 +20,8 @@ function graph(graphId, type) {
     var widthNorm = 2294;
 
     if(type == "reference"){
+        width = $(".preview-container").width();
+
         waveLengthsTop = [[503, 676, 8, "#008ea2"],
                           [1362, 1384, 9, "#7f87b5"]];
         waveLengthsBottom = [[435, 451, 1, "#6ca4d3"],
@@ -30,6 +32,8 @@ function graph(graphId, type) {
                              [1566, 1651, 6, "#d49979"],
                              [2107, 2294, 7, "#999b98"]];
     }else if(type == "preview"){
+        width = $(id).parent().width();
+
         waveLengthsTop = [[503, 676, 8, box_fill],
                           [1362, 1384, 9, box_fill]];
         waveLengthsBottom = [[435, 451, 1, box_fill],
