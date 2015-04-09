@@ -12,10 +12,6 @@
     <section class='mbx'>
         <h3 class='mbn red'>3</h3>
         <h2>Preview your selection: {{ scene_id }}</h2>
-        <section id='visualization'>
-            <!-- <h2>Visualize</h2> -->
-            <div class='graph'></div>  
-        </section>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview'>
@@ -24,6 +20,7 @@
                         <span class='band-green'>{{ composite.band2 }}</span> 
                         <span class='band-blue'>{{ composite.band3 }}</span>
                     </h2>
+                    <div class='graph'></div>
                     <div id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
                             <img src="{{ composite.previewurl }}">
