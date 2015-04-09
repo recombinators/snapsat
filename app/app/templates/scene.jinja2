@@ -12,6 +12,7 @@
     <section class='mbx'>
         <h3 class='mbn red'>3</h3>
         <h2>Preview your selection: {{ scene_id }}</h2>
+        <div class='graph' id='reference'></div>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview' id='{{ band_combo }}'>
