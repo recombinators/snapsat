@@ -46,6 +46,7 @@ p {
 	font-size: var(--ms0);
 	max-width: var(--container-width);
 	margin: 0 0 1rem 0;
+    font-weight: var(--font-weight-light);
 }
 
 
