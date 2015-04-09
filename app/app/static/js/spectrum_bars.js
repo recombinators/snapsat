@@ -49,36 +49,43 @@ function graph(graphId) {
     }
 
 
-    var svg = d3.selectAll(id)
+    var svgBar = d3.selectAll(id)
         .append("svg")
+        .attr("width", width)
+        .attr("height", 2 * (height + stroke_width))
+        .attr('class', 'spectrumMap');
+
+    svgBar.append("rect")
+        .attr("x", 0 + "px")
+        .attr("y", 0 + "px")
         .attr("width", width)
         .attr("height", 2 * (height + stroke_width));
 
-    svg.selectAll("rect")
+    svgBar.selectAll("rect")
         .data(waveLengthsTop, function(d){return d;})
         .enter()
         .append("rect")
         .attr("stroke-width", stroke_width)
-        .attr("stroke", "#000")
+        .attr("stroke", stroke_color)
         .attr("fill", function (d){ return (d[3]); })
         .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
         .attr("y", 0 + "px")
         .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
         .attr("height", height + "px");
 
-    svg.selectAll("rect")
+    svgBar.selectAll("rect")
         .data(waveLengthsBottom, function(d){return d;})
         .enter()
         .append("rect")
         .attr("stroke-width", stroke_width)
-        .attr("stroke", "#000")
+        .attr("stroke", stroke_color)
         .attr("fill", function (d){ return (d[3]); })
         .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
         .attr("y", height + 2 * stroke_width + "px")
         .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
         .attr("height", height + "px");
 
-    svg.selectAll("text")
+    svgBar.selectAll("text")
         .data(waveLengthsTop, function(d){return d;})
         .enter()
         .append("text")
@@ -90,7 +97,7 @@ function graph(graphId) {
         .attr("font-size", font_size)
         .text(function(d) { return d[2]; });
 
-    svg.selectAll("text")
+    svgBar.selectAll("text")
         .data(waveLengthsBottom, function(d){return d;})
         .enter()
         .append("text")
@@ -108,4 +115,15 @@ $(document).ready(function(){
         graphId = $(this).find($(".graph")).attr("id");
         graph(graphId);
         });
+});
+
+$(window).on('resize', function (){ 
+    $(".graph").contents().remove();
+    $(".preview").each(function(){
+        graphId = $(this).find($(".graph")).attr("id");
+        graph(graphId);
+        });
+    // $(".spectrumMap").each(function(){
+    //     $(this).width($(this).parent().width());
+    //     });
 });

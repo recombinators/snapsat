@@ -931,3 +931,9 @@ header {
 .band-red { color: red; }
 .band-green { color: green; }
 .band-blue { color: blue; }
+
+.graph {
+    position: relative;
+    top: 6px;
+}
+
