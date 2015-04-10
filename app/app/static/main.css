@@ -1,4 +1,4 @@
-
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
 /**
@@ -637,7 +637,7 @@ html {
 /* Set standard typographic style */
 body {
 	font-size: 1rem;
-	font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	font-weight: 400;
 	color: #666;
 	line-height: 1.5;
@@ -680,7 +680,7 @@ p {
 
 /* Set default blockquote styles */
 blockquote {
-	font-style: italic;
+	font-family: helvetica;
 	font-size: 1rem;
 }
 
@@ -750,6 +750,16 @@ td { vertical-align: top; }
 tr {
 	border-bottom: 2px solid #f4f4f4; 
 }
+.date {
+    width: 40%;
+}
+.cloud {
+    /*width: 50%;*/
+    float: left;
+}
+.datecloud {
+    width:100px;
+}
 body {
     margin: 0;
     padding: 0;
@@ -812,6 +822,392 @@ body {
 		margin-right: 2rem;
 	}
 }
+/*THIS PAGE IS STYLING FOR THE LANDING PAGE PRIMARILY*/
+
+/******************************************************************
+	This is the CSS Reset
+******************************************************************/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+html, body {
+	width: 100%;
+	height: 100%;
+	letter-spacing: 0.025em;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+/******************************************************************
+	General
+******************************************************************/								
+a {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	text-decoration: none;
+	/*font-size: 8pt;*/
+	color: #616161;
+}
+a:hover {
+	color: #6093e7;
+}
+p {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+	color: #848484;
+	font-size: 12px;
+}
+h1 {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+	color: #454544;
+	text-decoration: none;
+	font-size: 40px;
+}
+h2 {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+	color: #454544;
+	text-decoration: none;
+	font-size: 20px;
+}
+h3 {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+	color: #454544;
+	text-decoration: none;
+	font-size: 18px;
+}
+h4 {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+	color: #454544;
+	text-decoration: none;
+	font-size: 16px;
+}
+h6 {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	line-height: 1.6em;
+	color: #454544;
+	text-decoration: none;
+	font-size: 12px;
+}
+.clear {
+	clear: both;
+}
+blockquote {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	font-size: 28px;
+	line-height: 60px;
+	width: 100%;
+	background-color: #f6f6f6;
+	height: 100px;
+	text-align: center;
+	padding: 1.1%;
+	color: #616161;
+	font-weight: 300;
+	font-style: italic;
+}
+blockquote:before {
+	content: '"';
+	font-weight: bold;
+	font-size: 36px;
+}
+blockquote:after {
+	content: '"';
+	font-weight: bold;
+	font-size: 36px;
+}
+#landing {
+	text-align: center;
+	max-width: 100%;
+}
+/******************************************************************
+	Menu
+******************************************************************/
+.menubar {
+	position: fixed;
+	top: 0px;
+	height: 80px;
+	width: 100%;
+	z-index: 9999;
+	background-color: #FFF;
+	margin-top: -80px;
+	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+ul.mainmenu {
+	font-family: "Open Sans", Verdana, Arial, sans-serif;
+	float: right;
+	margin: 0px 40px 0px 0px;
+	text-transform: uppercase;
+	font-weight: 300;
+}
+ul.mainmenu li {
+	cursor: pointer;
+	display: inline-block;
+	padding: 30px 10px 31px 10px;
+}
+ul.mainmenu li a {
+	font-size: 12px;
+	color: #838282;
+	transition: color 400ms ease;
+}
+ul.mainmenu li:hover a {
+	color: #6093e7;
+}
+ul.mainmenu li.active a {
+	font-weight: bold;
+	color: #6093e7;
+}
+.landingbuttons {
+	background-color: #FFF;
+	text-align: center;
+	width:25%;
+	border-radius: 25px;
+	opacity: .8;
+	margin-bottom: 50px;
+	float: center;
+	border: solid 2px #000;
+}
+
+/******************************************************************
+	Colors
+******************************************************************/
+.light-gray {
+	color: #cfcfcf;
+}
+
+/******************************************************************
+	Main
+******************************************************************/
+.content {
+	max-width: 960px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+div.section.divider {
+	width: 100%;
+	height: 40px;
+	border-top: 1px solid #6093e7;
+	text-align: center;
+	margin-top: 100px;
+	margin-bottom: 40px;
+}
+div.section.divider h2 {
+	font-weight: 400;
+	color: #6093e7;
+	background-color: #FFF;
+	margin-top: -20px;
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 24px;
+	text-transform: uppercase;
+}
+a.scroll {
+	width: 100%;
+	display: block;
+}
+div.icon {
+	font-size: 80px;
+	color: #FFF;
+}
+
+/******************************************************************
+	Hero Images
+******************************************************************/
+.hero {
+	width: 100%;
+	height: 100%;
+}
+.home.hero {
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/background.jpg);
+	background-size: cover;
+}
+.herowrapper {
+	position: absolute;
+	padding: 3%;
+	top: 45%;
+	left:35%;
+	height: 40px;
+	margin-top: -40px;
+	width: 100%;
+	display: block;	
+}
+.herowrapper h1 {
+	text-align: center;
+	color: #FFF;
+	font-size: 40px;
+	font-weight: 500;
+}
+.herowrapper h1 a {
+	text-align: center;
+	color: #000;
+	font-size: 40px;
+	font-weight: 500;
+}
+a.scrolldown {
+	display: block;
+	width: 100%;
+	height: 50px;
+	position: absolute;
+	bottom: 0;
+	cursor: pointer;
+}
+.scrolldown .icon {
+	font-size: 20px;
+	text-align: center;
+}
+.scrolldown h3 {
+	text-align: center;
+	font-size: 1.6em;
+	text-transform: uppercase;
+	color: #FFF;
+	font-weight: 200;
+	text-shadow: 4px 4px 8px #000;
+}
+/******************************************************************
+	Mission
+******************************************************************/
+.mission {
+	text-align: center;
+	padding: 5%;
+	font-size: 1em;
+}
+/******************************************************************
+	Special Thanks
+******************************************************************/
+#thanks p {
+	text-align: center;
+    padding: 5%;
+    font-size: 1em;
+
+}
+.thanks li{
+    text-align: center;
+    list-style-type: none;
+    padding: 1%;
+}
+.thanks a {
+	text-align: center;
+	font-size: 1em;
+
+}
+
+/******************************************************************
+	About Us
+******************************************************************/
+div.person {
+	width: 920px;
+	margin: 20px auto;
+}
+div.person img {
+	width: 250px;
+	height: 250px;
+}
+div.person div.info {
+	width: 520px;
+	float: right;
+	padding: 0px 30px;
+}
+a.socialicon {
+	background-repeat: no-repeat;
+	display: inline;
+	width: 30px;
+	height: 30px;
+	float: left;
+	margin: 20px 10px 0px 0px;
+}
+a.socialicon.linkedin {
+	/*background-position: 0px 0px;*/
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
+}
+a.socialicon.linkedin:hover {
+	/*background-position: 0px -30px;*/
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
+}
+
+a.socialicon.github {
+	/*background-position: -30px 0px;*/
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
+}
+a.socialicon.github:hover {
+	/*background-position: -30px 0px;*/
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
+}
+a.socialicon.twitter {
+	margin-top: 4.5%;
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
+}
+a.socialicon.twitter:hover {
+	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
+}
+/******************************************************************
+	Contact us
+******************************************************************/
+#contact p{
+	text-align: center;
+	padding: 15%;
+	font-size: 1em;
+}
+#contact a{
+	font-size: 1.2em;
+}
+/******************************************************************
+	Footer
+******************************************************************/
+.footer {
+	width: 100%;
+	margin-top: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	background-color: #6093e7;
+}
+.footer h6 {
+	line-height: 50px;
+	color: #FFF;
+}
+@charset "UTF-8";
+
+@font-face {
+  font-family: "dripicons";
+  src:url("../fonts/dripicons.eot");
+  src:url("../fonts/dripicons.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/dripicons.ttf") format("truetype"),
+    url("../fonts/dripicons.svg#dripicons") format("svg"),
+    url("../fonts/dripicons.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "dripicons";
+  content: attr(data-icon);
+  font-style: normal;
+  font-weight: bold;
+  -webkit-font-feature-settings: normal;
+          font-feature-settings: normal;
+  font-variant: normal;
+  text-transform: none !important;
+  speak: none;
+  display: inline-block;
+  text-decoration: none;
+  width: 1em;
+  line-height: 1em;
+  -webkit-font-smoothing: antialiased;
+}
+
 
 
 :root {
@@ -822,7 +1218,7 @@ body {
 	/* --heading-font-weight: ; */
 }
 
-.sans { font-family: freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif; }
+.sans { font-family: "Open Sans", Verdana, Arial, sans-serif; }
 .serif { font-family: "adriane" ; }
 
 h1 { font-size: 4rem; }
@@ -836,7 +1232,7 @@ td > a { font-weight: normal; }
 .map-container{
     position: relative;
     min-height: 500px;
-    min-height: 50vh;
+    min-height: 500px;
 }
 
 #preview,
@@ -871,7 +1267,7 @@ th {
 }
 
 .blurb {
-    font-size: 120%;
+    font-size: 110%;
 }
 
 td a { color: black; }
@@ -891,11 +1287,11 @@ td a:hover { color: #d82c2c; }
 
 header {
     margin: 3rem 0;
-    position: fixed;
+    position: absolute;
     top:0;
     left: 0;
     height: 100%;
-    width: 30rem;
+    width: 30%;
     padding: 2rem 4rem;
 }
 
@@ -928,6 +1324,11 @@ header {
     border-top:1rem solid #FFF;
 } 
 
+#guide {
+    font-weight: bolder;
+    font-size: 15px;
+} 
+
 .band-red { color: red; }
 .band-green { color: green; }
 .band-blue { color: blue; }
@@ -937,3 +1338,22 @@ header {
     top: 6px;
 }
 
+.newsletter {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.mbx h3 {
+    padding:1%;
+}
+
+.mbx p {
+    font-size: 15px;
+}
+.cheatsheet {
+    padding-top: 10px;
+    padding-bottom: 100px;
+}
+.cheats li {
+    padding-bottom:10px;
+}

@@ -1,5 +1,6 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);								
-									
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+/*THIS PAGE IS STYLING FOR THE LANDING PAGE PRIMARILY*/
+
 /******************************************************************
 	This is the CSS Reset
 ******************************************************************/
@@ -29,7 +30,7 @@ html, body {
 a {
 	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	text-decoration: none;
-	font-size: 8pt;
+	/*font-size: 8pt;*/
 	color: #616161;
 }
 a:hover {
@@ -87,7 +88,7 @@ blockquote {
 	background-color: #f6f6f6;
 	height: 100px;
 	text-align: center;
-	padding-top: 40px;
+	padding: 1.1%;
 	color: #616161;
 	font-weight: 300;
 	font-style: italic;
@@ -101,6 +102,10 @@ blockquote:after {
 	content: '"';
 	font-weight: bold;
 	font-size: 36px;
+}
+#landing {
+	text-align: center;
+	max-width: 100%;
 }
 /******************************************************************
 	Menu
@@ -144,6 +149,16 @@ ul.mainmenu li:hover a {
 ul.mainmenu li.active a {
 	font-weight: bold;
 	color: #6093e7;
+}
+.landingbuttons {
+	background-color: #FFF;
+	text-align: center;
+	width:25%;
+	border-radius: 25px;
+	opacity: .8;
+	margin-bottom: 50px;
+	float: center;
+	border: solid 2px #000;
 }
 
 /******************************************************************
@@ -201,34 +216,27 @@ div.icon {
 	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/background.jpg);
 	background-size: cover;
 }
-.overlay {
-	/*background-image: url(../img/overlay_light_diagonal.png);*/
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background-repeat: repeat;
-}
 .herowrapper {
 	position: absolute;
-	top: 50%;
+	padding: 3%;
+	top: 45%;
+	left:35%;
 	height: 40px;
 	margin-top: -40px;
 	width: 100%;
+	display: block;	
 }
 .herowrapper h1 {
 	text-align: center;
 	color: #FFF;
 	font-size: 40px;
 	font-weight: 500;
-	text-shadow: 4px 4px 8px #000;
 }
 .herowrapper h1 a {
 	text-align: center;
-	color: #FFF;
+	color: #000;
 	font-size: 40px;
 	font-weight: 500;
-	text-shadow: 4px 4px 8px #000;
-	
 }
 a.scrolldown {
 	display: block;

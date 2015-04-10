@@ -9,6 +9,9 @@
 @import 'tables.css';
 @import 'layout.css';
 @import 'flexbox.css';
+@import 'style.css';
+@import 'webfont.css';
+
 
 
 :root {
@@ -37,7 +40,7 @@ td > a { font-weight: normal; }
 .map-container{
     position: relative;
     min-height: 500px;
-    min-height: 50vh;
+    min-height: 500px;
 }
 
 #preview,
@@ -72,7 +75,7 @@ th {
 }
 
 .blurb {
-    font-size: 120%;
+    font-size: 110%;
 }
 
 td a { color: black; }
@@ -92,11 +95,11 @@ td a:hover { color: #d82c2c; }
 
 header {
     margin: 3rem 0;
-    position: fixed;
+    position: absolute;
     top:0;
     left: 0;
     height: 100%;
-    width: 30rem;
+    width: 30%;
     padding: 2rem 4rem;
 }
 
@@ -125,6 +128,11 @@ header {
     border-top:1rem solid #FFF;
 } 
 
+#guide {
+    font-weight: bolder;
+    font-size: 15px;
+} 
+
 .band-red { color: red; }
 .band-green { color: green; }
 .band-blue { color: blue; }
@@ -134,3 +142,22 @@ header {
     top: 6px;
 }
 
+.newsletter {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.mbx h3 {
+    padding:1%;
+}
+
+.mbx p {
+    font-size: 15px;
+}
+.cheatsheet {
+    padding-top: 10px;
+    padding-bottom: 100px;
+}
+.cheats li {
+    padding-bottom:10px;
+}
