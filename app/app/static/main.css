@@ -1019,7 +1019,7 @@ a.scroll {
 	display: block;
 }
 div.icon {
-	font-size: 80px;
+	font-size: 100px;
 	color: #FFF;
 }
 
@@ -1061,7 +1061,7 @@ a.scrolldown {
 	width: 100%;
 	height: 50px;
 	position: absolute;
-	bottom: 10;
+	bottom: 25;
 	cursor: pointer;
 }
 .scrolldown .icon {
@@ -1177,36 +1177,6 @@ a.socialicon.twitter:hover {
 .footer h6 {
 	line-height: 50px;
 	color: #FFF;
-}
-@charset "UTF-8";
-
-@font-face {
-  font-family: "dripicons";
-  src:url("../fonts/dripicons.eot");
-  src:url("../fonts/dripicons.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/dripicons.ttf") format("truetype"),
-    url("../fonts/dripicons.svg#dripicons") format("svg"),
-    url("../fonts/dripicons.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-
-}
-
-[data-icon]:before {
-  font-family: "dripicons";
-  content: attr(data-icon);
-  font-style: normal;
-  font-weight: bold;
-  -webkit-font-feature-settings: normal;
-          font-feature-settings: normal;
-  font-variant: normal;
-  text-transform: none !important;
-  speak: none;
-  display: inline-block;
-  text-decoration: none;
-  width: 1em;
-  line-height: 1em;
-  -webkit-font-smoothing: antialiased;
 }
 
 
