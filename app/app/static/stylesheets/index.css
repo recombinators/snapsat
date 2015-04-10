@@ -176,7 +176,7 @@ header {
     padding-top: .5em;
     overflow: scroll;
     height: 15em;
-    border: solid 1px #000;
+    border: solid 1px #000; 
     border-radius: 5px;
 }
 .cheats li {
