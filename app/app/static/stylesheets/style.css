@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+@charset "UTF-8";
 /*THIS PAGE IS STYLING FOR THE LANDING PAGE PRIMARILY*/
 
 /******************************************************************
@@ -17,6 +18,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 body {
 	line-height: 1;
+	overflow-x: hidden;
 }
 html, body {
 	width: 100%;
@@ -359,4 +361,3 @@ a.socialicon.twitter:hover {
 	line-height: 50px;
 	color: #FFF;
 }
-
