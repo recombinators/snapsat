@@ -822,6 +822,7 @@ body {
 		margin-right: 2rem;
 	}
 }
+@charset "UTF-8";
 /*THIS PAGE IS STYLING FOR THE LANDING PAGE PRIMARILY*/
 
 /******************************************************************
@@ -1337,7 +1338,6 @@ header {
     position: relative;
     top: 6px;
 }
-
 .newsletter {
     font-size: 15px;
     font-weight: bold;
