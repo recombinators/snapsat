@@ -2,7 +2,6 @@ function graph(graphId, type) {
 
     var id = '#'.concat(graphId);
 
-    var parentId = $(id).parent().attr('id');
     var height = 20;
     var stroke_width = 1;
     var box_fill = "#FFF";
@@ -20,14 +19,14 @@ function graph(graphId, type) {
     var widthNorm = 2294;
 
     var bandLegend = {};
-    bandLegend["1"] = "Coastal aerosol";
-    bandLegend["2"] = "Blue";
-    bandLegend["3"] = "Green";
-    bandLegend["4"] = "Red";
-    bandLegend["5"] = "Near Infrared (NIR)";
-    bandLegend["6"] = "SWIR 1";
-    bandLegend["7"] = "SWIR 2";
-    bandLegend["9"] = "Cirrus";
+    bandLegend["1"] = "Band 1: Coastal aerosol";
+    bandLegend["2"] = "Band 2: Blue";
+    bandLegend["3"] = "Band 3: Green";
+    bandLegend["4"] = "Band 4: Red";
+    bandLegend["5"] = "Band 5: Near Infrared (NIR)";
+    bandLegend["6"] = "Band 6: SWIR 1";
+    bandLegend["7"] = "Band 7: SWIR 2";
+    bandLegend["9"] = "Band 9: Cirrus";
 
 
     if(type == "reference"){
@@ -106,13 +105,14 @@ function graph(graphId, type) {
         .attr("height", height + stroke_width)
         .attr('class', 'spectrumMap');
 
+        var yoffset = $(id).parent().find($("img")).height();
         var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([0, 0])
+        .offset([3 * yoffset / 4, 0])
         .html(
-            "<p>" + bandLegend[String(red_band)] + " mapped to Red" + "</p>"+
-            "<p>" + bandLegend[String(green_band)] + " mapped to Green" + "</p>"+
-            "<p>" + bandLegend[String(blue_band)] + " mapped to Blue" + "</p>"
+            "<p>" + bandLegend[String(red_band)] + " ----> Band 4: Red" + "</p>"+
+            "<p>" + bandLegend[String(green_band)] + " ----> Band 3: Green" + "</p>"+
+            "<p>" + bandLegend[String(blue_band)] + " ----> Band 2: Blue" + "</p>"
             );
 
         svgBar.call(tip);
