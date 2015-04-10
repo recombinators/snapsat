@@ -40,7 +40,7 @@ td > a { font-weight: normal; }
 .map-container{
     position: relative;
     min-height: 500px;
-    min-height: 50vh;
+    min-height: 500px;
 }
 
 #preview,

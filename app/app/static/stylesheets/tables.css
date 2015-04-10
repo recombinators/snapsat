@@ -24,12 +24,12 @@ tr {
 	border-bottom: 2px solid #f4f4f4; 
 }
 .date {
-    width: 32%;
-}
-.pathrow {
-    width: 5%;
+    width: 40%;
 }
 .cloud {
-    width: 16%;
+    /*width: 50%;*/
+    float: left;
 }
-
+.datecloud {
+    width:100px;
+}

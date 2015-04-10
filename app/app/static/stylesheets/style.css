@@ -30,7 +30,7 @@ html, body {
 a {
 	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	text-decoration: none;
-	font-size: 8pt;
+	/*font-size: 8pt;*/
 	color: #616161;
 }
 a:hover {

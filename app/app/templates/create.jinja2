@@ -15,37 +15,36 @@
 
 <section class='mbx'>
     <h3 class='red mbn'>Step 2</h3>
-    <h2>Select a date</h2>
+    <h2>Select your location by clicking on a date</h2>
+    <h4>Pro Tip: Take the cloud cover into consideration</h4>
     <table class='column_titles'>
         <thead>
-            <tr>
-                <th class="date">Date acquired</th><th class="pathrow">Path</th><th class="pathrow">Row</th><th class="cloud">Cloud cover</th><th class="idtable">ID</th>
-            </tr>
+
         </thead>
     </table>
     <div id='pathrowgrouping'>
-    {% for group in scenes %}
+        {% for group in scenes %}
         <div>
             <table>
-                <thead class='group_head'>
+                <thead class='group_head'>  
                     <tr>
-                        <th>Path-Row: {{ group[0].path}}-{{group[0].row}}</th><th></th><th></th><th></th><th></th>
+                        <th class="light uppercase h2">Path-Row: {{ group[0].path}}-{{group[0].row}}</th><th></th><th></th><th></th><th></th>
                     </tr>
                 </thead>
                 <tbody>
-                        {% for s in group %}
-                            <tr>
-                                <td>{{ s.acquisitiondate }}</td>
-                                <td>{{ s.path }}</td>
-                                <td>{{ s.row }}</td>
-                                <td>{{ s.cloudcover }}%</td>
-                                <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
-                            </tr>
-                        {% endfor %}
+                    <tr>
+                        <th class="date">Date acquired</th><th class="cloud">Cloud cover</th>
+                    </tr>
+                    {% for s in group %}
+                    <tr>
+                        <td class="datetbl"><a href='/scene/{{ s.entityid }}'>{{ s.acquisitiondate }}</a></td>
+                        <td>{{ s.cloudcover }}%</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </section>
 

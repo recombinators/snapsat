@@ -52,7 +52,7 @@ p {
 
 /* Set default blockquote styles */
 blockquote {
-	font-style: italic;
+	font-family: helvetica;
 	font-size: var(--ms0);
 }
 

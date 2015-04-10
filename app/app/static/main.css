@@ -680,7 +680,7 @@ p {
 
 /* Set default blockquote styles */
 blockquote {
-	font-style: italic;
+	font-family: helvetica;
 	font-size: 1rem;
 }
 
@@ -751,13 +751,14 @@ tr {
 	border-bottom: 2px solid #f4f4f4; 
 }
 .date {
-    width: 32%;
-}
-.pathrow {
-    width: 5%;
+    width: 40%;
 }
 .cloud {
-    width: 16%;
+    /*width: 50%;*/
+    float: left;
+}
+.datecloud {
+    width:100px;
 }
 body {
     margin: 0;
@@ -852,7 +853,7 @@ html, body {
 a {
 	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	text-decoration: none;
-	font-size: 8pt;
+	/*font-size: 8pt;*/
 	color: #616161;
 }
 a:hover {
@@ -1231,7 +1232,7 @@ td > a { font-weight: normal; }
 .map-container{
     position: relative;
     min-height: 500px;
-    min-height: 50vh;
+    min-height: 500px;
 }
 
 #preview,
