@@ -65,14 +65,21 @@ function graph(graphId, type) {
         }
     }
 
-    
 
+    var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+            return "<span>" + d.y + "</span>";
+        });
 
     var svgBar = d3.selectAll(id)
         .append("svg")
         .attr("width", width)
         .attr("height", 2 * (height + stroke_width))
-        .attr('class', 'spectrumMap');
+        .attr('class', 'spectrumMap')
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
     svgBar.append("rect")
         .attr("x", 0 + "px")
