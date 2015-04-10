@@ -1276,6 +1276,7 @@ header {
     height: 15em;
     border: solid 1px #000; 
     border-radius: 5px;
+    width: 100%;
 }
 .cheats li {
     padding: 5%;
