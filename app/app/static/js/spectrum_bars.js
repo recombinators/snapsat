@@ -108,7 +108,7 @@ function graph(graphId, type) {
         var yoffset = $(id).parent().find($("img")).height();
         var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([3 * yoffset / 4, 0])
+        .offset([2 * yoffset / 3, 0])
         .html(
             "<p>" + bandLegend[String(red_band)] + " ----> Band 4: Red" + "</p>"+
             "<p>" + bandLegend[String(green_band)] + " ----> Band 3: Green" + "</p>"+
