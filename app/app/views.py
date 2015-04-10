@@ -118,7 +118,7 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-        # print 'successfully added to preview queue'
+        print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_composite', renderer='json')
@@ -221,7 +221,22 @@ def scene(request):
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))
 
-    return {'scene_id': scene_id, 'composites': composites}
+    # Get scene metadata from path_row table
+    meta_data_list = PathRow.meta_data(scene_id)
+    meta_data = {'scene_id': scene_id,
+                 'acquisitiondate':
+                 meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),
+                 'cloudcover': meta_data_list[1],
+                 'path': meta_data_list[2],
+                 'row': meta_data_list[3],
+                 'min_lat': meta_data_list[4],
+                 'min_lon': meta_data_list[5],
+                 'max_lat': meta_data_list[6],
+                 'max_lon': meta_data_list[7],
+                 'overview_url':
+                 meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
+
+    return {'meta_data': meta_data, 'composites': composites}
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
