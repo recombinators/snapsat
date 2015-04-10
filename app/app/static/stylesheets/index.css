@@ -27,6 +27,7 @@
 body {
     font-size: 18px;
     font-family: var(--copy-font);
+    position: relative;
 }
 
 .sans { font-family: var(--copy-font); }
@@ -93,18 +94,20 @@ td a:hover { color: #d82c2c; }
 }
 
 header {
-    margin: 3rem 0;
-    position: absolute;
+    margin-top: 3rem;
+    position: relative;
     top:0;
     left: 0;
     height: 100%;
-    width: 30%;
-    padding: 2rem 4rem;
+    padding-top:2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-bottom: 0;
 }
 
 .contain {
-    margin-left: 30%;
-    margin-top: 3%;
+    margin-left: 30rem;
+    padding-left: 4rem;
 }
 
 .preview-container {
@@ -157,29 +160,22 @@ header {
     border: solid 2px #000;
 }
 
-.mbx h3 {
-    padding:1%;
-}
-
 .cheatsheet {
     margin-top: 10%;
     padding-bottom: 10%;
-
 }
 .cheats  {
-    width: 15em;
     padding-bottom:10px;
-    padding-left: 1em;
+    padding-left: 0;
     padding-top: .5em;
     overflow: scroll;
     height: 15em;
-    border: solid 1px #000; 
     border-radius: 5px;
     width: 100%;
 }
 .cheats li {
-    padding: 5%;
-    border-bottom: solid 1px #000;
+    padding: 0.25em 0.5em;
+    border-bottom: solid 1px #444;
 }
 
 .flex-container {
@@ -194,4 +190,20 @@ header {
 
 select {
     height: 1.5rem;
+}
+
+.left {
+    float: left;
+}
+
+.sidebar {
+    background: #f6f6f6;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30rem;
+}
+
+.d3-container {
+    background: red;
 }

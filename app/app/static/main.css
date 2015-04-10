@@ -783,30 +783,30 @@ body {
 
 
 /* Default variables */
-button,
-.button {
-    font-size: .875rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    display: inline-block;
-    box-sizing: border-box;
-    line-height: 1.125rem;
-    padding: .5rem 1rem;
-    margin: 0;
-    height: auto;
-    border: 1px solid transparent;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    color: #000;
-    transition: 0.2s ease;
-}
+/* button, */
+/* .button { */
+/*     font-size: .875rem; */
+/*     font-weight: 600; */
+/*     text-decoration: none; */
+/*     cursor: pointer; */
+/*     display: inline-block; */
+/*     box-sizing: border-box; */
+/*     line-height: 1.125rem; */
+/*     padding: .5rem 1rem; */
+/*     margin: 0; */
+/*     height: auto; */
+/*     border: 1px solid transparent; */
+/*     vertical-align: middle; */
+/*     -webkit-appearance: none; */
+/*     color: #000; */
+/*     transition: 0.2s ease; */
+/* } */
 
-button:hover,
-.button:hover {
-    background: #eee;
-    transition: 0.2s ease;
-}
+/* button:hover, */
+/* .button:hover { */
+/*     background: #eee; */
+/*     transition: 0.2s ease; */
+/* } */
 /* Flexbox */
 .flex-container {
 	display: -webkit-flex;
@@ -1124,6 +1124,7 @@ a.socialicon.twitter:hover { background-image: url(http://snapsatstatic.s3-us-we
 body {
     font-size: 18px;
     font-family:freight-sans-pro, verdana, arial, sans-serif;
+    position: relative;
 }
 
 .sans { font-family:freight-sans-pro, verdana, arial, sans-serif; }
@@ -1190,18 +1191,20 @@ td a:hover { color: #d82c2c; }
 }
 
 header {
-    margin: 3rem 0;
-    position: absolute;
+    margin-top: 3rem;
+    position: relative;
     top:0;
     left: 0;
     height: 100%;
-    width: 30%;
-    padding: 2rem 4rem;
+    padding-top:2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-bottom: 0;
 }
 
 .contain {
-    margin-left: 30%;
-    margin-top: 3%;
+    margin-left: 30rem;
+    padding-left: 4rem;
 }
 
 .preview-container {
@@ -1258,29 +1261,22 @@ header {
     border: solid 2px #000;
 }
 
-.mbx h3 {
-    padding:1%;
-}
-
 .cheatsheet {
     margin-top: 10%;
     padding-bottom: 10%;
-
 }
 .cheats  {
-    width: 15em;
     padding-bottom:10px;
-    padding-left: 1em;
+    padding-left: 0;
     padding-top: .5em;
     overflow: scroll;
     height: 15em;
-    border: solid 1px #000; 
     border-radius: 5px;
     width: 100%;
 }
 .cheats li {
-    padding: 5%;
-    border-bottom: solid 1px #000;
+    padding: 0.25em 0.5em;
+    border-bottom: solid 1px #444;
 }
 
 .flex-container {
@@ -1301,4 +1297,20 @@ header {
 
 select {
     height: 1.5rem;
+}
+
+.left {
+    float: left;
+}
+
+.sidebar {
+    background: #f6f6f6;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30rem;
+}
+
+.d3-container {
+    background: red;
 }

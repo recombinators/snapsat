@@ -1,5 +1,8 @@
-<div class='graph' id='reference'></div>
-<h2>Generate a full render</h2>
+<div class='d3-container'>
+    <div class='graph' id='reference'></div>
+</div>
+
+<h2>View existing composite previews</h2>
 <div class='preview-container'>
 
     {% for band_combo, composite in composites.iteritems() %}
@@ -44,14 +47,12 @@
             <!-- Display a button that causes a full render to be queued. -->
             {% else %}
             <p>
-                <strong class='red'>
-                    <form method="post">
-                        <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
-                        <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
-                        <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
-                        <button formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Request a full render.</button>
-                    </form>
-                </strong>
+                <form method="post">
+                    <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                    <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                    <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                    <button formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit">Request a full render.</button>
+                </form>
             </p>
             {% endif %}
         </div> <!-- nofull -->
