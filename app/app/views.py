@@ -60,7 +60,6 @@ def create(request):
     return scene_options_ajax(request)
 
 
-
 def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
@@ -222,10 +221,21 @@ def scene(request):
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))
 
-    aws_img = "http://landsat-pds.s3.amazonaws.com/L{}/{}/{}/{}/{}_thumb_small.jpg".format(
-               scene_id[2], scene_id[3:6], scene_id[6:9], scene_id, scene_id)
+    # Get scene metadata from path_row table
+    meta_data_list = PathRow.meta_data(scene_id)
+    meta_data = {'acquisitiondate': meta_data_list[0].strftime(
+                 '%Y %m %d %H:%M:%S'),
+                 'cloudcover': meta_data_list[1],
+                 'path': meta_data_list[2],
+                 'row': meta_data_list[3],
+                 'min_lat': meta_data_list[4],
+                 'min_lon': meta_data_list[5],
+                 'max_lat': meta_data_list[6],
+                 'max_lon': meta_data_list[7],
+                 'download_url':
+                 meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
 
-    return {'scene_id': scene_id, 'composites': composites}
+    return {'meta_data': meta_data, 'composites': composites}
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
