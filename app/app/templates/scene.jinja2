@@ -1,29 +1,55 @@
 {% extends "base.jinja2" %}
 
 {% block scripts %}
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.css' rel='stylesheet' />
-    <script src="http://d3js.org/d3.v3.js"></script>
-    <script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
 {% endblock %}
 
 {% block content %}
 
     <section class='mbx'>
-        <h2>Preview your selection: {{ scene_id }}</h2>
+        
+
+    <section class='mbx'>
+        <div id="metadata">
+            <h2>Scene ID: {{ scene_id }}</h2>
+        </div>
+        <h3 class='mbn red'></h3>
+        <h2>Generate a new image</h2>
+        <form method="post" id="request_form_{{scene_id}}">
+            <div id='combinations'>
+                <select name='band1' id='band1' required>
+                    <option selected value=''>Select Red Band</option>
+                </select>
+                <select name='band2' id='band2' required>
+                    <option selected value=''>Select Green Band</option>
+                </select>
+                <select name='band3' id='band3' required>
+                    <option selected value=''>Select Blue Band</option>
+                </select>
+            </div>
+
+            <div class='inline-block clearfix'>
+                <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+            </div>
+        </form>
+
         <div class='graph' id='reference'></div>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
                 <div class='preview' id='{{ band_combo }}'>
                     <h2 class='composite-description mbn'>
-                        <span class='band-blue'>{{ composite.band1 }}</span> 
+                        <span class='band-red'>{{ composite.band1 }}</span>
                         <span class='band-green'>{{ composite.band2 }}</span> 
-                        <span class='band-red'>{{ composite.band3 }}</span>
+                        <span class='band-blue'>{{ composite.band3 }}</span>
                     </h2>
                     <div class='graph' id='graph{{composite.previewjobid}}'></div>
                     <div id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
-                            <img src="{{ composite.previewurl }}">
+                            <a href="{{ composite.preview }}"><img src="{{ composite.previewurl }}"></a>
                         {% else %}
                             <div class='nopreview' id='{{composite.previewjobid}}'>
                                 <div class="loading"><img src="/static/img/no_preview.gif"></div>
@@ -40,7 +66,7 @@
                                     <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
                                 {% endif %}
                             {% else %}
-                                <p>Current status:
+                                <p>
                                     <strong class='red'>
                                         <form method="post">
                                             <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
@@ -57,29 +83,5 @@
             {% endfor %}
         </div> <!-- preview-container -->
     </section>
-
-    <section class='mbx'>
-        <h2>Generate a new image</h2>
-        <form method="post" id="request_form_{{scene_id}}">
-            <div id='combinations'>
-                <select name='band1' id='band1' required>
-                    <option selected value=''>Select Blue Band</option>
-                </select>
-                <select name='band2' id='band2' required>
-                    <option selected value=''>Select Green Band</option>
-                </select>
-                <select name='band3' id='band3' required>
-                    <option selected value=''>Select Red Band</option>
-                </select>
-            </div>
-
-            <div class='inline-block clearfix'>
-                <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
-                <button form="request_form_{{scene_id}}" formaction="/request_composite/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-right">Render Full Image</button>
-            </div>
-        </form>
-    </section>
-
-    <script type='text/javascript' src='/static/js/band.js'></script>
 
 {% endblock %}

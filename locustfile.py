@@ -43,43 +43,52 @@ class UserBehavior(TaskSet):
                                         data={'lat': self.lat, 'lng': self.lng}
                                              )
 
-        @task(3)
-        def preview(self):
-            """Request preview for random scene."""
-            self.map_move()
-            json_scenes = json.loads(self.response.text)["scenes"][0]
-            num_scenes = len(json_scenes) - 1
-            if num_scenes > 0:
-                random_num = random.randint(0, num_scenes)
-                random_url = json_scenes[random_num]["download_url"]
-                self.client.get(random_url)
-                scene_id = json_scenes[random_num]["entityid"]
-                rand_band = random.choice(["432", "543", "532"])
-                url = "/request_preview/{}".format(scene_id)
-                self.client.post(url=url, data={'band_combo': rand_band})
+        # @task(3)
+        # def preview(self):
+        #     """Request preview for random scene."""
+        #     self.map_move()
+        #     json_scenes = json.loads(self.response.text)["scenes"][0]
+        #     num_scenes = len(json_scenes) - 1
+        #     if num_scenes > 0:
+        #         random_num = random.randint(0, num_scenes)
+        #         random_url = json_scenes[random_num]["download_url"]
+        #         self.client.get(random_url)
+        #         scene_id = json_scenes[random_num]["entityid"]
+        #         band1, band2, band3 = self.random_bands()
+        #         url = "/request_preview/{}".format(scene_id)
+        #         self.client.post(url=url, data={'band1': band1,
+        #                                         'band2': band2,
+        #                                         'band3': band3})
 
-        @task(2)
-        def full(self):
-            """Request full render for random scene."""
-            self.map_move()
-            json_scenes = json.loads(self.response.text)["scenes"][0]
-            num_scenes = len(json_scenes) - 1
-            if num_scenes > 0:
-                random_num = random.randint(0, num_scenes)
-                random_url = json_scenes[random_num]["download_url"]
-                self.client.get(random_url)
-                scene_id = json_scenes[random_num]["entityid"]
-                rand_band = random.choice(["432", "543", "532"])
-                url = "/request_composite/{}".format(scene_id)
-                self.client.post(url=url, data={'band_combo': rand_band})
+        # @task(2)
+        # def full(self):
+        #     """Request full render for random scene."""
+        #     self.map_move()
+        #     json_scenes = json.loads(self.response.text)["scenes"][0]
+        #     num_scenes = len(json_scenes) - 1
+        #     if num_scenes > 0:
+        #         random_num = random.randint(0, num_scenes)
+        #         random_url = json_scenes[random_num]["download_url"]
+        #         self.client.get(random_url)
+        #         scene_id = json_scenes[random_num]["entityid"]
+        #         band1, band2, band3 = self.random_bands()
+        #         url = "/request_composite/{}".format(scene_id)
+        #         self.client.post(url=url, data={'band1': band1,
+        #                                         'band2': band2,
+        #                                         'band3': band3})
 
         @task(1)
         def stop(self):
             """Stop class."""
             self.interrupt()
 
+        def random_bands(self):
+            """Return 3 random bands (non-repeating) from possible bands."""
+            choices = [1, 2, 3, 4, 5, 6, 7, 9]
+            return random.sample(choices, 3)
+
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 500
-    max_wait = 1000
+    min_wait = 1500
+    max_wait = 5000
