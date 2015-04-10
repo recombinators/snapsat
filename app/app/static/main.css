@@ -978,6 +978,10 @@ ul.mainmenu li.active a {
 	border: solid 2px #000;
 	box-shadow: 3px 3px 3px #000;
 }
+.landingbuttons:hover {
+	box-shadow: 1px 1px 3px #000;
+	opacity: .7;
+}
 
 /******************************************************************
 	Colors
