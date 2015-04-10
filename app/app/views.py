@@ -223,8 +223,9 @@ def scene(request):
 
     # Get scene metadata from path_row table
     meta_data_list = PathRow.meta_data(scene_id)
-    meta_data = {'acquisitiondate': meta_data_list[0].strftime(
-                 '%Y %m %d %H:%M:%S'),
+    meta_data = {'scene_id': scene_id,
+                 'acquisitiondate':
+                 meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),
                  'cloudcover': meta_data_list[1],
                  'path': meta_data_list[2],
                  'row': meta_data_list[3],
@@ -232,7 +233,7 @@ def scene(request):
                  'min_lon': meta_data_list[5],
                  'max_lat': meta_data_list[6],
                  'max_lon': meta_data_list[7],
-                 'download_url':
+                 'overview_url':
                  meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
 
     return {'meta_data': meta_data, 'composites': composites}

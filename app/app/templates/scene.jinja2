@@ -15,28 +15,50 @@
     </section>
 
     <section class='mbx'>
-        <div id="metadata">
-            <h2>Scene ID: {{ scene_id }}</h2>
-        </div>
-        <h3 class='mbn red'></h3>
-        <h2>Generate a new image</h2>
-        <form method="post" id="request_form_{{scene_id}}">
-            <div id='combinations'>
-                <select name='band1' id='band1' required>
-                    <option selected value=''>Select Red Band</option>
-                </select>
-                <select name='band2' id='band2' required>
-                    <option selected value=''>Select Green Band</option>
-                </select>
-                <select name='band3' id='band3' required>
-                    <option selected value=''>Select Blue Band</option>
-                </select>
+        <section id="scene_info">
+            <style>
+                #column_two{
+                    vertical-align: top
+                }
+            </style>
+            <div id="overview_image" class="display-inline-block">
+                <img src="{{ meta_data.overview_url }}">
             </div>
+            <div id="column_two" class="display-inline-block">
+                <div id="metadata">
+                    <table>
+                        <thead class='group_head'><tr><th class="light uppercase h2">Metadata</th></tr></thead>
+                        <tr><td>ID:</td><td>{{ meta_data.scene_id }}</td></tr>
+                        <tr><td>Acquistion Date and Time:</td><td>{{ meta_data.acquisitiondate }}</td></tr>
+                        <tr><td>Cloud Cover:</td><td>{{ meta_data.cloudcover }}%</td></tr>
+                        <tr><td>Minimum/Maximum Latitude:</td><td>{{ meta_data.min_lat }}/{{ meta_data.max_lat }}</td></tr>
+                        <tr><td>Minimum/Maximum Longitude:</td><td>{{ meta_data.min_lon }}/{{ meta_data.max_lon }}</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                    <h2>Generate a new image</h2>
+                        <form method="post" id="request_form_{{meta_data.scene_id}}">
+                            <div id='combinations'>
+                                <select name='band1' id='band1' required>
+                                    <option selected value=''>Select Red Band</option>
+                                </select>
+                                <select name='band2' id='band2' required>
+                                    <option selected value=''>Select Green Band</option>
+                                </select>
+                                <select name='band3' id='band3' required>
+                                    <option selected value=''>Select Blue Band</option>
+                                </select>
+                            </div>
 
-            <div class='inline-block clearfix'>
-                <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+                            <div class='inline-block clearfix'>
+                                <button form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+                            </div>
+                        </form>
+                    </table>
+                </div>
             </div>
-        </form>
+        </section>
         <div class='graph' id='reference'></div>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
