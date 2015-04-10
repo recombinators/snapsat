@@ -1,9 +1,9 @@
 <!-- Display metadata on the selected scene. -->
 <section class='mbx'>
     <h2>Your selection</h2>
-    <img src='{{ meta_data.overview_url }}'>
+    <img class='display-inline-block' src='{{ meta_data.overview_url }}'>
 
-    <ul id='metadata' class='hanging'>
+    <ul id='metadata' class='hanging display-inline-block'>
         <li>ID:{{ meta_data.scene_id }}</li>
         <li>Acquistion Date and Time:{{ meta_data.acquisitiondate }}</li>
         <li>Cloud Cover:{{ meta_data.cloudcover }}%</li>
@@ -18,48 +18,62 @@
     <section id='scene_info'>
 
         <!-- Use a prebuilt, common combination. -->
-        <h3>Common combinations</h3>
-        <div id="generate">
+        <div id='generate' class='display-inline-block'>
+            <h3>Common combinations</h3>
             <div class='inline-block clearfix'>
+
+                <form method='post'>
+                        <h4 class="customband">Select your custom band combinations</h4>
+                        <div class="radiobox">
+                            <input type="radio" name="band_combo" value="432" checked>
+                            <label>Normal Colors: 4, 3, 2</label><br>
+                            <input type="radio" name="band_combo" value="543">
+                            <label>See the Heat: 5, 4, 3</label><br>
+                            <input type="radio" name="band_combo" value="532">
+                            <label>Veggie Popping: 5, 3, 2</label><br>
+                        </div>
+                    <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Create a preview</button>
+                </form>
+
                 <form method="post">
                     <input type="hidden" name='band1' value="4"/>
                     <input type="hidden" name='band2' value="3"/>
                     <input type="hidden" name='band3' value="2"/>
-                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Natural Color</button>
+                    <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Natural Color</button>
                 </form>
                 <form method="post">
                     <input type="hidden" name='band1' value="2"/>
                     <input type="hidden" name='band2' value="5"/>
                     <input type="hidden" name='band3' value="9"/>
-                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Make Me Something Pretty</button>
+                    <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Make Me Something Pretty</button>
                 </form>
                 <form method="post">
                     <input type="hidden" name='band1' value="5"/>
                     <input type="hidden" name='band2' value="6"/>
                     <input type="hidden" name='band3' value="4"/>
-                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Land/Water Delination</button>
+                    <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Land/Water Delination</button>
                 </form>
                 <form method="post">
                     <input type="hidden" name='band1' value="7"/>
                     <input type="hidden" name='band2' value="6"/>
                     <input type="hidden" name='band3' value="4"/>
-                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Urban</button>
+                    <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Urban</button>
                 </form>
             </div>
         </div> <!-- Prebuilt combinations -->
 
         <!-- Create a custom combination with any available band. -->
-        <div>
+        <div class='display-inline-block'>
             <h3>Build a custom combination</h3>
             <form method="post" id="request_form_{{meta_data.scene_id}}">
                 <div id='combinations'>
-                    <select name='band1' id='band1' required>
+                    <select class='display-block' name='band1' id='band1' required>
                         <option selected value=''>Select Red Band</option>
                     </select>
-                    <select name='band2' id='band2' required>
+                    <select class='display-block'name='band2' id='band2' required>
                         <option selected value=''>Select Green Band</option>
                     </select>
-                    <select name='band3' id='band3' required>
+                    <select class='display-block' name='band3' id='band3' required>
                         <option selected value=''>Select Blue Band</option>
                     </select>
                 </div>

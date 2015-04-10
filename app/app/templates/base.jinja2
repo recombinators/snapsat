@@ -15,31 +15,30 @@
                 <img src='/static/logo-dark-red.svg'>
                 <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
                 <p class='mbl book blurb'>The easiest way to create custom Landsat band composites.</p>
-                <p class='light'>The Landsat 8 satellite provides a means of seeing light outside the visible spectrum, allowing us to see what would otherwise be invisible to the naked eye. Learn more by reading our <a id="guide" href='/guide'>Guide</a>.</p>
+
+                <nav class='mbm'>
+                    <p class='mbn'>Navigation</p>
+                    <ul class='hanging man'>
+                        <li class='display-inline-block'><a href='/'>Home</a></li>
+                        <li class='display-inline-block'><a href='/create'>Create</a></li>
+                        <li class='display-inline-block'><a href='/guide'>Guide</a></li>
+                    </ul>
+                </nav>
+
+                <section class='mbm'>
+                    <form action="https://tinyletter.com/landsat-club" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/landsat-club', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+                        <p class='mbn display-inline'><label for="tlemail">Join our newsletter</label></p>
+                        <p><input type="text" style="width:140px" name="email" id="tlemail" /></p>
+                        <input type="hidden" value="1" name="embed"/>
+                        <input class='display-inline' type="submit" value="Subscribe" />
+                    </form>
+                </section>
 
                 <section class='attribution'>
-                    <p class="uppercase">Built by:</p>
-                    <ul class='hanging'>
-                        <li class='display-inline'><a href='/#constantine'>Constantine Hatzis</a></li>
-                        <li class='display-inline'><a href='/#jacques'>Jacques Tardie</a></li>
-                        <li class='display-inline'><a href='/#jake'>Jake Anderson</a></li>
-                        <li class='display-inline'><a href='/#joel'>Joel Stanner</a></li>
-                        <li class='display-inline'><a href='/#mark'>Mark Saiget</a></li>
-                    </ul>
+                    <p class='mbn'>Built by:</p>
+                    <p><a href='/#constantine'>Constantine,</a> <a href='/#jacques'>Jacques,</a> <a href='/#jake'>Jake,</a> <a href='/#joel'>Joel</a> & <a href='/#mark'>Mark</a></p>
                 </section>
 
-                <section >
-                    <p><a class='newsletter' href='https://tinyletter.com/snapsat'>Interested in seeing a 'Pro' version? Click here to join our mailing list!</a></p>
-                </section>
-                <div class="cheatsheet">
-                    <ul class="cheats">
-                        <li>Band 1: Good for smoke and haze, or health of the ocean.</li>
-                        <li>Bands 2, 3, 4: Good ol Red, Green, and Blue</li>
-                        <li>Band 5: Health of plants.</li>
-                        <li>Bands 6 and 7: Depth of water.</li>
-                        <li>Band 9: Catches very high cirrus clouds</li>
-                    </ul>
-                </div>
             </header>
         {% endblock %}
 

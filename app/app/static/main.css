@@ -783,6 +783,22 @@ body {
 
 
 /* Default variables */
+button,
+.buttons {
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    box-sizing: border-box;
+    line-height: 1.125rem;
+    padding: .5rem 1rem;
+    margin: 0;
+    height: auto;
+    border: 1px solid transparent;
+    vertical-align: middle;
+    -webkit-appearance: none;
+}
 /* Flexbox */
 .flex-container {
 	display: -webkit-flex;
@@ -1219,4 +1235,20 @@ header {
 }
 .cheats li {
     padding-bottom:10px;
+}
+
+.flex-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap
+}
+.flex-child {
+    width: 30%;
+}
+
+.display-inline-block {
+    vertical-align: top;
 }
