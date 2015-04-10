@@ -3,9 +3,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Snapsat, where wondering becomes knowing</title>
         <!-- Load CSS -->
-        <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+        <link rel='stylesheet' href='/static/main.css'>
         <!-- Load Icon Font -->
-        <link href="/static/css/webfont.css" rel="stylesheet" type="text/css" />
+        <link href="/static/stylesheets/webfont.css" rel="stylesheet" type="text/css" />
         <!-- Load jQuery library -->
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <!-- Load jCarousel js -->
@@ -33,10 +33,10 @@
         <!-- Start Home -->
         <a class="scroll" id="home"></a>
         <div class="home hero">
-            <div class="overlay"></div>
+            <!-- <div class="overlay"></div> -->
             <div class="herowrapper">
-                <!-- <h1>We are currently under construction, please come back soon!</h1> -->
-                <h1><a href='/create'>Get started</a></h1>
+                <h1 class="landingbuttons"><a href='/guide'>Snapsat 101</a></h1>
+                <h1 class="landingbuttons"><a href='/create'>Get started<span class='h3 red uppercase'>Beta</span></a></h1>
             </div>
             <a href="javascript:void(0);" class="scrolldown">
                 <h3>More about Snapsat</h3>
@@ -45,8 +45,8 @@
         </div>
         <!-- End Home -->
         <!-- Start BlockQuote -->
-        <div class="blockquote main">
-            <blockquote>The earth is a beautiful place. Now everyone can see it.</blockquote>
+        <div class="blockquote main bold">
+            <blockquote>The earth is a big place. But not to us.</blockquote>
         </div>
         <!-- End BlockQuote -->
         <!-- Start Section Divider -->
@@ -58,7 +58,7 @@
         <!-- End Section Divider -->
         <!-- Start Content -->
         <div class="content">
-            <p class="mission">Here at Snapsat, our mission is to take the freely availible Landsat images, generously provided by Amazon, and deliver them to you in a fast, reliable, easy-to-use format.</p>
+            <p class="mission" id="landing">Here at Snapsat, our mission is to take the freely availible Landsat images, generously provided by Amazon, and deliver them to you in a fast, reliable, easy-to-use format.</p>
         </div>
         <!-- End Content -->
 
@@ -70,7 +70,7 @@
         <!-- End Section Divider -->
         <!-- Start Content -->
         <div class="content" id="thanks">
-            <p>We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank Amazon for making all of this data open and availible for us to utilize.</p>
+            <p id="landing">We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank Amazon for making all of this data open and availible for us to utilize.</p>
             <ol class="thanks">
                 <li><a href="http://aws.amazon.com/s3/">Amazon S3</a></li>
                 <li><a href="http://aws.amazon.com/rds/">Amazon RDS</a></li>
@@ -88,7 +88,7 @@
         </div>
         <!-- End Content -->
         <!-- Start Section Divider -->
-        <div class="section divider">
+        <div class="section divider" id="about">
             <h2>Our Team</h2>
             <a class="scroll" id="about"></a>
         </div>
@@ -99,12 +99,13 @@
 
 
             <!-- Start Person Block -->
+            <p style="position:relative;"><a name="anchor" id="constantine" style="position:absolute; top:-100px;"></a></p>
             <div class="person">
                 <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/constantine.jpg">
                 <div class="info">
                     <h2>Constantine Hatzis</h2>
                     <h4 class="light-gray">CEO</h4>
-                    <p>Is a engineer with the degree's to prove it.</p>
+                    <p>Mechanical/aerospace engineer and perpetual student turned Python developer.</p>
                     <a href="https://www.linkedin.com/in/constantinedhatzis/en" class="socialicon linkedin"></a>
                     <a href="https://github.com/constanthatz" class="socialicon github"></a>
                 </div>
@@ -114,6 +115,7 @@
             <!-- End Person Block -->
 
             <!-- Start Person Block -->
+            <p style="position:relative;"><a name="anchor" id="jacques" style="position:absolute; top:-100px;"></a></p>
             <div class="person">
                 <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/jacques.jpg">
                 <div class="info">
@@ -129,6 +131,7 @@
             <!-- End Person Block -->
 
             <!-- Start Person Block -->
+            <p style="position:relative;"><a name="anchor" id="jake" style="position:absolute; top:-100px;"></a></p>
             <div class="person">
                 <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/jake.jpg">
                 <div class="info">
@@ -145,6 +148,7 @@
             <!-- End Person Block -->
 
             <!-- Start Person Block -->
+            <p style="position:relative;"><a name="anchor" id="joel" style="position:absolute; top:-100px;"></a></p>
             <div class="person">
                 <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/joel.jpg">
                 <div class="info">
@@ -162,6 +166,7 @@
             <!-- End Person Block -->
 
             <!-- Start Person Block -->
+            <p style="position:relative;"><a name="anchor" id="mark" style="position:absolute; top:-100px;"></a></p>
             <div class="person">
                 <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/mark.jpg">
                 <div class="info">
@@ -187,7 +192,7 @@
         <!-- End Section Divider -->
         <!-- Start Content -->
         <div class="content" id="contact">
-            <p>If you would like to contact us please feel free to hit us up on <a href="https://twitter.com/therealsnapsat">Twitter</a><br> or email us at <a href="mailto:snapsat@snapsat.com">Snapsat@snapsat.com</a></p>
+            <p id="landing">If you would like to contact us please feel free to hit us up on <a href="https://twitter.com/therealsnapsat">Twitter</a><br> or email us at <a href="mailto:snapsat@snapsat.com">Snapsat@snapsat.com</a></p>
         </div>
         <!-- End Content -->
         <footer class="footer">

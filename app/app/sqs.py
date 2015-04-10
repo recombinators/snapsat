@@ -119,23 +119,3 @@ def send_message(conn, queue, message_content, message_attributes=None):
     return conn.send_message(queue=queue,
                              message_content=message_content,
                              message_attributes=message_attributes)
-
-if __name__ == '__main__':
-    import os
-
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    LANDSAT_JOBS_QUEUE = 'landsat_jobs_queue'
-    REGION = 'us-west-2'
-
-    conn = make_SQS_connection(REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-    queue = get_queue(conn, LANDSAT_JOBS_QUEUE)
-    message = build_job_message(job_id=1, email='test@test.com', scene_id='LC80470272015005LGN00',
-                                band_1=4, band_2=3, band_3=2)
-    send_message(conn, queue, message['body'], message['attributes'])
-    print(queue_size(queue))
-    message = get_message(queue)
-    attrs = get_attributes(message)
-    print(attrs)
-    print(delete_message_from_handle(conn, queue, message[0]))
-    print(queue_size(queue))
