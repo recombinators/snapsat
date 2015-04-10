@@ -4,7 +4,7 @@ function graph(graphId, type) {
 
     var height = 20;
     var stroke_width = 1;
-    var box_fill = "#FFF";
+    var box_fill = "#000";
     var stroke_color = "#000";
 
     var font_size = 8;
@@ -96,8 +96,6 @@ function graph(graphId, type) {
                 waveLengths[j][3] = blue_color;
             }else if(waveLengths[j][2] == green_band){
                 waveLengths[j][3] = green_color;
-            }else{
-                waveLengths[j][3] = "black";
             }
         }
 
