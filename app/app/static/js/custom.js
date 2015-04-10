@@ -84,10 +84,6 @@ $(document).ready(function() {
 		}, 2000);
 	});
 
-	// Start Carousel
-	$('#carousellatest').jcarousel();
-	$('#carouselblog').jcarousel();
-
 	// Carousel Hover
 	$('div.section.block').hover(
 		function () {

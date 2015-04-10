@@ -15,15 +15,18 @@
 
 
 :root {
+    /* --copy-font-weight: ; */
+    /* --heading-font-color: ; */
+    /* --heading-font-weight: ; */
 
-	/* --copy-font:	; */
-	/* --copy-font-weight: ; */
+	--copy-font: freight-sans-pro, verdana, arial, sans-serif;
 	--copy-font-color: #666;
-	--heading-font: "adriane" ;
-	/* --heading-font-color: ; */
-	/* --heading-font-weight: ; */
 	--link-color: black;
 	--link-color-hover: #d82c2c;
+}
+
+body {
+    font-family: var(--copy-font);
 }
 
 .sans { font-family: var(--copy-font); }
@@ -35,15 +38,12 @@ h3 { font-size: 1.4rem; }
 
 td > a { font-weight: normal; }
 
-
-.preview-container, 
 .map-container{
     position: relative;
     min-height: 500px;
     min-height: 500px;
 }
 
-#preview,
 #map {
     position: absolute;
     top: 0;
