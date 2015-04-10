@@ -156,9 +156,10 @@ ul.mainmenu li.active a {
 	width:25%;
 	border-radius: 25px;
 	opacity: .8;
-	margin-bottom: 50px;
+	margin-bottom: 40px;
 	float: center;
 	border: solid 2px #000;
+	box-shadow: 3px 3px 3px #000;
 }
 
 /******************************************************************
