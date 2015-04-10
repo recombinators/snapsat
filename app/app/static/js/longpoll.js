@@ -13,7 +13,7 @@ $(document).ready(function(){
                 var newid = '#'.concat(jobId);
                 if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
                     $(newid).html(
-                        "<img src='/static/img/no_preview.png'>");
+                        "<div class='loading'><img src='/static/img/no_preview.gif'></div>");
                 }else{
                     if(info.jobstatus != 'Failed'){
                         $(newid).html(
@@ -26,7 +26,7 @@ $(document).ready(function(){
                     }
                 }
             });
-        });
+        }, intervalTime);
     });
     
     $(".nofull").each(function(){

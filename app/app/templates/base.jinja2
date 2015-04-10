@@ -22,11 +22,11 @@
                 <section class='attribution'>
                     <p>Built by:</p>
                     <ul class='hanging'>
-                        <li><a href=''>Constantine Hatzis</a></li>
-                        <li><a href=''>Jacques Tardie</a></li>
-                        <li><a href=''>Jake Anderson</a></li>
-                        <li><a href=''>Joel Stanner</a></li>
-                        <li><a href=''>Mark Saiget</a></li>
+                        <li><a href='/#constantine'>Constantine Hatzis</a></li>
+                        <li><a href='/#jacques'>Jacques Tardie</a></li>
+                        <li><a href='/#jake'>Jake Anderson</a></li>
+                        <li><a href='/#joel'>Joel Stanner</a></li>
+                        <li><a href='/#mark'>Mark Saiget</a></li>
                     </ul>
                 </section>
 
@@ -45,5 +45,13 @@
         <script type='text/javascript' src='/static/js/ga.js'></script>
 
         {% block scripts %}{% endblock %}
+        <script type="text/javascript">
+            window.doorbellOptions = {
+                appKey: 'OLDTPaZ9FcOO9caWw9jHQxAArJTBEyjoC6ciA9qBrTjmMuaYKy0E2kpzYCfiUTUH'
+            };
+            (function(d, t) {
+                var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/1115?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+            }(document, 'script'));
+        </script>
     </body>
 </html>

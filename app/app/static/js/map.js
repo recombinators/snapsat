@@ -12,7 +12,6 @@ $(document).ready(function(){
     $.each($('.column_titles th'), function(i, value){
                 var wid = $($(".group_head th")[i]).width();
                 $(value).width(wid);
-                console.log($(value).width());
     }); 
 });
 

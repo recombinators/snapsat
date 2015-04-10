@@ -674,6 +674,7 @@ p {
 	font-size: 1rem;
 	max-width: 40rem;
 	margin: 0 0 1rem 0;
+    font-weight: 300;
 }
 
 
@@ -913,7 +914,7 @@ header {
 }
 
 .preview-container > div {
-    max-width: 30rem;
+    max-width: 30%;
     min-width: 20rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
@@ -923,6 +924,16 @@ header {
     font-size: 90%
 }
 
-.group_head{
+.group_head {
     border-top:1rem solid #FFF;
-    } 
+} 
+
+.band-red { color: red; }
+.band-green { color: green; }
+.band-blue { color: blue; }
+
+.graph {
+    position: relative;
+    top: 6px;
+}
+

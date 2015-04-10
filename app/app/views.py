@@ -6,7 +6,7 @@ from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
-import random
+from collections import OrderedDict
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -42,6 +42,14 @@ def landing(request):
     return {}
 
 
+@view_config(route_name='guide', renderer='templates/guide.jinja2')
+def guide(request):
+    """
+    Guide page.
+    """
+    return {}
+
+
 @view_config(route_name='create', renderer='templates/create.jinja2')
 def create(request):
     """
@@ -50,6 +58,7 @@ def create(request):
     lists of scenes for it.
     """
     return scene_options_ajax(request)
+
 
 
 def add_to_queue_composite(request):
@@ -110,30 +119,36 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-        print 'successfully added to preview queue'
+        # print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
     """
     Request both the preview and fullsize images for a particular composite.
+    Redirect to scene page and goto band requested.
     """
     # Add full render and preview job to apprpriate queues
+    bands = (request.params.get('band1') + request.params.get('band2') +
+             request.params.get('band3'))
     add_to_queue_composite(request)
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(
-        request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}#{}'.format(
+        request.matchdict['scene_id'], bands))
 
 
 @view_config(route_name='request_preview', renderer='json')
 def request_preview(request):
     """
     Request the preview image for a particular composite.
+    Redirect to scene page and goto band requested.
     """
     # Add preview render job to apprpriate queues
+    bands = (request.params.get('band1') + request.params.get('band2') +
+             request.params.get('band3'))
     add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}'.format(
-        request.matchdict['scene_id']))
+    return HTTPFound(location='/scene/{}#{}'.format(
+        request.matchdict['scene_id'], bands))
 
 
 @view_config(route_name='scene', renderer='templates/scene.jinja2')
@@ -203,6 +218,10 @@ def scene(request):
                 composites[band_combo].update({'previewjobid': composite.jobid,
                                                'previewurl': composite.renderurl,
                                                'previewstatus': job_status})
+
+    # Order composites by band combination.
+    composites = OrderedDict(sorted(composites.items()))
+
     return {'scene_id': scene_id, 'composites': composites}
 
 
