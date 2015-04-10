@@ -60,7 +60,6 @@ def create(request):
     return scene_options_ajax(request)
 
 
-
 def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
