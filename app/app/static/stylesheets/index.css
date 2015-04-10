@@ -1,4 +1,3 @@
-
 @import 'mapbox.css';
 @import 'normalize.css';
 @import 'reset.css';
@@ -11,8 +10,6 @@
 @import 'layout.css';
 @import 'flexbox.css';
 @import 'style.css';
-@import 'webfont.css';
-
 
 
 :root {
@@ -142,7 +139,6 @@ header {
     position: relative;
     top: 6px;
 }
-
 .cheatsheet {
     padding-top: 10px;
     padding-bottom: 100px;

@@ -7,7 +7,7 @@
 blockquote {
 	font-size: 28px;
 	line-height: 60px;
-	width: 100%;
+	/*width: 100%;*/
 	background-color: #f6f6f6;
 	height: 100px;
 	text-align: center;
@@ -18,12 +18,10 @@ blockquote {
 }
 blockquote:before {
 	content: '"';
-	font-weight: bold;
 	font-size: 36px;
 }
 blockquote:after {
 	content: '"';
-	font-weight: bold;
 	font-size: 36px;
 }
 #landing {
@@ -78,9 +76,10 @@ ul.mainmenu li.active a {
 	width:25%;
 	border-radius: 25px;
 	opacity: .8;
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	float: center;
 	border: solid 2px #000;
+	box-shadow: 3px 3px 3px #000;
 }
 
 /******************************************************************
@@ -123,7 +122,7 @@ a.scroll {
 	display: block;
 }
 div.icon {
-	font-size: 80px;
+	font-size: 100px;
 	color: #FFF;
 }
 
@@ -165,7 +164,7 @@ a.scrolldown {
 	width: 100%;
 	height: 50px;
 	position: absolute;
-	bottom: 0;
+	bottom: 25;
 	cursor: pointer;
 }
 .scrolldown .icon {
@@ -216,13 +215,13 @@ div.person {
 	margin: 20px auto;
 }
 div.person img {
-	width: 250px;
-	height: 250px;
+	width: 200px;
+	height: 200px;
+	margin-top: 2%;
 }
 div.person div.info {
 	width: 520px;
 	float: right;
-	padding: 0px 30px;
 }
 a.socialicon {
 	background-repeat: no-repeat;

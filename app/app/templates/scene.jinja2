@@ -9,15 +9,15 @@
 {% endblock %}
 
 {% block content %}
-
-    <section class='mbx'>
-        
-
     <section class='mbx'>
         <section id="scene_info">
             <style>
                 #column_two{
                     vertical-align: top
+                }
+
+                #generate{
+                    vertical-align: bottom
                 }
             </style>
             <div id="overview_image" class="display-inline-block">
@@ -34,6 +34,10 @@
                         <tr><td>Minimum/Maximum Longitude:</td><td>{{ meta_data.min_lon }}/{{ meta_data.max_lon }}</td></tr>
                     </table>
                 </div>
+
+                <div id="generate">
+                    <table>
+                    <thead class='group_head'><tr><th class="light uppercase h2">Generate a new image</th></tr></thead>
                 <div>
                     <h2>Generate a preview</h2>
                     <form method="post">
@@ -62,26 +66,24 @@
                     </form>
                 </div>
                 <div>
-                    <table>
-                        <h3>Generate a custom preview</h3>
-                        <form method="post" id="request_form_{{meta_data.scene_id}}">
-                            <div id='combinations'>
-                                <select name='band1' id='band1' required>
-                                    <option selected value=''>Select Red Band</option>
-                                </select>
-                                <select name='band2' id='band2' required>
-                                    <option selected value=''>Select Green Band</option>
-                                </select>
-                                <select name='band3' id='band3' required>
-                                    <option selected value=''>Select Blue Band</option>
-                                </select>
-                            </div>
+                    <h3>Generate a custom preview</h3>
+                    <form method="post" id="request_form_{{meta_data.scene_id}}">
+                        <div id='combinations'>
+                            <select name='band1' id='band1' required>
+                                <option selected value=''>Select Red Band</option>
+                            </select>
+                            <select name='band2' id='band2' required>
+                                <option selected value=''>Select Green Band</option>
+                            </select>
+                            <select name='band3' id='band3' required>
+                                <option selected value=''>Select Blue Band</option>
+                            </select>
+                        </div>
 
-                            <div class='inline-block clearfix'>
-                                <button form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
-                            </div>
-                        </form>
-                    </table>
+                        <div class='inline-block clearfix'>
+                            <button form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -98,7 +100,7 @@
                     <div class='graph' id='graph{{composite.previewjobid}}'></div>
                     <div id='{{composite.previewjobid}}'>
                         {% if composite.previewurl %}
-                            <a href="{{ composite.preview }}"><img src="{{ composite.previewurl }}"></a>
+                            <a href="{{ composite.previewurl }}"><img src="{{ composite.previewurl }}"></a>
                         {% else %}
                             <div class='nopreview' id='{{composite.previewjobid}}'>
                                 <div class="loading"><img src="/static/img/no_preview.gif"></div>
@@ -132,5 +134,4 @@
             {% endfor %}
         </div> <!-- preview-container -->
     </section>
-
 {% endblock %}
