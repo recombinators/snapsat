@@ -36,8 +36,35 @@
                     </table>
                 </div>
                 <div>
+                    <h2>Generate a preview</h2>
+                    <form method="post">
+                        <input type="hidden" name='band1' value="4"/>
+                        <input type="hidden" name='band2' value="3"/>
+                        <input type="hidden" name='band3' value="2"/>
+                        <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Natural Color</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" name='band1' value="2"/>
+                        <input type="hidden" name='band2' value="5"/>
+                        <input type="hidden" name='band3' value="9"/>
+                        <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Make Me Something Pretty</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" name='band1' value="5"/>
+                        <input type="hidden" name='band2' value="6"/>
+                        <input type="hidden" name='band3' value="4"/>
+                        <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Land/Water Delination</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" name='band1' value="7"/>
+                        <input type="hidden" name='band2' value="6"/>
+                        <input type="hidden" name='band3' value="4"/>
+                        <button formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Urban</button>
+                    </form>
+                </div>
+                <div>
                     <table>
-                    <h2>Generate a new image</h2>
+                        <h2>Generate a custom image</h2>
                         <form method="post" id="request_form_{{meta_data.scene_id}}">
                             <div id='combinations'>
                                 <select name='band1' id='band1' required>
