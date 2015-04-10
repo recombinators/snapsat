@@ -30,7 +30,6 @@ function graph(graphId, type) {
     bandLegend["9"] = "Cirrus";
 
 
-
     if(type == "reference"){
         width = $(".preview-container").width();
 
@@ -42,6 +41,42 @@ function graph(graphId, type) {
                        [1566, 1651, 6, "#d49979"],
                        [2107, 2294, 7, "#999b98"],
                        [1362, 1384, 9, "#7f87b5"]];
+
+        svgBar = d3.selectAll(id)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height + stroke_width)
+        .attr('class', 'spectrumMap');
+
+        svgBar.append("rect")
+        .attr("x", 0 + "px")
+        .attr("y", 0 + "px")
+        .attr("width", width)
+        .attr("height", height + stroke_width);
+
+        svgBar.selectAll("rect")
+        .data(waveLengths, function(d){return d;})
+        .enter()
+        .append("rect")
+        .attr("stroke-width", stroke_width)
+        .attr("stroke", stroke_color)
+        .attr("fill", function (d){ return (d[3]); })
+        .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+        .attr("y", 0 + "px")
+        .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
+        .attr("height", height + "px");
+
+        svgBar.selectAll("text")
+            .data(waveLengths, function(d){return d;})
+            .enter()
+            .append("text")
+            .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+            .attr("y", 0 + "px")
+            .attr("text-anchor", "middle")
+            .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
+            .attr("dy", height / 2 + font_size / 2)
+            .attr("font-size", font_size)
+            .text(function(d) { return d[2]; });
 
     }else if(type == "preview"){
         width = $(id).parent().width();
@@ -64,27 +99,25 @@ function graph(graphId, type) {
                 waveLengths[j][3] = green_color;
             }
         }
-    }
 
+        svgBar = d3.selectAll(id)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height + stroke_width)
+        .attr('class', 'spectrumMap');
 
-    var tip = d3.tip()
+        var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([0, -10])
+        .offset([0, 0])
         .html(
             "<p>" + bandLegend[String(red_band)] + " mapped to Red" + "</p>"+
             "<p>" + bandLegend[String(green_band)] + " mapped to Green" + "</p>"+
             "<p>" + bandLegend[String(blue_band)] + " mapped to Blue" + "</p>"
             );
 
-    var svgBar = d3.selectAll(id)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height + stroke_width)
-        .attr('class', 'spectrumMap');
+        svgBar.call(tip);
 
-    svgBar.call(tip);
-
-    svgBar.append("rect")
+        svgBar.append("rect")
         .attr("x", 0 + "px")
         .attr("y", 0 + "px")
         .attr("width", width)
@@ -92,7 +125,7 @@ function graph(graphId, type) {
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
-    svgBar.selectAll("rect")
+        svgBar.selectAll("rect")
         .data(waveLengths, function(d){return d;})
         .enter()
         .append("rect")
@@ -102,21 +135,11 @@ function graph(graphId, type) {
         .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
         .attr("y", 0 + "px")
         .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
-        .attr("height", height + "px");
-
-    if(type == "reference"){
-        svgBar.selectAll("text")
-            .data(waveLengths, function(d){return d;})
-            .enter()
-            .append("text")
-            .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
-            .attr("y", 0 + "px")
-            .attr("text-anchor", "middle")
-            .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
-            .attr("dy", height / 2 + font_size / 2)
-            .attr("font-size", font_size)
-            .text(function(d) { return d[2]; });
+        .attr("height", height + "px")
+        .attr("pointer-events", "none");
+        
     }
+
 }
 
 $(document).ready(function(){
