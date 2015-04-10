@@ -60,6 +60,7 @@ def create(request):
     return scene_options_ajax(request)
 
 
+
 def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
@@ -118,7 +119,7 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-        # print 'successfully added to preview queue'
+        print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_composite', renderer='json')
@@ -220,6 +221,9 @@ def scene(request):
 
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))
+
+    aws_img = "http://landsat-pds.s3.amazonaws.com/L{}/{}/{}/{}/{}_thumb_small.jpg".format(
+               scene_id[2], scene_id[3:6], scene_id[6:9], scene_id, scene_id)
 
     return {'scene_id': scene_id, 'composites': composites}
 
