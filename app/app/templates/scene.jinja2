@@ -11,6 +11,11 @@
 {% block content %}
 
     <section class='mbx'>
+        
+    </section>
+
+    <section class='mbx'>
+        <h2>Preview your selection: {{ scene_id }}</h2>
         <h3 class='mbn red'></h3>
         <h2>Generate a new image</h2>
         <form method="post" id="request_form_{{scene_id}}">
@@ -30,11 +35,6 @@
                 <button form="request_form_{{scene_id}}" formaction="/request_preview/{{scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
             </div>
         </form>
-    </section>
-
-    <section class='mbx'>
-        <h3 class='mbn red'>3</h3>
-        <h2>Preview your selection: {{ scene_id }}</h2>
         <div class='graph' id='reference'></div>
         <div class='preview-container'>
             {% for band_combo, composite in composites.iteritems() %}
