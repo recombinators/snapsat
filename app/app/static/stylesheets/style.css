@@ -295,13 +295,13 @@ div.person {
 	margin: 20px auto;
 }
 div.person img {
-	width: 250px;
-	height: 250px;
+	width: 200px;
+	height: 200px;
+	margin-top: 2%;
 }
 div.person div.info {
 	width: 520px;
 	float: right;
-	padding: 0px 30px;
 }
 a.socialicon {
 	background-repeat: no-repeat;
