@@ -68,24 +68,24 @@ function graph(graphId, type) {
 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
-        .html(function(d) {
-            return "<span>" + d.y + "</span>";
-        });
+        .offset([0, -10])
+        .html("<span>Hello</span>");
 
     var svgBar = d3.selectAll(id)
         .append("svg")
         .attr("width", width)
         .attr("height", 2 * (height + stroke_width))
-        .attr('class', 'spectrumMap')
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide);
+        .attr('class', 'spectrumMap');
+
+    svgBar.call(tip);
 
     svgBar.append("rect")
         .attr("x", 0 + "px")
         .attr("y", 0 + "px")
         .attr("width", width)
-        .attr("height", 2 * (height + stroke_width));
+        .attr("height", 2 * (height + stroke_width))
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
 
     svgBar.selectAll("rect")
         .data(waveLengthsTop, function(d){return d;})
