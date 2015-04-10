@@ -751,13 +751,13 @@ tr {
 	border-bottom: 2px solid #f4f4f4; 
 }
 .date {
-    width: 32.6%;
+    width: 32%;
 }
 .pathrow {
-    width: 5.5%;
+    width: 5%;
 }
 .cloud {
-    width: 12%;
+    width: 16%;
 }
 body {
     margin: 0;
