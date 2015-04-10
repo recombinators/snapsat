@@ -145,3 +145,11 @@ header {
     font-size: 15px;
     font-weight: bold;
 }
+
+.mbx h3 {
+    padding:1%;
+}
+
+.mbx p {
+    font-size: 15px;
+}
