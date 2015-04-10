@@ -52,12 +52,29 @@ class PathRow(Base):
     @classmethod
     def scenelist(cls, pr_output):
         """
-        For Constantine
+        Query path_row table for a list of scenes that are available in the AWS
+        landsat public data set that correspond to the path row requested.
         """
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
         return Session.query(cls).filter(or_(*new))
+
+    @classmethod
+    def metadata(cls, sceneid):
+        """
+        Query path_row table for scene metadata.
+        """
+
+        return Session.query(cls.acquisitiondate,
+                             cls.cloudcover,
+                             cls.path,
+                             cls.row,
+                             cls.min_lat,
+                             cls.min_lon,
+                             cls.max_lat,
+                             cls.max_lon,
+                             cls.download_url).filter()
 
 
 class UserJob(Base):
