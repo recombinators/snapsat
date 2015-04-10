@@ -39,7 +39,7 @@ function graph(graphId, type) {
     freqLegend["9"] = "9: Cirrus (1.363 - 1.384 µm)";
 
     if(type == "reference"){
-        width = $(".preview-container").width();
+        width = $(".d3-container").width();
 
         waveLengths = [[435, 451, 1, "#6ca4d3"],
                        [452, 512, 2, blue_color],
