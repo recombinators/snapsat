@@ -1,0 +1,71 @@
+<!-- Display metadata on the selected scene. -->
+<section class='mbx'>
+    <h2>Your selection</h2>
+    <img src='{{ meta_data.overview_url }}'>
+
+    <ul id='metadata' class='hanging'>
+        <li>ID:{{ meta_data.scene_id }}</li>
+        <li>Acquistion Date and Time:{{ meta_data.acquisitiondate }}</li>
+        <li>Cloud Cover:{{ meta_data.cloudcover }}%</li>
+        <li>Minimum/Maximum Latitude:{{ meta_data.min_lat }}/{{ meta_data.max_lat }}</li>
+        <li>Minimum/Maximum Longitude:{{ meta_data.min_lon }}/{{ meta_data.max_lon }}</li>
+    </ul>
+</section>
+
+<!-- Provide a means of creating preview images. -->
+<section class='mbx'>
+    <h2>Create a preview</h2>
+    <section id='scene_info'>
+
+        <!-- Use a prebuilt, common combination. -->
+        <h3>Common combinations</h3>
+        <div id="generate">
+            <div class='inline-block clearfix'>
+                <form method="post">
+                    <input type="hidden" name='band1' value="4"/>
+                    <input type="hidden" name='band2' value="3"/>
+                    <input type="hidden" name='band3' value="2"/>
+                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Natural Color</button>
+                </form>
+                <form method="post">
+                    <input type="hidden" name='band1' value="2"/>
+                    <input type="hidden" name='band2' value="5"/>
+                    <input type="hidden" name='band3' value="9"/>
+                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Make Me Something Pretty</button>
+                </form>
+                <form method="post">
+                    <input type="hidden" name='band1' value="5"/>
+                    <input type="hidden" name='band2' value="6"/>
+                    <input type="hidden" name='band3' value="4"/>
+                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Land/Water Delination</button>
+                </form>
+                <form method="post">
+                    <input type="hidden" name='band1' value="7"/>
+                    <input type="hidden" name='band2' value="6"/>
+                    <input type="hidden" name='band3' value="4"/>
+                    <button class='left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Urban</button>
+                </form>
+            </div>
+        </div> <!-- Prebuilt combinations -->
+
+        <!-- Create a custom combination with any available band. -->
+        <div>
+            <h3>Build a custom combination</h3>
+            <form method="post" id="request_form_{{meta_data.scene_id}}">
+                <div id='combinations'>
+                    <select name='band1' id='band1' required>
+                        <option selected value=''>Select Red Band</option>
+                    </select>
+                    <select name='band2' id='band2' required>
+                        <option selected value=''>Select Green Band</option>
+                    </select>
+                    <select name='band3' id='band3' required>
+                        <option selected value=''>Select Blue Band</option>
+                    </select>
+                </div>
+                <button form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit" class="left button rounded-left">Render Preview</button>
+            </form>
+        </div> <!-- Custom combinations. -->
+
+    </section> <!-- Scene info -->
+</section>
