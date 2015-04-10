@@ -15,7 +15,9 @@
     </section>
 
     <section class='mbx'>
-        <h2>Preview your selection: {{ scene_id }}</h2>
+        <div id="metadata">
+            <h2>Scene ID: {{ scene_id }}</h2>
+        </div>
         <h3 class='mbn red'></h3>
         <h2>Generate a new image</h2>
         <form method="post" id="request_form_{{scene_id}}">
