@@ -5,19 +5,17 @@
         <title>Snapsat</title>
         <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
         <script type='text/javascript' src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
-        <script type='text/javascript' src='https://api.tiles.mapbox.com/mapbox.js/v2.1.6/mapbox.js'></script>
         <script type="text/javascript" src="/static/js/custom.js"></script>
-        <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
         <link rel='stylesheet' href='/static/main.css'>
         <link rel='icon' type='image/ico' href='/static/favicon.ico'>
     </head>
     <body>
         {% block header %}
-            <header>
+            <header class='mbx'>
                 <img src='/static/logo-dark-red.svg'>
-                <h1 class='mbn blurb uppercase'><a href='/'>Snapsat</a> <span class='red'>Beta</span></h1>
-                <p class=' mbl uppercase light'>The easiest way to create custom Landsat band composites.</p>
-                <p class='light mbx'>The Landsat 8 satellite provides a means of seeing light outside the visible spectrum, allowing us to see what would otherwise be invisible to the naked eye. Learn more by reading our <a id="guide" href='/guide'>Guide</a>.</p>
+                <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+                <p class='mbl book blurb'>The easiest way to create custom Landsat band composites.</p>
+                <p class='light'>The Landsat 8 satellite provides a means of seeing light outside the visible spectrum, allowing us to see what would otherwise be invisible to the naked eye. Learn more by reading our <a id="guide" href='/guide'>Guide</a>.</p>
 
                 <section class='attribution'>
                     <p class="uppercase">Built by:</p>
@@ -51,14 +49,8 @@
             {% block content %}{% endblock %}
         </div>
 
-        <!-- <script type='text/javascript' src='/static/bundle.js'></script> -->
-        <script type='text/javascript' src='/static/js/longpoll.js'></script>
-        <script type='text/javascript' src='/static/js/gauges.js'></script>
-        <script type='text/javascript' src='/static/js/ga.js'></script>
-        <script type='text/javascript' src='/static/js/map.js'></script>
-        <script type='text/javascript' src='/static/js/typekit.js'></script>
+        <script type='text/javascript' src='/static/bundle.js'></script>
         <script type='text/javascript' src='/static/js/doorbell.js'></script>
-        <script type='text/javascript' src='/static/js/band.js'></script>
         {% block scripts %}{% endblock %}
     </body>
 </html>

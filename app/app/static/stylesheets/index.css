@@ -1,4 +1,5 @@
 
+@import 'mapbox.css';
 @import 'normalize.css';
 @import 'reset.css';
 @import 'color.css';
@@ -75,7 +76,7 @@ th {
 }
 
 .blurb {
-    font-size: 110%;
+    font-size: 120%;
 }
 
 td a { color: black; }
@@ -142,18 +143,6 @@ header {
     top: 6px;
 }
 
-.newsletter {
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.mbx h3 {
-    padding:1%;
-}
-
-.mbx p {
-    font-size: 15px;
-}
 .cheatsheet {
     padding-top: 10px;
     padding-bottom: 100px;
