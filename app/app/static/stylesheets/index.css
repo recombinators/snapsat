@@ -103,8 +103,8 @@ header {
 }
 
 .contain {
-    margin-left: 30rem;
-    margin-top: 3rem;
+    margin-left: 30%;
+    margin-top: 3%;
 }
 
 .preview-container {
@@ -120,7 +120,8 @@ header {
 }
 
 .attribution {
-    font-size: 90%
+    font-size: 90%;
+    padding-top: 1%;
 }
 
 .group_head {
@@ -154,7 +155,6 @@ header {
     margin-bottom: 20px;
     float: center;
     border: solid 2px #000;
-    box-shadow: 3px 3px 3px #000;
 }
 
 .mbx h3 {
@@ -165,9 +165,21 @@ header {
     font-size: 15px;
 }
 .cheatsheet {
-    padding-top: 10px;
-    padding-bottom: 100px;
+    margin-top: 10%;
+    padding-bottom: 10%;
+
+}
+.cheats  {
+    width: 15em;
+    padding-bottom:10px;
+    padding-left: 1em;
+    padding-top: .5em;
+    overflow: scroll;
+    height: 15em;
+    border: solid 1px #000;
+    border-radius: 5px;
 }
 .cheats li {
-    padding-bottom:10px;
+    padding: 5%;
+    border-bottom: solid 1px #000;
 }
