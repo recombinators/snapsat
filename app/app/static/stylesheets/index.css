@@ -25,6 +25,7 @@
 }
 
 body {
+    font-size: 18px;
     font-family: var(--copy-font);
 }
 
@@ -150,12 +151,14 @@ header {
 
 .flex-container {
     display: flex;
-    flex-wrap: wrap
-}
-.flex-child {
-    width: 30%;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
 
 .display-inline-block {
     vertical-align: top;
+}
+
+select {
+    height: 1.5rem;
 }

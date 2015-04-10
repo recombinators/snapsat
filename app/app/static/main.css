@@ -784,7 +784,7 @@ body {
 
 /* Default variables */
 button,
-.buttons {
+.button {
     font-size: .875rem;
     font-weight: 600;
     text-decoration: none;
@@ -798,6 +798,14 @@ button,
     border: 1px solid transparent;
     vertical-align: middle;
     -webkit-appearance: none;
+    color: #000;
+    transition: 0.2s ease;
+}
+
+button:hover,
+.button:hover {
+    background: #eee;
+    transition: 0.2s ease;
 }
 /* Flexbox */
 .flex-container {
@@ -1110,6 +1118,7 @@ a.socialicon.twitter:hover { background-image: url(http://snapsatstatic.s3-us-we
 }
 
 body {
+    font-size: 18px;
     font-family:freight-sans-pro, verdana, arial, sans-serif;
 }
 
@@ -1243,12 +1252,16 @@ header {
     display: flex;
     -webkit-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
-            flex-wrap: wrap
-}
-.flex-child {
-    width: 30%;
+            flex-wrap: wrap;
+    -webkit-align-items: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
 }
 
 .display-inline-block {
     vertical-align: top;
+}
+
+select {
+    height: 1.5rem;
 }
