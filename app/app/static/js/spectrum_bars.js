@@ -19,6 +19,18 @@ function graph(graphId, type) {
     var xLowNorm = 400;
     var widthNorm = 2294;
 
+    var bandLegend = {};
+    bandLegend["1"] = "Coastal aerosol";
+    bandLegend["2"] = "Blue";
+    bandLegend["3"] = "Green";
+    bandLegend["4"] = "Red";
+    bandLegend["5"] = "Near Infrared (NIR)";
+    bandLegend["6"] = "SWIR 1";
+    bandLegend["7"] = "SWIR 2";
+    bandLegend["9"] = "Cirrus";
+
+
+
     if(type == "reference"){
         width = $(".preview-container").width();
 
@@ -58,7 +70,11 @@ function graph(graphId, type) {
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([0, -10])
-        .html("<span>Hello</span>");
+        .html(
+            "<p>" + bandLegend[String(red_band)] + " mapped to Red" + "</p>"+
+            "<p>" + bandLegend[String(green_band)] + " mapped to Green" + "</p>"+
+            "<p>" + bandLegend[String(blue_band)] + " mapped to Blue" + "</p>"
+            );
 
     var svgBar = d3.selectAll(id)
         .append("svg")
