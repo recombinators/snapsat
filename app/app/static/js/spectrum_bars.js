@@ -4,7 +4,7 @@ function graph(graphId, type) {
 
     var height = 20;
     var stroke_width = 1;
-    var box_fill = "#FFF";
+    var box_fill = "#000";
     var stroke_color = "#000";
 
     var font_size = 8;
@@ -39,7 +39,7 @@ function graph(graphId, type) {
     freqLegend["9"] = "9: Cirrus (1.363 - 1.384 µm)";
 
     if(type == "reference"){
-        width = $(".preview-container").width();
+        width = $(".d3-container").width();
 
         waveLengths = [[435, 451, 1, "#6ca4d3"],
                        [452, 512, 2, blue_color],
@@ -61,7 +61,7 @@ function graph(graphId, type) {
         .attr('class', 'd3-tip')
         .offset([0, 0])
         .html(function(d) {
-            return freqLegend[d[2]];
+            return '<div class="sans">' + freqLegend[d[2]] + '</div>';
             });
 
         svgBar.call(tip);
