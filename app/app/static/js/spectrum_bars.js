@@ -61,7 +61,7 @@ function graph(graphId, type) {
         .attr('class', 'd3-tip')
         .offset([0, 0])
         .html(function(d) {
-            return freqLegend[d[2]];
+            return '<div class="sans">' + freqLegend[d[2]] + '</div>';
             });
 
         svgBar.call(tip);
