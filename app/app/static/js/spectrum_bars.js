@@ -96,6 +96,8 @@ function graph(graphId, type) {
                 waveLengths[j][3] = blue_color;
             }else if(waveLengths[j][2] == green_band){
                 waveLengths[j][3] = green_color;
+            }else{
+                waveLengths[j][3] = "black";
             }
         }
 
