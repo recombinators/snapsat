@@ -1,24 +1,24 @@
-button,
-.button {
-    font-size: .875rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    display: inline-block;
-    box-sizing: border-box;
-    line-height: 1.125rem;
-    padding: .5rem 1rem;
-    margin: 0;
-    height: auto;
-    border: 1px solid transparent;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    color: #000;
-    transition: 0.2s ease;
-}
+/* button, */
+/* .button { */
+/*     font-size: .875rem; */
+/*     font-weight: 600; */
+/*     text-decoration: none; */
+/*     cursor: pointer; */
+/*     display: inline-block; */
+/*     box-sizing: border-box; */
+/*     line-height: 1.125rem; */
+/*     padding: .5rem 1rem; */
+/*     margin: 0; */
+/*     height: auto; */
+/*     border: 1px solid transparent; */
+/*     vertical-align: middle; */
+/*     -webkit-appearance: none; */
+/*     color: #000; */
+/*     transition: 0.2s ease; */
+/* } */
 
-button:hover,
-.button:hover {
-    background: #eee;
-    transition: 0.2s ease;
-}
+/* button:hover, */
+/* .button:hover { */
+/*     background: #eee; */
+/*     transition: 0.2s ease; */
+/* } */

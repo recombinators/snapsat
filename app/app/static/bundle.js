@@ -5,48 +5,9 @@ require('./gauges.js');
 require('./ga.js');
 require('./map.js');
 require('./longpoll.js');
-require('./band.js');
+// require('./band.js');
 
-},{"./band.js":2,"./ga.js":3,"./gauges.js":4,"./longpoll.js":5,"./map.js":6,"./typekit.js":7,"jquery":8}],2:[function(require,module,exports){
-// A jQuery script to dynamically limit band selections to 1-7 and 9. 
-// It also does not allow the user to select the same band more than once.
-$("#band1").on('focus', function (){
-    // Delete existing options
-    $("#band1").empty()
-    // Make array with values from other select boxes and 8, so user cannot
-    // select an existing selection or 8
-    var existingValues = [parseInt($("#band2").val()), parseInt($("#band3").val()), 8];
-    // Add options if they are not in exisitingValues array
-    for (i=1; i < 10; i++) {
-        if ($.inArray(i, existingValues) < 0) {
-            $("#band1").append("<option value='" + i + "'>" + i + "</option>")
-        }
-    }
-});
-
-// Same as above, but with Band 2.
-$("#band2").on('focus', function (){
-    $("#band2").empty()
-    var existingValues = [parseInt($("#band1").val()), parseInt($("#band3").val()), 8];
-    for (i=1; i < 10; i++) {
-        if ($.inArray(i, existingValues) < 0) {
-            $("#band2").append("<option value='" + i + "'>" + i + "</option>")
-        }
-    }
-});
-
-// Same as above, but with Band 3.
-$("#band3").on('focus', function (){
-    $("#band3").empty()
-    var existingValues = [parseInt($("#band1").val()), parseInt($("#band2").val()), 8];
-    for (i=1; i < 10; i++) {
-        if ($.inArray(i, existingValues) < 0) {
-            $("#band3").append("<option value='" + i + "'>" + i + "</option>")
-        }
-    }
-});
-
-},{}],3:[function(require,module,exports){
+},{"./ga.js":2,"./gauges.js":3,"./longpoll.js":4,"./map.js":5,"./typekit.js":6,"jquery":7}],2:[function(require,module,exports){
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -55,7 +16,7 @@ $("#band3").on('focus', function (){
 ga('create', 'UA-61532630-1', 'auto');
 ga('send', 'pageview');
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var _gauges = _gauges || [];
 (function() {
     var t   = document.createElement('script');
@@ -69,7 +30,7 @@ var _gauges = _gauges || [];
     s.parentNode.insertBefore(t, s);
 })();
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
     $(".nopreview").each(function(){
@@ -184,7 +145,7 @@ function startStatusPoll(jobId, intervalID){
     });
 }
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
@@ -261,7 +222,7 @@ map.on('moveend', function() {
     });
 });
 
-},{"mapbox.js":23}],7:[function(require,module,exports){
+},{"mapbox.js":22}],6:[function(require,module,exports){
 (function(d) {
     var config = {
         kitId: 'wqn0qec',
@@ -270,7 +231,7 @@ map.on('moveend', function() {
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -9477,7 +9438,7 @@ return jQuery;
 
 }));
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -9572,7 +9533,7 @@ function corslite(url, callback, cors) {
 
 if (typeof module !== 'undefined') module.exports = corslite;
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
  Leaflet, a JavaScript library for mobile-friendly interactive maps. http://leafletjs.com
  (c) 2010-2013, Vladimir Agafonkin
@@ -18753,7 +18714,7 @@ L.Map.include({
 
 
 }(window, document));
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -19306,7 +19267,7 @@ L.Map.include({
 
 }));
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var html_sanitize = require('./sanitizer-bundle.js');
 
 module.exports = function(_) {
@@ -19326,7 +19287,7 @@ function cleanUrl(url) {
 
 function cleanId(id) { return id; }
 
-},{"./sanitizer-bundle.js":13}],13:[function(require,module,exports){
+},{"./sanitizer-bundle.js":12}],12:[function(require,module,exports){
 
 // Copyright (C) 2010 Google Inc.
 //
@@ -21774,7 +21735,7 @@ if (typeof module !== 'undefined') {
     module.exports = html_sanitize;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports={
   "author": {
     "name": "Mapbox"
@@ -21967,7 +21928,7 @@ module.exports={
   "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.7.tgz"
 }
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -21977,7 +21938,7 @@ module.exports = {
     REQUIRE_ACCESS_TOKEN: true
 };
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22099,7 +22060,7 @@ module.exports.featureLayer = function(_, options) {
     return new FeatureLayer(_, options);
 };
 
-},{"./marker":31,"./request":32,"./simplestyle":34,"./url":36,"./util":37,"sanitize-caja":12}],17:[function(require,module,exports){
+},{"./marker":30,"./request":31,"./simplestyle":33,"./url":35,"./util":36,"sanitize-caja":11}],16:[function(require,module,exports){
 'use strict';
 
 var Feedback = L.Class.extend({
@@ -22113,7 +22074,7 @@ var Feedback = L.Class.extend({
 
 module.exports = new Feedback();
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22214,7 +22175,7 @@ module.exports = function(url, options) {
     return geocoder;
 };
 
-},{"./feedback":17,"./request":32,"./url":36,"./util":37}],19:[function(require,module,exports){
+},{"./feedback":16,"./request":31,"./url":35,"./util":36}],18:[function(require,module,exports){
 'use strict';
 
 var geocoder = require('./geocoder'),
@@ -22406,7 +22367,7 @@ module.exports.geocoderControl = function(_, options) {
     return new GeocoderControl(_, options);
 };
 
-},{"./geocoder":18,"./util":37}],20:[function(require,module,exports){
+},{"./geocoder":17,"./util":36}],19:[function(require,module,exports){
 'use strict';
 
 function utfDecode(c) {
@@ -22424,7 +22385,7 @@ module.exports = function(data) {
     };
 };
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22624,7 +22585,7 @@ module.exports.gridControl = function(_, options) {
     return new GridControl(_, options);
 };
 
-},{"./util":37,"mustache":11,"sanitize-caja":12}],22:[function(require,module,exports){
+},{"./util":36,"mustache":10,"sanitize-caja":11}],21:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22849,11 +22810,11 @@ module.exports.gridLayer = function(_, options) {
     return new GridLayer(_, options);
 };
 
-},{"./grid":20,"./load_tilejson":27,"./request":32,"./util":37}],23:[function(require,module,exports){
+},{"./grid":19,"./load_tilejson":26,"./request":31,"./util":36}],22:[function(require,module,exports){
 require('./leaflet');
 require('./mapbox');
 
-},{"./leaflet":25,"./mapbox":29}],24:[function(require,module,exports){
+},{"./leaflet":24,"./mapbox":28}],23:[function(require,module,exports){
 'use strict';
 
 var InfoControl = L.Control.extend({
@@ -22970,10 +22931,10 @@ module.exports.infoControl = function(options) {
     return new InfoControl(options);
 };
 
-},{"sanitize-caja":12}],25:[function(require,module,exports){
+},{"sanitize-caja":11}],24:[function(require,module,exports){
 window.L = require('leaflet/dist/leaflet-src');
 
-},{"leaflet/dist/leaflet-src":10}],26:[function(require,module,exports){
+},{"leaflet/dist/leaflet-src":9}],25:[function(require,module,exports){
 'use strict';
 
 var LegendControl = L.Control.extend({
@@ -23042,7 +23003,7 @@ module.exports.legendControl = function(options) {
     return new LegendControl(options);
 };
 
-},{"sanitize-caja":12}],27:[function(require,module,exports){
+},{"sanitize-caja":11}],26:[function(require,module,exports){
 'use strict';
 
 var request = require('./request'),
@@ -23068,7 +23029,7 @@ module.exports = {
     }
 };
 
-},{"./request":32,"./url":36,"./util":37}],28:[function(require,module,exports){
+},{"./request":31,"./url":35,"./util":36}],27:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -23305,7 +23266,7 @@ module.exports.map = function(element, _, options) {
     return new LMap(element, _, options);
 };
 
-},{"./feature_layer":16,"./feedback":17,"./grid_control":21,"./grid_layer":22,"./info_control":24,"./legend_control":26,"./load_tilejson":27,"./mapbox_logo":30,"./share_control":33,"./tile_layer":35,"./util":37,"sanitize-caja":12}],29:[function(require,module,exports){
+},{"./feature_layer":15,"./feedback":16,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./load_tilejson":26,"./mapbox_logo":29,"./share_control":32,"./tile_layer":34,"./util":36,"sanitize-caja":11}],28:[function(require,module,exports){
 'use strict';
 
 var geocoderControl = require('./geocoder_control'),
@@ -23358,7 +23319,7 @@ window.L.Icon.Default.imagePath =
     '//api.tiles.mapbox.com/mapbox.js/' + 'v' +
     require('../package.json').version + '/images';
 
-},{"../package.json":14,"./config":15,"./feature_layer":16,"./feedback":17,"./geocoder":18,"./geocoder_control":19,"./grid_control":21,"./grid_layer":22,"./info_control":24,"./legend_control":26,"./map":28,"./marker":31,"./share_control":33,"./simplestyle":34,"./tile_layer":35,"mustache":11,"sanitize-caja":12}],30:[function(require,module,exports){
+},{"../package.json":13,"./config":14,"./feature_layer":15,"./feedback":16,"./geocoder":17,"./geocoder_control":18,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./map":27,"./marker":30,"./share_control":32,"./simplestyle":33,"./tile_layer":34,"mustache":10,"sanitize-caja":11}],29:[function(require,module,exports){
 'use strict';
 
 var MapboxLogoControl = L.Control.extend({
@@ -23392,7 +23353,7 @@ module.exports.mapboxLogoControl = function(options) {
     return new MapboxLogoControl(options);
 };
 
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var url = require('./url'),
@@ -23459,7 +23420,7 @@ module.exports = {
     createPopup: createPopup
 };
 
-},{"./url":36,"./util":37,"sanitize-caja":12}],32:[function(require,module,exports){
+},{"./url":35,"./util":36,"sanitize-caja":11}],31:[function(require,module,exports){
 'use strict';
 
 var corslite = require('corslite'),
@@ -23491,7 +23452,7 @@ module.exports = function(url, callback) {
     }
 };
 
-},{"./config":15,"./util":37,"corslite":9}],33:[function(require,module,exports){
+},{"./config":14,"./util":36,"corslite":8}],32:[function(require,module,exports){
 'use strict';
 
 var urlhelper = require('./url');
@@ -23594,7 +23555,7 @@ module.exports.shareControl = function(_, options) {
     return new ShareControl(_, options);
 };
 
-},{"./load_tilejson":27,"./url":36}],34:[function(require,module,exports){
+},{"./load_tilejson":26,"./url":35}],33:[function(require,module,exports){
 'use strict';
 
 // an implementation of the simplestyle spec for polygon and linestring features
@@ -23641,7 +23602,7 @@ module.exports = {
     defaults: defaults
 };
 
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 var util = require('./util');
@@ -23741,7 +23702,7 @@ module.exports.tileLayer = function(_, options) {
     return new TileLayer(_, options);
 };
 
-},{"./load_tilejson":27,"./util":37,"sanitize-caja":12}],36:[function(require,module,exports){
+},{"./load_tilejson":26,"./util":36,"sanitize-caja":11}],35:[function(require,module,exports){
 'use strict';
 
 var config = require('./config'),
@@ -23785,7 +23746,7 @@ module.exports.tileJSON = function(urlOrMapID, accessToken) {
     return url;
 };
 
-},{"../package.json":14,"./config":15}],37:[function(require,module,exports){
+},{"../package.json":13,"./config":14}],36:[function(require,module,exports){
 'use strict';
 
 module.exports = {

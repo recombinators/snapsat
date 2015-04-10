@@ -11,58 +11,62 @@
         <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
     </head>
     <body>
-        {% block header %}
-        <header class='mbx'>
-            <img src='/static/logo-dark-red.svg'>
-            <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
-            <p class='mbl book blurb'>The easiest way to create custom Landsat band composites.</p>
+        <div class='sidebar'>
+            {% block header %}
+            <header>
+                <img src='/static/logo-dark-red.svg'>
+                <h1 class='mbn'><a href='/'>Snapsat</a> <span class='h3 red'>Beta</span></h1>
+                <p class='mbl book blurb'>The easiest way to create custom Landsat band composites.</p>
 
-            <nav class='mbm'>
-                <p class='mbn'>Navigation</p>
-                <ul class='hanging man'>
-                    <li class='display-inline-block'><a href='/'>Home</a></li>
-                    <li class='display-inline-block'><a href='/create'>Create</a></li>
-                    <li class='display-inline-block'><a href='/guide'>Guide</a></li>
-                </ul>
-            </nav>
+                <nav class='mbm'>
+                    <p class='mbn'>Navigation</p>
+                    <ul class='hanging man'>
+                        <li class='display-inline-block h2'><a href='/'>Home</a></li>
+                        <li class='display-inline-block h2'><a href='/create'>Create</a></li>
+                        <li class='display-inline-block h2'><a href='/guide'>Guide</a></li>
+                    </ul>
+                </nav>
 
-            <section class='mbm'>
-                <form action="https://tinyletter.com/snapsat" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/landsat-club', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
-                    <p class='mbn display-inline'><label for="tlemail">Click here to join our mailing list</label></p>
-                    <p><input type="text" style="width:140px" name="email" id="tlemail" /></p>
-                    <input type="hidden" value="1" name="embed"/>
-                    <input class='display-inline' type="submit" value="Subscribe" />
-                </form>
-            </section>
+                <section class='mbm'>
+                    <form action="https://tinyletter.com/snapsat" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/landsat-club', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+                        <p class='mbn'><label for="tlemail">Click here to join our mailing list</label></p>
+                        <p class='left'><input type="text" style="width:140px" name="email" id="tlemail" /></p>
+                        <input class='button display-inline left' type="submit" value="Subscribe" />
+                        <input type="hidden" value="1" name="embed"/>
+                    </form>
+                </section>
 
-            <section class='attribution'>
-                <p class='mbn'>Built by:</p>
-                <p><a href='/#constantine'>Constantine,</a> <a href='/#jacques'>Jacques,</a> <a href='/#jake'>Jake,</a> <a href='/#joel'>Joel</a> & <a href='/#mark'>Mark</a></p>
-            </section>
+                <section class='attribution clear'>
+                    <p class='mbn'>Built by:</p>
+                    <p><a href='/#constantine'>Constantine,</a> <a href='/#jacques'>Jacques,</a> <a href='/#jake'>Jake,</a> <a href='/#joel'>Joel</a> & <a href='/#mark'>Mark</a></p>
+                </section>
 
-            <div class="cheatsheet">
-                <h3 class="bold">Here is a cheat sheet of our post popular band combinations.</h3>
-                <ul class="cheats lighter uppercase">
-                    <li>4,3,2 Natural Color</li>
-                    <li>7,6,4 False Color(urban)</li>
-                    <li>5,4,3 Color Infrared(vegitation)</li>
-                    <li>6,5,2 Agriculture</li>
-                    <li>7,6,5 Atmospheric Removal(urban)</li>
-                    <li>7,5,3 Atmospheric Removal(natural)</li>
-                    <li>5,6,2 Healthy Vegetation</li>
-                    <li>5,6,4 Land/Water</li>
-                    <li>7,5,4 Moisture Content Sensative</li>
-                    <li>6,5,4 Vegetation Analysis</li>
-                </ul>
-            </div>
+                <div class="cheatsheet">
+                    <p class='mbn'>Cheat sheet</p>
+                    <ul class="cheats lighter">
+                        <li>4,3,2 Natural Color</li>
+                        <li>7,6,4 False Color(urban)</li>
+                        <li>5,4,3 Color Infrared(vegetation)</li>
+                        <li>6,5,2 Agriculture</li>
+                        <li>7,6,5 Atmospheric Removal(urban)</li>
+                        <li>7,5,3 Atmospheric Removal(natural)</li>
+                        <li>5,6,2 Healthy Vegetation</li>
+                        <li>5,6,4 Land/Water</li>
+                        <li>7,5,4 Moisture Content Sensative</li>
+                        <li>6,5,4 Vegetation Analysis</li>
+                    </ul>
+                </div>
 
-        </header>
+            </header>
+        </div> <!-- Sidebar -->
+
         {% endblock %}
 
         <div class='contain'>
             {% block content %}{% endblock %}
         </div>
 
+        <script type='text/javascript' src='/static/band.js'></script>
         <script type='text/javascript' src='/static/bundle.js'></script>
         <script type='text/javascript' src='/static/js/doorbell.js'></script>
         {% block scripts %}{% endblock %}
