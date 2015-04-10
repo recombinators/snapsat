@@ -74,7 +74,7 @@ class PathRow(Base):
                              cls.min_lon,
                              cls.max_lat,
                              cls.max_lon,
-                             cls.download_url).filter()
+                             cls.download_url).filter(cls.entityid == sceneid)
 
 
 class UserJob(Base):
