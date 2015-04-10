@@ -165,6 +165,21 @@ ul.mainmenu li.active a {
 	box-shadow: 1px 1px 3px #000;
 	opacity: .7;
 }
+.landingbuttonhowto {
+	background-color: #FFF;
+	text-align: center;
+	width:25%;
+	border-radius: 25px;
+	opacity: .8;
+	margin-bottom: 20px;
+	float: center;
+	border: solid 2px #000;
+	box-shadow: 3px 3px 3px #000;
+}
+.landingbuttonhowto:hover {
+	box-shadow: 1px 1px 3px #000;
+	opacity: .7;
+}
 
 /******************************************************************
 	Colors
