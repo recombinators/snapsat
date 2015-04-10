@@ -95,11 +95,11 @@ td a:hover { color: #d82c2c; }
 
 header {
     margin: 3rem 0;
-    position: fixed;
+    position: absolute;
     top:0;
     left: 0;
     height: 100%;
-    width: 30rem;
+    width: 30%;
     padding: 2rem 4rem;
 }
 
@@ -152,4 +152,11 @@ header {
 
 .mbx p {
     font-size: 15px;
+}
+.cheatsheet {
+    padding-top: 10px;
+    padding-bottom: 100px;
+}
+.cheats li {
+    padding-bottom:10px;
 }
