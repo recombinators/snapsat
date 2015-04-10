@@ -840,6 +840,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 body {
 	line-height: 1;
+	overflow-x: hidden;
 }
 html, body {
 	width: 100%;
