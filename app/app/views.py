@@ -7,6 +7,8 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
+import pyramid.httpexceptions as exc
+
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -126,14 +128,19 @@ def request_composite(request):
     """
     Request both the preview and fullsize images for a particular composite.
     Redirect to scene page and goto band requested.
+    If incorrect band combo is requested, bad request.
+
     """
     # Add full render and preview job to apprpriate queues
-    bands = (request.params.get('band1') + request.params.get('band2') +
-             request.params.get('band3'))
-    add_to_queue_composite(request)
-    add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}#{}'.format(
-        request.matchdict['scene_id'], bands))
+    if valid_band_combo(request):
+        bands = (request.params.get('band1') + request.params.get('band2') +
+                 request.params.get('band3'))
+        add_to_queue_composite(request)
+        add_to_queue_preview(request)
+        return HTTPFound(location='/scene/{}#{}'.format(
+            request.matchdict['scene_id'], bands))
+    else:
+        raise exc.HTTPBadRequest()
 
 
 @view_config(route_name='request_preview', renderer='json')
@@ -141,13 +148,28 @@ def request_preview(request):
     """
     Request the preview image for a particular composite.
     Redirect to scene page and goto band requested.
+    If incorrect band combo is requested, bad request.
     """
-    # Add preview render job to apprpriate queues
-    bands = (request.params.get('band1') + request.params.get('band2') +
-             request.params.get('band3'))
-    add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}#{}'.format(
-        request.matchdict['scene_id'], bands))
+    if valid_band_combo(request):
+        # Add preview render job to apprpriate queues
+        bands = (request.params.get('band1') + request.params.get('band2') +
+                 request.params.get('band3'))
+        add_to_queue_preview(request)
+        return HTTPFound(location='/scene/{}#{}'.format(
+            request.matchdict['scene_id'], bands))
+    else:
+        raise exc.HTTPBadRequest()
+
+
+def valid_band_combo(request):
+    """
+    Return true if band combo is valid, False if not.
+    """
+    valid = [1, 2, 3, 4, 5, 6, 7, 9]
+    band1 = request.params.get('band1')
+    band2 = request.params.get('band2')
+    band3 = request.params.get('band3')
+    return band1 in valid and band2 in valid and band3 in valid
 
 
 @view_config(route_name='scene', renderer='templates/scene.jinja2')
