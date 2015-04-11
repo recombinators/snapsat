@@ -56,10 +56,10 @@ function graph(graphId, type) {
             .attr("height", height + stroke_width)
             .attr('class', 'spectrumMap');
 
-        yoffset = $(id).parent().find($("img")).height();
+        // yoffset = $(id).parent().find($("img")).height();
         tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([0, 0])
+        .offset([height *2 , 0])
         .html(function(d) {
             return '<div class="sans">' + freqLegend[d[2]] + '</div>';
             });
