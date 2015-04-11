@@ -30,8 +30,7 @@ class Paths(Base):
             scene = (Session.query(cls).filter(
                 func.ST_Within(func.ST_SetSRID(
                     func.ST_MakePoint(float(lon), float(lat)), 4236),
-                    func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all()
-                    )
+                    func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all())
             return scene
         except:
             return u'----'
@@ -47,17 +46,39 @@ class PathRow(Base):
     cloudcover = Column(Float, nullable=False)
     path = Column(Integer, nullable=False)
     row = Column(Integer, nullable=False)
+    min_lat = Column(Float, nullable=False)
+    min_lon = Column(Float, nullable=False)
+    max_lat = Column(Float, nullable=False)
+    max_lon = Column(Float, nullable=False)
     download_url = Column(UnicodeText, nullable=False)
 
     @classmethod
     def scenelist(cls, pr_output):
         """
-        For Constantine
+        Query path_row table for a list of scenes that are available in the AWS
+        landsat public data set that correspond to the path row requested.
         """
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
         return Session.query(cls).filter(or_(*new))
+
+    @classmethod
+    def meta_data(cls, scene_id):
+        """
+        Query path_row table for scene metadata.
+        """
+
+        return Session.query(cls.acquisitiondate,
+                             cls.cloudcover,
+                             cls.path,
+                             cls.row,
+                             cls.min_lat,
+                             cls.min_lon,
+                             cls.max_lat,
+                             cls.max_lon,
+                             cls.download_url
+                             ).filter(cls.entityid == scene_id).one()
 
 
 class UserJob(Base):
@@ -161,10 +182,10 @@ class UserJob(Base):
                       10: "Failed"}
         try:
             job_info = Session.query(
-                    cls.jobstatus,
-                    cls.starttime,
-                    cls.lastmodified).filter(
-                        cls.jobid == jobid).one()
+                cls.jobstatus,
+                cls.starttime,
+                cls.lastmodified).filter(
+                cls.jobid == jobid).one()
             return status_key[job_info[0]], job_info[1], job_info[2]
         except:
             print 'Database operation'
@@ -220,8 +241,8 @@ class RenderCache(Base):
         """
         try:
             rendered = Session.query(cls).filter(
-                    cls.entityid == entityid,
-                    cls.currentlyrend is not True).all()
+                cls.entityid == entityid,
+                cls.currentlyrend is not True).all()
         except:
             print 'Database query failed get_rendered_rendering'
             return None
@@ -234,10 +255,10 @@ class RenderCache(Base):
         """
         try:
             output = Session.query(cls).filter(
-                    cls.entityid == entityid,
-                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                    cls.rendertype == u'full',
-                    cls.renderurl.isnot(None)).count()
+                cls.entityid == entityid,
+                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                cls.rendertype == u'full',
+                cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed full_render_availability'
             return None
@@ -245,10 +266,10 @@ class RenderCache(Base):
         if output != 0:
             # if this scene/band has already been requested, increase the count
             Session.query(cls).filter(
-                    cls.entityid == entityid,
-                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                    cls.rendertype == u'full'
-                    ).update({"rendercount": cls.rendercount+1})
+                cls.entityid == entityid,
+                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                cls.rendertype == u'full'
+                ).update({"rendercount": cls.rendercount+1})
 
         return output != 0
 
@@ -259,10 +280,10 @@ class RenderCache(Base):
         """
         try:
             output = Session.query(cls).filter(
-                    cls.entityid == entityid,
-                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                    cls.rendertype == u'preview',
-                    cls.renderurl.isnot(None)).count()
+                cls.entityid == entityid,
+                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                cls.rendertype == u'preview',
+                cls.renderurl.isnot(None)).count()
         except:
             print 'Database query failed preview_render_availability'
             return None
@@ -270,10 +291,10 @@ class RenderCache(Base):
         if output != 0:
             # if this scene/band has already been requested, increase the count
             Session.query(cls).filter(
-                    cls.entityid == entityid,
-                    cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                    cls.rendertype == u'preview'
-                    ).update({"rendercount": cls.rendercount+1})
+                cls.entityid == entityid,
+                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                cls.rendertype == u'preview'
+                ).update({"rendercount": cls.rendercount+1})
 
         return output != 0
 
