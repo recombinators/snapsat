@@ -4,7 +4,7 @@ function graph(graphId, type) {
 
     var height = 20;
     var stroke_width = 1;
-    var box_fill = "#FFF";
+    var box_fill = "#000";
     var stroke_color = "#000";
 
     var font_size = 8;
@@ -28,9 +28,18 @@ function graph(graphId, type) {
     bandLegend["7"] = "Band 7: SWIR 2";
     bandLegend["9"] = "Band 9: Cirrus";
 
+    var freqLegend = {};
+    freqLegend["1"] = "1: Coastal/Aerosol (0.435 - 0.451 µm)";
+    freqLegend["2"] = "2: Blue (0.452 - 0.512 µm)";
+    freqLegend["3"] = "3: Green (0.533 - 0.590 µm)";
+    freqLegend["4"] = "4: Red (0.636 - 0.673 µm)";
+    freqLegend["5"] = "5: Near Infrared (NIR) (0.851 - 0.879 µm)";
+    freqLegend["6"] = "6: SWIR 1 (1.566 - 1.651 µm)";
+    freqLegend["7"] = "7: SWIR 2 (2.107 - 2.294 µm)";
+    freqLegend["9"] = "9: Cirrus (1.363 - 1.384 µm)";
 
     if(type == "reference"){
-        width = $(".preview-container").width();
+        width = $(".d3-container").width();
 
         waveLengths = [[435, 451, 1, "#6ca4d3"],
                        [452, 512, 2, blue_color],
@@ -42,28 +51,40 @@ function graph(graphId, type) {
                        [1362, 1384, 9, "#7f87b5"]];
 
         svgBar = d3.selectAll(id)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height + stroke_width)
-        .attr('class', 'spectrumMap');
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height + stroke_width)
+            .attr('class', 'spectrumMap');
+
+        // yoffset = $(id).parent().find($("img")).height();
+        tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([height *2 , 0])
+        .html(function(d) {
+            return '<div class="sans">' + freqLegend[d[2]] + '</div>';
+            });
+
+        svgBar.call(tip);
 
         svgBar.append("rect")
-        .attr("x", 0 + "px")
-        .attr("y", 0 + "px")
-        .attr("width", width)
-        .attr("height", height + stroke_width);
+            .attr("x", 0 + "px")
+            .attr("y", 0 + "px")
+            .attr("width", width)
+            .attr("height", height + stroke_width);
 
         svgBar.selectAll("rect")
-        .data(waveLengths, function(d){return d;})
-        .enter()
-        .append("rect")
-        .attr("stroke-width", stroke_width)
-        .attr("stroke", stroke_color)
-        .attr("fill", function (d){ return (d[3]); })
-        .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
-        .attr("y", 0 + "px")
-        .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
-        .attr("height", height + "px");
+            .data(waveLengths, function(d){return d;})
+            .enter()
+            .append("rect")
+            .attr("stroke-width", stroke_width)
+            .attr("stroke", stroke_color)
+            .attr("fill", function (d){ return (d[3]); })
+            .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+            .attr("y", 0 + "px")
+            .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
+            .attr("height", height + "px")
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
 
         svgBar.selectAll("text")
             .data(waveLengths, function(d){return d;})
@@ -75,7 +96,8 @@ function graph(graphId, type) {
             .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
             .attr("dy", height / 2 + font_size / 2)
             .attr("font-size", font_size)
-            .text(function(d) { return d[2]; });
+            .text(function(d) { return d[2]; })
+            .attr("pointer-events", "none");
 
     }else if(type == "preview"){
         width = $(id).parent().width();
@@ -100,43 +122,43 @@ function graph(graphId, type) {
         }
 
         svgBar = d3.selectAll(id)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height + stroke_width)
-        .attr('class', 'spectrumMap');
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height + stroke_width)
+            .attr('class', 'spectrumMap');
 
-        var yoffset = $(id).parent().find($("img")).height();
-        var tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([2 * yoffset / 3, 0])
-        .html(
-            "<p>" + bandLegend[String(red_band)] + " ----> Band 4: Red" + "</p>"+
-            "<p>" + bandLegend[String(green_band)] + " ----> Band 3: Green" + "</p>"+
-            "<p>" + bandLegend[String(blue_band)] + " ----> Band 2: Blue" + "</p>"
-            );
+        // yoffset = $(id).parent().find($("img")).height();
+        // tip = d3.tip()
+            // .attr('class', 'd3-tip')
+            // .offset([2 * yoffset / 3, 0])
+            // .html(
+            //     "<p>" + bandLegend[String(red_band)] + " ----> Band 4: Red" + "</p>"+
+            //     "<p>" + bandLegend[String(green_band)] + " ----> Band 3: Green" + "</p>"+
+            //     "<p>" + bandLegend[String(blue_band)] + " ----> Band 2: Blue" + "</p>"
+            //     );
 
-        svgBar.call(tip);
+        // svgBar.call(tip);
 
         svgBar.append("rect")
-        .attr("x", 0 + "px")
-        .attr("y", 0 + "px")
-        .attr("width", width)
-        .attr("height", height + stroke_width)
-        .on('mouseover', tip.show)
-        .on('mouseout', tip.hide);
+            .attr("x", 0 + "px")
+            .attr("y", 0 + "px")
+            .attr("width", width)
+            .attr("height", height + stroke_width);
+            // .on('mouseover', tip.show)
+            // .on('mouseout', tip.hide);
 
         svgBar.selectAll("rect")
-        .data(waveLengths, function(d){return d;})
-        .enter()
-        .append("rect")
-        .attr("stroke-width", stroke_width)
-        .attr("stroke", stroke_color)
-        .attr("fill", function (d){ return (d[3]); })
-        .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
-        .attr("y", 0 + "px")
-        .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
-        .attr("height", height + "px")
-        .attr("pointer-events", "none");
+            .data(waveLengths, function(d){return d;})
+            .enter()
+            .append("rect")
+            .attr("stroke-width", stroke_width)
+            .attr("stroke", stroke_color)
+            .attr("fill", function (d){ return (d[3]); })
+            .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+            .attr("y", 0 + "px")
+            .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
+            .attr("height", height + "px")
+            .attr("pointer-events", "none");
         
     }
 
