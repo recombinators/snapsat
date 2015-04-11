@@ -99,15 +99,13 @@ header {
     top:0;
     left: 0;
     height: 100%;
-    padding-top:2rem;
-    padding-left: 4rem;
-    padding-right: 4rem;
-    padding-bottom: 0;
+    padding: 2rem;
 }
 
 .contain {
     margin-left: 30rem;
-    padding-left: 4rem;
+    padding-left: 2rem;
+    padding-top: 4rem;
 }
 
 .preview-container {
@@ -202,8 +200,4 @@ select {
     top: 0;
     bottom: 0;
     width: 30rem;
-}
-
-.d3-container {
-    background: red;
 }
