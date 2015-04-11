@@ -40,7 +40,9 @@ $(document).ready(function(){
                 }else{
                     if(info.jobstatus != 'Failed'){
                         $(newid).html(
-                            "<img src=" + info.renderurl + ">");
+                            "<a href="  + info.renderurl + ">" +
+                            "<img src=" + info.renderurl + ">" +
+                            "</a>");
                         clearInterval(intervalID);
                     }else{
                         $(newid).html(
@@ -21913,7 +21915,8 @@ module.exports={
     "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
+  "readme": "ERROR: No README data found!"
 }
 
 },{}],13:[function(require,module,exports){
