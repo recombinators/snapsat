@@ -13,7 +13,7 @@ $(document).ready(function(){
                 var newid = '#'.concat(jobId);
                 if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
                     $(newid).html(
-                        "<div class='loading'><img src='/static/img/no_preview.gif'></div>");
+                        "<div class='loading'><img src='/static/img/loading.gif'></div>");
                 }else{
                     if(info.jobstatus != 'Failed'){
                         $(newid).html(

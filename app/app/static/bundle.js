@@ -47,7 +47,7 @@ $(document).ready(function(){
                 var newid = '#'.concat(jobId);
                 if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
                     $(newid).html(
-                        "<div class='loading'><img src='/static/img/no_preview.gif'></div>");
+                        "<div class='loading'><img src='/static/img/loading.gif'></div>");
                 }else{
                     if(info.jobstatus != 'Failed'){
                         $(newid).html(
@@ -21924,8 +21924,7 @@ module.exports={
     "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
-  "readme": "ERROR: No README data found!"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
 }
 
 },{}],14:[function(require,module,exports){
