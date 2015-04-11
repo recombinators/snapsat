@@ -17,7 +17,9 @@ $(document).ready(function(){
                 }else{
                     if(info.jobstatus != 'Failed'){
                         $(newid).html(
-                            "<img src=" + info.renderurl + ">");
+                            "<a href="  + info.renderurl + ">" +
+                            "<img src=" + info.renderurl + ">" +
+                            "</a>");
                         clearInterval(intervalID);
                     }else{
                         $(newid).html(
