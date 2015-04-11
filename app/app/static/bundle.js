@@ -2,22 +2,11 @@
 var $ = require('jquery');
 require('./typekit.js');
 require('./gauges.js');
-require('./ga.js');
 require('./map.js');
 require('./longpoll.js');
 // require('./band.js');
 
-},{"./ga.js":2,"./gauges.js":3,"./longpoll.js":4,"./map.js":5,"./typekit.js":6,"jquery":7}],2:[function(require,module,exports){
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-61708233-1', 'auto');
-ga('require', 'linkid', 'linkid.js');
-ga('send', 'pageview');
-
-},{}],3:[function(require,module,exports){
+},{"./gauges.js":2,"./longpoll.js":3,"./map.js":4,"./typekit.js":5,"jquery":6}],2:[function(require,module,exports){
 var _gauges = _gauges || [];
 (function() {
     var t   = document.createElement('script');
@@ -31,7 +20,7 @@ var _gauges = _gauges || [];
     s.parentNode.insertBefore(t, s);
 })();
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
     $(".nopreview").each(function(){
@@ -146,7 +135,7 @@ function startStatusPoll(jobId, intervalID){
     });
 }
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
@@ -223,7 +212,7 @@ map.on('moveend', function() {
     });
 });
 
-},{"mapbox.js":22}],6:[function(require,module,exports){
+},{"mapbox.js":21}],5:[function(require,module,exports){
 (function(d) {
     var config = {
         kitId: 'wqn0qec',
@@ -232,7 +221,7 @@ map.on('moveend', function() {
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -9439,7 +9428,7 @@ return jQuery;
 
 }));
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -9534,7 +9523,7 @@ function corslite(url, callback, cors) {
 
 if (typeof module !== 'undefined') module.exports = corslite;
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  Leaflet, a JavaScript library for mobile-friendly interactive maps. http://leafletjs.com
  (c) 2010-2013, Vladimir Agafonkin
@@ -18715,7 +18704,7 @@ L.Map.include({
 
 
 }(window, document));
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -19268,7 +19257,7 @@ L.Map.include({
 
 }));
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var html_sanitize = require('./sanitizer-bundle.js');
 
 module.exports = function(_) {
@@ -19288,7 +19277,7 @@ function cleanUrl(url) {
 
 function cleanId(id) { return id; }
 
-},{"./sanitizer-bundle.js":12}],12:[function(require,module,exports){
+},{"./sanitizer-bundle.js":11}],11:[function(require,module,exports){
 
 // Copyright (C) 2010 Google Inc.
 //
@@ -21736,7 +21725,7 @@ if (typeof module !== 'undefined') {
     module.exports = html_sanitize;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports={
   "author": {
     "name": "Mapbox"
@@ -21927,7 +21916,7 @@ module.exports={
   "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
 }
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -21937,7 +21926,7 @@ module.exports = {
     REQUIRE_ACCESS_TOKEN: true
 };
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22059,7 +22048,7 @@ module.exports.featureLayer = function(_, options) {
     return new FeatureLayer(_, options);
 };
 
-},{"./marker":30,"./request":31,"./simplestyle":33,"./url":35,"./util":36,"sanitize-caja":11}],16:[function(require,module,exports){
+},{"./marker":29,"./request":30,"./simplestyle":32,"./url":34,"./util":35,"sanitize-caja":10}],15:[function(require,module,exports){
 'use strict';
 
 var Feedback = L.Class.extend({
@@ -22073,7 +22062,7 @@ var Feedback = L.Class.extend({
 
 module.exports = new Feedback();
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22174,7 +22163,7 @@ module.exports = function(url, options) {
     return geocoder;
 };
 
-},{"./feedback":16,"./request":31,"./url":35,"./util":36}],18:[function(require,module,exports){
+},{"./feedback":15,"./request":30,"./url":34,"./util":35}],17:[function(require,module,exports){
 'use strict';
 
 var geocoder = require('./geocoder'),
@@ -22366,7 +22355,7 @@ module.exports.geocoderControl = function(_, options) {
     return new GeocoderControl(_, options);
 };
 
-},{"./geocoder":17,"./util":36}],19:[function(require,module,exports){
+},{"./geocoder":16,"./util":35}],18:[function(require,module,exports){
 'use strict';
 
 function utfDecode(c) {
@@ -22384,7 +22373,7 @@ module.exports = function(data) {
     };
 };
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22584,7 +22573,7 @@ module.exports.gridControl = function(_, options) {
     return new GridControl(_, options);
 };
 
-},{"./util":36,"mustache":10,"sanitize-caja":11}],21:[function(require,module,exports){
+},{"./util":35,"mustache":9,"sanitize-caja":10}],20:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22809,11 +22798,11 @@ module.exports.gridLayer = function(_, options) {
     return new GridLayer(_, options);
 };
 
-},{"./grid":19,"./load_tilejson":26,"./request":31,"./util":36}],22:[function(require,module,exports){
+},{"./grid":18,"./load_tilejson":25,"./request":30,"./util":35}],21:[function(require,module,exports){
 require('./leaflet');
 require('./mapbox');
 
-},{"./leaflet":24,"./mapbox":28}],23:[function(require,module,exports){
+},{"./leaflet":23,"./mapbox":27}],22:[function(require,module,exports){
 'use strict';
 
 var InfoControl = L.Control.extend({
@@ -22930,10 +22919,10 @@ module.exports.infoControl = function(options) {
     return new InfoControl(options);
 };
 
-},{"sanitize-caja":11}],24:[function(require,module,exports){
+},{"sanitize-caja":10}],23:[function(require,module,exports){
 window.L = require('leaflet/dist/leaflet-src');
 
-},{"leaflet/dist/leaflet-src":9}],25:[function(require,module,exports){
+},{"leaflet/dist/leaflet-src":8}],24:[function(require,module,exports){
 'use strict';
 
 var LegendControl = L.Control.extend({
@@ -23002,7 +22991,7 @@ module.exports.legendControl = function(options) {
     return new LegendControl(options);
 };
 
-},{"sanitize-caja":11}],26:[function(require,module,exports){
+},{"sanitize-caja":10}],25:[function(require,module,exports){
 'use strict';
 
 var request = require('./request'),
@@ -23028,7 +23017,7 @@ module.exports = {
     }
 };
 
-},{"./request":31,"./url":35,"./util":36}],27:[function(require,module,exports){
+},{"./request":30,"./url":34,"./util":35}],26:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -23264,7 +23253,7 @@ module.exports.map = function(element, _, options) {
     return new LMap(element, _, options);
 };
 
-},{"./feature_layer":15,"./feedback":16,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./load_tilejson":26,"./mapbox_logo":29,"./share_control":32,"./tile_layer":34,"./util":36}],28:[function(require,module,exports){
+},{"./feature_layer":14,"./feedback":15,"./grid_control":19,"./grid_layer":20,"./info_control":22,"./legend_control":24,"./load_tilejson":25,"./mapbox_logo":28,"./share_control":31,"./tile_layer":33,"./util":35}],27:[function(require,module,exports){
 'use strict';
 
 var geocoderControl = require('./geocoder_control'),
@@ -23317,7 +23306,7 @@ window.L.Icon.Default.imagePath =
     '//api.tiles.mapbox.com/mapbox.js/' + 'v' +
     require('../package.json').version + '/images';
 
-},{"../package.json":13,"./config":14,"./feature_layer":15,"./feedback":16,"./geocoder":17,"./geocoder_control":18,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./map":27,"./marker":30,"./share_control":32,"./simplestyle":33,"./tile_layer":34,"mustache":10,"sanitize-caja":11}],29:[function(require,module,exports){
+},{"../package.json":12,"./config":13,"./feature_layer":14,"./feedback":15,"./geocoder":16,"./geocoder_control":17,"./grid_control":19,"./grid_layer":20,"./info_control":22,"./legend_control":24,"./map":26,"./marker":29,"./share_control":31,"./simplestyle":32,"./tile_layer":33,"mustache":9,"sanitize-caja":10}],28:[function(require,module,exports){
 'use strict';
 
 var MapboxLogoControl = L.Control.extend({
@@ -23351,7 +23340,7 @@ module.exports.mapboxLogoControl = function(options) {
     return new MapboxLogoControl(options);
 };
 
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var url = require('./url'),
@@ -23418,7 +23407,7 @@ module.exports = {
     createPopup: createPopup
 };
 
-},{"./url":35,"./util":36,"sanitize-caja":11}],31:[function(require,module,exports){
+},{"./url":34,"./util":35,"sanitize-caja":10}],30:[function(require,module,exports){
 'use strict';
 
 var corslite = require('corslite'),
@@ -23450,7 +23439,7 @@ module.exports = function(url, callback) {
     }
 };
 
-},{"./config":14,"./util":36,"corslite":8}],32:[function(require,module,exports){
+},{"./config":13,"./util":35,"corslite":7}],31:[function(require,module,exports){
 'use strict';
 
 var urlhelper = require('./url');
@@ -23553,7 +23542,7 @@ module.exports.shareControl = function(_, options) {
     return new ShareControl(_, options);
 };
 
-},{"./load_tilejson":26,"./url":35}],33:[function(require,module,exports){
+},{"./load_tilejson":25,"./url":34}],32:[function(require,module,exports){
 'use strict';
 
 // an implementation of the simplestyle spec for polygon and linestring features
@@ -23600,7 +23589,7 @@ module.exports = {
     defaults: defaults
 };
 
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var util = require('./util');
@@ -23696,7 +23685,7 @@ module.exports.tileLayer = function(_, options) {
     return new TileLayer(_, options);
 };
 
-},{"./load_tilejson":26,"./util":36}],35:[function(require,module,exports){
+},{"./load_tilejson":25,"./util":35}],34:[function(require,module,exports){
 'use strict';
 
 var config = require('./config'),
@@ -23740,7 +23729,7 @@ module.exports.tileJSON = function(urlOrMapID, accessToken) {
     return url;
 };
 
-},{"../package.json":13,"./config":14}],36:[function(require,module,exports){
+},{"../package.json":12,"./config":13}],35:[function(require,module,exports){
 'use strict';
 
 module.exports = {
