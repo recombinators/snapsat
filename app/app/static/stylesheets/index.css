@@ -103,7 +103,7 @@ header {
 }
 
 .contain {
-    margin-left: 30rem;
+    margin-left: 25rem;
     padding-left: 2rem;
     padding-top: 4rem;
 }
@@ -166,7 +166,6 @@ header {
     padding-bottom:10px;
     padding-left: 0;
     padding-top: .5em;
-    overflow: scroll;
     height: 15em;
     border-radius: 5px;
     width: 100%;
@@ -195,9 +194,14 @@ select {
 }
 
 .sidebar {
-    background: #f6f6f6;
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 30rem;
+    width: 25rem;
 }
+
+p {
+    margin-bottom: 1em;
+}
+
+.full { max-width: 100%; }

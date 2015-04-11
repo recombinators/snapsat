@@ -13,7 +13,8 @@ require('./longpoll.js');
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-61532630-1', 'auto');
+ga('create', 'UA-61708233-1', 'auto');
+ga('require', 'linkid', 'linkid.js');
 ga('send', 'pageview');
 
 },{}],3:[function(require,module,exports){
@@ -21742,7 +21743,7 @@ module.exports={
   },
   "name": "mapbox.js",
   "description": "mapbox javascript api",
-  "version": "2.1.7",
+  "version": "2.1.6",
   "homepage": "http://mapbox.com/",
   "repository": {
     "type": "git",
@@ -21777,18 +21778,16 @@ module.exports={
   "engines": {
     "node": "*"
   },
-  "gitHead": "de0a8a3527023dee57d19efe32887d50a1414f8c",
   "bugs": {
     "url": "https://github.com/mapbox/mapbox.js/issues"
   },
-  "_id": "mapbox.js@2.1.7",
-  "_shasum": "7b2a819bd09bedefd992f262e150de60e139512b",
+  "_id": "mapbox.js@2.1.6",
+  "_shasum": "db39a14b3135a37633d756b985e6f2693c794232",
   "_from": "mapbox.js@>=2.1.6 <3.0.0",
-  "_npmVersion": "2.1.3",
-  "_nodeVersion": "0.10.32",
+  "_npmVersion": "1.4.9",
   "_npmUser": {
-    "name": "jfirebaugh",
-    "email": "john.firebaugh@gmail.com"
+    "name": "yhahn",
+    "email": "young@mapbox.com"
   },
   "maintainers": [
     {
@@ -21921,11 +21920,12 @@ module.exports={
     }
   ],
   "dist": {
-    "shasum": "7b2a819bd09bedefd992f262e150de60e139512b",
-    "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.7.tgz"
+    "shasum": "db39a14b3135a37633d756b985e6f2693c794232",
+    "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.7.tgz"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
+  "readme": "ERROR: No README data found!"
 }
 
 },{}],14:[function(require,module,exports){
@@ -23059,8 +23059,7 @@ var LMap = L.Map.extend({
         legendControl: {},
         gridControl: {},
         infoControl: false,
-        shareControl: false,
-        sanitizer: require('sanitize-caja')
+        shareControl: false
     },
 
     _tilejson: {},
@@ -23176,7 +23175,7 @@ var LMap = L.Map.extend({
         }
 
         if (this.infoControl && json.attribution) {
-            this.infoControl.addInfo(this.options.sanitizer(json.attribution));
+            this.infoControl.addInfo(json.attribution);
             this._updateMapFeedbackLink();
         }
 
@@ -23266,7 +23265,7 @@ module.exports.map = function(element, _, options) {
     return new LMap(element, _, options);
 };
 
-},{"./feature_layer":15,"./feedback":16,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./load_tilejson":26,"./mapbox_logo":29,"./share_control":32,"./tile_layer":34,"./util":36,"sanitize-caja":11}],28:[function(require,module,exports){
+},{"./feature_layer":15,"./feedback":16,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./load_tilejson":26,"./mapbox_logo":29,"./share_control":32,"./tile_layer":34,"./util":36}],28:[function(require,module,exports){
 'use strict';
 
 var geocoderControl = require('./geocoder_control'),
@@ -23611,10 +23610,6 @@ var formatPattern = /\.((?:png|jpg)\d*)(?=$|\?)/;
 var TileLayer = L.TileLayer.extend({
     includes: [require('./load_tilejson')],
 
-    options: {
-        sanitizer: require('sanitize-caja')
-    },
-
     // http://mapbox.com/developers/api/#image_quality
     formats: [
         'png', 'jpg',
@@ -23655,7 +23650,7 @@ var TileLayer = L.TileLayer.extend({
 
         L.extend(this.options, {
             tiles: json.tiles,
-            attribution: this.options.sanitizer(json.attribution),
+            attribution: json.attribution,
             minZoom: json.minzoom || 0,
             maxZoom: json.maxzoom || 18,
             tms: json.scheme === 'tms',
@@ -23702,7 +23697,7 @@ module.exports.tileLayer = function(_, options) {
     return new TileLayer(_, options);
 };
 
-},{"./load_tilejson":26,"./util":36,"sanitize-caja":11}],35:[function(require,module,exports){
+},{"./load_tilejson":26,"./util":36}],35:[function(require,module,exports){
 'use strict';
 
 var config = require('./config'),

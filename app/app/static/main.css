@@ -866,7 +866,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 	display: block;
 }
 body {
-	line-height: 1;
 	overflow-x: hidden;
 }
 html, body {
@@ -878,56 +877,6 @@ html, body {
 /******************************************************************
 	General
 ******************************************************************/								
-a {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	text-decoration: none;
-	/*font-size: 8pt;*/
-	color: #616161;
-}
-a:hover {
-	color: #6093e7;
-}
-p {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #848484;
-	font-size: 12px;
-}
-h1 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 40px;
-}
-h2 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 20px;
-}
-h3 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 18px;
-}
-h4 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 16px;
-}
-h6 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 12px;
-}
 .clear {
 	clear: both;
 }
@@ -1171,7 +1120,7 @@ a.socialicon.twitter:hover { background-image: url(http://snapsatstatic.s3-us-we
 ******************************************************************/
 #contact p {
 	text-align: center;
-	padding: 15%;
+	padding: 5%;
 	font-size: 1em;
 }
 #contact a {
@@ -1279,7 +1228,7 @@ header {
 }
 
 .contain {
-    margin-left: 30rem;
+    margin-left: 25rem;
     padding-left: 2rem;
     padding-top: 4rem;
 }
@@ -1346,7 +1295,6 @@ header {
     padding-bottom:10px;
     padding-left: 0;
     padding-top: .5em;
-    overflow: scroll;
     height: 15em;
     border-radius: 5px;
     width: 100%;
@@ -1381,9 +1329,14 @@ select {
 }
 
 .sidebar {
-    background: #f6f6f6;
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 30rem;
+    width: 25rem;
 }
+
+p {
+    margin-bottom: 1em;
+}
+
+.full { max-width: 100%; }
