@@ -166,10 +166,12 @@ def valid_band_combo(request):
     Return true if band combo is valid, False if not.
     """
     valid = [1, 2, 3, 4, 5, 6, 7, 9]
-    band1 = request.params.get('band1')
-    band2 = request.params.get('band2')
-    band3 = request.params.get('band3')
-    return band1 in valid and band2 in valid and band3 in valid
+    bands = [request.params.get('band1'),
+             request.params.get('band2'),
+             request.params.get('band3')]
+    # Check if all bands are unique
+    unique = len(bands) == len(set(bands))
+    return all(x in valid for x in bands) and unique
 
 
 @view_config(route_name='scene', renderer='templates/scene.jinja2')
