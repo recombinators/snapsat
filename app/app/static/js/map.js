@@ -1,3 +1,4 @@
+require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
  

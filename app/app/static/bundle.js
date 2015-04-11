@@ -1,17 +1,153 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// var $ = require('jquery');
-// require('./typekit.js');
-// require('./gauges.js');
-// require('./ga.js');
-// require('./map.js');
-// require('./longpoll.js');
-// require('./typekit.js');
-// require('./map.js');
-
-},{"./map.js":2,"./typekit.js":3}],2:[function(require,module,exports){
-require('mapbox.js');
 var $ = require('jquery');
- 
+require('./typekit.js');
+require('./gauges.js');
+require('./ga.js');
+require('./map.js');
+require('./longpoll.js');
+// require('./band.js');
+
+},{"./ga.js":2,"./gauges.js":3,"./longpoll.js":4,"./map.js":5,"./typekit.js":6,"jquery":7}],2:[function(require,module,exports){
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61708233-1', 'auto');
+ga('require', 'linkid', 'linkid.js');
+ga('send', 'pageview');
+
+},{}],3:[function(require,module,exports){
+var _gauges = _gauges || [];
+(function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '551edd12de2e261c21001787');
+    t.setAttribute('data-track-path', 'https://track.gaug.es/track.gif');
+    t.src = 'https://track.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+})();
+
+},{}],4:[function(require,module,exports){
+// Start polling for preview and full render job status and take action when document is ready
+$(document).ready(function(){
+    $(".nopreview").each(function(){
+        var jobId = this.id;
+        var intervalTime = 5000;
+        var intervalID = setInterval(function poll(){
+            $.ajax({
+                url: "/preview_poll",
+                data: {'jobid': jobId},
+                dataType: "json"
+            }).done(function(json){
+                var info = json.job_info;
+                var newid = '#'.concat(jobId);
+                if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+                    $(newid).html(
+                        "<div class='loading'><img src='/static/img/no_preview.gif'></div>");
+                }else{
+                    if(info.jobstatus != 'Failed'){
+                        $(newid).html(
+                            "<img src=" + info.renderurl + ">");
+                        clearInterval(intervalID);
+                    }else{
+                        $(newid).html(
+                            "<p><strong class='red'>Preview Failure</strong></p>");
+                        clearInterval(intervalID);
+                    }
+                }
+            });
+        }, intervalTime);
+    });
+    
+    $(".nofull").each(function(){
+        var jobId = this.id;
+        var intervalTime = 10000;
+        if(jobId){
+            var intervalID = setInterval(function poll(){
+                $.ajax({
+                    url: "/status_poll",
+                    data: {'jobid': jobId},
+                    dataType: "json"
+                }).done(function(json){
+                    var info = json.job_info;
+                    var newid = '#'.concat(jobId);
+                    if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+                        $(newid).find("#fullstatus").html(info.jobstatus);
+                        $(newid).find("#fullelapsedtime").html(info.elapsedtime);
+                    }else{
+                        if(info.jobstatus != 'Failed'){
+                            $(newid).html(
+                                "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
+                            clearInterval(intervalID);
+                        }else{
+                            $(newid).html(
+                                "<p><strong class='red'>Composite Failure</strong></p>");
+                            clearInterval(intervalID);
+                        }
+                    }
+                });
+            }, intervalTime);
+        }
+    });
+
+});
+
+// Stop polling for a preview when 
+function stopPreviewPoll(data, intervalID){
+    if(data.bool === false){
+        console.log('preview stop');
+        clearInterval(intervalID);
+    }
+}
+
+// Start polliing for preview status
+function startPreviewPoll(jobId, intervalID){
+    $.ajax({
+        url: "/preview_poll", 
+        dataType: "json"
+    }).done(function(data){
+        console.log('preview ' + data.bool);
+        console.log(intervalID);
+        console.log(jobId);
+        console.log(data.bool);
+        if(data.bool === false){
+            console.log('preview stop');
+            clearInterval(intervalID);
+        }
+    });
+}
+
+// Stop polliing for full render status when
+function stopStatusPoll(data, intervalID){
+    if(data.bool === false){
+        console.log('full stop');
+        clearInterval(intervalID);
+    }
+}
+
+// Start polliing for full render status
+function startStatusPoll(jobId, intervalID){
+    $.ajax({
+        url: "/status_poll", 
+        dataType: "json"
+    }).done(function(data){
+        console.log('full ' + data.bool);
+        console.log(intervalID);
+        console.log(jobId);
+        console.log(data.bool);
+        if(data.bool === false){
+            console.log('status stop');
+            clearInterval(intervalID);
+        }
+    });
+}
+
+},{}],5:[function(require,module,exports){
+require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
  
@@ -19,9 +155,16 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {zoomControl: true});
 map.setView([47.568, -122.582], 7);
 map.scrollWheelZoom.disable();
+// L.control.fullscreen.addTo(map);
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
- 
- 
+//  Set column widths on column titles tables when page is ready
+$(document).ready(function(){
+    $.each($('.column_titles th'), function(i, value){
+                var wid = $($(".group_head th")[i]).width();
+                $(value).width(wid);
+    }); 
+});
+
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat
 // scenes present.
@@ -38,12 +181,15 @@ map.on('moveend', function() {
         dataType: "json",
         data: {'lat': lat, 'lng': lng, }
     }).done(function(json) {
- 
-        // scenes = json.scenes;
         scenes_pr = json.scenes;
          
+         // Update path-row groupings of scenes on map move
         $('#pathrowgrouping').html('');
+
+            // Create new table for each path-row grouping.
             for (var i in scenes_pr) {
+
+                // Set id tag for each new table based.
                 var num = i;
                 var n = num.toString();
                 var id = 'tab'.concat(n);
@@ -54,26 +200,30 @@ map.on('moveend', function() {
  
                 var scenes_path_row = scenes_pr[i];
                 var newid = '#'.concat(id);
- 
-                $(newid).html('');
+
+                // Create title for each path-row group table.
                 $(newid).append(
-                    "<thead><tr><th>Date acquired</th><th>Path</th><th>Row</th><th>Cloud cover</th><th>ID</th></tr></thead>"
+                    "<thead class='group_head'><tr><th class='light uppercase h2'> Path-Row: " + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</th></thead>"
                 );
+
+                // Create sub titles for date and cloudcover
+                $(newid).append(
+                    '<th class="date">Date acquired</th><th class="cloud">Cloud cover</th>'
+                );
+
+                // Generate rows for each date within a path-row group.
                 for (var k in scenes_path_row) {
                     $(newid).append(
                         "<tr>" +
-                            "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
-                            "<td>" + scenes_path_row[k].path + "</td>" +
-                            "<td>" + scenes_path_row[k].row + "</td>" +
-                            "<td>" + scenes_path_row[k].cloudcover + "</td>" +
-                            "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                            "<td class='datetb1'><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].acquisitiondate + "</a></td>" +
+                            "<td>" + scenes_path_row[k].cloudcover + "%</td>" +
                         "</tr>");
                 }
-            }
+        }
     });
 });
 
-},{"jquery":4,"mapbox.js":19}],3:[function(require,module,exports){
+},{"mapbox.js":22}],6:[function(require,module,exports){
 (function(d) {
     var config = {
         kitId: 'wqn0qec',
@@ -82,7 +232,7 @@ map.on('moveend', function() {
     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
 
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -9289,7 +9439,7 @@ return jQuery;
 
 }));
 
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
 
@@ -9384,7 +9534,7 @@ function corslite(url, callback, cors) {
 
 if (typeof module !== 'undefined') module.exports = corslite;
 
-},{}],6:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*
  Leaflet, a JavaScript library for mobile-friendly interactive maps. http://leafletjs.com
  (c) 2010-2013, Vladimir Agafonkin
@@ -11395,7 +11545,7 @@ L.Map = L.Class.extend({
 		if (!container) {
 			throw new Error('Map container not found.');
 		} else if (container._leaflet) {
-			throw new error('Map container is already initialized.');
+			throw new Error('Map container is already initialized.');
 		}
 
 		container._leaflet = true;
@@ -18565,7 +18715,7 @@ L.Map.include({
 
 
 }(window, document));
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -19118,7 +19268,7 @@ L.Map.include({
 
 }));
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var html_sanitize = require('./sanitizer-bundle.js');
 
 module.exports = function(_) {
@@ -19138,7 +19288,7 @@ function cleanUrl(url) {
 
 function cleanId(id) { return id; }
 
-},{"./sanitizer-bundle.js":9}],9:[function(require,module,exports){
+},{"./sanitizer-bundle.js":12}],12:[function(require,module,exports){
 
 // Copyright (C) 2010 Google Inc.
 //
@@ -21586,7 +21736,7 @@ if (typeof module !== 'undefined') {
     module.exports = html_sanitize;
 }
 
-},{}],10:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports={
   "author": {
     "name": "Mapbox"
@@ -21774,10 +21924,11 @@ module.exports={
     "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
+  "readme": "ERROR: No README data found!"
 }
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -21787,7 +21938,7 @@ module.exports = {
     REQUIRE_ACCESS_TOKEN: true
 };
 
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -21909,7 +22060,7 @@ module.exports.featureLayer = function(_, options) {
     return new FeatureLayer(_, options);
 };
 
-},{"./marker":27,"./request":28,"./simplestyle":30,"./url":32,"./util":33,"sanitize-caja":8}],13:[function(require,module,exports){
+},{"./marker":30,"./request":31,"./simplestyle":33,"./url":35,"./util":36,"sanitize-caja":11}],16:[function(require,module,exports){
 'use strict';
 
 var Feedback = L.Class.extend({
@@ -21923,7 +22074,7 @@ var Feedback = L.Class.extend({
 
 module.exports = new Feedback();
 
-},{}],14:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22024,7 +22175,7 @@ module.exports = function(url, options) {
     return geocoder;
 };
 
-},{"./feedback":13,"./request":28,"./url":32,"./util":33}],15:[function(require,module,exports){
+},{"./feedback":16,"./request":31,"./url":35,"./util":36}],18:[function(require,module,exports){
 'use strict';
 
 var geocoder = require('./geocoder'),
@@ -22216,7 +22367,7 @@ module.exports.geocoderControl = function(_, options) {
     return new GeocoderControl(_, options);
 };
 
-},{"./geocoder":14,"./util":33}],16:[function(require,module,exports){
+},{"./geocoder":17,"./util":36}],19:[function(require,module,exports){
 'use strict';
 
 function utfDecode(c) {
@@ -22234,7 +22385,7 @@ module.exports = function(data) {
     };
 };
 
-},{}],17:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22434,7 +22585,7 @@ module.exports.gridControl = function(_, options) {
     return new GridControl(_, options);
 };
 
-},{"./util":33,"mustache":7,"sanitize-caja":8}],18:[function(require,module,exports){
+},{"./util":36,"mustache":10,"sanitize-caja":11}],21:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -22659,11 +22810,11 @@ module.exports.gridLayer = function(_, options) {
     return new GridLayer(_, options);
 };
 
-},{"./grid":16,"./load_tilejson":23,"./request":28,"./util":33}],19:[function(require,module,exports){
+},{"./grid":19,"./load_tilejson":26,"./request":31,"./util":36}],22:[function(require,module,exports){
 require('./leaflet');
 require('./mapbox');
 
-},{"./leaflet":21,"./mapbox":25}],20:[function(require,module,exports){
+},{"./leaflet":24,"./mapbox":28}],23:[function(require,module,exports){
 'use strict';
 
 var InfoControl = L.Control.extend({
@@ -22780,10 +22931,10 @@ module.exports.infoControl = function(options) {
     return new InfoControl(options);
 };
 
-},{"sanitize-caja":8}],21:[function(require,module,exports){
+},{"sanitize-caja":11}],24:[function(require,module,exports){
 window.L = require('leaflet/dist/leaflet-src');
 
-},{"leaflet/dist/leaflet-src":6}],22:[function(require,module,exports){
+},{"leaflet/dist/leaflet-src":9}],25:[function(require,module,exports){
 'use strict';
 
 var LegendControl = L.Control.extend({
@@ -22852,7 +23003,7 @@ module.exports.legendControl = function(options) {
     return new LegendControl(options);
 };
 
-},{"sanitize-caja":8}],23:[function(require,module,exports){
+},{"sanitize-caja":11}],26:[function(require,module,exports){
 'use strict';
 
 var request = require('./request'),
@@ -22878,7 +23029,7 @@ module.exports = {
     }
 };
 
-},{"./request":28,"./url":32,"./util":33}],24:[function(require,module,exports){
+},{"./request":31,"./url":35,"./util":36}],27:[function(require,module,exports){
 'use strict';
 
 var util = require('./util'),
@@ -23114,7 +23265,7 @@ module.exports.map = function(element, _, options) {
     return new LMap(element, _, options);
 };
 
-},{"./feature_layer":12,"./feedback":13,"./grid_control":17,"./grid_layer":18,"./info_control":20,"./legend_control":22,"./load_tilejson":23,"./mapbox_logo":26,"./share_control":29,"./tile_layer":31,"./util":33}],25:[function(require,module,exports){
+},{"./feature_layer":15,"./feedback":16,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./load_tilejson":26,"./mapbox_logo":29,"./share_control":32,"./tile_layer":34,"./util":36}],28:[function(require,module,exports){
 'use strict';
 
 var geocoderControl = require('./geocoder_control'),
@@ -23167,7 +23318,7 @@ window.L.Icon.Default.imagePath =
     '//api.tiles.mapbox.com/mapbox.js/' + 'v' +
     require('../package.json').version + '/images';
 
-},{"../package.json":10,"./config":11,"./feature_layer":12,"./feedback":13,"./geocoder":14,"./geocoder_control":15,"./grid_control":17,"./grid_layer":18,"./info_control":20,"./legend_control":22,"./map":24,"./marker":27,"./share_control":29,"./simplestyle":30,"./tile_layer":31,"mustache":7,"sanitize-caja":8}],26:[function(require,module,exports){
+},{"../package.json":13,"./config":14,"./feature_layer":15,"./feedback":16,"./geocoder":17,"./geocoder_control":18,"./grid_control":20,"./grid_layer":21,"./info_control":23,"./legend_control":25,"./map":27,"./marker":30,"./share_control":32,"./simplestyle":33,"./tile_layer":34,"mustache":10,"sanitize-caja":11}],29:[function(require,module,exports){
 'use strict';
 
 var MapboxLogoControl = L.Control.extend({
@@ -23201,7 +23352,7 @@ module.exports.mapboxLogoControl = function(options) {
     return new MapboxLogoControl(options);
 };
 
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var url = require('./url'),
@@ -23268,7 +23419,7 @@ module.exports = {
     createPopup: createPopup
 };
 
-},{"./url":32,"./util":33,"sanitize-caja":8}],28:[function(require,module,exports){
+},{"./url":35,"./util":36,"sanitize-caja":11}],31:[function(require,module,exports){
 'use strict';
 
 var corslite = require('corslite'),
@@ -23300,7 +23451,7 @@ module.exports = function(url, callback) {
     }
 };
 
-},{"./config":11,"./util":33,"corslite":5}],29:[function(require,module,exports){
+},{"./config":14,"./util":36,"corslite":8}],32:[function(require,module,exports){
 'use strict';
 
 var urlhelper = require('./url');
@@ -23403,7 +23554,7 @@ module.exports.shareControl = function(_, options) {
     return new ShareControl(_, options);
 };
 
-},{"./load_tilejson":23,"./url":32}],30:[function(require,module,exports){
+},{"./load_tilejson":26,"./url":35}],33:[function(require,module,exports){
 'use strict';
 
 // an implementation of the simplestyle spec for polygon and linestring features
@@ -23450,7 +23601,7 @@ module.exports = {
     defaults: defaults
 };
 
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 var util = require('./util');
@@ -23546,7 +23697,7 @@ module.exports.tileLayer = function(_, options) {
     return new TileLayer(_, options);
 };
 
-},{"./load_tilejson":23,"./util":33}],32:[function(require,module,exports){
+},{"./load_tilejson":26,"./util":36}],35:[function(require,module,exports){
 'use strict';
 
 var config = require('./config'),
@@ -23590,7 +23741,7 @@ module.exports.tileJSON = function(urlOrMapID, accessToken) {
     return url;
 };
 
-},{"../package.json":10,"./config":11}],33:[function(require,module,exports){
+},{"../package.json":13,"./config":14}],36:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -23636,4 +23787,5 @@ function contains(item, list) {
     }
     return false;
 }
+
 },{}]},{},[1]);
