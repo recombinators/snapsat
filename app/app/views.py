@@ -166,11 +166,13 @@ def valid_band_combo(request):
     Return true if band combo is valid, False if not.
     """
     valid = [1, 2, 3, 4, 5, 6, 7, 9]
-    bands = [request.params.get('band1'),
-             request.params.get('band2'),
-             request.params.get('band3')]
+    bands = [int(request.params.get('band1')),
+             int(request.params.get('band2')),
+             int(request.params.get('band3'))]
+    print bands
     # Check if all bands are unique
     unique = len(bands) == len(set(bands))
+    print unique
     return all(x in valid for x in bands) and unique
 
 
