@@ -1,24 +1,29 @@
 [![Build Status](https://travis-ci.org/recombinators/landsat.svg)](https://travis-ci.org/recombinators/landsat)
 
-**[Snapsat](http://snapsat.org/)** is an opensource webapp that makes it easy to create custom Landsat band composites in a browser.
+**[Snapsat](http://snapsat.org/)**, an opensource webapp that makes it easy to create custom Landsat band composites in a browser.
 
-Why
----
+![](https://cldup.com/RTFc6FzfcU-2000x2000.png)
 
-The cost of working with Landsat data is dropping fast due to projects like:
-- [Landsat on AWS](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/)
-- [Libra](http://libra.developmentseed.org/)
-- [developmentseed/landsat-util](https://github.com/developmentseed/landsat-util)
-- [Landsat-live](https://www.mapbox.com/blog/landsat-live-live/)
+What Snapsat does
+-----------------
 
-We want to make it even easier.
+The cost of working with Landsat has dropped incredibly fast over the last year. Projects like [AWS's Landsat bucket](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/), [Developmentseed's](http://developmentseed.org)  [landsat-util](https://github.com/developmentseed/landsat-util), and [Libra](http://libra.developmentseed.org/) have all helped to drive down both the technical and temporal requirements.
 
-Recognizing the impact we're having on the Earth is important, and making it easy to access Landsat data seems like a good way to enable others to help tell better stories about ourselves.
+We wanted to take it one step further, and make it possible for anyone to quickly create custom Landsat band composites without needing to install of the software traditionally required. [Check it out](http://snapsat.org/), [let us know what you think](https://github.com/recombinators/landsat/issues).
 
+How Snapsat is built
+--------------------
+
+At it's core, Snapsat is a [Pyramid](http://docs.pylonsproject.org/projects/pyramid/en/latest/index.html) powered web interface to [landsat-util](https://github.com/developmentseed/landsat-util). Data is sourced exclusively from the [AWS Public Landsat dataset](https://aws.amazon.com/public-data-sets/landsat/), piped from an S3 bucket to EC2, processed with landsat-util, and piped back to a Cloudfront-backed S3 bucket. In between, there's a significant amount of querying and messaging happening with RDS and SQS. 
+
+In addition to powering the majority of our stack, Amazon generously provided us with the credits required to get things running. If you apprecaite this project, make sure to thank [Jed](https://twitter.com/jedsundwall).
 
 Contributing
 ------------
 
-- Review our code. We'd love feedback.
-- Submit a Pull Request.
-- Make something awesome with it and tell us about it.
+There are a number of ways to contribute.
+
+1. Make something awesome with it.
+2. Share it. If you know someone that might find Snapsat useful, please let them know!
+3. Review our code. We'd love feedback. This project began as our final project at [CodeFellows](https://www.codefellows.org/). We're proud of it, but we're well aware that there are improvements that could be made. __Feedback is welcome and encouraged.__
+4. Submit a Pull Request. [We've done our best to make Contributing easy.](https://github.com/recombinators/landsat/blob/master/CONTRIBUTING.md)
