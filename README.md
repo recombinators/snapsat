@@ -27,3 +27,10 @@ There are a number of ways to contribute.
 2. Share it. If you know someone that might find Snapsat useful, please let them know!
 3. Review our code. We'd love feedback. This project began as our final project at [CodeFellows](https://www.codefellows.org/). We're proud of it, but we're well aware that there are improvements that could be made. __Feedback is welcome and encouraged.__
 4. Submit a Pull Request.
+
+See Also
+--------
+
+- [When the Earth Began Looking at Itself: the Landsat Program](http://socks-studio.com/2013/07/22/when-the-earth-began-looking-at-itself-the-landsat-program/)
+- [Putting Landsat 8's Bands to work](https://www.mapbox.com/blog/putting-landsat-8-bands-to-work/)
+- [The Many Band Combinations of Landsat 8](http://www.exelisvis.com/Company/PressRoom/Blogs/TabId/836/ArtMID/2928/ArticleID/14305/The-Many-Band-Combinations-of-Landsat-8.aspx)
