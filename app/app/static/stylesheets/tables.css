@@ -4,6 +4,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	max-width: 100%;
+    width: 100%;
 }
 
 th {
@@ -21,4 +22,14 @@ td { vertical-align: top; }
 
 tr {
 	border-bottom: 2px solid #f4f4f4; 
+}
+.date {
+    width: 40%;
+}
+.cloud {
+    /*width: 50%;*/
+    float: left;
+}
+.datecloud {
+    width:100px;
 }

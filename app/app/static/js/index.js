@@ -1,3 +1,6 @@
-require('./map.js');
+var $ = require('jquery');
 require('./typekit.js');
-// require('./detail.js');
+require('./gauges.js');
+require('./map.js');
+// require('./longpoll.js');
+// require('./band.js');

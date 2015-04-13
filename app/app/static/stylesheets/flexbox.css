@@ -5,7 +5,7 @@
 	flex-wrap: wrap;
 	flex-direction: column;
 	flex-flow: column wrap;
-	justify-content: flex-start;
+	justify-content: baseline;
 	align-items: stretch;
 }
 @media (min-width: 77rem) { 
