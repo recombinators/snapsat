@@ -1,4 +1,4 @@
-
+@import 'mapbox.css';
 @import 'normalize.css';
 @import 'reset.css';
 @import 'color.css';
@@ -8,21 +8,26 @@
 @import 'lists.css';
 @import 'tables.css';
 @import 'layout.css';
+@import 'buttons.css';
 @import 'flexbox.css';
 @import 'style.css';
 
 
-
 :root {
+    /* --copy-font-weight: ; */
+    /* --heading-font-color: ; */
+    /* --heading-font-weight: ; */
 
-	/* --copy-font:	; */
-	/* --copy-font-weight: ; */
+	--copy-font: freight-sans-pro, verdana, arial, sans-serif;
 	--copy-font-color: #666;
-	--heading-font: "adriane" ;
-	/* --heading-font-color: ; */
-	/* --heading-font-weight: ; */
 	--link-color: black;
 	--link-color-hover: #d82c2c;
+}
+
+body {
+    font-size: 18px;
+    font-family: var(--copy-font);
+    position: relative;
 }
 
 .sans { font-family: var(--copy-font); }
@@ -34,22 +39,18 @@ h3 { font-size: 1.4rem; }
 
 td > a { font-weight: normal; }
 
-
-.preview-container, 
 .map-container{
     position: relative;
     min-height: 500px;
     min-height: 500px;
 }
 
-#preview,
 #map {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
 }
-
 
 .reticle {
   position: absolute;
@@ -74,7 +75,7 @@ th {
 }
 
 .blurb {
-    font-size: 110%;
+    font-size: 120%;
 }
 
 td a { color: black; }
@@ -93,18 +94,18 @@ td a:hover { color: #d82c2c; }
 }
 
 header {
-    margin: 3rem 0;
-    position: absolute;
+    margin-top: 3rem;
+    position: relative;
     top:0;
     left: 0;
     height: 100%;
-    width: 30%;
-    padding: 2rem 4rem;
+    padding: 2rem;
 }
 
 .contain {
-    margin-left: 30%;
-    margin-top: 3%;
+    margin-left: 25rem;
+    padding-left: 2rem;
+    padding-top: 4rem;
 }
 
 .preview-container {
@@ -157,29 +158,50 @@ header {
     border: solid 2px #000;
 }
 
-.mbx h3 {
-    padding:1%;
-}
-
-.mbx p {
-    font-size: 15px;
-}
 .cheatsheet {
     margin-top: 10%;
     padding-bottom: 10%;
-
 }
 .cheats  {
-    width: 15em;
     padding-bottom:10px;
-    padding-left: 1em;
+    padding-left: 0;
     padding-top: .5em;
-    overflow: scroll;
     height: 15em;
-    border: solid 1px #000; 
     border-radius: 5px;
+    width: 100%;
 }
 .cheats li {
-    padding: 5%;
-    border-bottom: solid 1px #000;
+    padding: 0.25em 0.5em;
+    border-bottom: solid 1px #444;
 }
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.display-inline-block {
+    vertical-align: top;
+}
+
+select {
+    height: 1.5rem;
+}
+
+.left {
+    float: left;
+}
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25rem;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+.full { max-width: 100%; }

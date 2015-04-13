@@ -8,6 +8,17 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <!-- Load js -->
         <script type="text/javascript" src="/static/js/custom.js"></script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-61780233-1', 'auto');
+          ga('require', 'linkid', 'linkid.js');
+          ga('send', 'pageview');
+
+        </script>
     </head>
     <!-- Start Body -->
     <body>	
@@ -29,8 +40,8 @@
         <div class="home hero">
             <!-- <div class="overlay"></div> -->
             <div class="herowrapper">
-                <h1 class="landingbuttons"><a href='/create'>Get started<span class='h3 red uppercase'>Beta</span></a></h1>
-                <h1 class="landingbuttonhowto"><a href='/guide'>Snapsat How To</a></h1>
+                <h1 class="landingbuttons"><a href='/create'>Discover<span class='h3 red uppercase'>Beta</span></a></h1>
+                <h1 class="landingbuttons"><a href='/guide'>Learn</a></h1>
             </div>
             <a href="javascript:void(0);" class="scrolldown">
                 <h3>More about Snapsat</h3>
@@ -55,6 +66,7 @@
             <p class="mission" id="landing">Here at Snapsat our mission is to take the publicly available Landsat images, generously hosted by Amazon, and to process and deliver them to you in a fast, reliable, and easy-to-use format.</p>
         </div>
         <!-- End Content -->
+
         <!-- Start Section Divider -->
         <div class="section divider" id="about">
             <h2>Our Team</h2>
@@ -88,6 +100,7 @@
                 <div class="info">
                     <h2>Jacques Tardie</h2>
                     <p>Geospatial developer.</p>
+                    <a href="https://www.linkedin.com/in/jacquestardie/en" class="socialicon linkedin"></a>
                     <a href="https://github.com/jacquestardie" class="socialicon github"></a>
                     <a href="http://twitter.com/jqtrde" class="socialicon twitter"></a>
                 </div>
@@ -102,7 +115,7 @@
                 <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/jake.jpg">
                 <div class="info">
                     <h2>Jake Anderson</h2>
-                    <p>Baker turned developer, I am passionate about making the world a better place with the use of technology. I am excited to be a part of Snapsat and am looking forward to growing my skills and creating even more tools to facilitate learning and discovering. Please don’t hesitate to check out my linkedIn and follow me on Twitter.</p>
+                    <p>Baker turned developer, I am passionate about making the world a better place with the use of technology. I am excited to be a part of Snapsat and am looking forward to growing my skills and creating even more tools to facilitate learning and discovering. Please don’t hesitate to check out my LinkedIn and follow me on Twitter.</p>
                     <a href="https://www.linkedin.com/in/jakeand3rson/en" class="socialicon linkedin"></a>
                     <a href="https://github.com/jakealope" class="socialicon github"></a>
                     <a href="https://twitter.com/jakeand3rson" class="socialicon twitter"></a>
@@ -156,12 +169,10 @@
         <!-- End Section Divider -->
         <!-- Start Content -->
         <div class="content" id="thanks">
-            <p id="landing">We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank Amazon for making all of this data open and availible for us to utilize.</p>
+            <p id="landing">We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank <strong>Amazon</strong> for making all of this data open and availible for us.</p>
             <ol class="thanks">
-                <li><a href="http://aws.amazon.com/s3/">Amazon S3</a></li>
-                <li><a href="http://aws.amazon.com/rds/">Amazon RDS</a></li>
-                <li><a href="http://aws.amazon.com/sqs/">Amazon SQS</a></li>
                 <li><a href="http://aws.amazon.com/">Amazon Web Services</a></li>
+                <li><a href='http://developmentseed.org'>Developmentseed</a></li>
                 <li><a href="http://www.ansible.com/home">Ansible</a></li>
                 <li><a href="https://www.codefellows.org/">Code Fellows</a></li>
                 <li><a href="http://crisewing.com/">Cris Ewing</a></li>
@@ -169,7 +180,6 @@
                 <li><a href="http://www.postgresql.org/">Posgresql</a></li>
                 <li><a href="http://postgis.net/">Postgis</a></li>
                 <li><a href="http://www.pylonsproject.org/">Pyramid</a></li>
-                <li><a href="http://www.sqlalchemy.org/">SQLAlchemy</a></li>
             </ol>
         </div>
         <!-- End Content -->
@@ -181,7 +191,7 @@
         <!-- End Section Divider -->
         <!-- Start Content -->
         <div class="content" id="contact">
-            <p id="landing">If you would like to contact us please feel free to hit us up on <a href="https://twitter.com/therealsnapsat">Twitter</a><br> or email us at <a href="mailto:snapsat@snapsat.com">Snapsat@snapsat.com</a></p>
+            <p id="landing">If you would like to contact us please feel free to hit us up on <a href="https://twitter.com/therealsnapsat">Twitter</a><br> or email us at <a href="mailto:snapsat@snapsat.org">Snapsat@snapsat.org</a></p>
         </div>
         <!-- End Content -->
         <footer class="footer">

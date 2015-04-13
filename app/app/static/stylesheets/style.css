@@ -17,7 +17,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 	display: block;
 }
 body {
-	line-height: 1;
 	overflow-x: hidden;
 }
 html, body {
@@ -29,56 +28,6 @@ html, body {
 /******************************************************************
 	General
 ******************************************************************/								
-a {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	text-decoration: none;
-	/*font-size: 8pt;*/
-	color: #616161;
-}
-a:hover {
-	color: #6093e7;
-}
-p {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #848484;
-	font-size: 12px;
-}
-h1 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 40px;
-}
-h2 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 20px;
-}
-h3 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 18px;
-}
-h4 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 16px;
-}
-h6 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 12px;
-}
 .clear {
 	clear: both;
 }
@@ -123,7 +72,6 @@ blockquote:after {
 	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
 }
 ul.mainmenu {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	float: right;
 	margin: 0px 40px 0px 0px;
 	text-transform: uppercase;
@@ -272,7 +220,6 @@ a.scrolldown {
 }
 .scrolldown h3 {
 	text-align: center;
-	font-size: 1.6em;
 	text-transform: uppercase;
 	color: #FFF;
 	font-weight: 200;
@@ -330,39 +277,25 @@ a.socialicon {
 	float: left;
 	margin: 20px 10px 0px 0px;
 }
-a.socialicon.linkedin {
-	/*background-position: 0px 0px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
-}
-a.socialicon.linkedin:hover {
-	/*background-position: 0px -30px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
-}
-
-a.socialicon.github {
-	/*background-position: -30px 0px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
-}
-a.socialicon.github:hover {
-	/*background-position: -30px 0px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
-}
+a.socialicon.linkedin { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
+a.socialicon.linkedin:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
+a.socialicon.github { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
+a.socialicon.github:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
 a.socialicon.twitter {
 	margin-top: 4.5%;
 	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
 }
-a.socialicon.twitter:hover {
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
-}
+a.socialicon.twitter:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png); }
+
 /******************************************************************
 	Contact us
 ******************************************************************/
-#contact p{
+#contact p {
 	text-align: center;
-	padding: 15%;
+	padding: 5%;
 	font-size: 1em;
 }
-#contact a{
+#contact a {
 	font-size: 1.2em;
 }
 /******************************************************************
