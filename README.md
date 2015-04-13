@@ -26,4 +26,4 @@ There are a number of ways to contribute.
 1. Make something awesome with it.
 2. Share it. If you know someone that might find Snapsat useful, please let them know!
 3. Review our code. We'd love feedback. This project began as our final project at [CodeFellows](https://www.codefellows.org/). We're proud of it, but we're well aware that there are improvements that could be made. __Feedback is welcome and encouraged.__
-4. Submit a Pull Request. [We've done our best to make Contributing easy.](https://github.com/recombinators/landsat/blob/master/CONTRIBUTING.md)
+4. Submit a Pull Request.
