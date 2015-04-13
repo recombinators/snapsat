@@ -30,7 +30,8 @@ map.on('moveend', function() {
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
-        data: {'lat': lat, 'lng': lng, }
+        data: {'lat': lat, 'lng': lng, },
+        async: true
     }).done(function(json) {
         scenes_pr = json.scenes;
          

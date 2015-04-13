@@ -53,7 +53,8 @@ map.on('moveend', function() {
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
-        data: {'lat': lat, 'lng': lng, }
+        data: {'lat': lat, 'lng': lng, },
+        async: true
     }).done(function(json) {
         scenes_pr = json.scenes;
          
@@ -21798,8 +21799,7 @@ module.exports={
     "tarball": "http://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz",
-  "readme": "ERROR: No README data found!"
+  "_resolved": "https://registry.npmjs.org/mapbox.js/-/mapbox.js-2.1.6.tgz"
 }
 
 },{}],12:[function(require,module,exports){
