@@ -62,3 +62,6 @@ target/
 
 # Node
 node_modules/
+
+# DS
+.DS_Store

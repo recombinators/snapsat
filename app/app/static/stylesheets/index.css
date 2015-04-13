@@ -1,4 +1,4 @@
-
+@import 'mapbox.css';
 @import 'normalize.css';
 @import 'reset.css';
 @import 'color.css';
@@ -8,66 +8,41 @@
 @import 'lists.css';
 @import 'tables.css';
 @import 'layout.css';
+@import 'buttons.css';
 @import 'flexbox.css';
+@import 'style.css';
 
 
-/* Uncomment and redefine the variables below to change to the generated stylesheet. */
 :root {
+    /* --copy-font-weight: ; */
+    /* --heading-font-color: ; */
+    /* --heading-font-weight: ; */
 
-	/* TYPOGRAPHY */
-	/* --ms3: ; */
-	/* --ms2: ; */
-	/* --ms1: ; */
-	/* --ms0: ; */
-	/* --copy-font:	; */
-	/* --copy-font-weight: ; */
-	/* --copy-font-color:	; */
-	/* --heading-font: ; */
-	/* --heading-font-color: ; */
-	/* --heading-font-weight: ; */
-	/* --monospace-font: ; */
-	/* --line-height: ; */
-	/* --font-weight-light: ; */
-	/* --font-weight-book:	; */
-	/* --font-weight-medium: ; */
-	/* --font-weight-semibold: ; */
-	/* --font-weight-bold: ; */
-	/* --font-weight-black: ; */
-
-	/* LINKS */
-	/* --link-color: ; */
-	/* --link-color-hover: ; */
-
-	/* LAYOUT */	
-	/* --container-width: ; */
-
+	--copy-font: freight-sans-pro, verdana, arial, sans-serif;
+	--copy-font-color: #666;
+	--link-color: black;
+	--link-color-hover: #d82c2c;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    color: #666;
+    font-size: 18px;
+    font-family: var(--copy-font);
+    position: relative;
 }
 
-a { color: #000; }
+.sans { font-family: var(--copy-font); }
+.serif { font-family: var(--heading-font); }
 
-td > a {
-    font-weight: normal;
-}
+h1 { font-size: 4rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.4rem; }
 
-h1, h2 { font-family: "adriane"; }
-h1 {
-    font-size: 4rem;
-}
-h2 {
-    font-size: 2rem;
-}
+td > a { font-weight: normal; }
 
 .map-container{
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 32.8%;
+    position: relative;
+    min-height: 500px;
+    min-height: 500px;
 }
 
 #map {
@@ -77,22 +52,12 @@ h2 {
     width: 100%;
 }
 
-.contain {
-    position: relative;
-    margin-left: 32.8%;
-    padding: 4rem 2rem;
-}
-
 .reticle {
   position: absolute;
   top: calc(49% - 50px);
   left: calc(49% - 50px);
   z-index: 100;
 }
-
-.blurb { font-size: 120%; }
-section { margin-bottom: 4rem; }
-table { width: 100%; }
 
 #possibilities > div {
     display: inline-block;
@@ -102,3 +67,141 @@ table { width: 100%; }
 
 #resources ul { padding-left: 0; }
 #resources ul li { display: inline }
+
+th {
+    text-transform: uppercase;
+    font-size: 80%;
+    font-weight: 300;
+}
+
+.blurb {
+    font-size: 120%;
+}
+
+td a { color: black; }
+td a:hover { color: #d82c2c; }
+
+.image {
+    position: relative;
+}
+
+.bands {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8)
+}
+
+header {
+    margin-top: 3rem;
+    position: relative;
+    top:0;
+    left: 0;
+    height: 100%;
+    padding: 2rem;
+}
+
+.contain {
+    margin-left: 25rem;
+    padding-left: 2rem;
+    padding-top: 4rem;
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-container > div {
+    max-width: 30%;
+    min-width: 20rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.attribution {
+    font-size: 90%;
+    padding-top: 1%;
+}
+
+.group_head {
+    border-top:1rem solid #FFF;
+} 
+
+#guide {
+    font-weight: bolder;
+    font-size: 15px;
+} 
+
+.band-red { color: red; }
+.band-green { color: green; }
+.band-blue { color: blue; }
+
+.graph {
+    position: relative;
+    top: 6px;
+}
+.proversion {
+    padding-top: 5%;
+    padding-bottom: 3%;
+    font-weight: bolder;
+
+}
+.newsletter {
+    padding: 1.5%;
+    background-color: #FFF;
+    text-align: center;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    float: center;
+    border: solid 2px #000;
+}
+
+.cheatsheet {
+    margin-top: 10%;
+    padding-bottom: 10%;
+}
+.cheats  {
+    padding-bottom:10px;
+    padding-left: 0;
+    padding-top: .5em;
+    height: 15em;
+    border-radius: 5px;
+    width: 100%;
+}
+.cheats li {
+    padding: 0.25em 0.5em;
+    border-bottom: solid 1px #444;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.display-inline-block {
+    vertical-align: top;
+}
+
+select {
+    height: 1.5rem;
+}
+
+.left {
+    float: left;
+}
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25rem;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+.full { max-width: 100%; }
