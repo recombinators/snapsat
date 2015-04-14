@@ -74,7 +74,7 @@ var sceneList = _.debounce(function() {
         }
     });
 });
-}, 125);
+}, 250);
 
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat
