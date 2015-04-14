@@ -86,6 +86,14 @@
 
         </div>
     </div>
+<div class='js-container-full mbl'>
+    <p class='mbn full'>A visual barcode of the bands captured by the Landsat 8 satellite. To learn more about each band, hover or check out our <a href='/guide'>Guide</a>.</p>
+    <div class='js-graph' id='js-reference-full'></div>
+</div>
+
+<div class='js-container-visible mbl'>
+    <p class='mbn full'>A visual barcode of the visible bands <a href='/guide'>Guide</a>.</p>
+    <div class='js-graph' id='js-reference-visible'></div>
 </div>
 
 {% if composites %}
@@ -98,9 +106,9 @@
     <div class='preview col col-3 relative' id='{{ band_combo }}'>
         <div class='scene-meta'>
             <h3 class='composite-description'>
-                <span class='band-red red'>{{ composite.band1 }}</span>
-                <span class='band-green green'>{{ composite.band2 }}</span> 
-                <span class='band-blue blue'>{{ composite.band3 }}</span>
+                <span class='js-band-red red'>{{ composite.band1 }}</span>
+                <span class='js-band-green green'>{{ composite.band2 }}</span> 
+                <span class='js-band-blue blue'>{{ composite.band3 }}</span>
             </h3>
 
             {% if composite.fullurl %}
@@ -108,13 +116,13 @@
 
             <!-- If a full render has NOT been created, display a means of creating one. -->
             {% else %}
-            <div class='nofull' id='{{composite.fulljobid}}'>
+            <div class='js-nofull' id='{{composite.fulljobid}}'>
 
                 <!-- If a full has been requested, display the processing status. -->
                 {% if composite.fullstatus %}
-                <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
+                <p>Current status: <strong class='red'><span id='js-fullstatus'>{{ composite.fullstatus }}</span></strong></p>
                 {% if composite.elapsed_time %}
-                <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
+                <p>Elapsed Process Time (hr:min:sec): <span id='js-fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
                 {% endif %}
 
                 <!-- Display a button that causes a full render to be queued. -->
@@ -135,7 +143,7 @@
         </div>
 
         <!-- Scene barcode visualization -->
-        <div class='graph' id='graph{{composite.previewjobid}}'></div>
+        <div class='js-graph' id='js-graph{{composite.previewjobid}}'></div>
 
         <div id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
@@ -143,7 +151,7 @@
                 <img src="{{ composite.previewurl }}">
             </a>
             {% else %}
-            <div class='nopreview' id='{{composite.previewjobid}}'>
+            <div class='js-nopreview' id='{{composite.previewjobid}}'>
                 <img src="/static/img/loading.gif">
             </div>
             {% endif %}

@@ -1,4 +1,3 @@
-require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
  
@@ -10,22 +9,20 @@ map.scrollWheelZoom.disable();
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
-    $.each($('.column_titles th'), function(i, value){
-                var wid = $($(".group_head th")[i]).width();
+    $.each($('.js-column_titles th'), function(i, value){
+                var wid = $($(".js-group_head th")[i]).width();
                 $(value).width(wid);
     }); 
 });
 
-// Once a user finishes moving the map, send an AJAX request to Pyramid
-// which will repopulate the HTML with an updated list of the Landsat
-// scenes present.
-map.on('moveend', function() {
- 
+//  Implement debouce to prevent excessive calls to database and ajax calls
+// running into each other causing the application to hang
+var sceneList = _.debounce(function() {
     // Define the center of the map.
     var center = map.getCenter(),
         lat = center.lat,
         lng = center.lng;
- 
+    
     // Submit a post request with the relevant information.
     $.ajax({
         url: "/scene_options_ajax",
@@ -35,7 +32,7 @@ map.on('moveend', function() {
         scenes_pr = json.scenes;
          
          // Update path-row groupings of scenes on map move
-        $('#pathrowgrouping').html('');
+        $('#js-pathrowgrouping').html('');
 
             // Create new table for each path-row grouping.
             for (var i in scenes_pr) {
@@ -44,11 +41,11 @@ map.on('moveend', function() {
                 var num = i;
                 var n = num.toString();
                 var id = 'tab'.concat(n);
- 
-                $('#pathrowgrouping').append(
+    
+                $('#js-pathrowgrouping').append(
                     $('<table></table>').attr('id', id)
                 );
- 
+    
                 var scenes_path_row = scenes_pr[i];
                 var newid = '#'.concat(id);
 
@@ -72,4 +69,9 @@ map.on('moveend', function() {
                 }
         }
     });
-});
+}, 125);
+
+// Once a user finishes moving the map, send an AJAX request to Pyramid
+// which will repopulate the HTML with an updated list of the Landsat
+// scenes present.
+map.on('moveend', sceneList);
