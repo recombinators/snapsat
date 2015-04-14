@@ -120,8 +120,6 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-        print 'successfully added to preview queue'
-
 
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
@@ -275,7 +273,15 @@ def scene_options_ajax(request):
     # Filter all available scenes to those which encompass the
     # lat/lng provided from the user. Then, populate a list with
     # the information relevant to our view.
-    scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
+    path_row_list = Paths.pathandrow(lat, lng)
+
+    # Check for zero length path row list to prevent return of all path row
+    # combinations n ithe world.
+    if not path_row_list:
+        return {'scenes': []}
+
+    scenes = PathRow.scenelist(path_row_list)
+
     sceneList = []
     for i, scene in enumerate(scenes):
         sceneList.append({
