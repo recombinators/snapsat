@@ -1,27 +1,142 @@
-<div class='d3-container mbl'>
-    <p class='mbn full'>A visual barcode of the bands captured by the Landsat 8 satellite. To learn more about each band, hover or check out our <a href='/guide'>Guide</a>.</p>
-    <div class='graph' id='reference'></div>
+{% block styles %}
+<style>
+    .scene-meta {
+        position: absolute;
+        top: 49%;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 2rem;
+    }
+</style>
+{% endblock %}
+
+<div class='container clearfix'>
+    <h1 class='center'>Your selection</h1>
+    <div class='clearfix'>
+
+        <div class='sm-col sm-col-6'>
+            <h2>Metadata</h2>
+            <ul id='metadata' class='list-reset'>
+                <li><span class='bold'>ID:</span> {{ meta_data.scene_id }}</li>
+                <li><span class='bold'>Acquistion Date:</span> {{ meta_data.acquisitiondate }}</li>
+                <li><span class='bold'>Cloud Cover:</span> {{ meta_data.cloudcover }}%</li>
+                <li><span class='bold'>Minimum/Maximum Latitude:</span> {{ meta_data.min_lat }}/{{ meta_data.max_lat }}</li>
+                <li><span class='bold'>Minimum/Maximum Longitude:</span> {{ meta_data.min_lon }}/{{ meta_data.max_lon }}</li>
+            </ul>
+            <img src='{{ meta_data.overview_url }}'>
+        </div>
+
+        <div class='sm-col sm-col-6'>
+            <h2 class='center'>Create a preview</h2>
+            <section id='scene_info'>
+
+                <!-- Use a prebuilt, common combination. -->
+                <div id='generate' class='mbm'>
+                    <p>Quickly create a preview using one of the more common band combinations.</p>
+                    <div class='inline-block clearfix'>
+
+                        <form method="post" class='display-inline-block'>
+                            <input type="hidden" name='band1' value="4"/>
+                            <input type="hidden" name='band2' value="3"/>
+                            <input type="hidden" name='band3' value="2"/>
+                            <button class='button-full' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Natural Color</button>
+                        </form>
+                        <form method="post" class='display-inline-block'>
+                            <input type="hidden" name='band1' value="2"/>
+                            <input type="hidden" name='band2' value="5"/>
+                            <input type="hidden" name='band3' value="9"/>
+                            <button class='button-full' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Make Me Something Pretty</button>
+                        </form>
+                        <form method="post" class='display-inline-block'>
+                            <input type="hidden" name='band1' value="5"/>
+                            <input type="hidden" name='band2' value="6"/>
+                            <input type="hidden" name='band3' value="4"/>
+                            <button class='button-full' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Land/Water Delination</button>
+                        </form>
+                        <form method="post" class='display-inline-block'>
+                            <input type="hidden" name='band1' value="7"/>
+                            <input type="hidden" name='band2' value="6"/>
+                            <input type="hidden" name='band3' value="4"/>
+                            <button class='button-full' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Urban</button>
+                        </form>
+                    </div>
+                </div> <!-- Prebuilt combinations -->
+
+                <!-- Create a custom combination with any available band. -->
+                <div class='mbl'>
+                    <h3 class='mbn'>Alternatively, build a custom combination</h3>
+                    <p>Roll your own custom band combination.</p>
+                    <form method="post" id="request_form_{{meta_data.scene_id}}">
+                        <div id='combinations' class='display-inline-block'>
+                            <select class='display-inline-block' name='band1' id='band1' required>
+                                <option selected value=''>Select Red Band</option>
+                            </select>
+                            <select class='display-inline-block'name='band2' id='band2' required>
+                                <option selected value=''>Select Green Band</option>
+                            </select>
+                            <select class='display-inline-block' name='band3' id='band3' required>
+                                <option selected value=''>Select Blue Band</option>
+                            </select>
+                        </div>
+                        <button form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Render Preview</button>
+                    </form>
+                </div> <!-- Custom combinations. -->
+                <script type='text/javascript' src='/static/js/band.js'></script>
+            </section> <!-- Scene info -->
+
+        </div>
+    </div>
 </div>
 
 {% if composites %}
-    <h2>Existing previews</h2>
-    <p>Here are some previews that have been previously requested. The barcodes represent which bands are mapped to the red, green, and blue color channels.</p>
+    <h2 class='center'>Existing previews</h2>
 {% endif %}
 
-<div class='preview-container'>
+<div class='preview-container clearfix px4'>
 
     {% for band_combo, composite in composites.iteritems() %}
-    <div class='preview' id='{{ band_combo }}'>
-        <h2 class='composite-description mbn'>
-            <span class='band-red'>{{ composite.band1 }}</span>
-            <span class='band-green'>{{ composite.band2 }}</span> 
-            <span class='band-blue'>{{ composite.band3 }}</span>
-        </h2>
+    <div class='preview col col-3 relative' id='{{ band_combo }}'>
+        <div class='scene-meta'>
+            <h3 class='composite-description'>
+                <span class='band-red red'>{{ composite.band1 }}</span>
+                <span class='band-green green'>{{ composite.band2 }}</span> 
+                <span class='band-blue blue'>{{ composite.band3 }}</span>
+            </h3>
+
+            {% if composite.fullurl %}
+            <p class='button button-transparent'>Status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+
+            <!-- If a full render has NOT been created, display a means of creating one. -->
+            {% else %}
+            <div class='nofull' id='{{composite.fulljobid}}'>
+
+                <!-- If a full has been requested, display the processing status. -->
+                {% if composite.fullstatus %}
+                <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
+                {% if composite.elapsed_time %}
+                <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
+                {% endif %}
+
+                <!-- Display a button that causes a full render to be queued. -->
+                {% else %}
+                <p>
+                    <form method="post">
+                        <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                        <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                        <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                        <button formaction="/request_composite/{{ meta_data.scene_id }}" formmethod="post" type="submit">Request a full render.</button>
+                    </form>
+                </p>
+                {% endif %}
+                <!-- If a full render has already been created, provide a download link to it. -->
+            </div> <!-- nofull -->
+            {% endif %}
+
+        </div>
 
         <!-- Scene barcode visualization -->
         <div class='graph' id='graph{{composite.previewjobid}}'></div>
 
-        <!-- Display a preview or loading image -->
         <div id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
             <a href="{{ composite.previewurl }}">
@@ -33,51 +148,9 @@
             </div>
             {% endif %}
         </div>
+        <!-- Display a preview or loading image -->
 
-        <!-- If a full render has already been created, provide a download link to it. -->
-        {% if composite.fullurl %}
-        <p>Current status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
-
-        <!-- If a full render has NOT been created, display a means of creating one. -->
-        {% else %}
-        <div class='nofull' id='{{composite.fulljobid}}'>
-
-            <!-- If a full has been requested, display the processing status. -->
-            {% if composite.fullstatus %}
-            <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
-            {% if composite.elapsed_time %}
-            <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
-            {% endif %}
-
-            <!-- Display a button that causes a full render to be queued. -->
-            {% else %}
-            <p>
-                <form method="post">
-                    <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
-                    <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
-                    <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
-                    <button formaction="/request_composite/{{ meta_data.scene_id }}" formmethod="post" type="submit">Request a full render.</button>
-                </form>
-            </p>
-            {% endif %}
-        </div> <!-- nofull -->
-        {% endif %}
     </div> <!-- preview -->
     {% endfor %}
 </div> <!-- preview-container -->
 
-<section class='mbl'>
-    <h2>Your selection</h2>
-    <div class='flex-container'>
-        <div class='flex-child'>
-            <img src='{{ meta_data.overview_url }}'>
-        </div>
-        <ul id='metadata' class='flex-child plm'>
-            <li><span class='bold'>ID:</span> {{ meta_data.scene_id }}</li>
-            <li><span class='bold'>Acquistion Date:</span> {{ meta_data.acquisitiondate }}</li>
-            <li><span class='bold'>Cloud Cover:</span> {{ meta_data.cloudcover }}%</li>
-            <li><span class='bold'>Minimum/Maximum Latitude:</span> {{ meta_data.min_lat }}/{{ meta_data.max_lat }}</li>
-            <li><span class='bold'>Minimum/Maximum Longitude:</span> {{ meta_data.min_lon }}/{{ meta_data.max_lon }}</li>
-        </ul>
-    </div>
-</section>

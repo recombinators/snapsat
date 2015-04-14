@@ -1,202 +1,63 @@
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Snapsat, where wondering becomes knowing</title>
-        <!-- Load CSS -->
-        <link rel='stylesheet' href='/static/main.css'>
-        <!-- Load jQuery library -->
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-        <!-- Load js -->
-        <script type="text/javascript" src="/static/js/custom.js"></script>
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+{% extends "base.jinja2" %}
 
-          ga('create', 'UA-61780233-1', 'auto');
-          ga('require', 'linkid', 'linkid.js');
-          ga('send', 'pageview');
+{% block scripts %}
+<script type='text/javascript' src='/static/js/map.js'></script>
+{% endblock %}
 
-        </script>
-    </head>
-    <!-- Start Body -->
-    <body>	
-        <!-- Start Menu -->
-        <div class="menubar" data-scroll="true">
-            <!-- <a href="#" class="logo"></a> -->
-            <ul class="mainmenu">
-                <li class="active"><a href="#home">Home</a></li>
-                <li><a href="#mission">Mission</a></li>
-                <li><a href="#about">About us</a></li>
-                <li><a href="#thanks">Special Thanks</a></li>
-                <li><a href="#contact">Contact us</a></li>
-                <li><a href="/create">Create</a></li>
-            </ul>
+{% block header %}
+<header>
+    <nav class="container clearfix">
+        <div class="sm-col">
+            <a href="/" class="button py2 button-transparent h2">Snapsat</a>
         </div>
-        <!-- End Menu -->
-        <!-- Start Home -->
-        <a class="scroll" id="home"></a>
-        <div class="home hero">
-            <!-- <div class="overlay"></div> -->
-            <div class="herowrapper">
-                <h1 class="landingbuttons"><a href='/create'>Discover<span class='h3 red uppercase'>Beta</span></a></h1>
-                <h1 class="landingbuttons"><a href='/guide'>Learn</a></h1>
+        <div class="sm-col-right">
+            <a href="/about" class="button py2 button-transparent">About</a>
+            <a href="/guide" class="button py2 button-transparent">Help</a>
+            <a href="/create" class="button py2 button-transparent">Create</a>
+        </div>
+    </nav>
+</header>
+
+{% endblock %}
+
+{% block content %}
+    <div id='where' class='sm-col sm-col6 col col-6'>
+        <h2 class='container'>Choose a location</h2>
+        <div class='map-container clearfix'>
+            <div id='map'>
+                <span class="reticle bold red h3"><img src='/static/logo-dark-red.svg'></span>
             </div>
-            <a href="javascript:void(0);" class="scrolldown">
-                <h3>More about Snapsat</h3>
-                <h3>&#9660;</h3>
-            </a>
         </div>
-        <!-- End Home -->
-        <!-- Start BlockQuote -->
-        <div class="blockquote main bold">
-            <blockquote>The Earth is a big place. But not to us.</blockquote>
-        </div>
-        <!-- End BlockQuote -->
-        <!-- Start Section Divider -->
-        <div class="section divider">
-            <h2>Our Mission</h2>
-            <a class="scroll" id="mission"></a>
+    </div>
 
-        </div>
-        <!-- End Section Divider -->
-        <!-- Start Content -->
-        <div class="content">
-            <p class="mission" id="landing">Here at Snapsat our mission is to take the publicly available Landsat images, generously hosted by Amazon, and to process and deliver them to you in a fast, reliable, and easy-to-use format.</p>
-        </div>
-        <!-- End Content -->
+    <div class='col col-6 px4'>
+        <h2>Select a date</h2>
+        <p>Your location may be covered by overlapping regions, a Path and Row. Each region has multiple available dates. Typically, dates that have less cloud coverage are more useful.</p>
 
-        <!-- Start Section Divider -->
-        <div class="section divider" id="about">
-            <h2>Our Team</h2>
-            <a class="scroll" id="about"></a>
-        </div>
-        <!-- End Section Divider -->
-
-        <!-- Start Content -->
-        <div class="content">
-
-
-            <!-- Start Person Block -->
-            <p style="position:relative;"><a name="anchor" id="constantine" style="position:absolute; top:-100px;"></a></p>
-            <div class="person">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/constantine.jpg">
-                <div class="info">
-                    <h2>Constantine Hatzis</h2>
-                    <p>Mechanical/aerospace engineer and perpetual student turned Python developer.</p>
-                    <a href="https://www.linkedin.com/in/constantinedhatzis/en" class="socialicon linkedin"></a>
-                    <a href="https://github.com/constanthatz" class="socialicon github"></a>
-                </div>
+        <div id='pathrowgrouping'>
+            {% for group in scenes %}
+            <div>
+                <table>
+                    <thead class='group_head'>  
+                        <tr>
+                            <th class="light uppercase h2">Path-Row: {{ group[0].path}}-{{group[0].row}}</th><th></th><th></th><th></th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="date">Date acquired</th><th class="cloud">Cloud cover</th>
+                        </tr>
+                        {% for s in group %}
+                        <tr>
+                            <td class="datetbl"><a href='/scene/{{ s.entityid }}'>{{ s.acquisitiondate }}</a></td>
+                            <td>{{ s.cloudcover }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <!-- Clear :) -->
-            <div class="clear"></div>
-            <!-- End Person Block -->
-
-            <!-- Start Person Block -->
-            <p style="position:relative;"><a name="anchor" id="jacques" style="position:absolute; top:-100px;"></a></p>
-            <div class="person">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/jacques.jpg">
-                <div class="info">
-                    <h2>Jacques Tardie</h2>
-                    <p>Geospatial developer.</p>
-                    <a href="https://www.linkedin.com/in/jacquestardie/en" class="socialicon linkedin"></a>
-                    <a href="https://github.com/jacquestardie" class="socialicon github"></a>
-                    <a href="http://twitter.com/jqtrde" class="socialicon twitter"></a>
-                </div>
-            </div>
-            <!-- Clear :) -->
-            <div class="clear"></div>
-            <!-- End Person Block -->
-
-            <!-- Start Person Block -->
-            <p style="position:relative;"><a name="anchor" id="jake" style="position:absolute; top:-100px;"></a></p>
-            <div class="person">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/jake.jpg">
-                <div class="info">
-                    <h2>Jake Anderson</h2>
-                    <p>Baker turned developer, I am passionate about making the world a better place with the use of technology. I am excited to be a part of Snapsat and am looking forward to growing my skills and creating even more tools to facilitate learning and discovering. Please don’t hesitate to check out my LinkedIn and follow me on Twitter.</p>
-                    <a href="https://www.linkedin.com/in/jakeand3rson/en" class="socialicon linkedin"></a>
-                    <a href="https://github.com/jakealope" class="socialicon github"></a>
-                    <a href="https://twitter.com/jakeand3rson" class="socialicon twitter"></a>
-                </div>
-            </div>
-            <!-- Clear :) -->
-            <div class="clear"></div>
-            <!-- End Person Block -->
-
-            <!-- Start Person Block -->
-            <p style="position:relative;"><a name="anchor" id="joel" style="position:absolute; top:-100px;"></a></p>
-            <div class="person">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/joel.jpg">
-                <div class="info">
-                    <h2>Joel Stanner</h2>
-                    <p>Python developer with a focus on web frameworks. 5 years experience with web development including Wordpress and, more recently, Django frameworks. Currently I am expanding my knowledge of the Python programming language and employing it in the Django and Pyramid web frameworks.<br>
-                    18 years experience with audio engineering, primarily on the ProTools platform. I work best with creative projects that involve audio, but I also enjoy problem solving and building software to solve those problems.<br>
-                    Specialties: Python and Wordpress web frameworks. Sound design for radio, television, and web.</p>
-                    <a href="https://www.linkedin.com/in/joelstanner" class="socialicon linkedin"></a>
-                    <a href="https://github.com/poolbath1" class="socialicon github"></a>
-                    <a href="https://twitter.com/joelstanner" class="socialicon twitter"></a>
-                </div>
-            </div>
-            <!-- Clear :) -->
-            <div class="clear"></div>
-            <!-- End Person Block -->
-
-            <!-- Start Person Block -->
-            <p style="position:relative;"><a name="anchor" id="mark" style="position:absolute; top:-100px;"></a></p>
-            <div class="person">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/mark.jpg">
-                <div class="info">
-                    <h2>Mark Saiget</h2>
-                    <p>I am a full-stack developer with a strong background in Python. I enjoy working with talented individuals to create elegant code. I find that I am most proud of projects that utilize creative solutions to difficult problems. My former career, as a scientist, focused on poking holes in ideas before testing/production. I've leveraged this skill in test-driven development, where I'm able to write thorough tests and, ultimately, produce a better final product. I pay attention to details, but always ask how it affects the big picture.<br>
-                    I'd love to work on a team that values results and creativity.</p>
-                    <a href="https://www.linkedin.com/in/marksaiget/en" class="socialicon linkedin"></a>
-                    <a href="https://github.com/bm5w" class="socialicon github"></a>
-                </div>
-            </div>
-            <!-- Clear :) -->
-            <div class="clear"></div>
-            <!-- End Person Block -->
-
+            {% endfor %}
         </div>
-        <!-- End Content -->
-        <!-- Start Section Divider -->
-        <div class="section divider">
-            <h2>Special Thanks</h2>
-            <a class="scroll" id="thanks"></a>
-        </div>
-        <!-- End Section Divider -->
-        <!-- Start Content -->
-        <div class="content" id="thanks">
-            <p id="landing">We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank <strong>Amazon</strong> for making all of this data open and availible for us.</p>
-            <ol class="thanks">
-                <li><a href="http://aws.amazon.com/">Amazon Web Services</a></li>
-                <li><a href='http://developmentseed.org'>Developmentseed</a></li>
-                <li><a href="http://www.ansible.com/home">Ansible</a></li>
-                <li><a href="https://www.codefellows.org/">Code Fellows</a></li>
-                <li><a href="http://crisewing.com/">Cris Ewing</a></li>
-                <li><a href="https://raw.githubusercontent.com/jacquestardie/gifs/master/baby.gif">Little Worker</a></li>
-                <li><a href="http://www.postgresql.org/">Posgresql</a></li>
-                <li><a href="http://postgis.net/">Postgis</a></li>
-                <li><a href="http://www.pylonsproject.org/">Pyramid</a></li>
-            </ol>
-        </div>
-        <!-- End Content -->
-        <!-- Start Section Divider -->
-        <div class="section divider">
-            <h2>Contact Us</h2>
-            <a class="scroll" id="contact"></a>
-        </div>
-        <!-- End Section Divider -->
-        <!-- Start Content -->
-        <div class="content" id="contact">
-            <p id="landing">If you would like to contact us please feel free to hit us up on <a href="https://twitter.com/therealsnapsat">Twitter</a><br> or email us at <a href="mailto:snapsat@snapsat.org">Snapsat@snapsat.org</a></p>
-        </div>
-        <!-- End Content -->
-        <footer class="footer">
-            <h6>© Copyright 2015 | Snapsat</h6>
-    </footer>
+    </div>
+{% endblock %}
 
-</body>
-</html>
