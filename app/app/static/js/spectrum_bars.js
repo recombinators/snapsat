@@ -18,37 +18,17 @@ function graph(graphId, type) {
     var xLowNorm = 0.400;
     var widthNorm = 2.294;
 
-    var bandLegend = {};
-    bandLegend["1"] = "Band 1: Coastal aerosol";
-    bandLegend["2"] = "Band 2: Blue";
-    bandLegend["3"] = "Band 3: Green";
-    bandLegend["4"] = "Band 4: Red";
-    bandLegend["5"] = "Band 5: Near Infrared (NIR)";
-    bandLegend["6"] = "Band 6: SWIR 1";
-    bandLegend["7"] = "Band 7: SWIR 2";
-    bandLegend["9"] = "Band 9: Cirrus";
-
-    var freqLegend = {};
-    freqLegend["1"] = "1: Coastal/Aerosol (0.435 - 0.451 µm)";
-    freqLegend["2"] = "2: Blue (0.452 - 0.512 µm)";
-    freqLegend["3"] = "3: Green (0.533 - 0.590 µm)";
-    freqLegend["4"] = "4: Red (0.636 - 0.673 µm)";
-    freqLegend["5"] = "5: Near Infrared (NIR) (0.851 - 0.879 µm)";
-    freqLegend["6"] = "6: SWIR 1 (1.566 - 1.651 µm)";
-    freqLegend["7"] = "7: SWIR 2 (2.107 - 2.294 µm)";
-    freqLegend["9"] = "9: Cirrus (1.363 - 1.384 µm)";
-
     if(type == "reference"){
         width = $(".d3-container").width();
 
-        waveLengths = [[0.435, 0.451, 1, "#6ca4d3"],
-                       [0.452, 0.512, 2, blue_color],
-                       [0.533, 0.590, 3, green_color],
-                       [0.636, 0.673, 4, red_color],
-                       [0.851, 0.879, 5, "#c5a3be"],
-                       [1.566, 1.651, 6, "#d49979"],
-                       [2.107, 2.294, 7, "#999b98"],
-                       [1.362, 1.384, 9, "#7f87b5"]];
+        waveLengths = [[0.435, 0.451, 1, "#6ca4d3", "Coastal/Aerosol"],
+                       [0.452, 0.512, 2, blue_color, "Blue"],
+                       [0.533, 0.590, 3, green_color, "Green"],
+                       [0.636, 0.673, 4, red_color, "Red"],
+                       [0.851, 0.879, 5, "#c5a3be", "Near Infrared (NIR)"],
+                       [1.566, 1.651, 6, "#d49979", "SWIR 1"],
+                       [2.107, 2.294, 7, "#999b98", "SWIR 2"],
+                       [1.362, 1.384, 9, "#7f87b5", "Cirrus"]];
 
         svgBar = d3.selectAll(id)
             .append("svg")
@@ -60,7 +40,7 @@ function graph(graphId, type) {
         .attr('class', 'd3-tip')
         .offset([height *2 , 0])
         .html(function(d) {
-            return '<div class="sans">' + freqLegend[d[2]] + '</div>';
+            return '<div class="sans">' + d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
             });
 
         svgBar.call(tip);
@@ -101,27 +81,9 @@ function graph(graphId, type) {
     }else if(type == "preview"){
         width = $(id).parent().width();
 
-        waveLengths = [[0.435, 0.451, 1, box_fill],
-                       [0.452, 0.512, 2, box_fill],
-                       [0.533, 0.590, 3, box_fill],
-                       [0.636, 0.673, 4, box_fill],
-                       [0.851, 0.879, 5, box_fill],
-                       [1.566, 1.651, 6, box_fill],
-                       [2.107, 2.294, 7, box_fill],
-                       [0.503, 0.676, 8, box_fill],
-                       [1.362, 1.384, 9, box_fill],
-                       [10.60, 12.51, 10, box_fill],
-                       [11.50, 12.51, 11, box_fill]];
-
-        for (var j in waveLengths){
-            if(waveLengths[j][2] == red_band){
-                waveLengths[j][3] = red_color;
-            }else if(waveLengths[j][2] == blue_band){
-                waveLengths[j][3] = blue_color;
-            }else if(waveLengths[j][2] == green_band){
-                waveLengths[j][3] = green_color;
-            }
-        }
+        waveLengths = [[red_band, red_color],
+                       [blue_band, blue_color],
+                       [green_band, green_color]];
 
         svgBar = d3.selectAll(id)
             .append("svg")
@@ -141,10 +103,10 @@ function graph(graphId, type) {
             .append("rect")
             .attr("stroke-width", stroke_width)
             .attr("stroke", stroke_color)
-            .attr("fill", function (d){ return (d[3]); })
-            .attr("x", function (d){ return ((width / waveLengths.length) * (d[2] - 1)) + "px"; })
+            .attr("fill", function (d){ return (d[1]); })
+            .attr("x", function (d){ return ((width / 11) * (d[0] - 1)) + "px"; })
             .attr("y", 0 + "px")
-            .attr("width", function (d){ return (width / waveLengths.length)+ "px"; })
+            .attr("width", function (d){ return (width / 11)+ "px"; })
             .attr("height", height + "px")
             .attr("pointer-events", "none");
         
