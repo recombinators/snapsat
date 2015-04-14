@@ -21,7 +21,6 @@ var _gauges = _gauges || [];
 })();
 
 },{}],3:[function(require,module,exports){
-require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
  
@@ -39,16 +38,22 @@ $(document).ready(function(){
     }); 
 });
 
+<<<<<<< HEAD
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat
 // scenes present.
 map.on('moveend', function() {
     $(this).off()
+=======
+//  Implement debouce to prevent excessive calls to database and ajax calls
+// running into each other causing the application to hang
+var sceneList = _.debounce(function() {
+>>>>>>> cf864775910f8f60de1b752fbdfca59d053fe8a0
     // Define the center of the map.
     var center = map.getCenter(),
         lat = center.lat,
         lng = center.lng;
- 
+    
     // Submit a post request with the relevant information.
     $.ajax({
         url: "/scene_options_ajax",
@@ -67,11 +72,11 @@ map.on('moveend', function() {
                 var num = i;
                 var n = num.toString();
                 var id = 'tab'.concat(n);
- 
+    
                 $('#pathrowgrouping').append(
                     $('<table></table>').attr('id', id)
                 );
- 
+    
                 var scenes_path_row = scenes_pr[i];
                 var newid = '#'.concat(id);
 
@@ -95,10 +100,19 @@ map.on('moveend', function() {
                 }
         }
     });
+<<<<<<< HEAD
     $(this).on()
 });
+=======
+}, 125);
+>>>>>>> cf864775910f8f60de1b752fbdfca59d053fe8a0
 
-},{"mapbox.js":20}],4:[function(require,module,exports){
+// Once a user finishes moving the map, send an AJAX request to Pyramid
+// which will repopulate the HTML with an updated list of the Landsat
+// scenes present.
+map.on('moveend', sceneList);
+
+},{}],4:[function(require,module,exports){
 (function(d) {
     var config = {
         kitId: 'wqn0qec',
@@ -9314,6 +9328,7 @@ return jQuery;
 
 }));
 
+<<<<<<< HEAD
 },{}],6:[function(require,module,exports){
 function corslite(url, callback, cors) {
     var sent = false;
@@ -23662,4 +23677,6 @@ function contains(item, list) {
     return false;
 }
 
+=======
+>>>>>>> cf864775910f8f60de1b752fbdfca59d053fe8a0
 },{}]},{},[1]);
