@@ -76,7 +76,7 @@ function refernceGraph(type){
         .data(waveLengths, function(d){return d;})
         .enter()
         .append("text")
-        .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+        .attr("x", function (d){ return ((d[0] - xLowNorm) * width / (widthNorm - xLowNorm)) + "px"; })
         .attr("y", 0 + "px")
         .attr("text-anchor", "middle")
         .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
