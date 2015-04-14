@@ -73,6 +73,7 @@ def add_to_queue_composite(request):
     band2 = request.params.get('band2')
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
+    email = request.params.get('email_address')
 
     if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
@@ -81,7 +82,7 @@ def add_to_queue_composite(request):
         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
         jobid = UserJob.new_job(entityid=scene_id,
                                 band1=band1, band2=band2, band3=band3,
-                                rendertype=u'full')
+                                rendertype=u'full', email=email)
         message = build_job_message(job_id=jobid,
                                     email='test@test.com',
                                     scene_id=scene_id,
@@ -124,33 +125,6 @@ def add_to_queue_preview(request):
                      message['body'], message['attributes'])
 
 
-def email(request, bands):
-    """
-    If request contains email_address, send email to user with a link to the
-    full render zip file.
-
-    """
-    email_address = request.params.get('email_address')
-    if email_address:
-        scene = request.matchdict['scene_id']
-        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}."\
-                      "zip".format(scene, bands)
-        scene_url = 'http://snapsat.org/scene/{}#{}'.format(scene, bands)
-        request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(
-            mailgun_url)
-        requests.post(request_url, auth=('api', mailgun_key),
-                      data={
-            'from': 'no-reply@snapsat.org',
-            'to': email_address,
-            'subject': 'Snapsat is rendering your request',
-            'text': "Thank you for using Snapsat.\nAfter we've rendered "
-                    "your full composite, it will be available here:\n"
-                    "{}\nScene data can be found here:\n {}".format(
-                        full_render, scene_url)
-
-        })
-
-
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
     """
@@ -168,8 +142,6 @@ def request_composite(request):
                  request.params.get('band3'))
         add_to_queue_composite(request)
         add_to_queue_preview(request)
-        # If request contains an email_address, send email.
-        email(request, bands)
         return HTTPFound(location='/scene/{}#{}'.format(
                          request.matchdict['scene_id'], bands))
     else:
