@@ -8,7 +8,6 @@ from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
 import pyramid.httpexceptions as exc
-import requests
 
 
 # Define AWS credentials

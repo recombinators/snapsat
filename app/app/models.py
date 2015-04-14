@@ -216,11 +216,11 @@ class RenderCache(Base):
         """
         jobQuery = Session.query(UserJob).get(jobid)
         job = RenderCache(
-                entityid=jobQuery.entityid,
-                jobid=jobid,
-                band1=jobQuery.band1, band2=jobQuery.band2, band3=jobQuery.band3,
-                currentlyrend=currentlyrend,
-                rendertype=rendertype)
+            entityid=jobQuery.entityid,
+            jobid=jobid,
+            band1=jobQuery.band1, band2=jobQuery.band2, band3=jobQuery.band3,
+            currentlyrend=currentlyrend,
+            rendertype=rendertype)
 
         Session.add(job)
         transaction.commit()
