@@ -27,7 +27,7 @@
         <div class='js-graph' id='js-graph{{composite.previewjobid}}'></div>
 
         <!-- Display a preview or loading image -->
-        <div id='js-{{composite.previewjobid}}'>
+        <div id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
             <a href="{{ composite.previewurl }}">
                 <img src="{{ composite.previewurl }}">
@@ -45,7 +45,7 @@
 
         <!-- If a full render has NOT been created, display a means of creating one. -->
         {% else %}
-        <div class='js-nofull' id='js-{{composite.fulljobid}}'>
+        <div class='js-nofull' id='{{composite.fulljobid}}'>
 
             <!-- If a full has been requested, display the processing status. -->
             {% if composite.fullstatus %}
