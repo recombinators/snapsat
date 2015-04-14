@@ -18,9 +18,9 @@
     {% for band_combo, composite in composites.iteritems() %}
     <div class='preview' id='{{ band_combo }}'>
         <h2 class='composite-description mbn'>
-            <span class='band-red'>{{ composite.band1 }}</span>
-            <span class='band-green'>{{ composite.band2 }}</span> 
-            <span class='band-blue'>{{ composite.band3 }}</span>
+            <span class='js-band-red'>{{ composite.band1 }}</span>
+            <span class='js-band-green'>{{ composite.band2 }}</span> 
+            <span class='js-band-blue'>{{ composite.band3 }}</span>
         </h2>
 
         <!-- Scene barcode visualization -->

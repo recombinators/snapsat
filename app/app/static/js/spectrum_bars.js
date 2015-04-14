@@ -45,7 +45,7 @@ function refernceGraph(type){
 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([height * 2 , 0])
+        .offset([height * 2 + font_size , 0])
         .html(function(d) {
             return '<div class="sans">' + d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
             });
@@ -88,9 +88,9 @@ function refernceGraph(type){
 
 function graph(graphId, type) {
     var id = '#'.concat(graphId);
-    var red_band = Number($(id).parent().find($(".band-red")).html());
-    var green_band = Number($(id).parent().find($(".band-green")).html());
-    var blue_band = Number($(id).parent().find($(".band-blue")).html());
+    var red_band = Number($(id).parent().find($(".js-band-red")).html());
+    var green_band = Number($(id).parent().find($(".js-band-green")).html());
+    var blue_band = Number($(id).parent().find($(".js-band-blue")).html());
 
     var width = $(id).parent().width();
 
