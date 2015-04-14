@@ -1,6 +1,11 @@
-<div class='d3-container mbl'>
+<div class='js-container-full mbl'>
     <p class='mbn full'>A visual barcode of the bands captured by the Landsat 8 satellite. To learn more about each band, hover or check out our <a href='/guide'>Guide</a>.</p>
-    <div class='graph' id='reference'></div>
+    <div class='js-graph' id='js-reference-full'></div>
+</div>
+
+<div class='js-container-visible mbl'>
+    <p class='mbn full'>A visual barcode of the visible bands <a href='/guide'>Guide</a>.</p>
+    <div class='js-graph' id='js-reference-visible'></div>
 </div>
 
 {% if composites %}
@@ -13,13 +18,13 @@
     {% for band_combo, composite in composites.iteritems() %}
     <div class='preview' id='{{ band_combo }}'>
         <h2 class='composite-description mbn'>
-            <span class='band-red'>{{ composite.band1 }}</span>
-            <span class='band-green'>{{ composite.band2 }}</span> 
-            <span class='band-blue'>{{ composite.band3 }}</span>
+            <span class='js-band-red'>{{ composite.band1 }}</span>
+            <span class='js-band-green'>{{ composite.band2 }}</span> 
+            <span class='js-band-blue'>{{ composite.band3 }}</span>
         </h2>
 
         <!-- Scene barcode visualization -->
-        <div class='graph' id='graph{{composite.previewjobid}}'></div>
+        <div class='js-graph' id='js-graph{{composite.previewjobid}}'></div>
 
         <!-- Display a preview or loading image -->
         <div id='{{composite.previewjobid}}'>
