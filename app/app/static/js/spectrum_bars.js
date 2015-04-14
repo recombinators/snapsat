@@ -7,25 +7,30 @@ var font_size = 8;
 var red_color = "#c02137";
 var green_color = "#4e9c62";
 var blue_color = "#00668e";
+var freqOffset = 0.035;
 
 function refernceGraph(type){
     var width = $(".js-container-" + type).width();
 
     if(type == "full"){
-        xLowNorm = 0.400;
-        widthNorm = 2.294;
+        freqMin = 0.435;
+        freqMax = 2.294;
+        xLowNorm = freqMin - freqOffset;
+        widthNorm = freqMax + freqOffset;
 
         waveLengths = [[0.435, 0.451, 1, "#6ca4d3", "Coastal/Aerosol"],
-                           [0.452, 0.512, 2, blue_color, "Blue"],
-                           [0.533, 0.590, 3, green_color, "Green"],
-                           [0.636, 0.673, 4, red_color, "Red"],
-                           [0.851, 0.879, 5, "#c5a3be", "Near Infrared (NIR)"],
-                           [1.566, 1.651, 6, "#d49979", "SWIR 1"],
-                           [2.107, 2.294, 7, "#999b98", "SWIR 2"],
-                           [1.362, 1.384, 9, "#7f87b5", "Cirrus"]];
+                       [0.452, 0.512, 2, blue_color, "Blue"],
+                       [0.533, 0.590, 3, green_color, "Green"],
+                       [0.636, 0.673, 4, red_color, "Red"],
+                       [0.851, 0.879, 5, "#c5a3be", "Near Infrared (NIR)"],
+                       [1.566, 1.651, 6, "#d49979", "SWIR 1"],
+                       [2.107, 2.294, 7, "#999b98", "SWIR 2"],
+                       [1.362, 1.384, 9, "#7f87b5", "Cirrus"]];
     }else{
-        xLowNorm = 0.400;
-        widthNorm = 0.673;
+        freqMin = 0.435;
+        freqMax = 0.673;
+        xLowNorm = freqMin - freqOffset;
+        widthNorm = freqMax + freqOffset;
 
         waveLengths = [[0.452, 0.512, 2, blue_color, "Blue"],
                        [0.533, 0.590, 3, green_color, "Green"],
@@ -40,7 +45,7 @@ function refernceGraph(type){
 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([height *2 , 0])
+        .offset([height * 2 , 0])
         .html(function(d) {
             return '<div class="sans">' + d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
             });
@@ -60,7 +65,7 @@ function refernceGraph(type){
         .attr("stroke-width", stroke_width)
         .attr("stroke", stroke_color)
         .attr("fill", function (d){ return (d[3]); })
-        .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+        .attr("x", function (d){ return ((d[0] - xLowNorm) * width / (widthNorm - xLowNorm)) + "px"; })
         .attr("y", 0 + "px")
         .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
         .attr("height", height + "px")
