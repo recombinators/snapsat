@@ -13,7 +13,7 @@ var blue_color = "#00668e";
 // Frequency offest for bar frequency to container width mapping
 var freqOffset = 0.035;
 
-// Funciton that generates both reference bar graphs.
+// Funciton that generates both reference bar graphs. type = "full" or "visible"
 function refernceGraph(type){
     // Get width from container
     var width = $(".js-container-" + type).width();
@@ -109,7 +109,7 @@ function refernceGraph(type){
 }
 
 // Function to create bar code for each preview
-function graph(graphId, type) {
+function graph(graphId) {
     // Get id of each preview
     var id = '#'.concat(graphId);
 
@@ -160,7 +160,7 @@ $(document).ready(function(){
     // Create bar code for each preview
     $(".js-preview").each(function(){
         graphId = $(this).find($(".js-graph")).attr("id");
-        graph(graphId, "js-preview");
+        graph(graphId);
         });
 
     // Create reference bar graphs
