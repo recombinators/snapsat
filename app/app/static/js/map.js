@@ -19,12 +19,8 @@ $(document).ready(function(){
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat
 // scenes present.
-var waiting = false;
-map.on('moveend', function() {
+map.one('moveend', function() {
 
-    if (waiting) { // don't fire antoher AJAX request if one is pending
-        return
-    }
     // Define the center of the map.
     var center = map.getCenter(),
         lat = center.lat,
@@ -75,7 +71,5 @@ map.on('moveend', function() {
                         "</tr>");
                 }
         }
-        waiting = false;
     });
-    waiting = true;
 });
