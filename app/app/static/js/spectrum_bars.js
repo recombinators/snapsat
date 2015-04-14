@@ -15,8 +15,8 @@ function graph(graphId, type) {
     var green_color = "#4e9c62";
     var blue_color = "#00668e";
 
-    var xLowNorm = 400;
-    var widthNorm = 2294;
+    var xLowNorm = 0.400;
+    var widthNorm = 2.294;
 
     var bandLegend = {};
     bandLegend["1"] = "Band 1: Coastal aerosol";
@@ -41,14 +41,14 @@ function graph(graphId, type) {
     if(type == "reference"){
         width = $(".d3-container").width();
 
-        waveLengths = [[435, 451, 1, "#6ca4d3"],
-                       [452, 512, 2, blue_color],
-                       [533, 590, 3, green_color],
-                       [636, 673, 4, red_color],
-                       [851, 879, 5, "#c5a3be"],
-                       [1566, 1651, 6, "#d49979"],
-                       [2107, 2294, 7, "#999b98"],
-                       [1362, 1384, 9, "#7f87b5"]];
+        waveLengths = [[0.435, 0.451, 1, "#6ca4d3"],
+                       [0.452, 0.512, 2, blue_color],
+                       [0.533, 0.590, 3, green_color],
+                       [0.636, 0.673, 4, red_color],
+                       [0.851, 0.879, 5, "#c5a3be"],
+                       [1.566, 1.651, 6, "#d49979"],
+                       [2.107, 2.294, 7, "#999b98"],
+                       [1.362, 1.384, 9, "#7f87b5"]];
 
         svgBar = d3.selectAll(id)
             .append("svg")
@@ -56,7 +56,6 @@ function graph(graphId, type) {
             .attr("height", height + stroke_width)
             .attr('class', 'spectrumMap');
 
-        // yoffset = $(id).parent().find($("img")).height();
         tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([height *2 , 0])
@@ -102,14 +101,17 @@ function graph(graphId, type) {
     }else if(type == "preview"){
         width = $(id).parent().width();
 
-        waveLengths = [[435, 451, 1, box_fill],
-                       [452, 512, 2, box_fill],
-                       [533, 590, 3, box_fill],
-                       [636, 673, 4, box_fill],
-                       [851, 879, 5, box_fill],
-                       [1566, 1651, 6, box_fill],
-                       [2107, 2294, 7, box_fill],
-                       [1362, 1384, 9, box_fill]];
+        waveLengths = [[0.435, 0.451, 1, box_fill],
+                       [0.452, 0.512, 2, box_fill],
+                       [0.533, 0.590, 3, box_fill],
+                       [0.636, 0.673, 4, box_fill],
+                       [0.851, 0.879, 5, box_fill],
+                       [1.566, 1.651, 6, box_fill],
+                       [2.107, 2.294, 7, box_fill],
+                       [0.503, 0.676, 8, box_fill],
+                       [1.362, 1.384, 9, box_fill],
+                       [10.60, 12.51, 10, box_fill],
+                       [11.50, 12.51, 11, box_fill]];
 
         for (var j in waveLengths){
             if(waveLengths[j][2] == red_band){
@@ -127,25 +129,11 @@ function graph(graphId, type) {
             .attr("height", height + stroke_width)
             .attr('class', 'spectrumMap');
 
-        // yoffset = $(id).parent().find($("img")).height();
-        // tip = d3.tip()
-            // .attr('class', 'd3-tip')
-            // .offset([2 * yoffset / 3, 0])
-            // .html(
-            //     "<p>" + bandLegend[String(red_band)] + " ----> Band 4: Red" + "</p>"+
-            //     "<p>" + bandLegend[String(green_band)] + " ----> Band 3: Green" + "</p>"+
-            //     "<p>" + bandLegend[String(blue_band)] + " ----> Band 2: Blue" + "</p>"
-            //     );
-
-        // svgBar.call(tip);
-
         svgBar.append("rect")
             .attr("x", 0 + "px")
             .attr("y", 0 + "px")
             .attr("width", width)
             .attr("height", height + stroke_width);
-            // .on('mouseover', tip.show)
-            // .on('mouseout', tip.hide);
 
         svgBar.selectAll("rect")
             .data(waveLengths, function(d){return d;})
@@ -154,7 +142,7 @@ function graph(graphId, type) {
             .attr("stroke-width", stroke_width)
             .attr("stroke", stroke_color)
             .attr("fill", function (d){ return (d[3]); })
-            .attr("x", function (d){ return (width * ((d[0] - xLowNorm) / widthNorm)) + "px"; })
+            .attr("x", function (d){ return (width * 2) + "px"; })
             .attr("y", 0 + "px")
             .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
             .attr("height", height + "px")
