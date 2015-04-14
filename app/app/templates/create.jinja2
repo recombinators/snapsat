@@ -18,16 +18,16 @@
     <p>Your location may be covered by overlapping regions, a Path and Row. Each region has multiple available dates. Typically, dates that have less cloud coverage are more useful.</p>
         
         
-    <table class='column_titles'>
+    <table class='js-column_titles'>
         <thead>
 
         </thead>
     </table>
-    <div id='pathrowgrouping'>
+    <div id='js-pathrowgrouping'>
         {% for group in scenes %}
         <div>
             <table>
-                <thead class='group_head'>  
+                <thead class='js-group_head'>  
                     <tr>
                         <th class="light uppercase h2">Path-Row: {{ group[0].path}}-{{group[0].row}}</th><th></th><th></th><th></th><th></th>
                     </tr>
