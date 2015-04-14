@@ -15,6 +15,10 @@ $(document).ready(function(){
     }); 
 });
 
+// Once a user finishes moving the map, send an AJAX request to Pyramid
+// which will repopulate the HTML with an updated list of the Landsat
+// scenes present.
+map.on('moveend', function() {
 //  Implement debouce to prevent excessive calls to database and ajax calls
 // running into each other causing the application to hang
 var sceneList = _.debounce(function() {
@@ -27,7 +31,7 @@ var sceneList = _.debounce(function() {
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
-        data: {'lat': lat, 'lng': lng, }
+        data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
         scenes_pr = json.scenes;
          
@@ -69,6 +73,7 @@ var sceneList = _.debounce(function() {
                 }
         }
     });
+});
 }, 125);
 
 // Once a user finishes moving the map, send an AJAX request to Pyramid
