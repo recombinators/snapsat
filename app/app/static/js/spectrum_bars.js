@@ -13,7 +13,7 @@ var blue_color = "#00668e";
 // Frequency offest for bar frequency to container width mapping
 var freqOffset = 0.035;
 
-// Funciton that generates both reference bar graphs.
+// Funciton that generates both reference bar graphs. type = "full" or "visible"
 function refernceGraph(type){
     // Get width from container
     var width = $(".js-container-" + type).width();
