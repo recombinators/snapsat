@@ -133,19 +133,21 @@ def email(request, bands):
     email_address = request.params.get('email_address')
     print 'email address: {}'.format(email_address)
     if email_address:
-        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_\
-                       {}.zip".format(request.matchdict['scene_id'],
-                                      bands)
+        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}.zip".format(request.matchdict['scene_id'], bands)
+        scene = request.matchdict['scene_id']
+        scene_url = 'http://snapsat.org/scene/{}'.format(scene)
         request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(
                                 mailgun_url)
+        scene_url = 'http://snapsat.org/scene/{}'.format(request.params.get
         email_request = requests.post(request_url, auth=('api', mailgun_key),
                                 data={
             'from': 'no-reply@snapsat.org',
             'to': email_address,
             'subject': 'Snapsat is rendering your request',
-            'text': "Thank you for using Snapsat. After we've rendered \
-                     your full composite, it will be available here: \
-                     <a href='{}'>{}</a>".format(full_render, full_render)
+            'text': "Thank you for using Snapsat.\nAfter we've rendered " \
+                     "your full composite, it will be available here:\n" \
+                     "{}\nScene data can be found here:\n {}".format(
+                                                full_render, scene_url)
 
         })
 
