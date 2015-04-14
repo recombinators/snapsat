@@ -142,9 +142,9 @@ function graph(graphId, type) {
             .attr("stroke-width", stroke_width)
             .attr("stroke", stroke_color)
             .attr("fill", function (d){ return (d[3]); })
-            .attr("x", function (d){ return (width * 2) + "px"; })
+            .attr("x", function (d){ return ((width / waveLengths.length) * (d[2] - 1)) + "px"; })
             .attr("y", 0 + "px")
-            .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
+            .attr("width", function (d){ return (width / waveLengths.length)+ "px"; })
             .attr("height", height + "px")
             .attr("pointer-events", "none");
         
