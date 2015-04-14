@@ -1,6 +1,6 @@
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
-    $(".nopreview").each(function(){
+    $(".js-nopreview").each(function(){
         var jobId = this.id;
         var intervalTime = 5000;
         var intervalID = setInterval(function poll(){
@@ -31,7 +31,7 @@ $(document).ready(function(){
         }, intervalTime);
     });
     
-    $(".nofull").each(function(){
+    $(".js-nofull").each(function(){
         var jobId = this.id;
         var intervalTime = 10000;
         if(jobId){
@@ -78,12 +78,7 @@ function startPreviewPoll(jobId, intervalID){
         url: "/preview_poll", 
         dataType: "json"
     }).done(function(data){
-        console.log('preview ' + data.bool);
-        console.log(intervalID);
-        console.log(jobId);
-        console.log(data.bool);
         if(data.bool === false){
-            console.log('preview stop');
             clearInterval(intervalID);
         }
     });
@@ -92,7 +87,6 @@ function startPreviewPoll(jobId, intervalID){
 // Stop polliing for full render status when
 function stopStatusPoll(data, intervalID){
     if(data.bool === false){
-        console.log('full stop');
         clearInterval(intervalID);
     }
 }
@@ -103,10 +97,6 @@ function startStatusPoll(jobId, intervalID){
         url: "/status_poll", 
         dataType: "json"
     }).done(function(data){
-        console.log('full ' + data.bool);
-        console.log(intervalID);
-        console.log(jobId);
-        console.log(data.bool);
         if(data.bool === false){
             console.log('status stop');
             clearInterval(intervalID);
