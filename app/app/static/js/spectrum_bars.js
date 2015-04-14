@@ -109,7 +109,7 @@ function refernceGraph(type){
 }
 
 // Function to create bar code for each preview
-function graph(graphId, type) {
+function graph(graphId) {
     // Get id of each preview
     var id = '#'.concat(graphId);
 
@@ -160,7 +160,7 @@ $(document).ready(function(){
     // Create bar code for each preview
     $(".js-preview").each(function(){
         graphId = $(this).find($(".js-graph")).attr("id");
-        graph(graphId, "js-preview");
+        graph(graphId);
         });
 
     // Create reference bar graphs
