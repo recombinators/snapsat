@@ -132,8 +132,8 @@ def email(request, bands):
     """
     email_address = request.params.get('email_address')
     if email_address:
-        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}.\
-                       zip".format(request.matchdict['scene_id'], bands)
+        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}."\
+                      "zip".format(request.matchdict['scene_id'], bands)
         scene = request.matchdict['scene_id']
         scene_url = 'http://snapsat.org/scene/{}#{}'.format(scene, bands)
         request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(
