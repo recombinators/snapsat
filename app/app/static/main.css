@@ -921,6 +921,7 @@ blockquote:after {
 }
 ul.mainmenu {
 	float: right;
+	width: 95%;
 	margin: 0px 40px 0px 0px;
 	text-transform: uppercase;
 	font-weight: 300;
@@ -941,6 +942,11 @@ ul.mainmenu li:hover a {
 ul.mainmenu li.active a {
 	font-weight: bold;
 	color: #6093e7;
+}
+.mainmenu img {
+	float: left;
+	height: 99%;
+	padding-right: 20%;
 }
 .landingbuttons {
 	background-color: #FFF;
