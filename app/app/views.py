@@ -280,7 +280,7 @@ def scene_options_ajax(request):
     # lat/lng provided from the user. Then, populate a list with
     # the information relevant to our view.
     print 'PathAndRow length: {}'.format(len(Paths.pathandrow(lat, lng)))
-    path_row_list = Paths.pathandrow(lat, lng))
+    path_row_list = Paths.pathandrow(lat, lng)
     if not path_row_list:
         return {'scenes': []}
     scenes = PathRow.scenelist(path_row_list)
