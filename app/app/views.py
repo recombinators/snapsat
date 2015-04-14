@@ -20,9 +20,6 @@ REGION = 'us-west-2'
 COMPOSITE_QUEUE = 'snapsat_composite_queue'
 PREVIEW_QUEUE = 'snapsat_preview_queue'
 
-mailgun_key = os.environ['mailgun_key']
-mailgun_url = os.environ['mailgun_url']
-
 """
 Helper functions:
 1. add_to_queue - Adds a request to the appropriate queue.
