@@ -1,5 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);								
-									
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+@charset "UTF-8";
+/*THIS PAGE IS STYLING FOR THE LANDING PAGE PRIMARILY*/
+
 /******************************************************************
 	This is the CSS Reset
 ******************************************************************/
@@ -15,7 +17,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 	display: block;
 }
 body {
-	line-height: 1;
+	overflow-x: hidden;
 }
 html, body {
 	width: 100%;
@@ -26,56 +28,6 @@ html, body {
 /******************************************************************
 	General
 ******************************************************************/								
-a {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	text-decoration: none;
-	font-size: 8pt;
-	color: #616161;
-}
-a:hover {
-	color: #6093e7;
-}
-p {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #848484;
-	font-size: 12px;
-}
-h1 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 40px;
-}
-h2 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 20px;
-}
-h3 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 18px;
-}
-h4 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 16px;
-}
-h6 {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
-	line-height: 1.6em;
-	color: #454544;
-	text-decoration: none;
-	font-size: 12px;
-}
 .clear {
 	clear: both;
 }
@@ -83,24 +35,26 @@ blockquote {
 	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	font-size: 28px;
 	line-height: 60px;
-	width: 100%;
+	/*width: 100%;*/
 	background-color: #f6f6f6;
 	height: 100px;
 	text-align: center;
-	padding-top: 40px;
+	padding: 1.1%;
 	color: #616161;
 	font-weight: 300;
 	font-style: italic;
 }
 blockquote:before {
 	content: '"';
-	font-weight: bold;
 	font-size: 36px;
 }
 blockquote:after {
 	content: '"';
-	font-weight: bold;
 	font-size: 36px;
+}
+#landing {
+	text-align: center;
+	max-width: 100%;
 }
 /******************************************************************
 	Menu
@@ -118,7 +72,6 @@ blockquote:after {
 	box-shadow: 0 2px 2px rgba(0,0,0,0.2);
 }
 ul.mainmenu {
-	font-family: "Open Sans", Verdana, Arial, sans-serif;
 	float: right;
 	margin: 0px 40px 0px 0px;
 	text-transform: uppercase;
@@ -144,6 +97,21 @@ ul.mainmenu li:hover a {
 ul.mainmenu li.active a {
 	font-weight: bold;
 	color: #6093e7;
+}
+.landingbuttons {
+	background-color: #FFF;
+	text-align: center;
+	width:25%;
+	border-radius: 25px;
+	opacity: .8;
+	margin-bottom: 20px;
+	float: center;
+	border: solid 2px #000;
+	box-shadow: 3px 3px 3px #000;
+}
+.landingbuttons:hover {
+	box-shadow: 1px 1px 3px #000;
+	opacity: .7;
 }
 
 /******************************************************************
@@ -186,7 +154,7 @@ a.scroll {
 	display: block;
 }
 div.icon {
-	font-size: 80px;
+	font-size: 100px;
 	color: #FFF;
 }
 
@@ -201,41 +169,34 @@ div.icon {
 	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/background.jpg);
 	background-size: cover;
 }
-.overlay {
-	/*background-image: url(../img/overlay_light_diagonal.png);*/
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background-repeat: repeat;
-}
 .herowrapper {
 	position: absolute;
-	top: 50%;
+	padding: 3%;
+	top: 45%;
+	left:35%;
 	height: 40px;
 	margin-top: -40px;
 	width: 100%;
+	display: block;	
 }
 .herowrapper h1 {
 	text-align: center;
 	color: #FFF;
 	font-size: 40px;
 	font-weight: 500;
-	text-shadow: 4px 4px 8px #000;
 }
 .herowrapper h1 a {
 	text-align: center;
-	color: #FFF;
+	color: #000;
 	font-size: 40px;
 	font-weight: 500;
-	text-shadow: 4px 4px 8px #000;
-	
 }
 a.scrolldown {
 	display: block;
 	width: 100%;
 	height: 50px;
 	position: absolute;
-	bottom: 0;
+	bottom: 25;
 	cursor: pointer;
 }
 .scrolldown .icon {
@@ -244,7 +205,6 @@ a.scrolldown {
 }
 .scrolldown h3 {
 	text-align: center;
-	font-size: 1.6em;
 	text-transform: uppercase;
 	color: #FFF;
 	font-weight: 200;
@@ -286,13 +246,13 @@ div.person {
 	margin: 20px auto;
 }
 div.person img {
-	width: 250px;
-	height: 250px;
+	width: 200px;
+	height: 200px;
+	margin-top: 2%;
 }
 div.person div.info {
 	width: 520px;
 	float: right;
-	padding: 0px 30px;
 }
 a.socialicon {
 	background-repeat: no-repeat;
@@ -302,39 +262,25 @@ a.socialicon {
 	float: left;
 	margin: 20px 10px 0px 0px;
 }
-a.socialicon.linkedin {
-	/*background-position: 0px 0px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
-}
-a.socialicon.linkedin:hover {
-	/*background-position: 0px -30px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png);
-}
-
-a.socialicon.github {
-	/*background-position: -30px 0px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
-}
-a.socialicon.github:hover {
-	/*background-position: -30px 0px;*/
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png);
-}
+a.socialicon.linkedin { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
+a.socialicon.linkedin:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
+a.socialicon.github { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
+a.socialicon.github:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
 a.socialicon.twitter {
 	margin-top: 4.5%;
 	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
 }
-a.socialicon.twitter:hover {
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
-}
+a.socialicon.twitter:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png); }
+
 /******************************************************************
 	Contact us
 ******************************************************************/
-#contact p{
+#contact p {
 	text-align: center;
-	padding: 15%;
+	padding: 5%;
 	font-size: 1em;
 }
-#contact a{
+#contact a {
 	font-size: 1.2em;
 }
 /******************************************************************
@@ -352,4 +298,3 @@ a.socialicon.twitter:hover {
 	line-height: 50px;
 	color: #FFF;
 }
-

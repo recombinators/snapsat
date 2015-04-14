@@ -7,6 +7,8 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
+import pyramid.httpexceptions as exc
+
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -58,7 +60,6 @@ def create(request):
     lists of scenes for it.
     """
     return scene_options_ajax(request)
-
 
 
 def add_to_queue_composite(request):
@@ -119,7 +120,7 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-        # print 'successfully added to preview queue'
+        print 'successfully added to preview queue'
 
 
 @view_config(route_name='request_composite', renderer='json')
@@ -127,14 +128,19 @@ def request_composite(request):
     """
     Request both the preview and fullsize images for a particular composite.
     Redirect to scene page and goto band requested.
+    If incorrect band combo is requested, bad request.
+
     """
     # Add full render and preview job to apprpriate queues
-    bands = (request.params.get('band1') + request.params.get('band2') +
-             request.params.get('band3'))
-    add_to_queue_composite(request)
-    add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}#{}'.format(
-        request.matchdict['scene_id'], bands))
+    if valid_band_combo(request):
+        bands = (request.params.get('band1') + request.params.get('band2') +
+                 request.params.get('band3'))
+        add_to_queue_composite(request)
+        add_to_queue_preview(request)
+        return HTTPFound(location='/scene/{}#{}'.format(
+            request.matchdict['scene_id'], bands))
+    else:
+        raise exc.HTTPBadRequest()
 
 
 @view_config(route_name='request_preview', renderer='json')
@@ -142,13 +148,30 @@ def request_preview(request):
     """
     Request the preview image for a particular composite.
     Redirect to scene page and goto band requested.
+    If incorrect band combo is requested, bad request.
     """
-    # Add preview render job to apprpriate queues
-    bands = (request.params.get('band1') + request.params.get('band2') +
-             request.params.get('band3'))
-    add_to_queue_preview(request)
-    return HTTPFound(location='/scene/{}#{}'.format(
-        request.matchdict['scene_id'], bands))
+    if valid_band_combo(request):
+        # Add preview render job to apprpriate queues
+        bands = (request.params.get('band1') + request.params.get('band2') +
+                 request.params.get('band3'))
+        add_to_queue_preview(request)
+        return HTTPFound(location='/scene/{}#{}'.format(
+            request.matchdict['scene_id'], bands))
+    else:
+        raise exc.HTTPBadRequest()
+
+
+def valid_band_combo(request):
+    """
+    Return true if band combo is valid, False if not.
+    """
+    valid = [1, 2, 3, 4, 5, 6, 7, 9]
+    bands = [int(request.params.get('band1')),
+             int(request.params.get('band2')),
+             int(request.params.get('band3'))]
+    # Check if all bands are unique
+    unique = len(bands) == len(set(bands))
+    return all(x in valid for x in bands) and unique
 
 
 @view_config(route_name='scene', renderer='templates/scene.jinja2')
@@ -222,7 +245,22 @@ def scene(request):
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))
 
-    return {'scene_id': scene_id, 'composites': composites}
+    # Get scene metadata from path_row table
+    meta_data_list = PathRow.meta_data(scene_id)
+    meta_data = {'scene_id': scene_id,
+                 'acquisitiondate':
+                 meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),
+                 'cloudcover': meta_data_list[1],
+                 'path': meta_data_list[2],
+                 'row': meta_data_list[3],
+                 'min_lat': meta_data_list[4],
+                 'min_lon': meta_data_list[5],
+                 'max_lat': meta_data_list[6],
+                 'max_lon': meta_data_list[7],
+                 'overview_url':
+                 meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
+
+    return {'meta_data': meta_data, 'composites': composites}
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')

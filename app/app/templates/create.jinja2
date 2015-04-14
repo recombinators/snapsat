@@ -3,9 +3,9 @@
 
 {% block content %}
 
-<section id='where' class='mbx'>
-    <h3 class='red mbn'>1</h3>
-    <h2>Select a location</h2>
+<section id='where' class='mbl'>
+    <h2 class='mbn'>Select a location</h2>
+    <p>The transparent boxes represent the bounds of the image you will create. Each region is uniquely defined by a Path and Row.</p>
     <div class='map-container'>
         <div id='map'>
             <span class="reticle bold red h3"><img src='/static/logo-dark-red.svg'></span>
@@ -14,38 +14,38 @@
 </section>
 
 <section class='mbx'>
-    <h3 class='red mbn'>2</h3>
-    <h2>Select a date</h2>
+    <h2 class='mbn'>Select a date</h2>
+    <p>Your location may be covered by overlapping regions, a Path and Row. Each region has multiple available dates. Typically, dates that have less cloud coverage are more useful.</p>
+        
+        
     <table class='column_titles'>
         <thead>
-            <tr>
-                <th>Date acquired</th><th>Path</th><th>Row</th><th>Cloud cover</th><th>ID</th>
-            </tr>
+
         </thead>
     </table>
     <div id='pathrowgrouping'>
-    {% for group in scenes %}
+        {% for group in scenes %}
         <div>
             <table>
-                <thead class='group_head'>
+                <thead class='group_head'>  
                     <tr>
-                        <th>Path-Row: {{ group[0].path}}-{{group[0].path}}</th><th></th><th></th><th></th><th></th>
+                        <th class="light uppercase h2">Path-Row: {{ group[0].path}}-{{group[0].row}}</th><th></th><th></th><th></th><th></th>
                     </tr>
                 </thead>
                 <tbody>
-                        {% for s in group %}
-                            <tr>
-                                <td>{{ s.acquisitiondate }}</td>
-                                <td>{{ s.path }}</td>
-                                <td>{{ s.row }}</td>
-                                <td>{{ s.cloudcover }}</td>
-                                <td><a href='/scene/{{ s.entityid }}'>{{ s.entityid }}</a></td>
-                            </tr>
-                        {% endfor %}
+                    <tr>
+                        <th class="date">Date acquired</th><th class="cloud">Cloud cover</th>
+                    </tr>
+                    {% for s in group %}
+                    <tr>
+                        <td class="datetbl"><a href='/scene/{{ s.entityid }}'>{{ s.acquisitiondate }}</a></td>
+                        <td>{{ s.cloudcover }}%</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </section>
 
@@ -53,4 +53,5 @@
 
 {% block scripts %}
 <script type='text/javascript' src='/static/js/map.js'></script>
+
 {% endblock %}

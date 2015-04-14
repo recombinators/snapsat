@@ -1,3 +1,4 @@
+require('mapbox.js');
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
  
  
@@ -5,8 +6,8 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {zoomControl: true});
 map.setView([47.568, -122.582], 7);
 map.scrollWheelZoom.disable();
+// L.control.fullscreen.addTo(map);
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
-
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
     $.each($('.column_titles th'), function(i, value){
@@ -53,18 +54,20 @@ map.on('moveend', function() {
 
                 // Create title for each path-row group table.
                 $(newid).append(
-                    $("<thead class='group_head'><tr><th> Path-Row: " + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</th><th></th><th></th><th></th><th></th></tr></thead>")
+                    "<thead class='group_head'><tr><th class='light uppercase h2'> Path-Row: " + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</th></thead>"
+                );
+
+                // Create sub titles for date and cloudcover
+                $(newid).append(
+                    '<th class="date">Date acquired</th><th class="cloud">Cloud cover</th>'
                 );
 
                 // Generate rows for each date within a path-row group.
                 for (var k in scenes_path_row) {
                     $(newid).append(
                         "<tr>" +
-                            "<td>" + scenes_path_row[k].acquisitiondate + "</td>" +
-                            "<td>" + scenes_path_row[k].path + "</td>" +
-                            "<td>" + scenes_path_row[k].row + "</td>" +
-                            "<td>" + scenes_path_row[k].cloudcover + "</td>" +
-                            "<td><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].entityid + "</a></td>" +
+                            "<td class='datetb1'><a href='/scene/" + scenes_path_row[k].entityid + "'>" + scenes_path_row[k].acquisitiondate + "</a></td>" +
+                            "<td>" + scenes_path_row[k].cloudcover + "%</td>" +
                         "</tr>");
                 }
         }

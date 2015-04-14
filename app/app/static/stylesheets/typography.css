@@ -52,7 +52,7 @@ p {
 
 /* Set default blockquote styles */
 blockquote {
-	font-style: italic;
+	font-family: helvetica;
 	font-size: var(--ms0);
 }
 
@@ -76,7 +76,7 @@ blockquote {
 	--ms1:						1rem;
 	--ms0:						1rem;
 
-	--copy-font:				freight-sans-pro, 'Helvetica Neue', Helvetica, Tahoma, sans-serif;
+    --copy-font:                freight-sans-pro, verdana, arial, sans-serif;
 	--copy-font-weight:			var(--font-weight-book);
 	--copy-font-color:			#444;
 
