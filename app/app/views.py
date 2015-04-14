@@ -123,17 +123,19 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-def email(request):
+def email(request, bands):
     """
     If request contains email_address, send email to user with a link to the
     full render zip file.
 
     """
+    import pdb; pdb.set_trace()
     email_address = request.params.get('email_address')
     print 'email address: {}'.format(email_address)
     if email_address:
         full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_\
-                       {}.zip".format(scene_id, bands)
+                       {}.zip".format(request.matchdict['scene_id'],
+                                      bands)
         request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(
                                 mailgun_url)
         email_request = requests.post(request_url, auth=('api', mailgun_key),
@@ -143,7 +145,7 @@ def email(request):
             'subject': 'Snapsat is rendering your request',
             'text': "Thank you for using Snapsat. After we've rendered \
                      your full composite, it will be available here: \
-                     <a href="
+                     <a href='{}'>{}</a>".format(full_render, full_render)
 
         })
 
@@ -168,10 +170,10 @@ def request_composite(request):
                  request.params.get('band3'))
         add_to_queue_composite(request)
         add_to_queue_preview(request)
-        scene_id = request.matchdict['scene_id']
         # If request contains an email_address, send email.
-
-        return HTTPFound(location='/scene/{}#{}'.format(scene_id, bands))
+        email(request, bands)
+        return HTTPFound(location='/scene/{}#{}'.format(
+                         request.matchdict['scene_id'], bands))
     else:
         raise exc.HTTPBadRequest()
 
