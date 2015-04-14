@@ -15,10 +15,6 @@ $(document).ready(function(){
     }); 
 });
 
-// Once a user finishes moving the map, send an AJAX request to Pyramid
-// which will repopulate the HTML with an updated list of the Landsat
-// scenes present.
-map.on('moveend', function() {
 //  Implement debouce to prevent excessive calls to database and ajax calls
 // running into each other causing the application to hang
 var sceneList = _.debounce(function() {
@@ -73,7 +69,6 @@ var sceneList = _.debounce(function() {
                 }
         }
     });
-});
 }, 250);
 
 // Once a user finishes moving the map, send an AJAX request to Pyramid
