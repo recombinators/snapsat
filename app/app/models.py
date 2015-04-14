@@ -27,7 +27,7 @@ class Paths(Base):
         Output path and row that contains lat lon.
         """
         try:
-            scene = (Session.query(cls).filter(
+            scene = (Session.query(cls.path, cls.row).filter(
                 func.ST_Within(func.ST_SetSRID(
                     func.ST_MakePoint(float(lon), float(lat)), 4236),
                     func.ST_SetSRID(cls.geom, 4236)), cls.mode == u'D').all())
