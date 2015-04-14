@@ -56,7 +56,9 @@
                     <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
                     <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
                     <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
-                    <button formaction="/request_composite/{{ meta_data.scene_id }}" formmethod="post" type="submit">Request a full render.</button>
+                    <label for="render_email">Enter your email:</label>
+                    <input type="text" style="width:140px" name="email_address"/>
+                    <button formaction="/request_composite/{{ meta_data.scene_id }}" formmethod="post" id="render_email" type="submit">Request a full render.</button>
                 </form>
             </p>
             {% endif %}
