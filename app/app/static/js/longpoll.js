@@ -1,5 +1,6 @@
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
+    // Poll for preview image
     $(".js-nopreview").each(function(){
         var jobId = this.id;
         var intervalTime = 5000;
@@ -12,16 +13,19 @@ $(document).ready(function(){
                 var info = json.job_info;
                 var newid = '#'.concat(jobId);
                 if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+                    // Display loading gif.
                     $(newid).html(
                         "<div class='loading'><img src='/static/img/loading.gif'></div>");
                 }else{
                     if(info.jobstatus != 'Failed'){
+                        // Stop polling on success
                         $(newid).html(
                             "<a href="  + info.renderurl + ">" +
                             "<img src=" + info.renderurl + ">" +
                             "</a>");
                         clearInterval(intervalID);
                     }else{
+                        // Stop polling on failure
                         $(newid).html(
                             "<p><strong class='red'>Preview Failure</strong></p>");
                         clearInterval(intervalID);
@@ -31,6 +35,7 @@ $(document).ready(function(){
         }, intervalTime);
     });
     
+    // Poll for full render job status
     $(".js-nofull").each(function(){
         var jobId = this.id;
         var intervalTime = 10000;
@@ -44,14 +49,17 @@ $(document).ready(function(){
                     var info = json.job_info;
                     var newid = '#'.concat(jobId);
                     if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
-                        $(newid).find("#fullstatus").html(info.jobstatus);
-                        $(newid).find("#fullelapsedtime").html(info.elapsedtime);
+                        // Update status and elapsed time.
+                        $(newid).find("#js-fullstatus").html(info.jobstatus);
+                        $(newid).find("#js-fullelapsedtime").html(info.elapsedtime);
                     }else{
                         if(info.jobstatus != 'Failed'){
+                            // Stop polling on success
                             $(newid).html(
                                 "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
                             clearInterval(intervalID);
                         }else{
+                            // Stop polling on failure
                             $(newid).html(
                                 "<p><strong class='red'>Composite Failure</strong></p>");
                             clearInterval(intervalID);
@@ -67,7 +75,6 @@ $(document).ready(function(){
 // Stop polling for a preview when 
 function stopPreviewPoll(data, intervalID){
     if(data.bool === false){
-        console.log('preview stop');
         clearInterval(intervalID);
     }
 }
@@ -98,7 +105,6 @@ function startStatusPoll(jobId, intervalID){
         dataType: "json"
     }).done(function(data){
         if(data.bool === false){
-            console.log('status stop');
             clearInterval(intervalID);
         }
     });
