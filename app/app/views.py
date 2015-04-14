@@ -132,20 +132,21 @@ def email(request, bands):
     """
     email_address = request.params.get('email_address')
     if email_address:
-        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}.zip".format(request.matchdict['scene_id'], bands)
+        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}.\
+                       zip".format(request.matchdict['scene_id'], bands)
         scene = request.matchdict['scene_id']
         scene_url = 'http://snapsat.org/scene/{}#{}'.format(scene, bands)
         request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(
-                                mailgun_url)
-        email_request = requests.post(request_url, auth=('api', mailgun_key),
-                                data={
+            mailgun_url)
+        requests.post(request_url, auth=('api', mailgun_key),
+                      data={
             'from': 'no-reply@snapsat.org',
             'to': email_address,
             'subject': 'Snapsat is rendering your request',
-            'text': "Thank you for using Snapsat.\nAfter we've rendered " \
-                     "your full composite, it will be available here:\n" \
-                     "{}\nScene data can be found here:\n {}".format(
-                                                full_render, scene_url)
+            'text': "Thank you for using Snapsat.\nAfter we've rendered "
+                    "your full composite, it will be available here:\n"
+                    "{}\nScene data can be found here:\n {}".format(
+                        full_render, scene_url)
 
         })
 
@@ -220,7 +221,8 @@ def scene(request):
     # Get scene id and list of rendered or rendering previews and full
     # composities from the render_cache table
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache.get_rendered_rendering(scene_id)
+    rendered_rendering_composites = RenderCache.get_rendered_rendering(
+        scene_id)
 
     # Initialize composties dictionary
     composites = {}
