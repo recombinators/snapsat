@@ -123,15 +123,14 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
+
 def email(request, bands):
     """
     If request contains email_address, send email to user with a link to the
     full render zip file.
 
     """
-    import pdb; pdb.set_trace()
     email_address = request.params.get('email_address')
-    print 'email address: {}'.format(email_address)
     if email_address:
         full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_{}.zip".format(request.matchdict['scene_id'], bands)
         scene = request.matchdict['scene_id']
@@ -149,9 +148,6 @@ def email(request, bands):
                                                 full_render, scene_url)
 
         })
-
-        print 'Status: {0}'.format(email_request.status_code)
-        print 'Body:   {0}'.format(email_request.text)
 
 
 @view_config(route_name='request_composite', renderer='json')
