@@ -117,7 +117,8 @@ class UserJob(Base):
                 band1=4, band2=3, band3=2,
                 jobstatus=0,
                 starttime=datetime.utcnow(),
-                rendertype=rendertype
+                rendertype=rendertype,
+                email=None
                 ):
         """
         Create new job in db.
@@ -126,12 +127,13 @@ class UserJob(Base):
             session = Session
             current_time = datetime.utcnow()
             job = UserJob(
-                    entityid=entityid,
-                    band1=band1, band2=band2, band3=band3,
-                    jobstatus=0,
-                    starttime=current_time,
-                    lastmodified=current_time,
-                    rendertype=rendertype)
+                entityid=entityid,
+                band1=band1, band2=band2, band3=band3,
+                jobstatus=0,
+                starttime=current_time,
+                lastmodified=current_time,
+                rendertype=rendertype,
+                email=email)
             session.add(job)
             session.flush()
             session.refresh(job)
