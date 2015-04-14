@@ -32,8 +32,8 @@ map.scrollWheelZoom.disable();
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
-    $.each($('.column_titles th'), function(i, value){
-                var wid = $($(".group_head th")[i]).width();
+    $.each($('.js-column_titles th'), function(i, value){
+                var wid = $($(".js-group_head th")[i]).width();
                 $(value).width(wid);
     }); 
 });
@@ -55,7 +55,7 @@ var sceneList = _.debounce(function() {
         scenes_pr = json.scenes;
          
          // Update path-row groupings of scenes on map move
-        $('#pathrowgrouping').html('');
+        $('#js-pathrowgrouping').html('');
 
             // Create new table for each path-row grouping.
             for (var i in scenes_pr) {
@@ -65,7 +65,7 @@ var sceneList = _.debounce(function() {
                 var n = num.toString();
                 var id = 'tab'.concat(n);
     
-                $('#pathrowgrouping').append(
+                $('#js-pathrowgrouping').append(
                     $('<table></table>').attr('id', id)
                 );
     

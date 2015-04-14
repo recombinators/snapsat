@@ -16,7 +16,7 @@
 <div class='preview-container'>
 
     {% for band_combo, composite in composites.iteritems() %}
-    <div class='preview' id='{{ band_combo }}'>
+    <div class='js-preview' id='{{ band_combo }}'>
         <h2 class='composite-description mbn'>
             <span class='js-band-red'>{{ composite.band1 }}</span>
             <span class='js-band-green'>{{ composite.band2 }}</span> 
@@ -33,7 +33,7 @@
                 <img src="{{ composite.previewurl }}">
             </a>
             {% else %}
-            <div class='nopreview' id='{{composite.previewjobid}}'>
+            <div class='js-nopreview' id='{{composite.previewjobid}}'>
                 <img src="/static/img/loading.gif">
             </div>
             {% endif %}
@@ -45,13 +45,13 @@
 
         <!-- If a full render has NOT been created, display a means of creating one. -->
         {% else %}
-        <div class='nofull' id='{{composite.fulljobid}}'>
+        <div class='js-nofull' id='{{composite.fulljobid}}'>
 
             <!-- If a full has been requested, display the processing status. -->
             {% if composite.fullstatus %}
-            <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
+            <p>Current status: <strong class='red'><span id='js-fullstatus'>{{ composite.fullstatus }}</span></strong></p>
             {% if composite.elapsed_time %}
-            <p>Elapsed Process Time (hr:min:sec): <span id='fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
+            <p>Elapsed Process Time (hr:min:sec): <span id='js-fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
             {% endif %}
 
             <!-- Display a button that causes a full render to be queued. -->
@@ -65,7 +65,7 @@
                 </form>
             </p>
             {% endif %}
-        </div> <!-- nofull -->
+        </div> <!-- js-nofull -->
         {% endif %}
     </div> <!-- preview -->
     {% endfor %}
