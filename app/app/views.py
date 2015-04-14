@@ -8,6 +8,7 @@ from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
 import pyramid.httpexceptions as exc
+import requests
 
 
 # Define AWS credentials
@@ -20,6 +21,8 @@ REGION = 'us-west-2'
 COMPOSITE_QUEUE = 'snapsat_composite_queue'
 PREVIEW_QUEUE = 'snapsat_preview_queue'
 
+mailgun_key = os.environ['mailgun_key']
+mailgun_url = os.environ['mailgun_url']
 
 """
 Helper functions:
@@ -120,6 +123,33 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
+def email(request):
+    """
+    If request contains email_address, send email to user with a link to the
+    full render zip file.
+
+    """
+    email_address = request.params.get('email_address')
+    print 'email address: {}'.format(email_address)
+    if email_address:
+        full_render = "http://snapsatcomposites.s3.amazonaws.com/{}_bands_\
+                       {}.zip".format(scene_id, bands)
+        request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(
+                                mailgun_url)
+        email_request = requests.post(request_url, auth=('api', mailgun_key),
+                                data={
+            'from': 'no-reply@snapsat.org',
+            'to': email_address,
+            'subject': 'Snapsat is rendering your request',
+            'text': "Thank you for using Snapsat. After we've rendered \
+                     your full composite, it will be available here: \
+                     <a href="
+
+        })
+
+        print 'Status: {0}'.format(email_request.status_code)
+        print 'Body:   {0}'.format(email_request.text)
+
 
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
@@ -128,6 +158,9 @@ def request_composite(request):
     Redirect to scene page and goto band requested.
     If incorrect band combo is requested, bad request.
 
+    If request contains email_address, send email to user with a link to the
+    full render zip file.
+
     """
     # Add full render and preview job to apprpriate queues
     if valid_band_combo(request):
@@ -135,8 +168,10 @@ def request_composite(request):
                  request.params.get('band3'))
         add_to_queue_composite(request)
         add_to_queue_preview(request)
-        return HTTPFound(location='/scene/{}#{}'.format(
-            request.matchdict['scene_id'], bands))
+        scene_id = request.matchdict['scene_id']
+        # If request contains an email_address, send email.
+
+        return HTTPFound(location='/scene/{}#{}'.format(scene_id, bands))
     else:
         raise exc.HTTPBadRequest()
 
