@@ -279,7 +279,12 @@ def scene_options_ajax(request):
     # Filter all available scenes to those which encompass the
     # lat/lng provided from the user. Then, populate a list with
     # the information relevant to our view.
-    scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
+    print 'PathAndRow length: {}'.format(len(Paths.pathandrow(lat, lng)))
+    path_row_list = Paths.pathandrow(lat, lng))
+    if not path_row_list:
+        return {'scenes': []}
+    scenes = PathRow.scenelist(path_row_list)
+    print ''
     sceneList = []
     for i, scene in enumerate(scenes):
         sceneList.append({
@@ -303,6 +308,7 @@ def scene_options_ajax(request):
     for group in outputList:
         group.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
+    print 'outputList length: {}'.format(len(outputList))
     return {'scenes': outputList}
 
 
