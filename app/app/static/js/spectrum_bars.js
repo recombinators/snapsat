@@ -127,9 +127,9 @@ function graph(graphId, type) {
 
 
 $(document).ready(function(){
-    $(".preview").each(function(){
+    $(".js-preview").each(function(){
         graphId = $(this).find($(".js-graph")).attr("id");
-        graph(graphId, "preview");
+        graph(graphId, "js-preview");
         });
 
     refernceGraph("full");
@@ -140,9 +140,9 @@ $(document).ready(function(){
 $(window).on('resize', function (){ 
     $(".js-graph").contents().remove();
 
-    $(".preview").each(function(){
+    $(".js-preview").each(function(){
         graphId = $(this).find($(".js-graph")).attr("id");
-        graph(graphId, "preview");
+        graph(graphId, "js-preview");
         });
 
     refernceGraph("full");
