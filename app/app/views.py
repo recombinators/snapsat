@@ -35,13 +35,14 @@ Views available:
 """
 
 
-@view_config(route_name='landing', renderer='templates/landing.jinja2')
-def landing(request):
+@view_config(route_name='index', renderer='templates/index.jinja2')
+def index(request):
     """
-    Landing page.
-    No context is passed in, the page is purely static.
+    Index page.
+    Allows a user to define their area of interest and receive appropriate
+    lists of scenes for it.
     """
-    return {}
+    return scene_options_ajax(request)
 
 
 @view_config(route_name='guide', renderer='templates/guide.jinja2')
@@ -50,16 +51,6 @@ def guide(request):
     Guide page.
     """
     return {}
-
-
-@view_config(route_name='create', renderer='templates/create.jinja2')
-def create(request):
-    """
-    Create page.
-    Allows a user to define their area of interest and receive appropriate
-    lists of scenes for it.
-    """
-    return scene_options_ajax(request)
 
 
 def add_to_queue_composite(request):
