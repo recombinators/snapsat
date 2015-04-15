@@ -12,14 +12,21 @@
 {% endblock %}
 
 {% block styles %}
-<style>
-    .scene-meta {
-        position: absolute;
-        top: 49%;
-        z-index: 9999;
-        padding: 2rem;
-    }
-</style>
+    <style>
+        .composite-description {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+        .js-preview {
+            transition: all 0.2s ease;
+        }
+        .js-preview:hover {
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+            z-index: 9999;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
