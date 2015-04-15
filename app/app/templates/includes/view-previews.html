@@ -5,12 +5,12 @@
 <div class='preview-container clearfix px5'>
 
     {% for band_combo, composite in composites.iteritems() %}
-    <div class='preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
+    <div class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
         <div class='scene-meta white full-width'>
             <h3 class='composite-description center'>
-                <span class='band-red red'>{{ composite.band1 }}</span>
-                <span class='band-green green'>{{ composite.band2 }}</span> 
-                <span class='band-blue blue'>{{ composite.band3 }}</span>
+                <span class='js-band-red red'>{{ composite.band1 }}</span>
+                <span class='js-band-green green'>{{ composite.band2 }}</span> 
+                <span class='js-band-blue blue'>{{ composite.band3 }}</span>
             </h3>
 
             {% if composite.fullurl %}
@@ -23,8 +23,6 @@
                 <!-- If a full has been requested, display the processing status. -->
                 {% if composite.fullstatus %}
                 <p>Current status: <strong class='red'><span id='js-fullstatus'>{{ composite.fullstatus }}</span></strong></p>
-                {% endif %}
-
                 <!-- Display a button that causes a full render to be queued. -->
                 {% else %}
                 <p>
@@ -43,7 +41,7 @@
         </div>
 
         <!-- Scene barcode visualization -->
-        <div class='graph' id='graph{{composite.previewjobid}}'></div>
+        <div class='js-graph' id='graph{{composite.previewjobid}}'></div>
 
         <div id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
