@@ -1,5 +1,4 @@
 // Set constants for colors and sizes for box fills, box stroke, font, and bar height
-var height = 20;
 var stroke_width = 1;
 var box_fill = "#000";
 var stroke_color = "#000";
@@ -18,6 +17,9 @@ function refernceGraph(type){
     // Get width from container
     var width = $(".js-container-" + type).width();
 
+    // Set height of graph
+    var height = 60;
+
     // Reference graph with full spectrum
     if(type == "full"){
         // Set minimum and maximum spectrum
@@ -29,14 +31,15 @@ function refernceGraph(type){
         widthNorm = freqMax + freqOffset;
 
         // List of bands min/max frequency, colors, and names.
-        waveLengths = [[0.435, 0.451, 1, "#6ca4d3", "Coastal/Aerosol"],
-                       [0.452, 0.512, 2, blue_color, "Blue"],
-                       [0.533, 0.590, 3, green_color, "Green"],
-                       [0.636, 0.673, 4, red_color, "Red"],
-                       [0.851, 0.879, 5, "#c5a3be", "Near Infrared (NIR)"],
-                       [1.566, 1.651, 6, "#d49979", "SWIR 1"],
-                       [2.107, 2.294, 7, "#999b98", "SWIR 2"],
-                       [1.362, 1.384, 9, "#7f87b5", "Cirrus"]];
+        waveLengths = [[0.435, 0.451, 1, "#6ca4d3", "30 m, Coastal/Aerosol"],
+                       [0.452, 0.512, 2, blue_color, "30 m, Blue"],
+                       [0.533, 0.590, 3, green_color, "30 m, Green"],
+                       [0.636, 0.673, 4, red_color, "30 m, Red"],
+                       [0.851, 0.879, 5, "#c5a3be", "30 m, Near Infrared (NIR)"],
+                       [1.566, 1.651, 6, "#d49979", "30 m, SWIR 1"],
+                       [2.107, 2.294, 7, "#999b98", "30 m, SWIR 2"],
+                       [0.503, 0.676, 8, "#008ea2", "15 m, Pan"],
+                       [1.362, 1.384, 9, "#7f87b5", "30 m, Cirrus"]];
     }else{
         // Set minimum and maximum spectrum
         freqMin = 0.435;
@@ -57,15 +60,15 @@ function refernceGraph(type){
     var svgBar = d3.selectAll("#js-reference-" + type)
             .append("svg")
             .attr("width", width)
-            .attr("height", height + stroke_width)
+            .attr("height", height + 2 * stroke_width)
             .attr('class', 'spectrumMap');
 
     // Tool tip for bar graph. Band #: Name (Min Frequency - Max Frequency µm) 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([height * 2 + font_size , 0])
+        .offset(function (d){if(d[2] == 1){ return ([1.33*height + font_size, 0]);}else if(d[2] == 9){ return ([1.33*height + font_size, 0]);}else if(d[2] == 8){ return ([2*height/3 + font_size, 0]);}else{ return ([height + font_size , 0]);}})
         .html(function(d) {
-            return '<div class="sans">' + d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
+            return '<div class="sans">' + 'Band '+ d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
             });
 
     // Call tool tip
@@ -87,9 +90,9 @@ function refernceGraph(type){
         .attr("stroke", stroke_color)
         .attr("fill", function (d){ return (d[3]); })
         .attr("x", function (d){ return ((d[0] - xLowNorm) * width / (widthNorm - xLowNorm)) + "px"; })
-        .attr("y", 0 + "px")
+        .attr("y", function (d){if(d[2] == 1){ return (0+ "px");}else if(d[2] == 9){ return (0+ "px");}else if(d[2] == 8){ return (2*height/3 + "px");}else{ return ( height/3 + "px");}})
         .attr("width", function (d){ return (width * (d[1] - d[0]) / (widthNorm - xLowNorm)) + "px"; })
-        .attr("height", height + "px")
+        .attr("height", height / 3 + "px")
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
@@ -102,7 +105,7 @@ function refernceGraph(type){
         .attr("y", 0 + "px")
         .attr("text-anchor", "middle")
         .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
-        .attr("dy", height / 2 + font_size / 2)
+        .attr("dy", function (d){if(d[2] == 1){ return (height/6 + font_size/2);}else if(d[2] == 9){ return (height/6 + font_size / 2);}else if(d[2] == 8){ return (5*height/6 + font_size/2);}else{ return (height/2 + font_size / 2);}})
         .attr("font-size", font_size)
         .text(function(d) { return d[2]; })
         .attr("pointer-events", "none");
@@ -120,6 +123,9 @@ function graph(graphId) {
 
     // Get width from associated preview
     var width = $(id).parent().width();
+
+    // Set height of code
+    var height = 20;
 
     // List of wavelengths mapped to RGB
     var waveLengths = [[red_band, red_color],
@@ -164,12 +170,12 @@ $(document).ready(function(){
         graph(graphId);
         });
 
-    if($(this).find(".js-container-full").length){
+    if($(this).find("#js-reference-full").length){
     // Create full reference bar graphs
         refernceGraph("full");
     }
 
-    if($(this).find(".js-container-visible").length){
+    if($(this).find("#js-reference-visible").length){
     // Create visible reference bar graphs
         refernceGraph("visible");
     }
@@ -188,12 +194,12 @@ $(window).on('resize', function (){
             });
     }
 
-    if($(document).find(".js-container-full").length){
+    if($(document).find("#js-reference-full").length){
     // Create full reference bar graphs
         refernceGraph("full");
     }
 
-    if($(document).find(".js-container-visible").length){
+    if($(document).find("#js-reference-visible").length){
     // Create visible reference bar graphs
         refernceGraph("visible");
     }

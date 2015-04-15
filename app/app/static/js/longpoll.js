@@ -55,7 +55,9 @@ $(document).ready(function(){
                         if(info.jobstatus != 'Failed'){
                             // Stop polling on success
                             $(newid).html(
-                                "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
+                                "<a  class='button not-rounded full-width center'" +
+                                    "href=" + info.renderurl + ">Download" +
+                                "</a>");
                             clearInterval(intervalID);
                         }else{
                             // Stop polling on failure
