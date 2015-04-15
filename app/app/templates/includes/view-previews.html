@@ -34,13 +34,13 @@
                             <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
                             <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
                             <button 
-                                class='button not-rounded left full-width' 
+                                class='button not-rounded left' 
                                 formaction="/request_composite/{{ meta_data.scene_id }}" 
                                 formmethod="post" 
                                 type="submit">Request a full size image.
                             </button>
                         </form>
-                        <!-- <input class='left' type="email" name="email_address" placeholder="Email address"/> -->
+                        <input class='left' type="email" name="email_address" placeholder="(Email optional)"/>
                     {% endif %}
                 </div> <!-- nofull -->
             {% endif %}
