@@ -36,47 +36,24 @@
             <section class='mb4'>
                 <h2>Choose a date</h2>
                 <p>Your location may be covered by overlapping regions, a Path and Row. Each region has multiple available dates. Typically, dates that have less cloud coverage are more useful.</p>
-
-                {% for group in scenes %}
-                <h3>
-                    Path: <span class='bold'>{{ group[0].path }}</span> 
-                    Row: <span class='bold'>{{ group[0].row }}</span>
-                </h3>
-                    {% for s in group %}
-                        <a class='button button-transparent' href='/scene/{{ s.entityid }}'>
-                            <p class='mb0'>
-                                {{ s.acquisitiondate }} 
-                                <br class='md-show'>
-                                <span class='regular'>{{ s.cloudcover }}</span>
-                            </p>
-                        </a>
+                
+                <div id='js-pathrowgrouping'>
+                    {% for group in scenes %}
+                        <h3>
+                            Path: <span class='bold'>{{ group[0].path }}</span>
+                            Row: <span class='bold'>{{ group[0].row }}</span>
+                        </h3>
+                        {% for s in group %}
+                            <a class='button button-transparent' href='/scene/{{ s.entityid }}'>
+                                <p class='mb0'>
+                                    {{ s.acquisitiondate }} 
+                                    <br class='md-show'>
+                                    <span class='regular'>{{ s.cloudcover }}</span>
+                                </p>
+                            </a>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-
-                <!-- <div class='col mx-auto'> -->
-                <!-- {% for group in scenes %} -->
-                <!--     <div class='col col-6'> -->
-                <!--         <h3> -->
-                <!--             Path: <span class='bold'>{{ group[0].path }}</span> --> 
-                <!--             Row: <span class='bold'>{{ group[0].row }}</span> -->
-                <!--         </h3> -->
-                <!--         <table class='table-light'> -->
-                <!--             <thead> -->
-                <!--                 <tr><th>Date</th><th>Cloud coverage</th></tr> -->
-                <!--             </thead> -->
-                <!--             <tbody> -->
-                <!--                 {% for s in group %} -->
-                <!--                 <tr> -->
-                <!--                     <td>{{ s.acquisitiondate }}</td> -->
-                <!--                     <td>{{ s.cloudcover }}</td> -->
-                <!--                 </tr> -->
-                <!--                 {% endfor %} -->
-                <!--             </tbody> -->
-                <!--         </table> -->
-                <!--     </div> -->
-                <!-- {% endfor %} -->
-                <!-- </div> -->
-
+                </div>
             </section>
         </div>
 
