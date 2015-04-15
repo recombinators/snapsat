@@ -7,12 +7,6 @@
         <!-- Scene composite metadata -->
         <div class='scene-meta white full-width'>
 
-            <!-- Display the band combination of the composite -->
-            <h1 class='composite-description'>
-                <span class='band-red red'>{{ composite.band1 }}</span> <span class='band-green green'>{{ composite.band2 }}</span> 
-                <span class='band-blue blue'>{{ composite.band3 }}</span>
-            </h1>
-
             <!-- Full render download button -->
             {% if composite.fullurl %}
                 <a  class='button not-rounded full-width center' 
@@ -46,10 +40,18 @@
             {% endif %}
         </div> <!-- scene-meta -->
 
+        <div class='preview-block'>
+            <!-- Scene barcode visualization -->
+            <div class='js-graph' id='graph{{composite.previewjobid}}'></div>
+            
+            <!-- Display the band combination of the composite -->
+            <h1 class='composite-description'>
+                    <span class='band-red red'>{{ composite.band1 }}</span> <span class='band-green green'>{{ composite.band2 }}</span> 
+                    <span class='band-blue blue'>{{ composite.band3 }}</span>
+            </h1>
+        </div>
 
-        <!-- Scene barcode visualization -->
-        <div class='js-graph' id='graph{{composite.previewjobid}}'></div>
-
+        <!-- Display preview or loading gif -->
         <div id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
                 <a href="{{ composite.previewurl }}">
@@ -61,7 +63,6 @@
             </div>
             {% endif %}
         </div>
-
     </div> <!-- preview -->
     {% endfor %}
 </div> <!-- preview-container -->
