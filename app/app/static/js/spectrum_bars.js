@@ -164,12 +164,12 @@ $(document).ready(function(){
         graph(graphId);
         });
 
-    if($(this).find(".js-container-full").length){
+    if($(this).find("#js-reference-full").length){
     // Create full reference bar graphs
         refernceGraph("full");
     }
 
-    if($(this).find(".js-container-visible").length){
+    if($(this).find("#js-reference-visible").length){
     // Create visible reference bar graphs
         refernceGraph("visible");
     }
@@ -188,12 +188,12 @@ $(window).on('resize', function (){
             });
     }
 
-    if($(document).find(".js-container-full").length){
+    if($(document).find("#js-reference-full").length){
     // Create full reference bar graphs
         refernceGraph("full");
     }
 
-    if($(document).find(".js-container-visible").length){
+    if($(document).find("#js-reference-visible").length){
     // Create visible reference bar graphs
         refernceGraph("visible");
     }
