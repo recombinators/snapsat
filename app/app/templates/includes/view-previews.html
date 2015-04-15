@@ -7,21 +7,17 @@
     {% for band_combo, composite in composites.iteritems() %}
 
     {% if not composite.fullurl %}
-    <div class='adjust-upwards preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
+    <div class='js-preview adjust-upwards preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
     {% else %}
-    <div class='preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
+    <div class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
     {% endif %}
-
-        <!-- Barcode visualization -->
-        <div class='graph' id='graph{{composite.previewjobid}}'></div>
 
         <!-- Scene composite metadata -->
         <div class='scene-meta white full-width'>
 
             <!-- Display the band combination of the composite -->
             <h1 class='composite-description'>
-                <span class='band-red red'>{{ composite.band1 }}</span>
-                <span class='band-green green'>{{ composite.band2 }}</span> 
+                <span class='band-red red'>{{ composite.band1 }}</span> <span class='band-green green'>{{ composite.band2 }}</span> 
                 <span class='band-blue blue'>{{ composite.band3 }}</span>
             </h1>
 
@@ -33,7 +29,7 @@
 
             <!-- If a full render has NOT been created, display a means of creating one. -->
             {% else %}
-                <div class='nofull' id='{{composite.fulljobid}}'>
+                <div class='js-nofull' id='{{composite.fulljobid}}'>
 
                     <!-- TODO: This is currently handled poorly. -->
                     <!-- If a full has been requested, display the processing status. -->
@@ -61,16 +57,19 @@
             {% endif %}
         </div> <!-- scene-meta -->
 
-        <!-- Display a preview or loading image -->
+
+        <!-- Scene barcode visualization -->
+        <div class='js-graph' id='graph{{composite.previewjobid}}'></div>
+
         <div id='{{composite.previewjobid}}'>
             {% if composite.previewurl %}
                 <a href="{{ composite.previewurl }}">
                     <img src="{{ composite.previewurl }}">
                 </a>
             {% else %}
-                <div class='nopreview' id='{{composite.previewjobid}}'>
-                    <img src="/static/img/loading.gif">
-                </div>
+            <div class='js-nopreview' id='{{composite.previewjobid}}'>
+                <img src="/static/img/loading.gif">
+            </div>
             {% endif %}
         </div>
 
