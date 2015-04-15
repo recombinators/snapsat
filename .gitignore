@@ -67,4 +67,4 @@ node_modules/
 .DS_Store
 
 # JS bundle
-app/app/static/bundle.js
+bundle.js
