@@ -7,26 +7,15 @@
         <!-- Load jQuery library -->
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <!-- Load js -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-61780233-1', 'auto');
-          ga('require', 'linkid', 'linkid.js');
-          ga('send', 'pageview');
-
-        </script>
+        <script src='/static/js/analytics.js'></script>
     </head>
     <!-- Start Body -->
     <body>	
         <!-- Start Menu -->
         <div class="menubar" data-scroll="true">
             <!-- <a href="#" class="logo"></a> -->
+            <a href="#home"><img class="menulogo" rel="image_src" src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Color.svg' alt="Snapsat logo"></a>
             <ul class="mainmenu">
-                <img class="display-inline" rel="image_src" src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Color.svg' alt="Snapsat logo">
-                <li class="active"><a href="#home">Home</a></li>
                 <li><a href="#mission">Mission</a></li>
                 <li><a href="#about">About us</a></li>
                 <li><a href="#thanks">Special Thanks</a></li>
@@ -41,8 +30,8 @@
         <div class="home hero">
             <!-- <div class="overlay"></div> -->
             <div class="herowrapper">
-                <h1 class="landingbuttons"><a href='/create'>Discover<span class='h3 red uppercase'>Beta</span></a></h1>
-                <h1 class="landingbuttons"><a href='/guide'>Learn</a></h1>
+                <h1 class="landingbuttons"><a href='/create'>Create<span class='h3 red uppercase'>Beta</span></a></h1>
+                <h1 class="landingbuttons"><a href='/guide'>Guide</a></h1>
             </div>
             <a href="javascript:void(0);" class="scrolldown">
                 <h3>More about Snapsat</h3>
@@ -56,22 +45,24 @@
         </div>
         <!-- End BlockQuote -->
         <!-- Start Section Divider -->
+        <p style="position:relative;"><a name="anchor" id="mission" style="position:absolute; top:-50px;"></a></p>
         <div class="section divider">
             <h2>Our Mission</h2>
-            <a class="scroll" id="mission"></a>
+            <a class="scroll"></a>
 
         </div>
         <!-- End Section Divider -->
         <!-- Start Content -->
         <div class="content">
-            <p class="mission" id="landing">Here at Snapsat our mission is to process the Landsat 8 images provided by Amazon, in a fast, reliable, and easy-to-use format.</p>
+            <p class="mission" id="landing">Here at Snapsat, our mission is to take the publicly available Landsat images, generously hosted by Amazon, and to process and deliver them to you in a fast, reliable, and easy-to-use format.</p>
         </div>
         <!-- End Content -->
 
         <!-- Start Section Divider -->
-        <div class="section divider" id="about">
+        <p style="position:relative;"><a name="anchor" id="about" style="position:absolute; top:-50px;"></a></p>
+        <div class="section divider">
             <h2>Our Team</h2>
-            <a class="scroll" id="about"></a>
+            <a class="scroll"></a>
         </div>
         <!-- End Section Divider -->
 
@@ -163,14 +154,15 @@
         </div>
         <!-- End Content -->
         <!-- Start Section Divider -->
+        <p style="position:relative;"><a name="anchor" id="thanks" style="position:absolute; top:-50px;"></a></p>
         <div class="section divider">
             <h2>Special Thanks</h2>
-            <a class="scroll" id="thanks"></a>
+            <a class="scroll"></a>
         </div>
         <!-- End Section Divider -->
         <!-- Start Content -->
-        <div class="content" id="thanks">
-            <p id="landing">We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank <strong>Amazon</strong> for making all of this data open and availible for us.</p>
+        <div class="content">
+            <p id="landing">We would like to extend a special thanks to all the incredible support, tools, packages, and advice we have received from the following people and companies. We would like to specifically thank <strong>Amazon</strong> for making all of this data open and available for us.</p>
             <ol class="thanks">
                 <li><a href="http://aws.amazon.com/">Amazon Web Services</a></li>
                 <li><a href='http://developmentseed.org'>Developmentseed</a></li>
@@ -185,9 +177,10 @@
         </div>
         <!-- End Content -->
         <!-- Start Section Divider -->
+        <p style="position:relative;"><a name="anchor" id="contact" style="position:absolute; top:-50px;"></a></p>
         <div class="section divider">
             <h2>Contact Us</h2>
-            <a class="scroll" id="contact"></a>
+            <a class="scroll"></a>
         </div>
         <!-- End Section Divider -->
         <!-- Start Content -->
