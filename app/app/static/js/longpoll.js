@@ -56,7 +56,7 @@ $(document).ready(function(){
                             // Stop polling on success
                             $(newid).html(
                                 "<a  class='button not-rounded full-width center'" +
-                                    "href=" + info.renderurl + ">Download" +
+                                    "href=" + info.renderurl + ">Download full size image." +
                                 "</a>");
                             clearInterval(intervalID);
                         }else{
