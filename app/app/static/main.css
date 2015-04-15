@@ -922,18 +922,17 @@ blockquote:after {
 ul.mainmenu {
 	display: inline-block;
 	float: right;
-	width: 95%;
-	margin: 0px 40px 0px 0px;
+	padding: 1.8%;
 	text-transform: uppercase;
 	font-weight: 300;
 }
 ul.mainmenu li {
 	cursor: pointer;
 	display: inline-block;
-	padding: 30px 10px 31px 10px;
+	padding: .3em;
 }
 ul.mainmenu li a {
-	font-size: 12px;
+	font-size: 1em;
 	color: #000;
 	transition: color 400ms ease;
 }
@@ -944,10 +943,9 @@ ul.mainmenu li.active a {
 	font-weight: bold;
 	color: #6093e7;
 }
-.mainmenu img {
+.menulogo {
 	float: left;
 	height: 99%;
-	padding-right: 30%;
 }
 .landingbuttons {
 	background-color: #FFF;
