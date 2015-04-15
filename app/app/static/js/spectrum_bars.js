@@ -113,10 +113,10 @@ function graph(graphId) {
     // Get id of each preview
     var id = '#'.concat(graphId);
 
-    // Get bands mapped to RGB
-    var red_band = Number($(id).parent().find($(".js-band-red")).html());
-    var green_band = Number($(id).parent().find($(".js-band-green")).html());
-    var blue_band = Number($(id).parent().find($(".js-band-blue")).html());
+    // Get bands mapped to RGB from parent id, which is the band combo (id='RGB')
+    var red_band = Number($(id).parent().attr('id')[0]);
+    var green_band = Number($(id).parent().attr('id')[1]);
+    var blue_band = Number($(id).parent().attr('id')[2]);
 
     // Get width from associated preview
     var width = $(id).parent().width();
