@@ -180,7 +180,7 @@ $(window).on('resize', function (){
     //  Remove bar codes and graphs
     $(".js-graph").contents().remove();
     
-    if($(this).find(".js-preview").length){
+    if($(document).find(".js-preview").length){
         // Create bar code for each preview
         $(".js-preview").each(function(){
             graphId = $(this).find($(".js-graph")).attr("id");
@@ -188,12 +188,12 @@ $(window).on('resize', function (){
             });
     }
 
-    if($(this).find(".js-container-full").length){
+    if($(document).find(".js-container-full").length){
     // Create full reference bar graphs
         refernceGraph("full");
     }
 
-    if($(this).find(".js-container-visible").length){
+    if($(document).find(".js-container-visible").length){
     // Create visible reference bar graphs
         refernceGraph("visible");
     }
