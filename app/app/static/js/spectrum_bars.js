@@ -105,7 +105,7 @@ function refernceGraph(type){
         .attr("y", 0 + "px")
         .attr("text-anchor", "middle")
         .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
-        .attr("dy", function (d){if(d[2] == 1){ return (height/6 + font_size/2);}else if(d[2] == 9){ return (height/6 + font_size / 2);}else if(d[2] == 8){ return (5*height/6 + font_size/2);}else{ return (height/2 + font_size / 2);}})
+        .attr("dy", function (d){if(d[2] == 1){ return (height/6 + font_size/2);}else if(d[2] == 9){ return (height/6 + font_size / 2);}else if(d[2] == 8){ return (5*height/6 + font_size/2);}else{return (height/2 + font_size / 2);}})
         .attr("font-size", font_size)
         .text(function(d) { return d[2]; })
         .attr("pointer-events", "none");

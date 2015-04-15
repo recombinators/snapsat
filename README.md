@@ -1,68 +1,36 @@
 [![Build Status](https://travis-ci.org/recombinators/snapsat.svg)](https://travis-ci.org/recombinators/snapsat)
 
-Landsat
--------
+**[Snapsat](http://snapsat.org/)**, an opensource webapp that makes it easy to create custom Landsat band composites in a browser.
 
-Landsat 8 band recombinations in the browser.
+![](https://cldup.com/RTFc6FzfcU-2000x2000.png)
 
-![](http://media.giphy.com/media/Yi4aazIAtbPQA/giphy.gif)
+What Snapsat does
+-----------------
 
+The cost of working with Landsat has dropped incredibly fast over the last year. Projects like [AWS's Landsat bucket](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/), [Developmentseed's](http://developmentseed.org)  [landsat-util](https://github.com/developmentseed/landsat-util), and [Libra](http://libra.developmentseed.org/) have all helped to drive down both the technical and temporal requirements.
 
-### Acquiring data
+We wanted to take it one step further, and make it possible for anyone to quickly create custom Landsat band composites without needing to install of the software traditionally required. [Check it out](http://snapsat.org/), [let us know what you think](https://github.com/recombinators/landsat/issues).
 
-- [Libra](http://libra.developmentseed.org/) - [Repo](https://github.com/AstroDigital/libra)
-- [developmentseed/landsat-api](https://github.com/developmentseed/landsat-api)
-- [developmentseed/landsat-util](https://github.com/developmentseed/landsat-util)
-- [Landsat on AWS](https://aws.amazon.com/blogs/aws/start-using-landsat-on-aws/)
-- [USGS Earth Explorer](http://earthexplorer.usgs.gov/)
-- [NASA Worldview](https://earthdata.nasa.gov/labs/worldview/)
-- [LatLongtoWRS](https://github.com/robintw/LatLongToWRS)
+How Snapsat is built
+--------------------
 
+At it's core, Snapsat is a [Pyramid](http://docs.pylonsproject.org/projects/pyramid/en/latest/index.html) powered web interface to [landsat-util](https://github.com/developmentseed/landsat-util). Data is sourced exclusively from the [AWS Public Landsat dataset](https://aws.amazon.com/public-data-sets/landsat/), piped from an S3 bucket to EC2, processed with landsat-util, and piped back to a Cloudfront-backed S3 bucket. In between, there's a significant amount of querying and messaging happening with RDS and SQS. 
 
-### Getting yourself setup
+In addition to powering the majority of our stack, Amazon generously provided us with the credits required to get things running. If you apprecaite this project, make sure to thank [Jed](https://twitter.com/jedsundwall).
 
-If you expect to be working with or manipulating any of the geospatial datasets, make sure to install the following:
+Contributing
+------------
 
-```
-brew tap osgeo/osgeo4mac
-brew install gdal --enable-unsupported --with-postgres
-brew install imagemagick
-brew install qgis-28
-```
+There are a number of ways to contribute.
 
-__GDAL__ provides a set of tools (notably, `ogr2ogr` for working with and scripting geospatial files. __Imagemagick__ provides you with tools for manipulating image files. __QGIS__ is an opensource, GUI, swiss army knife for working with anything geospatial.
+1. Make something awesome with it.
+2. Share it. If you know someone that might find Snapsat useful, please let them know!
+3. Review our code. We'd love feedback. This project began as our final project at [CodeFellows](https://www.codefellows.org/). We're proud of it, but we're well aware that there are improvements that could be made. __Feedback is welcome and encouraged.__
+4. Submit a Pull Request.
 
-Got questions? [Go here](- [Installing opensource geo software](https://github.com/nvkelso/geo-how-to/wiki/Installing-Open-Source-Geo-Software:-Mac-Edition).
+See Also
+--------
 
-
-### Working with the data
-
-Learn about some common Landsat band recombinations [here](http://blogs.esri.com/esri/arcgis/2013/07/24/band-combinations-for-landsat-8/). __543__ and __564__ seem particularly compelling. Mapbox has an excellent [guide on Processing Satellite Imagery](https://www.mapbox.com/foundations/processing-satellite-imagery), which is something we'll need to do.
-
-Here are some nice guides on using GDAL:
-
-- [GDAL cheatsheet](<https://github.com/dwtkns/gdal-cheat-sheet>)
-- [Dan's GDAL scripts](https://github.com/gina-alaska/dans-gdal-scripts)
-- [Pansharpening Landsat 7 with Dan's scripts](http://blog.remotesensing.io/2013/04/pansharpening-using-a-handy-gdal-tool)	
-- [Convert Landsat 8 GeoTIFF images into RGB pan-sharpened JPEGs](https://gist.github.com/briantjacobs/48320e59954ee7ec5cd1)
-- [Charlie Lloyd's Rake Task](https://gist.github.com/briantjacobs/0d3f9a62fc7ca115ee5b)
-
-This might all seem overwhelming, but we'll only be using a small subset of the functionality that has been described, and once we get a solid script that does what we want, we won't need to touch it again.
-
-
-### Telling a story
-
-Lots of directions to go here. Some interesting tools.
-
-- [D3 Image intensity histogram](http://bl.ocks.org/jinroh/4666920)
-- [JuxtaposeJS](http://juxtapose.knightlab.com)
-- [Leaflet](http://leafletjs.com)
-- [Leaflet.Sync](https://github.com/turban/Leaflet.Sync)
-- [Turf](https://www.mapbox.com/developers/turf/)
-
-
-![](https://cloud.githubusercontent.com/assets/1131098/5263449/860f9836-7a31-11e4-8c6a-9ac8cd0cdcb1.gif)
-
-### Resources
-
-- [Lightning talk](http://bl.ocks.org/anonymous/raw/6118ab44b51c195ed99d/#0)
+- [When the Earth Began Looking at Itself: the Landsat Program](http://socks-studio.com/2013/07/22/when-the-earth-began-looking-at-itself-the-landsat-program/)
+- [Putting Landsat 8's Bands to work](https://www.mapbox.com/blog/putting-landsat-8-bands-to-work/)
+- [The Many Band Combinations of Landsat 8](http://www.exelisvis.com/Company/PressRoom/Blogs/TabId/836/ArtMID/2928/ArticleID/14305/The-Many-Band-Combinations-of-Landsat-8.aspx)
