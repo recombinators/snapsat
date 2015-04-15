@@ -5,8 +5,8 @@
 <div class='preview-container clearfix px5'>
 
     {% for band_combo, composite in composites.iteritems() %}
-    <div class='preview sm-col sm-col-3 relative' id='{{ band_combo }}'>
-        <div class='scene-meta white bg-darken-4 full-width'>
+    <div class='preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
+        <div class='scene-meta white full-width'>
             <h3 class='composite-description center'>
                 <span class='band-red red'>{{ composite.band1 }}</span>
                 <span class='band-green green'>{{ composite.band2 }}</span> 
@@ -14,7 +14,7 @@
             </h3>
 
             {% if composite.fullurl %}
-            <p class='button'>Status: <strong class='red'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></strong></p>
+            <p class='button'><a href="{{ composite.fullurl }}">{{ composite.fullstatus }}! Download Full Zip</a></p>
 
             <!-- If a full render has NOT been created, display a means of creating one. -->
             {% else %}
