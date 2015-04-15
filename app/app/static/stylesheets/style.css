@@ -104,33 +104,17 @@ ul.mainmenu li.active a {
 	float: left;
 	height: 99%;
 }
-.landingbuttons {
+.landingbuttons	 {
 	background-color: #FFF;
 	text-align: center;
 	width:25%;
 	border-radius: 25px;
 	opacity: .8;
-	margin-bottom: 20px;
 	float: center;
 	border: solid 2px #000;
 	box-shadow: 3px 3px 3px #000;
 }
 .landingbuttons:hover {
-	box-shadow: 1px 1px 3px #000;
-	opacity: .7;
-}
-.landingbuttonhowto {
-	background-color: #FFF;
-	text-align: center;
-	width:25%;
-	border-radius: 25px;
-	opacity: .8;
-	margin-bottom: 20px;
-	float: center;
-	border: solid 2px #000;
-	box-shadow: 3px 3px 3px #000;
-}
-.landingbuttonhowto:hover {
 	box-shadow: 1px 1px 3px #000;
 	opacity: .7;
 }
@@ -191,14 +175,14 @@ div.icon {
 	background-size: cover;
 }
 .herowrapper {
-	position: absolute;
+	position: relative;
 	padding: 3%;
 	top: 45%;
-	left:35%;
+	left:22%;
 	height: 40px;
 	margin-top: -40px;
-	width: 100%;
-	display: block;	
+	/*width: 100%;*/
+	/*display: block;	*/
 }
 .herowrapper h1 {
 	text-align: center;
