@@ -1,5 +1,11 @@
 {% extends "base.jinja2" %}
 
+{% block scripts %}
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
+{% endblock %}
+
 {% block title %}
 <title>Guide | Snapsat</title>
 {% endblock %}
@@ -40,6 +46,10 @@
         <section class='mb4'>
             <h2 id='bands'>Bands</h2>
             <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. Bands aren’t uniform, and there’s some overlap you might not expect, but each has a specific function, an answer to a set of questions we might ask about the Earth.</p>
+            
+            <div class='js-container-full mbl'>
+                <div class='js-graph' id='js-reference-full'></div>
+            </div>
 
             <h3 id='band-1'>Band 1: Coastal/Aerosol</h3>
             <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 nanometers. Landsat 8 is unique in that it is one of the few active satellites which can measure these wavelengths, which historically have  been difficult to collect as they're easily scattered by dust and atmospheric particulates.Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
