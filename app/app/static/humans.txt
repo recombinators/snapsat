@@ -3,7 +3,7 @@
 
 # TEAM
 
-- Constantine Hatziz
+- Constantine Hatzis
 - Jacques Tardie (@jqtrde)
 - Jake Andersen
 - Joel Stanner

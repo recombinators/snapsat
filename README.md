@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/recombinators/landsat.svg)](https://travis-ci.org/recombinators/landsat)
+[![Build Status](https://travis-ci.org/recombinators/snapsat.svg)](https://travis-ci.org/recombinators/snapsat)
 
 Landsat
 -------

@@ -27,7 +27,7 @@ var sceneList = _.debounce(function() {
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
-        data: {'lat': lat, 'lng': lng, }
+        data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
         scenes_pr = json.scenes;
          
@@ -83,7 +83,7 @@ var sceneList = _.debounce(function() {
                 
         }
     });
-}, 125);
+}, 250);
 
 // Once a user finishes moving the map, send an AJAX request to Pyramid
 // which will repopulate the HTML with an updated list of the Landsat

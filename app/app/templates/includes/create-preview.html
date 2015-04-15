@@ -35,13 +35,13 @@
             <p>Roll your own custom band combination.</p>
             <form method="post" id="request_form_{{meta_data.scene_id}}">
                 <div id='combinations'>
-                    <select class='field-light rounded-left' name='band1' id='band1' required>
+                    <select class='field-light rounded-left' name='band1' id='js-band1' required>
                         <option selected value=''>Red Band</option>
                     </select>
-                    <select class='field-light not-rounded' name='band2' id='band2' required>
+                    <select class='field-light not-rounded' name='band2' id='js-band2' required>
                         <option selected value=''>Green Band</option>
                     </select>
-                    <select class='field-light rounded-right' name='band3' id='band3' required>
+                    <select class='field-light rounded-right' name='band3' id='js-band3' required>
                         <option selected value=''>Blue Band</option>
                     </select>
                     <button class='button' form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Render!</button>
