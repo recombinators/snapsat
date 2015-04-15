@@ -8,26 +8,68 @@
                         <input type="hidden" name='band1' value="4"/>
                         <input type="hidden" name='band2' value="3"/>
                         <input type="hidden" name='band3' value="2"/>
-                        <button class='button rounded-left' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Natural Color</button>
+                        <button class='button rounded-left' 
+                            formaction="/request_preview/{{meta_data.scene_id}}" 
+                            formmethod="post" 
+                            type="submit">
+                            Natural Color
+                            <br class='md-show'>
+                            <span class='regular'>4-3-2</span>
+                        </button>
                     </form>
                     <form method="post" class='inline left'>
                         <input type="hidden" name='band1' value="2"/>
                         <input type="hidden" name='band2' value="5"/>
                         <input type="hidden" name='band3' value="9"/>
-                        <button class='button not-rounded' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Clouds</button>
+                        <button class='button not-rounded' 
+                            formaction="/request_preview/{{meta_data.scene_id}}" 
+                            formmethod="post" 
+                            type="submit">
+                            Clouds
+                            <br class='md-show'>
+                            <span class='regular'>2-5-9</span>
+                        </button>
                     </form>
                     <form method="post" class='inline left'>
                         <input type="hidden" name='band1' value="5"/>
                         <input type="hidden" name='band2' value="6"/>
                         <input type="hidden" name='band3' value="4"/>
-                        <button class='button not-rounded' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Land/Water Delination</button>
+                        <button class='button not-rounded' 
+                            formaction="/request_preview/{{meta_data.scene_id}}" 
+                            formmethod="post" 
+                            type="submit">
+                            Land/Water Delination
+                            <br class='md-show'>
+                            <span class='regular'>5-6-4</span>
+                        </button>
                     </form>
                     <form method="post" class='inline left'>
                         <input type="hidden" name='band1' value="7"/>
                         <input type="hidden" name='band2' value="6"/>
                         <input type="hidden" name='band3' value="4"/>
-                        <button class='button rounded-right' formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Urban</button>
+                        <button class='button not-rounded' 
+                            formaction="/request_preview/{{meta_data.scene_id}}" 
+                            formmethod="post" 
+                            type="submit">
+                            Urban
+                            <br class='md-show'>
+                            <span class='regular'>7-6-4</span>
+                        </button>
                     </form>
+                    <form method="post" class='inline left'>
+                        <input type="hidden" name='band1' value="5"/>
+                        <input type="hidden" name='band2' value="4"/>
+                        <input type="hidden" name='band3' value="3"/>
+                        <button class='button rounded-right' 
+                            formaction="/request_preview/{{meta_data.scene_id}}" 
+                            formmethod="post" 
+                            type="submit">
+                            Color Infrared
+                            <br class='md-show'>
+                            <span class='regular'>5-4-3</span>
+                        </button>
+                    </form>
+
                 </div>
             </div> <!-- Prebuilt combinations -->
 
