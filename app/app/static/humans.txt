@@ -1,0 +1,23 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+- Constantine Hatzis
+- Jacques Tardie (@jqtrde)
+- Jake Andersen
+- Joel Stanner
+- Mark Saiget
+
+# THANKS
+
+- Cris Ewing
+- Jed Sundwell
+- The team at Developmentseed
+
+# TECHNOLOGY COLOPHON
+
+- Pyramid
+- AWS (RDS, EC2, S3, SQS, Cloudfront)
+- HTML5, CSS3
+- Mapbox.js, jQuery, Modernizer
