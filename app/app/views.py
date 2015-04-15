@@ -20,7 +20,6 @@ REGION = 'us-west-2'
 COMPOSITE_QUEUE = 'snapsat_composite_queue'
 PREVIEW_QUEUE = 'snapsat_preview_queue'
 
-
 """
 Helper functions:
 1. add_to_queue - Adds a request to the appropriate queue.
@@ -35,13 +34,14 @@ Views available:
 """
 
 
-@view_config(route_name='landing', renderer='templates/landing.jinja2')
-def landing(request):
+@view_config(route_name='index', renderer='templates/index.jinja2')
+def index(request):
     """
-    Landing page.
-    No context is passed in, the page is purely static.
+    Index page.
+    Allows a user to define their area of interest and receive appropriate
+    lists of scenes for it.
     """
-    return {}
+    return scene_options_ajax(request)
 
 
 @view_config(route_name='guide', renderer='templates/guide.jinja2')
@@ -52,16 +52,6 @@ def guide(request):
     return {}
 
 
-@view_config(route_name='create', renderer='templates/create.jinja2')
-def create(request):
-    """
-    Create page.
-    Allows a user to define their area of interest and receive appropriate
-    lists of scenes for it.
-    """
-    return scene_options_ajax(request)
-
-
 def add_to_queue_composite(request):
     """
     Helper method for adding request to queue and adding to db.
@@ -70,6 +60,7 @@ def add_to_queue_composite(request):
     band2 = request.params.get('band2')
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
+    email = request.params.get('email_address')
 
     if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
         SQSconn = make_SQS_connection(REGION,
@@ -78,7 +69,7 @@ def add_to_queue_composite(request):
         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
         jobid = UserJob.new_job(entityid=scene_id,
                                 band1=band1, band2=band2, band3=band3,
-                                rendertype=u'full')
+                                rendertype=u'full', email=email)
         message = build_job_message(job_id=jobid,
                                     email='test@test.com',
                                     scene_id=scene_id,
@@ -120,8 +111,6 @@ def add_to_queue_preview(request):
                      current_queue,
                      message['body'], message['attributes'])
 
-        print 'successfully added to preview queue'
-
 
 @view_config(route_name='request_composite', renderer='json')
 def request_composite(request):
@@ -129,6 +118,9 @@ def request_composite(request):
     Request both the preview and fullsize images for a particular composite.
     Redirect to scene page and goto band requested.
     If incorrect band combo is requested, bad request.
+
+    If request contains email_address, send email to user with a link to the
+    full render zip file.
 
     """
     # Add full render and preview job to apprpriate queues
@@ -138,7 +130,7 @@ def request_composite(request):
         add_to_queue_composite(request)
         add_to_queue_preview(request)
         return HTTPFound(location='/scene/{}#{}'.format(
-            request.matchdict['scene_id'], bands))
+                         request.matchdict['scene_id'], bands))
     else:
         raise exc.HTTPBadRequest()
 
@@ -166,11 +158,15 @@ def valid_band_combo(request):
     Return true if band combo is valid, False if not.
     """
     valid = [1, 2, 3, 4, 5, 6, 7, 9]
-    bands = [int(request.params.get('band1')),
-             int(request.params.get('band2')),
-             int(request.params.get('band3'))]
+    try:
+        # handles error if band1, 2 or 3 doesn't exist
+        bands = [int(request.params.get('band1')),
+                 int(request.params.get('band2')),
+                 int(request.params.get('band3'))]
+    except:
+        return False
     # Check if all bands are unique
-    unique = len(bands) == len(set(bands))
+    unique = len(set(bands)) == 3
     return all(x in valid for x in bands) and unique
 
 
@@ -184,7 +180,8 @@ def scene(request):
     # Get scene id and list of rendered or rendering previews and full
     # composities from the render_cache table
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache.get_rendered_rendering(scene_id)
+    rendered_rendering_composites = RenderCache.get_rendered_rendering(
+        scene_id)
 
     # Initialize composties dictionary
     composites = {}
@@ -275,7 +272,15 @@ def scene_options_ajax(request):
     # Filter all available scenes to those which encompass the
     # lat/lng provided from the user. Then, populate a list with
     # the information relevant to our view.
-    scenes = PathRow.scenelist(Paths.pathandrow(lat, lng))
+
+    path_row_list = Paths.pathandrow(lat, lng)
+
+    # Check for zero length path row list to prevent return of all path row
+    # combinations n ithe world.
+    if not path_row_list:
+        return {'scenes': []}
+
+    scenes = PathRow.scenelist(path_row_list)
     sceneList = []
     for i, scene in enumerate(scenes):
         sceneList.append({
@@ -299,6 +304,7 @@ def scene_options_ajax(request):
     for group in outputList:
         group.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
+    print 'outputList length: {}'.format(len(outputList))
     return {'scenes': outputList}
 
 

@@ -4,7 +4,7 @@
   "description": "Snapchat for Landsat.",
   "main": "index.js",
   "scripts": {
-    "start": "gunicorn --paste app/development.ini --reload",
+    "start": "gunicorn --paste app/development.ini --reload --timeout=600",
     "bundle": "watchify assets/js/index.js -o bundle.js",
     "develop": "gulp develop",
     "production": "gulp production"
