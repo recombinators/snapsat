@@ -1,8 +1,4 @@
-{% if composites %}
-<h2 class='center mt4'>Download a fullsize render</h2>
-{% endif %}
-
-<div class='preview-container clearfix px5 mb4 bg-black'>
+<div class='preview-container clearfix px5 mt4 mb4 bg-black'>
 
     {% for band_combo, composite in composites.iteritems() %}
 
@@ -20,7 +16,7 @@
             <!-- Full render download button -->
             {% if composite.fullurl %}
                 <a  class='button not-rounded full-width center' 
-                    href="{{ composite.fullurl }}">Download
+                    href="{{ composite.fullurl }}">Download full size image.
                 </a>
 
             <!-- If a full render has NOT been created, display a means of creating one. -->
@@ -42,7 +38,7 @@
                                 class='button not-rounded left full-width' 
                                 formaction="/request_composite/{{ meta_data.scene_id }}" 
                                 formmethod="post" 
-                                type="submit">Request a full render
+                                type="submit">Request a full size image.
                             </button>
                         </form>
                         <!-- <input class='left' type="email" name="email_address" placeholder="Email address"/> -->
