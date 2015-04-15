@@ -23,8 +23,6 @@
                 <!-- If a full has been requested, display the processing status. -->
                 {% if composite.fullstatus %}
                 <p>Current status: <strong class='red'><span id='js-fullstatus'>{{ composite.fullstatus }}</span></strong></p>
-                {% if composite.elapsed_time %}
-                <p>Elapsed Process Time (hr:min:sec): <span id='js-fullelapsedtime'>{{ composite.elapsed_time }}</span></p>
                 {% endif %}
 
                 <!-- Display a button that causes a full render to be queued. -->
