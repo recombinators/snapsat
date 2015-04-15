@@ -157,16 +157,30 @@ function graph(graphId) {
 
 // Create bar codes and graphs on DOM ready.
 $(document).ready(function(){
+
+    if($(this).find(".js-preview").length){
+        // Create bar code for each preview
+        $(".js-preview").each(function(){
+            graphId = $(this).find($(".js-graph")).attr("id");
+            graph(graphId);
+            });
+    }
+    
     // Create bar code for each preview
     $(".js-preview").each(function(){
         graphId = $(this).find($(".js-graph")).attr("id");
         graph(graphId);
         });
 
-    // Create reference bar graphs
-    refernceGraph("full");
-    refernceGraph("visible");
+    if($(this).find(".js-container-full").length){
+    // Create full reference bar graphs
+        refernceGraph("full");
+    }
 
+    if($(this).find(".js-container-visible").length){
+    // Create visible reference bar graphs
+        refernceGraph("visible");
+    }
 });
 
 // Create bar codes and graphs on window resize to fix width of bar not inheriting properly
@@ -174,13 +188,21 @@ $(window).on('resize', function (){
     //  Remove bar codes and graphs
     $(".js-graph").contents().remove();
     
-    // Create bar code for each preview
-    $(".js-preview").each(function(){
-        graphId = $(this).find($(".js-graph")).attr("id");
-        graph(graphId, "js-preview");
-        });
+    if($(this).find(".js-preview").length){
+        // Create bar code for each preview
+        $(".js-preview").each(function(){
+            graphId = $(this).find($(".js-graph")).attr("id");
+            graph(graphId);
+            });
+    }
 
-    // Create reference bar graphs
-    refernceGraph("full");
-    refernceGraph("visible");
+    if($(this).find(".js-container-full").length){
+    // Create full reference bar graphs
+        refernceGraph("full");
+    }
+
+    if($(this).find(".js-container-visible").length){
+    // Create visible reference bar graphs
+        refernceGraph("visible");
+    }
 });
