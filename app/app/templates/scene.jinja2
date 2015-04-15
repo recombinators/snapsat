@@ -12,14 +12,25 @@
 {% endblock %}
 
 {% block styles %}
-<style>
-    .scene-meta {
-        position: absolute;
-        top: 49%;
-        z-index: 9999;
-        padding: 2rem;
-    }
-</style>
+    <style>
+        .composite-description {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+        .preview {
+            transition: all 0.2s ease;
+        }
+        .preview:hover {
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+            z-index: 9999;
+        }
+        .adjust-upwards {
+            position: relative;
+            top: -1rem;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
