@@ -1,143 +1,156 @@
 {% extends "base.jinja2" %}
 
+{% block title %}
+<title>Guide | Snapsat</title>
+{% endblock %}
+
 {% block content %}
-    <section id='guide-toc' class='mbx'>
-        <h2>Table of contents</h2>
-        <ol class='hanging'>
-            <li class='display-inline-block'><a href='#basics'>Basics</a></li>
-            <li class='display-inline-block'><a href='#bands'>Bands</a></li>
-            <li class='display-inline-block'><a href='#combinations'>Combinations</a></li>
-            <li class='display-inline-block'><a href='#snapsat'>Snapsat</a></li>
-            <li class='display-inline-block'><a href='#see-also'>See Also</a></li>
-        </ol>
-    </section>
+<div class='container clearfix mt4'>
 
-    <section class='mbx'>
-        <h2 id='basics'>Landsat</h2>
-        <p>Launched February 11, 2013, the Landsat 8 satellite continues the production of a global dataset first begun in 1972. Everyday, the satellite captures nearly 550 scenes of the Earth, each of which measures roughly 180 square kilometers. At worst, it’s an impressive selfie. At best, it’s a tool for learning about the dynamic processes and characteristics of our planet.</p>
-        <p>Landsat 8 measures a range of frequencies across the <a href='https://en.wikipedia.org/wiki/Electromagnetic_spectrum'>electromagnetic spectrum</a>, a portion of which falls within what we perceive as visible light. That visible portion accounts for less than half of the light collected by Landsat 8, which raises the question: What's the purpose of capturing frequencies which we aren't able to see? Before we can answer that question, we’re going to have to learn a little more about each of the segments that Landsat collects.</p>
-    </section>
+    <div class='col-8 mx-auto'>
 
-    <section class='mbx'>
-        <h2 id='bands'>Bands</h2>
-        <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. Bands aren’t uniform, and there’s some overlap you might not expect, but each has a specific function, an answer to a set of questions we might ask about the Earth.</p>
-
-        <h3>Band 1: Coastal/Aerosol</h3>
-        <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 nanometers. Landsat 8 is unique in that it is one of the few active satellites which can measure these wavelengths, which historically have  been difficult to collect as they're easily scattered by dust and atmospheric particulates.Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
-
-        <h3>Bands 2, 3, and 4: Visible Light</h3>
-        <p>Bands 2, 3, and 4 respectively refer to the Blue, Green, and Red wavelengths of light, or the <strong>visible spectrum</strong> of light most of us are accustomed to seeing. Combining them together can yield some beautiful ‘photographs’ of the Earth.</p>
-
-        <h3>Band 5: Near Infrared (NIR)</h3>
-        <p>The wavelengths of light just adjacent to the reds we perceive, but just outside our capacity to see, are commonly referred to as the infrared spectrum. Band 5 encompasses these wavelengths and as such is called the Near Infrared (NIR) band. As healthy plants heavily reflect these wavelengths, the NIR spectrum is especially useful for visualizing the <strong>health of plants.</strong> Brighter imagery typically corresponds to healthier plants.</p>
-
-        <h3>Band 6 and 7: Shortwave Infrared (SWIR)</h3>
-        <p>Band 6 and 7 jump down into the lower-energy wavelengths of the electromagnetic spectrum. While still within the Infrared spectrum, they’re far enough away from the NIR that they’re given their own name, the Shortwave Infrared (SWIR). Heavily absorbed by water, these bands are unique and, lead to an incredibly wide variety of applications. Broadly speaking, the more water present in the scene, the darker Bands 6 and 7 will be. As different species and soil types contain varying amounts of water, this spectrum can be incredibly useful for delineating between species and soil types, that might otherwise look identical in a standard natural color photograph. Additionally, because the SWIR bands are so sensitive to water, they can be used to good effect in distinguishing between types of clouds, snow, and ice.</p>
-
-        <h3>Band 8: Panchromatic</h3>
-        <p>Landsat throws us a curveball with Band 8. Up until now, we’ve been continually moving down the electromagnetic spectrum, capturing wavelengths of decreasing energy.  Band 8 hops back up, capturing a wide swath of wavelengths almost entirely encompassing Bands 2, 3, and 4. Because it collects across so many wavelengths, it's commonly referred to as the Panchromatic band.</p>
-        <p>Why capture bands we already have at a lower spectral resolution? Spatial resolution, that’s why! By having a band which captures a much wider range of light, Landsat is able to delineate features at twice the resolution we’ve seen up to this point. This gives us a way to create significantly more detailed images than would otherwise be possible. 
-        </p>
-
-        <h3>Band 9: Cirrus</h3>
-        <p>The Cirrus band is useful for picking out Cirrus clouds. Band 9 was specifically created to capture the presence of these clouds, as they’re often some of the best indicators for <strong>precipitation.</strong></p>
-
-        <h3>Band 10 and 11</h3>
-        <p>Up to this point, each of the bands we've mentioned are derived from the Operational Land Imager (OLI) component of the Landsat 8 satellite. Band 10 and 11 are produced from a different piece of hardware called the Thermal Infrared Sensor (TIRS), which as you might expect, has something to do with measuring heat. It’s important to note that these bands quantify the <strong>surficial temperature</strong> of the Earth, as opposed to the temperature of the air which is what we’re accustomed to seeing.</p>
-
-        <p>Now that we have access to all these bands, what are we going to do with them?</p>
-    </section>
-
-    <section class='mbx'>
-        <h2 id='combinations'>Combinations</h2>
-        <p>By taking segments of the electromagnetic spectrum and remapping them into one of the red, green, or blue wavelengths we're accustomed to seeing, Landsat gives us a means of visualizing what would otherwise be invisible. In short, Landsat gives us superpowers.</p>
-
-        <p>Individual bands are interesting, but the real power of Landsat 8 lies in grouping individual bands together into combinations of three, and remapping them to the aspects of the visible spectrum which we can see. With 11 bands, that gives us the potential to create 165 unique combinations. Landsat gives us a means of visualizing what would otherwise be invisible to the naked eye!</p>
-        
-        <p>Now, while there are 165 different possibilities, there are a handful that are commonly used. We’ll cover a few of those here, and hopefully in doing so, give you an understanding of how to interpret the remainder.</p>
-        
-        <div>
-            <h3>432 - Natural Color</h2>
-             <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/natural_LC80470272014258LGN00_bands_432.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/natural_LC80470272014258LGN00_bands_432.png" />
-             </a>
-        </div>
-        
-        <div>
-            <h3>543 - Color infrared - Vegetation</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_LC82320612015037LGN00_bands_543.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_LC82320612015037LGN00_bands_543.png" />
-            </a>
-            <p>Amazon River</p>
-
+        <div class='center mb4'>
+            <h1 class='mb0'>Getting started with Landsat</h1>
+            <p class='h3'>A guide to understanding the usefulness and mechanics of the Landsat 8 satellite.</p>
         </div>
 
-        <div>
-            <h3>564 - False color - land/water delineation</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/land_water_LC80470272014258LGN00_bands_564.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/land_water_LC80470272014258LGN00_bands_564.png" />
-            </a>
-        </div>
-        
-        <div>
-            <h3>571 - False color - vegetation/water delineation</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_water_LC80470272014258LGN00_bands_571.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_water_LC80470272014258LGN00_bands_571.png" />
-            </a>
-        </div>
-        
-        <div>
-            <h3>652 - Agricultural</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/agri_LC80270312014262LGN00_bands_652.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/agri_LC80270312014262LGN00_bands_652.png" /></a>
-            <p>Iowa Farms</p>
-        </div>        
+        <section class='center mb4'>
+            <ul class='list-reset'>
+                <li class='inline bold h3 mr1'><a href='#basics'>Basics</a></li>
+                <li class='inline bold h3 mr1'><a href='#bands'>Bands</a></li>
+                <li class='inline bold h3 mr1'><a href='#combinations'>Combinations</a></li>
+                <li class='inline bold h3'><a href='#see-also'>See Also</a></li>
+            </ul>
+        </section>
 
-        <div>
-            <h3>654 - Vegetation analysis</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_a_LC80470272014258LGN00_bands_654.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_a_LC80470272014258LGN00_bands_654.png" /></a>
-        </div>        
+        <section class='mb4'>
+            <h2 id='basics'>Basics</h2>
+            <p>Launched February 11, 2013, the Landsat 8 satellite continues the production of a global dataset first begun in 1972. Everyday, the satellite captures nearly 550 scenes of the Earth, each of which measures roughly 180 square kilometers. At worst, it’s an impressive selfie. At best, it’s a tool for learning about the dynamic processes and characteristics of our planet.</p>
+            <p>Landsat 8 measures a range of frequencies across the <a href='https://en.wikipedia.org/wiki/Electromagnetic_spectrum'>electromagnetic spectrum</a>, a portion of which falls within what we perceive as visible light. That visible portion accounts for less than half of the light collected by Landsat 8, which raises the question: What's the purpose of capturing frequencies which we aren't able to see? Before we can answer that question, we’re going to have to learn a little more about each of the segments that Landsat collects.</p>
+        </section>
 
-        <div>
-            <h3>752 - False color - burn scars</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/burn_LC80460262014219LGN00_bands_752.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/burn_LC80460262014219LGN00_bands_752.png" />
-            </a>
-            <p>WA State Eastern Cascade Fires 2014</p>
-        </div>
+        <section class='mb4'>
+            <h2 id='bands'>Bands</h2>
+            <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. Bands aren’t uniform, and there’s some overlap you might not expect, but each has a specific function, an answer to a set of questions we might ask about the Earth.</p>
 
-        <div>
-            <h3>753 - Natural color with atmospheric removal</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/nat_a_LC80470272014258LGN00_bands_753.png" target="_blank">
-                <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/nat_a_LC80470272014258LGN00_bands_753.png" />
-            </a>
-        </div>
+            <h3 id='band-1'>Band 1: Coastal/Aerosol</h3>
+            <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 nanometers. Landsat 8 is unique in that it is one of the few active satellites which can measure these wavelengths, which historically have  been difficult to collect as they're easily scattered by dust and atmospheric particulates.Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
 
-        <div>
-            <h3>764 - False color - Urban</h3>
-            <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" target="_blank"><img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" /></a>
-            <p>Beijing, China</p>
-        </div>         
-        
-        
+            <h3 id='band-2-3-4'>Bands 2, 3, and 4: Visible Light</h3>
+            <p>Bands 2, 3, and 4 respectively refer to the Blue, Green, and Red wavelengths of light, or the <strong>visible spectrum</strong> of light most of us are accustomed to seeing. Combining them together can yield some beautiful ‘photographs’ of the Earth.</p>
 
-        
-    </section>
+            <h3 id='band-3'>Band 5: Near Infrared (NIR)</h3>
+            <p>The wavelengths of light just adjacent to the reds we perceive, but just outside our capacity to see, are commonly referred to as the infrared spectrum. Band 5 encompasses these wavelengths and as such is called the Near Infrared (NIR) band. As healthy plants heavily reflect these wavelengths, the NIR spectrum is especially useful for visualizing the <strong>health of plants.</strong> Brighter imagery typically corresponds to healthier plants.</p>
 
-    <section class='mbx'>
-        <h2 id='snapsat'>Snapsat</h2>
-        <p>In the past, creating a custom Landsat 8 composite has required that users download the entirety of the scene they were interested in, configure the tools required to process them, and then hope that the output they got was what they intended to reproduce. Snapsat was created as a means of simplifying that process. Users are able to rapidly preview scenes and download full-size renders without having to take the time to download or configure anything.</p>
-    </section>
+            <h3 id='band-6-7'>Band 6 and 7: Shortwave Infrared (SWIR)</h3>
+            <p>Band 6 and 7 jump down into the lower-energy wavelengths of the electromagnetic spectrum. While still within the Infrared spectrum, they’re far enough away from the NIR that they’re given their own name, the Shortwave Infrared (SWIR). Heavily absorbed by water, these bands are unique and, lead to an incredibly wide variety of applications. Broadly speaking, the more water present in the scene, the darker Bands 6 and 7 will be. As different species and soil types contain varying amounts of water, this spectrum can be incredibly useful for delineating between species and soil types, that might otherwise look identical in a standard natural color photograph. Additionally, because the SWIR bands are so sensitive to water, they can be used to good effect in distinguishing between types of clouds, snow, and ice.</p>
 
-    <section class='mbx'>
-        <h2 id='see-also'>See Also</h2>
-        <ol class='hanging'>
-            <li class='mbn'><a href='http://landsat.gsfc.nasa.gov/?page_id=7195'>Landsat 8 Overview</a></li>
-            <li class='mbn'><a href='https://www.youtube.com/watch?v=ONaJSkCpDhg'>Landsat 8 orbit</a></li>
-            <li class='mbn'><a href='https://www.mapbox.com/blog/putting-landsat-8-bands-to-work/'>Putting Landsat 8's Bands to Work</a></li>
-            <li class='mbn'><a href='http://earthobservatory.nasa.gov/Features/FalseColor/'>How to interpret a False-color image</a></li>
-        </ol>
-    </section>
+            <h3 id='band-8'>Band 8: Panchromatic</h3>
+            <p>Landsat throws us a curveball with Band 8. Up until now, we’ve been continually moving down the electromagnetic spectrum, capturing wavelengths of decreasing energy.  Band 8 hops back up, capturing a wide swath of wavelengths almost entirely encompassing Bands 2, 3, and 4. Because it collects across so many wavelengths, it's commonly referred to as the Panchromatic band.</p>
+            <p>Why capture bands we already have at a lower spectral resolution? Spatial resolution, that’s why! By having a band which captures a much wider range of light, Landsat is able to delineate features at twice the resolution we’ve seen up to this point. This gives us a way to create significantly more detailed images than would otherwise be possible. 
+            </p>
 
+            <h3 id='band-9'>Band 9: Cirrus</h3>
+            <p>The Cirrus band is useful for picking out Cirrus clouds. Band 9 was specifically created to capture the presence of these clouds, as they’re often some of the best indicators for <strong>precipitation.</strong></p>
+
+            <h3 id='band-10-11'>Band 10 and 11</h3>
+            <p>Up to this point, each of the bands we've mentioned are derived from the Operational Land Imager (OLI) component of the Landsat 8 satellite. Band 10 and 11 are produced from a different piece of hardware called the Thermal Infrared Sensor (TIRS), which as you might expect, has something to do with measuring heat. It’s important to note that these bands quantify the <strong>surficial temperature</strong> of the Earth, as opposed to the temperature of the air which is what we’re accustomed to seeing.</p>
+
+            <p>Now that we have access to all these bands, what are we going to do with them?</p>
+        </section>
+
+        <section class='mbx'>
+            <h2 id='combinations'>Combinations</h2>
+            <p>By taking segments of the electromagnetic spectrum and remapping them into one of the red, green, or blue wavelengths we're accustomed to seeing, Landsat gives us a means of visualizing what would otherwise be invisible. In short, Landsat gives us superpowers.</p>
+
+            <p>Individual bands are interesting, but the real power of Landsat 8 lies in grouping individual bands together into combinations of three, and remapping them to the aspects of the visible spectrum which we can see. With 11 bands, that gives us the potential to create 165 unique combinations. Landsat gives us a means of visualizing what would otherwise be invisible to the naked eye!</p>
+            
+            <p>Now, while there are 165 different possibilities, there are a handful that are commonly used. We’ll cover a few of those here, and hopefully in doing so, give you an understanding of how to interpret the remainder.</p>
+            
+            <div>
+                <h3>432 - Natural Color</h2>
+                 <p>What you see with the naked eye.</p>
+                 <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/natural_LC80470272014258LGN00_bands_432.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/natural_LC80470272014258LGN00_bands_432.png" />
+                 </a>
+            </div>
+            <div>
+                <h3>543 - Color infrared - Vegetation</h3>
+                <p>Healthy vegetation appears bright red/magenta. Why? Healthy vegetation 1) reflects near-infrared light--shown as red-- and 2) appears green--shown as blue. Add red and blue together and you get magenta. Urban areas show up blue/gray.
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_LC82320612015037LGN00_bands_543.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_LC82320612015037LGN00_bands_543.png" />
+                </a>
+                <p>Amazon River</p>
+            </div>
+
+            <div>
+                <h3>564 - False color - land/water delineation</h3>
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/land_water_LC80470272014258LGN00_bands_564.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/land_water_LC80470272014258LGN00_bands_564.png" />
+                </a>
+            </div>
+            
+            <div>
+                <h3>571 - False color - vegetation/water delineation</h3>
+                <p>Vegetation appears orange.
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_water_LC80470272014258LGN00_bands_571.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_water_LC80470272014258LGN00_bands_571.png" />
+                </a>
+            </div>
+            
+            <div>
+                <h3>652 - Agricultural</h3>
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/agri_LC80270312014262LGN00_bands_652.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/agri_LC80270312014262LGN00_bands_652.png" /></a>
+                <p>Iowa Farms</p>
+            </div>        
+
+            <div>
+                <h3>654 - Vegetation analysis</h3>
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_a_LC80470272014258LGN00_bands_654.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_a_LC80470272014258LGN00_bands_654.png" /></a>
+            </div>        
+
+            <div>
+                <h3>752 - False color - burn scars</h3>
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/burn_LC80460262014219LGN00_bands_752.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/burn_LC80460262014219LGN00_bands_752.png" />
+                </a>
+                <p>WA State Eastern Cascade Fires 2014</p>
+            </div>
+
+            <div>
+                <h3>753 - Natural color with atmospheric removal</h3>
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/nat_a_LC80470272014258LGN00_bands_753.png" target="_blank">
+                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/nat_a_LC80470272014258LGN00_bands_753.png" />
+                </a>
+            </div>
+
+            <div>
+                <h3>764 - False color - Urban</h3>
+                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" target="_blank"><img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" /></a>
+                <p>Beijing, China</p>
+            </div>         
+            
+            
+
+            
+        </section>
+
+        <section class='mbx'>
+            <h2 id='snapsat'>Snapsat</h2>
+            <p>In the past, creating a custom Landsat 8 composite has required that users download the entirety of the scene they were interested in, configure the tools required to process them, and then hope that the output they got was what they intended to reproduce. Snapsat was created as a means of simplifying that process. Users are able to rapidly preview scenes and download full-size renders without having to take the time to download or configure anything.</p>
+        </section>
+
+        <section class='mbx'>
+            <h2 id='see-also'>See Also</h2>
+            <ol class='hanging'>
+                <li class='mbn'><a href='http://landsat.gsfc.nasa.gov/?page_id=7195'>Landsat 8 Overview</a></li>
+                <li class='mbn'><a href='https://www.youtube.com/watch?v=ONaJSkCpDhg'>Landsat 8 orbit</a></li>
+                <li class='mbn'><a href='https://www.mapbox.com/blog/putting-landsat-8-bands-to-work/'>Putting Landsat 8's Bands to Work</a></li>
+                <li class='mbn'><a href='http://earthobservatory.nasa.gov/Features/FalseColor/'>How to interpret a False-color image</a></li>
+            </ol>
+        </section>
+    </div>
+</div>
 {% endblock %}

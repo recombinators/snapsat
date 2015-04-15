@@ -1,13 +1,69 @@
 {% extends "base.jinja2" %}
 
 {% block scripts %}
-    <script src="http://d3js.org/d3.v3.js"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
-    <script type='text/javascript' src='/static/js/longpoll.js'></script>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
+<script type='text/javascript' src='/static/js/longpoll.js'></script>
+{% endblock %}
+
+{% block title %}
+<title>{{ meta_data.scene_id }} | Snapsat</title>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .composite-description {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+        .js-preview {
+            transition: all 0.2s ease;
+        }
+        .js-preview:hover {
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+            z-index: 9999;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    {% include 'includes/your-selection.html' %}
-    {% include 'includes/generate-image.html' %}
+
+<div class='container clearfix mt4'>
+    <div class='center mb4'>
+        <h1 class='mb0'>Your selection</h1>
+        <p class='h3'>Create image composites of the scene you selected.</p>
+    </div>
+
+    <div class='mb4'>
+        <table class='table-light mb4'>
+            <thead>
+                <tr><th>ID</th><th>Date acquired</th><th>Cloud cover</th><th>Boundaries</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ meta_data.scene_id }}</td>
+                    <td>{{ meta_data.acquisitiondate }}</td>
+                    <td>{{ meta_data.cloudcover }}</td>
+                    <td>
+                        {{ meta_data.max_lat }} 
+                        {{ meta_data.min_lon }} 
+                        {{ meta_data.min_lat }} 
+                        {{ meta_data.max_lon }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class='col-8 mx-auto center'>
+    {% include 'includes/create-preview.html' %}
+    </div>
+
+</div> <!-- Container -->
+
+{% include 'includes/view-previews.html' %}
+
 {% endblock %}

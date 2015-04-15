@@ -1,0 +1,74 @@
+{% if composites %}
+<h2 class='center mt4'>Download a fullsize render</h2>
+{% endif %}
+
+<div class='preview-container clearfix px5 mb4 bg-black'>
+
+    {% for band_combo, composite in composites.iteritems() %}
+
+    <div class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3 relative' id='{{ band_combo }}'>
+
+        <!-- Scene composite metadata -->
+        <div class='scene-meta white full-width'>
+
+            <!-- Display the band combination of the composite -->
+            <h1 class='composite-description'>
+                <span class='band-red red'>{{ composite.band1 }}</span> <span class='band-green green'>{{ composite.band2 }}</span> 
+                <span class='band-blue blue'>{{ composite.band3 }}</span>
+            </h1>
+
+            <!-- Full render download button -->
+            {% if composite.fullurl %}
+                <a  class='button not-rounded full-width center' 
+                    href="{{ composite.fullurl }}">Download
+                </a>
+
+            <!-- If a full render has NOT been created, display a means of creating one. -->
+            {% else %}
+                <div class='js-nofull' id='{{composite.fulljobid}}'>
+
+                    <!-- TODO: This is currently handled poorly. -->
+                    <!-- If a full has been requested, display the processing status. -->
+                    {% if composite.fullstatus %}
+                        <p>Current status: <strong class='red'><span id='fullstatus'>{{ composite.fullstatus }}</span></strong></p>
+
+                    {% else %}
+                        <!-- Display a button that causes a full render to be queued. -->
+                        <form method='post' class='request-render'>
+                            <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                            <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                            <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                            <button 
+                                class='button not-rounded left full-width' 
+                                formaction="/request_composite/{{ meta_data.scene_id }}" 
+                                formmethod="post" 
+                                type="submit">Request a full render
+                            </button>
+                        </form>
+                        <!-- <input class='left' type="email" name="email_address" placeholder="Email address"/> -->
+                    {% endif %}
+                </div> <!-- nofull -->
+            {% endif %}
+        </div> <!-- scene-meta -->
+
+
+        <!-- Scene barcode visualization -->
+        <div class='js-graph' id='graph{{composite.previewjobid}}'></div>
+
+        <div id='{{composite.previewjobid}}'>
+            {% if composite.previewurl %}
+                <a href="{{ composite.previewurl }}">
+                    <img src="{{ composite.previewurl }}">
+                </a>
+            {% else %}
+            <div class='js-nopreview' id='{{composite.previewjobid}}'>
+                <img src="/static/img/loading.gif">
+            </div>
+            {% endif %}
+        </div>
+
+    </div> <!-- preview -->
+    {% endfor %}
+</div> <!-- preview-container -->
+
+

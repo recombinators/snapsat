@@ -113,10 +113,10 @@ function graph(graphId) {
     // Get id of each preview
     var id = '#'.concat(graphId);
 
-    // Get bands mapped to RGB
-    var red_band = Number($(id).parent().find($(".js-band-red")).html());
-    var green_band = Number($(id).parent().find($(".js-band-green")).html());
-    var blue_band = Number($(id).parent().find($(".js-band-blue")).html());
+    // Get bands mapped to RGB from parent id, which is the band combo (id='RGB')
+    var red_band = Number($(id).parent().attr('id')[0]);
+    var green_band = Number($(id).parent().attr('id')[1]);
+    var blue_band = Number($(id).parent().attr('id')[2]);
 
     // Get width from associated preview
     var width = $(id).parent().width();
@@ -157,16 +157,22 @@ function graph(graphId) {
 
 // Create bar codes and graphs on DOM ready.
 $(document).ready(function(){
+
     // Create bar code for each preview
     $(".js-preview").each(function(){
         graphId = $(this).find($(".js-graph")).attr("id");
         graph(graphId);
         });
 
-    // Create reference bar graphs
-    refernceGraph("full");
-    refernceGraph("visible");
+    if($(this).find(".js-container-full").length){
+    // Create full reference bar graphs
+        refernceGraph("full");
+    }
 
+    if($(this).find(".js-container-visible").length){
+    // Create visible reference bar graphs
+        refernceGraph("visible");
+    }
 });
 
 // Create bar codes and graphs on window resize to fix width of bar not inheriting properly
@@ -174,13 +180,21 @@ $(window).on('resize', function (){
     //  Remove bar codes and graphs
     $(".js-graph").contents().remove();
     
-    // Create bar code for each preview
-    $(".js-preview").each(function(){
-        graphId = $(this).find($(".js-graph")).attr("id");
-        graph(graphId, "js-preview");
-        });
+    if($(document).find(".js-preview").length){
+        // Create bar code for each preview
+        $(".js-preview").each(function(){
+            graphId = $(this).find($(".js-graph")).attr("id");
+            graph(graphId);
+            });
+    }
 
-    // Create reference bar graphs
-    refernceGraph("full");
-    refernceGraph("visible");
+    if($(document).find(".js-container-full").length){
+    // Create full reference bar graphs
+        refernceGraph("full");
+    }
+
+    if($(document).find(".js-container-visible").length){
+    // Create visible reference bar graphs
+        refernceGraph("visible");
+    }
 });
