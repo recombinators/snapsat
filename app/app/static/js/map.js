@@ -58,9 +58,10 @@ var sceneList = _.debounce(function() {
                     $('#js-pathrowgrouping').append(
                         "<a class='button button-transparent' href='/scene/" + scenes_path_row[k].entityid + "'>" +
                             "<p class='mb0'>" +
-                                scenes_path_row[k].acquisitiondate +
+                                scenes_path_row[k].acquisitiondate + " " +
+                                scenes_path_row[k].acquisitiontime +
                                 "<br class='md-show'>" +
-                                "<span class='regular'>" + scenes_path_row[k].cloudcover + "</span>" +
+                                "<span class='regular gray'>" + scenes_path_row[k].cloudcover + "%</span>" +
                             "</p>" +
                         "</a>"
                     );

@@ -285,13 +285,13 @@ def scene_options_ajax(request):
     for i, scene in enumerate(scenes):
         sceneList.append({
             'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
+            'acquisitiontime': scene.acquisitiondate.strftime('%H:%M:%S'),
             'cloudcover': scene.cloudcover,
             'download_url': scene.download_url,
             'entityid': scene.entityid,
             'sliced': scene.entityid[3:9],
             'path': scene.path,
             'row': scene.row})
-
     # This line may not be necessary.
     sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
 
