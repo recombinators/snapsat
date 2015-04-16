@@ -73,7 +73,7 @@ var sceneList = _.debounce(function() {
                     "<h3>" +
                         "Path: <span class='bold'>" + scenes_path_row[0].path + "</span> " +
                         "Row: <span class='bold'>" + scenes_path_row[0].row + "</span> " +
-                        "Average Time: <span class='bold'>" + scenes_path_row[0].average_time + "</span>" +
+                        "Approximate Time: <span class='bold'>" + scenes_path_row[0].average_time + "</span>" +
                     "</h3>"
                 );
 
