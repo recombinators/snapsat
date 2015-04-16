@@ -42,12 +42,12 @@
                         <h3>
                             Path: <span class='bold'>{{ group[0].path }}</span>
                             Row: <span class='bold'>{{ group[0].row }}</span>
+                            Approximate Time: <span class='bold'>{{ group[0].average_time }}</span>
                         </h3>
                         {% for s in group %}
                             <a class='button button-transparent' href='/scene/{{ s.entityid }}'>
                                 <p class='mb0'>
                                     {{ s.acquisitiondate }}
-                                    {{ s.acquisitiontime }}
                                     <span class='regular gray'>{{ s.cloudcover }}%</span>
                                 </p>
                             </a>
