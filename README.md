@@ -34,3 +34,4 @@ See Also
 - [When the Earth Began Looking at Itself: the Landsat Program](http://socks-studio.com/2013/07/22/when-the-earth-began-looking-at-itself-the-landsat-program/)
 - [Putting Landsat 8's Bands to work](https://www.mapbox.com/blog/putting-landsat-8-bands-to-work/)
 - [The Many Band Combinations of Landsat 8](http://www.exelisvis.com/Company/PressRoom/Blogs/TabId/836/ArtMID/2928/ArticleID/14305/The-Many-Band-Combinations-of-Landsat-8.aspx)
+- [Our CUGOS presentation](http://bl.ocks.org/jacquestardie/raw/bcb48225511c2f6be58a/#0)
