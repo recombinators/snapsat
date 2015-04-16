@@ -105,7 +105,7 @@ function refernceGraph(type){
         .attr("y", 0 + "px")
         .attr("text-anchor", "middle")
         .attr("dx", function (d){ return ((width * (d[1] - d[0]) / (widthNorm - xLowNorm)) / 2) + "px"; })
-        .attr("dy", function (d){if(d[2] == 1){ return (height/6 + font_size/2);}else if(d[2] == 9){ return (height/6 + font_size / 2);}else if(d[2] == 8){ return (5*height/6 + font_size/2);}else{ return (height/2 + font_size / 2);}})
+        .attr("dy", function (d){if(d[2] == 1){ return (height/6 + font_size/2);}else if(d[2] == 9){ return (height/6 + font_size / 2);}else if(d[2] == 8){ return (5*height/6 + font_size/2);}else{return (height/2 + font_size / 2);}})
         .attr("font-size", font_size)
         .text(function(d) { return d[2]; })
         .attr("pointer-events", "none");
@@ -117,9 +117,9 @@ function graph(graphId) {
     var id = '#'.concat(graphId);
 
     // Get bands mapped to RGB from parent id, which is the band combo (id='RGB')
-    var red_band = Number($(id).parent().attr('id')[0]);
-    var green_band = Number($(id).parent().attr('id')[1]);
-    var blue_band = Number($(id).parent().attr('id')[2]);
+    var red_band = Number($(id).parent().parent().attr('id')[0]);
+    var green_band = Number($(id).parent().parent().attr('id')[1]);
+    var blue_band = Number($(id).parent().parent().attr('id')[2]);
 
     // Get width from associated preview
     var width = $(id).parent().width();
@@ -129,8 +129,8 @@ function graph(graphId) {
 
     // List of wavelengths mapped to RGB
     var waveLengths = [[red_band, red_color],
-                       [blue_band, blue_color],
-                       [green_band, green_color]];
+                       [green_band, green_color],
+                       [blue_band, blue_color]];
 
     // Base svg object for bar code
     var svgBar = d3.selectAll(id)
@@ -158,6 +158,20 @@ function graph(graphId) {
         .attr("y", 0 + "px")
         .attr("width", function (d){ return (width / 11)+ "px"; })
         .attr("height", height + "px")
+        .attr("pointer-events", "none");
+
+    // Add band number as text to center of each bar. Make invisible to mouse events for tool tip
+    svgBar.selectAll("text")
+        .data(waveLengths, function(d){return d;})
+        .enter()
+        .append("text")
+        .attr("x", function (d){ return ((width / 11) * (d[0] - 1)) + "px"; })
+        .attr("y", 0 + "px")
+        .attr("text-anchor", "middle")
+        .attr("dx", function (d){ return ((width / 11)/2 ) + "px"; })
+        .attr("dy", height/2 + font_size/2 + "px")
+        .attr("font-size", font_size)
+        .text(function(d) { return d[0]; })
         .attr("pointer-events", "none");
 }
 
