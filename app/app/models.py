@@ -78,7 +78,7 @@ class PathRow(Base):
                              cls.max_lat,
                              cls.max_lon,
                              cls.download_url
-                             ).filter(cls.entityid == scene_id).one()
+                             ).filter(cls.entityid == scene_id).first()
 
 
 class UserJob(Base):
