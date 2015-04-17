@@ -1,0 +1,64 @@
+{% extends "base.jinja2" %}
+
+{% block styles %}
+<style>
+    header {
+        min-height: 500px;
+        min-height: 100vh;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id='create' class='clearfix mt4'>
+    <div class='col-8 mx-auto'>
+
+        <!-- HEADING -->
+        <div class='center mb4'>
+            <h1 class='mb0'>Select a Landsat scene</h1>
+            <p class='h3'>Which part of the Earth are you interested in?</p>
+        </div>
+
+        <div class='center'>
+            <!-- SELECT LOCATION -->
+            <section id='where' class='mb4'>
+                <h2>Select a location</h2>
+                <p>Each polygon represents the boundaries of an individual Landsat image, uniquely identified by its Path-Row.</p>
+                <div class='map-container'>
+                    <div id='map'>
+                        <span class="reticle bold red h3"><img src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Icon_Red.svg'></span>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- SELECT DATE -->
+            <section class='mb4'>
+                <h2>Choose a date</h2>
+                <p>Your location may be covered by overlapping regions. Each region has multiple available dates. Typically, dates with less cloud coverage are more useful. A sun-synchronous orbit means Landsat 8 passes over the same spot on Earth at about the same time, every time.</p>
+                
+                <div id='js-pathrowgrouping'>
+                    {% for group in scenes %}
+                        <h3>
+                            Path: <span class='bold'>{{ group[0].path }}</span>
+                            Row: <span class='bold'>{{ group[0].row }}</span>
+                            Time: <span class='bold'>~{{ group[0].average_time }} UTC</span>
+                        </h3>
+                        {% for s in group %}
+                            <a class='button button-transparent' href='/scene/{{ s.entityid }}'>
+                                <p class='mb0'>
+                                    {{ s.acquisitiondate }}
+                                    <span class='regular gray'>{{ s.cloudcover }}%</span>
+                                </p>
+                            </a>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        {% endblock %}
+
+        {% block scripts %}
+        <script type='text/javascript' src='/static/js/map.js'></script>
+        {% endblock %}

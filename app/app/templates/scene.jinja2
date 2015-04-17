@@ -1,13 +1,133 @@
 {% extends "base.jinja2" %}
 
 {% block scripts %}
-    <script src="http://d3js.org/d3.v3.js"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
-    <script type='text/javascript' src='/static/js/longpoll.js'></script>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
+<script type='text/javascript' src='/static/js/longpoll.js'></script>
+{% endblock %}
+
+{% block title %}
+<title>{{ meta_data.scene_id }} | Snapsat</title>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .composite-description {
+            position: absolute;
+            margin: 0;
+            right: 10%;
+            top: 14%;
+        }
+        .js-preview {
+            transition: all 0.2s ease;
+        }
+        .js-preview:hover {
+            transform: scale(1.02);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+        .loading {
+            position: absolute;
+            left: 40%;
+            top: 40%;
+        }
+        .bg-black {
+            background: #000;
+        }
+        .main-page-text img {
+            display: none;
+        }
+        .ui-widget {
+            z-index: 9999;
+            font-size: 1em;
+            border: 2px solid initial;
+        }
+
+        .ui-widget-content {
+            background: #F6F6F6;
+            border: 2px solid #F6F6F6;
+            color: #222222;
+        }
+
+        .ui-dialog {
+            left: 0;
+            outline: 0 none;
+            padding: 0;
+            position: absolute;
+            top: 0;
+        }
+
+        #success {
+            padding: 0;
+            margin: 0;
+        }
+
+        .ui-dialog .ui-dialog-content {
+            background: none repeat scroll 0 0 transparent;
+            border: 0 none;
+            overflow: auto;
+            position: relative;
+            padding: 0.1em .1em;
+        }
+
+        .ui-widget-header {
+            background: rgba(0,0,0,.25);
+            border: 0;
+            font-weight: normal;
+        }
+
+        .ui-dialog .ui-dialog-titlebar {
+            padding: 0.1em .5em;
+            position: relative;
+            font-size: 1.2em;
+        }
+
+        .ui-button {
+            position: absolute;
+            right: .3em;
+            padding: .2em .1em;
+            background: rgba(0,0,0,0);
+        }
+    </style>
+
 {% endblock %}
 
 {% block content %}
-    {% include 'includes/your-selection.html' %}
-    {% include 'includes/generate-image.html' %}
+
+<div class='container clearfix mt4'>
+    <div class='center mb4'>
+        <h1 class='mb0'>Your selection</h1>
+        <p class='h3'>Create image composites of the scene you selected.</p>
+    </div>
+
+    <div class='mb4'>
+        <table class='table-light mb4'>
+            <thead>
+                <tr><th>ID</th><th>Time acquired</th><th>Cloud cover</th><th>Boundaries <span class='gray'>Min Lat/Min Lon,  Max Lat/Max Lon</span></th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ meta_data.scene_id }}</td>
+                    <td>{{ meta_data.acquisitiondate }}</td>
+                    <td>{{ meta_data.cloudcover }}%</td>
+                    <td>
+                        {{ meta_data.min_lat }}/
+                        {{ meta_data.min_lon }},
+                        {{ meta_data.max_lat }}/
+                        {{ meta_data.max_lon }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class='col-8 mx-auto center'>
+    {% include 'includes/create-preview.html' %}
+    </div>
+
+</div> <!-- Container -->
+
+{% include 'includes/view-previews.html' %}
+
 {% endblock %}

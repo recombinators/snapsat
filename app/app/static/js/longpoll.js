@@ -3,7 +3,7 @@ $(document).ready(function(){
     // Poll for preview image
     $(".js-nopreview").each(function(){
         var jobId = this.id;
-        var intervalTime = 5000;
+        var intervalTime = 1000;
         var intervalID = setInterval(function poll(){
             $.ajax({
                 url: "/preview_poll",
@@ -51,12 +51,13 @@ $(document).ready(function(){
                     if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
                         // Update status and elapsed time.
                         $(newid).find("#js-fullstatus").html(info.jobstatus);
-                        $(newid).find("#js-fullelapsedtime").html(info.elapsedtime);
                     }else{
                         if(info.jobstatus != 'Failed'){
                             // Stop polling on success
                             $(newid).html(
-                                "<p>Current status: <strong class='red'><a href=" + info.renderurl + ">" +  info.jobstatus +  "! Download Full Zip</a></strong></p>");
+                                "<a  class='button not-rounded full-width center'" +
+                                    "href=" + info.renderurl + ">Download full size image." +
+                                "</a>");
                             clearInterval(intervalID);
                         }else{
                             // Stop polling on failure
