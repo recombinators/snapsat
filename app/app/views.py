@@ -1,14 +1,14 @@
 import os
 import operator
 import itertools
-from datetime import datetime
+from datetime import datetime, timedelta
 from models import Paths, PathRow, UserJob, RenderCache
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
 import pyramid.httpexceptions as exc
-
+import time
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -282,9 +282,11 @@ def scene_options_ajax(request):
 
     scenes = PathRow.scenelist(path_row_list)
     sceneList = []
+    times = 0
     for i, scene in enumerate(scenes):
         sceneList.append({
             'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
+            'acquisitiontime': scene.acquisitiondate,
             'cloudcover': scene.cloudcover,
             'download_url': scene.download_url,
             'entityid': scene.entityid,
@@ -304,7 +306,24 @@ def scene_options_ajax(request):
     for group in outputList:
         group.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
 
-    print 'outputList length: {}'.format(len(outputList))
+    for group in outputList:
+        times = 0
+        for subgroup in group:
+            time_strtime = subgroup['acquisitiontime'].strftime('%H:%M:%S')
+            stripped_strtime = time.strptime(time_strtime.split(',')[0],
+                                             '%H:%M:%S')
+            times += timedelta(hours=stripped_strtime.tm_hour,
+                               minutes=stripped_strtime.tm_min,
+                               seconds=stripped_strtime.tm_sec
+                               ).total_seconds()
+            subgroup['acquisitiontime'] = time_strtime
+
+        average_seconds = times / len(group)
+        average_time = time.strftime('%H:%M', time.gmtime(average_seconds))
+
+        for subgroup in group:
+            subgroup['average_time'] = average_time
+
     return {'scenes': outputList}
 
 
