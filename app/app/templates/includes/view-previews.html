@@ -43,14 +43,17 @@
                             </form>
                         </div>
                         <script>
+                            // modal code
                             $( "#js-dialog{{band_combo}}" ).dialog({
                                 autoOpen: false,
                                 modal: true
                             });
                             $( "#js-opener{{band_combo}}" ).click(function() {
+                                // prevent scrolling
                                 $("html,body").css("overflow","hidden");
                                 $( "#js-dialog{{band_combo}}" ).dialog( "open" );
                             });
+                            // on modal close, allow scrolling.
                             $( "#js-dialog{{band_combo}}" ).dialog({
                                 close: function() {
                                     $("html,body").css("overflow","auto");
@@ -90,35 +93,6 @@
 </div> <!-- preview-container -->
 
 <style>
-/*    .js-modal {
-        position: absolute;
-        height: auto;
-        width: auto;
-        top: 30%;
-        left: 20%;
-        display: block;
-        z-index: 9999;
-        background: #fff;
-        border: 0;
-        padding: .5em 1em;
-        overflow: auto;
-        border: 1px solid #aaaaaa;
-    }
-    .ui-state-default .ui-icon {
-        background-image: url("images/ui-icons_888888_256x240.png")
-        left: 50%;
-        margin-left: -8px;
-        position: absolute;
-        top: 50%;
-        margin-top: -8px;
-        background-position: -96px -128px;
-        width: 16px;
-        height: 16px;
-        display: block;
-        text-indent: -99999px;
-        overflow: hidden;
-        background-repeat: no-repeat;
-    }*/
     .ui-widget {
         z-index: 9999;
         font-size: 1em;
