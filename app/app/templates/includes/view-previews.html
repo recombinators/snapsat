@@ -26,14 +26,14 @@
                     {% else %}
                         <button id="js-opener{{band_combo}}" class='button not-rounded left full-width center'>
                             Request a full size image.</button>
-                        <div id="js-dialog{{band_combo}}" class='js-modal' title="Request a full size image">
+                        <div id="js-dialog{{band_combo}}" class='js-modal' title="Email notification">
                             <form method='post'>
                                 <input class='mb1 left full-width center' type="email" name="email_address" placeholder="Email (optional)"/>
                                 <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
                                 <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
                                 <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
-                                <p class=px1>Normally, a full render is ready for download in 3 minutes, but high traffic volumes can lead to a longer wait.</p>
-                                <p class=px1>If you'd like, we will send an email when your full render is complete.</p>
+                                <p class='px1 center'>A full render is ready in ~3 minutes, but high traffic volumes can lead to a longer wait.</p>
+                                <p class='px1 center'>Enter your email address for notification.</p>
                                 <button
                                     class='button not-rounded left full-width center'
                                     formaction="/request_composite/{{ meta_data.scene_id }}"
