@@ -1,63 +1,5 @@
-<title>Creating a modal window with HTML5 &amp; CSS3</title>
-
-<style>
-.modalDialog {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0,0,0,0.8);
-    z-index: 99999;
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
-    color: #000;
-}
-
-.modalDialog:target {
-    opacity:1;
-    pointer-events: auto;
-}
-
-.modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.close {
-    background: #606061;
-    color: #FFFFFF;
-    line-height: 25px;
-    position: absolute;
-    right: -12px;
-    text-align: center;
-    top: -10px;
-    width: 24px;
-    text-decoration: none;
-    font-weight: bold;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
-}
-
-.close:hover { background: #00d9ff; }
-</style>
-
+{# <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> #}
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <div class='preview-container clearfix px5 mt4 mb4 bg-black'>
 
     {% for band_combo, composite in composites.iteritems() %}
@@ -82,37 +24,39 @@
                     {% if composite.fullstatus %}
                         <a  class='button not-rounded full-width center' id='js-fullstatus'>{{ composite.fullstatus }}</a>
                     {% else %}
-                        <!-- Display a button that causes a full render to be queued. -->
-                        <form method='get' class='request-render'>
-                            <button
-                                class='button not-rounded left full-width center'
-                                formaction="#openModal"
-                                formmethod="get"
-                                type="submit">Request a full size image.
-                            </button>
-                        </form>
-                        {# <a href="#openModal">Open Modal</a> #}
-
-                        <div id="openModal" class="modalDialog">
-                            <div>
-                                <a href="#close" title="Close" class="close">X</a>
-                                <h2>Request a full size image</h2>
-                                <form method='post'>
-                                    <input class='left full-width center' type="email" name="email_address" placeholder="Email (optional)"/>
-                                    <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
-                                    <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
-                                    <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
-                                    <p>Normally, a full render is ready for download in 3 minutes, but high traffic volumes can lead to a longer wait.</p>
-                                    <p>If you'd like, we will send an email when your full render is complete.</p>
-                                    <button
-                                        class='button not-rounded left full-width center'
-                                        formaction="/request_composite/{{ meta_data.scene_id }}"
-                                        formmethod="post"
-                                        type="submit">Request a full size image.
-                                    </button>
-                                </form>
-                            </div>
+                        <button id="js-opener{{band_combo}}" class='button not-rounded left full-width center'>
+                            Request a full size image.</button>
+                        <div id="js-dialog{{band_combo}}" class='js-modal' title="Request a full size image">
+                            <form method='post'>
+                                <input class='mb1 left full-width center' type="email" name="email_address" placeholder="Email (optional)"/>
+                                <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                                <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                                <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                                <p class=px1>Normally, a full render is ready for download in 3 minutes, but high traffic volumes can lead to a longer wait.</p>
+                                <p class=px1>If you'd like, we will send an email when your full render is complete.</p>
+                                <button
+                                    class='button not-rounded left full-width center'
+                                    formaction="/request_composite/{{ meta_data.scene_id }}"
+                                    formmethod="post"
+                                    type="submit">Request a full size image.
+                                </button>
+                            </form>
                         </div>
+                        <script>
+                            $( "#js-dialog{{band_combo}}" ).dialog({
+                                autoOpen: false,
+                                modal: true
+                            });
+                            $( "#js-opener{{band_combo}}" ).click(function() {
+                                $("html,body").css("overflow","hidden");
+                                $( "#js-dialog{{band_combo}}" ).dialog( "open" );
+                            });
+                            $( "#js-dialog{{band_combo}}" ).dialog({
+                                close: function() {
+                                    $("html,body").css("overflow","auto");
+                                }
+                            });
+                        </script>
                     {% endif %}
                 </div> <!-- nofull -->
             {% endif %}
@@ -145,4 +89,86 @@
     {% endfor %}
 </div> <!-- preview-container -->
 
+<style>
+/*    .js-modal {
+        position: absolute;
+        height: auto;
+        width: auto;
+        top: 30%;
+        left: 20%;
+        display: block;
+        z-index: 9999;
+        background: #fff;
+        border: 0;
+        padding: .5em 1em;
+        overflow: auto;
+        border: 1px solid #aaaaaa;
+    }
+    .ui-state-default .ui-icon {
+        background-image: url("images/ui-icons_888888_256x240.png")
+        left: 50%;
+        margin-left: -8px;
+        position: absolute;
+        top: 50%;
+        margin-top: -8px;
+        background-position: -96px -128px;
+        width: 16px;
+        height: 16px;
+        display: block;
+        text-indent: -99999px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+    }*/
+    .ui-widget {
+        z-index: 9999;
+        font-size: 1em;
+        border: 2px solid initial;
+    }
 
+    .ui-widget-content {
+        background: #F6F6F6;
+        border: 2px solid #F6F6F6;
+        color: #222222;
+    }
+
+    .ui-dialog {
+        left: 0;
+        outline: 0 none;
+        padding: 0 !important;
+        position: absolute;
+        top: 0;
+    }
+
+    #success {
+        padding: 0;
+        margin: 0;
+    }
+
+    .ui-dialog .ui-dialog-content {
+        background: none repeat scroll 0 0 transparent;
+        border: 0 none;
+        overflow: auto;
+        position: relative;
+        padding: 0.1em .1em;
+    }
+
+    .ui-widget-header {
+        background: rgba(0,0,0,.25);
+        border: 0;
+        font-weight: normal;
+    }
+
+    .ui-dialog .ui-dialog-titlebar {
+        padding: 0.1em .5em;
+        position: relative;
+        font-size: 1.2em;
+    }
+
+    .ui-button {
+        position: absolute;
+        right: .3em;
+        padding: .2em .1em;
+        background: rgba(0,0,0,0);
+    }
+
+</style>
