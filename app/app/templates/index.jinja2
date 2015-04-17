@@ -42,7 +42,7 @@
                         <h3>
                             Path: <span class='bold'>{{ group[0].path }}</span>
                             Row: <span class='bold'>{{ group[0].row }}</span>
-                            ~Time: <span class='bold'>{{ group[0].average_time }}</span>
+                            ~Time: <span class='bold'>{{ group[0].average_time }} UTC</span>
                         </h3>
                         {% for s in group %}
                             <a class='button button-transparent' href='/scene/{{ s.entityid }}'>
