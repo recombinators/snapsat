@@ -105,7 +105,7 @@ var sceneList = _.debounce(function() {
                             "<p class='mb0'>" +
                                 scenes_path_row[k].acquisitiondate +
                                 "<br class='md-show'>" +
-                                "<span class='regular gray'>" + scenes_path_row[k].cloudcover + "%</span>" +
+                                "<span class='regular gray'> " + scenes_path_row[k].cloudcover + "%</span>" +
                             "</p>" +
                         "</a>"
                     );
