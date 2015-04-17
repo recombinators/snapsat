@@ -11,7 +11,21 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     maxZoom: 7,
     minZoom: 3
 });
-map.setView([47.568, -122.582], 7);
+
+var lat = 47.568
+var lng = -122.582
+// get stored lat/lng if available
+if (Modernizr.sessionstorage) {
+    // session storate available
+    if (sessionStorage.getItem("lat") != null) {
+        lat = sessionStorage['lat'];
+    }
+    if (sessionStorage.getItem("lng") != null) {
+        lng = sessionStorage["lng"]
+    }
+}
+
+map.setView([lat, lng], 7);
 map.scrollWheelZoom.disable();
 // L.control.fullscreen.addTo(map);
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
@@ -26,17 +40,26 @@ $(document).ready(function(){
 //  Implement debouce to prevent excessive calls to database and ajax calls
 // running into each other causing the application to hang
 var sceneList = _.debounce(function() {
+
     // Define the center of the map.
     var center = map.getCenter(),
         lat = center.lat,
         lng = center.lng;
-    
+
+
     // Submit a post request with the relevant information.
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
         data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
+        // Store lat and lng
+        if (Modernizr.sessionstorage) {
+            // session storate available
+            sessionStorage['lat'] = lat;
+            sessionStorage['lng'] = lng;
+        }
+
         scenes_pr = json.scenes;
          
          // Update path-row groupings of scenes on map move
@@ -61,7 +84,7 @@ var sceneList = _.debounce(function() {
                             "<p class='mb0'>" +
                                 scenes_path_row[k].acquisitiondate +
                                 "<br class='md-show'>" +
-                                "<span class='regular gray'>" + scenes_path_row[k].cloudcover + "%</span>" +
+                                "<span class='regular gray'> " + scenes_path_row[k].cloudcover + "%</span>" +
                             "</p>" +
                         "</a>"
                     );
