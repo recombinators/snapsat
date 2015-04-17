@@ -11,7 +11,19 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     maxZoom: 7,
     minZoom: 3
 });
-map.setView([47.568, -122.582], 7);
+var lat = 47.568
+var lng = -122.582
+if (Modernizr.localstorage) {
+    // local storate available
+    if (localStorage.getItem("lat") != null) {
+        lat = localStorage['lat'];
+    }
+    if (localStorage.getItem("lng") != null) {
+        lng = localStorage["lng"]
+    }
+}
+console.log(lat, lng)
+map.setView([lat, lng], 7);
 map.scrollWheelZoom.disable();
 // L.control.fullscreen.addTo(map);
 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
@@ -26,17 +38,26 @@ $(document).ready(function(){
 //  Implement debouce to prevent excessive calls to database and ajax calls
 // running into each other causing the application to hang
 var sceneList = _.debounce(function() {
+
     // Define the center of the map.
     var center = map.getCenter(),
         lat = center.lat,
         lng = center.lng;
-    
+
+
     // Submit a post request with the relevant information.
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
         data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
+        // Store lat and lng
+        if (Modernizr.localstorage) {
+            // local storate available
+            localStorage['lat'] = lat;
+            localStorage['lng'] = lng;
+        }
+
         scenes_pr = json.scenes;
          
          // Update path-row groupings of scenes on map move
