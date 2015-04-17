@@ -319,7 +319,7 @@ def scene_options_ajax(request):
             subgroup['acquisitiontime'] = time_strtime
 
         average_seconds = times / len(group)
-        average_time = time.strftime('%H:%M:%S', time.gmtime(average_seconds))
+        average_time = time.strftime('%H:%M', time.gmtime(average_seconds))
 
         for subgroup in group:
             subgroup['average_time'] = average_time
