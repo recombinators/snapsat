@@ -36,13 +36,13 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
 });
 var lat = 47.568
 var lng = -122.582
-if (Modernizr.localstorage) {
-    // local storate available
-    if (localStorage.getItem("lat") != null) {
-        lat = localStorage['lat'];
+if (Modernizr.sessionstorage) {
+    // session storate available
+    if (sessionStorage.getItem("lat") != null) {
+        lat = sessionStorage['lat'];
     }
-    if (localStorage.getItem("lng") != null) {
-        lng = localStorage["lng"]
+    if (sessionStorage.getItem("lng") != null) {
+        lng = sessionStorage["lng"]
     }
 }
 console.log(lat, lng)
@@ -75,10 +75,10 @@ var sceneList = _.debounce(function() {
         data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
         // Store lat and lng
-        if (Modernizr.localstorage) {
-            // local storate available
-            localStorage['lat'] = lat;
-            localStorage['lng'] = lng;
+        if (Modernizr.sessionstorage) {
+            // session storate available
+            sessionStorage['lat'] = lat;
+            sessionStorage['lng'] = lng;
         }
 
         scenes_pr = json.scenes;
