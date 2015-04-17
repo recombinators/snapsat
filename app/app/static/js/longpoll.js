@@ -3,7 +3,7 @@ $(document).ready(function(){
     // Poll for preview image
     $(".js-nopreview").each(function(){
         var jobId = this.id;
-        var intervalTime = 5000;
+        var intervalTime = 1000;
         var intervalID = setInterval(function poll(){
             $.ajax({
                 url: "/preview_poll",

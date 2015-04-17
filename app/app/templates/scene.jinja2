@@ -13,7 +13,6 @@
 
 {% block styles %}
     <style>
-        
         .composite-description {
             position: absolute;
             margin: 0;
@@ -26,7 +25,7 @@
         .js-preview:hover {
             transform: scale(1.02);
             transition: all 0.2s ease;
-            z-index: 9999;
+            z-index: 100;
         }
         .loading {
             position: absolute;
@@ -38,6 +37,57 @@
         }
         .main-page-text img {
             display: none;
+        }
+        .ui-widget {
+            z-index: 9999;
+            font-size: 1em;
+            border: 2px solid initial;
+        }
+
+        .ui-widget-content {
+            background: #F6F6F6;
+            border: 2px solid #F6F6F6;
+            color: #222222;
+        }
+
+        .ui-dialog {
+            left: 0;
+            outline: 0 none;
+            padding: 0;
+            position: absolute;
+            top: 0;
+        }
+
+        #success {
+            padding: 0;
+            margin: 0;
+        }
+
+        .ui-dialog .ui-dialog-content {
+            background: none repeat scroll 0 0 transparent;
+            border: 0 none;
+            overflow: auto;
+            position: relative;
+            padding: 0.1em .1em;
+        }
+
+        .ui-widget-header {
+            background: rgba(0,0,0,.25);
+            border: 0;
+            font-weight: normal;
+        }
+
+        .ui-dialog .ui-dialog-titlebar {
+            padding: 0.1em .5em;
+            position: relative;
+            font-size: 1.2em;
+        }
+
+        .ui-button {
+            position: absolute;
+            right: .3em;
+            padding: .2em .1em;
+            background: rgba(0,0,0,0);
         }
     </style>
 

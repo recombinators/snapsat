@@ -1,63 +1,61 @@
-<footer id='footer' class='white bg-black clearfix mt4'>
-    <div class=' mx-auto px2 pb3 pt1 container '>
-        <div class='clearfix p2'>
-            <div class='gray clearfix'>
-                <h2>Built by:</h2>
-                <div class='col-2 left px2 center'>
-                    <h3 class='mb0'>Constantine Hatzis</h3>
-                    <p class='mb0'>Mechanical/Aerospace Engineer and perpetual student turned Python Developer.</p>
-                    <a href='https://github.com/constanthatz'><i class='ss-icon'>Github</i></a>
-                    <a href='https://www.linkedin.com/in/constantinedhatzis'><i class='ss-icon'>LinkedIn</i></a>
-                </div>
-                <div class='col-2 left px2 center'>
-                    <h3 class='mb0'>Jacques Tardie</h3>
-                    <p class='mb0'>Geospatial Developer who enjoys long walks on the beach.</p>
-                    <a href='https://twitter.com/jqtrde'><i class='ss-icon'>Twitter</i></a>
-                    <a href='https://github.com/jacquestardie'><i class='ss-icon'>Github</i></a>
-                    <a href='https://linkedin.com/in/jacquestardie'><i class='ss-icon'>LinkedIn</i></a>
-                </div>
-                <div class='col-2 left px2 center'>
-                    <h3 class='mb0'>Jake Anderson</h3>
-                    <p class='mb0'>Python Developer specializing in evangelism, creativity.</p>
-                    <a href='https://twitter.com/jakeand3rson'><i class='ss-icon'>Twitter</i></a>
-                    <a href='https://github.com/jakealope'><i class='ss-icon'>Github</i></a>
-                    <a href='https://linkedin.com/in/jakeand3rson'><i class='ss-icon'>LinkedIn</i></a>
-                </div>
-                <div class='col-2 left px2 center'>
-                    <h3 class='mb0'>Joel Stanner</h3>
-                    <p class='mb0'>Python Software Developer and Audio Engineer with a focus on web frameworks and testing.</p>
-                    <a href='https://twitter.com/joelstanner'><i class='ss-icon'>Twitter</i></a>
-                    <a href='https://github.com/poolbath1'><i class='ss-icon'>Github</i></a>
-                    <a href='https://linkedin.com/in/joelstanner'><i class='ss-icon'>LinkedIn</i></a>
-                </div>
-                <div class='col-2 left px2 center'>
-                    <h3 class='mb0'>Mark Saiget</h3>
-                    <p class='mb0'>Back-end Developer who loves producing elegant, creative solutions within a team.</p>
-                    <a href='https://github.com/bm5w'><i class='ss-icon'>Github</i></a>
-                    <a href='https://linkedin.com/in/marksaiget'><i class='ss-icon'>LinkedIn</i></a>
-                </div>
+<footer id='footer' class='white bg-silver clearfix mt4 py2'>
+    <div class='mx-auto px2 pb3 pt1 container'>
+
+        <!-- Who we are -->
+        <div class='black clearfix'>
+            <h2>Built by:</h2>
+
+
+            {% set team = [
+                ('Constantine Hatzis', 'Mechanical - Aerospace Engineer and perpetual student turned Developer.', '', 'constanthatz', 'constantinedhatzis'),
+                ('Jacques Tardie', 'Cartographer. Data Masseur.', 'jqtrde', 'jacquestardie', 'jacquestardie'),
+                ('Jake Anderson', 'Python develop specializing in evangelism, creativity.', 'jakeand3rson', 'jakeand3rson', 'jakeand3rson'),
+                ('Joel Stanner', 'Python Software Developer and Audio Engineer with a focus on web frameworks and testing.', 'joelstanner', 'poolbath1', 'joelstanner'),
+                ('Mark Saiget', 'Back-end Developer who loves helping teams produce elegant, creative solutions.', 'MarkSaiget', 'bm5w', 'marksaiget'),
+            ]%}
+
+            <div class='flex flex-wrap flex-stretch border-bottom p1'>
+                {% for name, description, twitter, github, linkedin in team %}
+                    <div class='team-member mr1 flex-grow'>
+                        <h3 class='mb0'>
+                            <span class='mr1'>{{ name }}</span>
+                            <a href='https://twitter.com/{{ twitter }}' class='h4 ss-icon twitter'>Twitter</a>
+                            <a href='https://github.com/{{ github }}' class='h4 ss-icon github'>Github</a>
+                            <a href='https://www.linkedin.com/in/{{ linkedin }}' class='h4 ss-icon linkedin'>LinkedIn</a>
+                        </h3>
+                        <p class='mb0'>{{ description }}</p>
+                    </div>
+                {% endfor %}
             </div>
-            <div class='gray clearfix'>
+
+
+            <!-- Built with -->
+            <div class='black clearfix mb1 border-bottom'>
                 <h2>Built with:</h2>
-                <ul class='list-reset'>
-                    <li><a href='https://aws.amazon.com' class='h5 button block button-transparent left'>Amazon Web Services</a></li>
-                    <li><a href='http://www.ansible.com/home' class='h5 button block button-transparent left'>Ansible</a></li>
-                    <li><a href='https://github.com/developmentseed/landsat-util' class='h5 button block button-transparent left'>landsat-util</a></li>
-                    <li><a href='http://postgis.net/' class='h5 button block button-transparent left'>PostGIS</a></li>
-                    <li><a href='http://www.postgresql.org/' class='h5 button block button-transparent left'>PostgreSQL</a></li>
-                    <li><a href='http://www.pylonsproject.org/' class='h5 button block button-transparent left'>Pyramid</a></li>
-            </div>
-            <div class='gray clearfix'>
+                <div class='flex flex-wrap'>
+                    <a href='https://aws.amazon.com' class='h5 button block button-transparent left'>Amazon Web Services</a>
+                    <a href='http://www.ansible.com/home' class='h5 button block button-transparent left'>Ansible</a>
+                    <a href='https://github.com/developmentseed/landsat-util' class='h5 button block button-transparent left'>landsat-util</a>
+                    <a href='http://postgis.net/' class='h5 button block button-transparent left'>PostGIS</a>
+                    <a href='http://www.postgresql.org/' class='h5 button block button-transparent left'>PostgreSQL</a>
+                    <a href='http://www.pylonsproject.org/' class='h5 button block button-transparent left'>Pyramid</a>
+                </div> <!-- Flex -->
+            </div> <!-- Built with -->
+
+
+            <!-- Special thanks -->
+            <div class='black clearfix mb1'>
                 <h2>Special thanks to:</h2>
-                <ul class='list-reset'>
-                    <li><a href='https://www.codefellows.org/' class='h5 button block button-transparent left'>Code Fellows</a></li>
-                    <li><a href='http://crisewing.com/' class='h5 button block button-transparent left'>Cris Ewing</a></li>
-                    <li><a href='https://developmentseed.org/team/' class='h5 button block button-transparent left'>Development Seed</a></li>
-                    <li><a href='http://www.ekanderson.org/' class='h5 button block button-transparent left'>Emily Anderson</a></li>
-                    <li><a href='http://jedsundwall.com/' class='h5 button block button-transparent left'>Jed Sundwall</a></li>
-                    <li><a href='http://aws.amazon.com/public-data-sets/' class='h5 button block button-transparent left'>The AWS Public Data Sets</a></li>
-                </ul>
-            </div>
+                <div class='flex flex-wrap'>
+                    <a href='https://www.codefellows.org/' class='h5 button block button-transparent'>Code Fellows</a>
+                    <a href='http://crisewing.com/' class='h5 button block button-transparent'>Cris Ewing</a>
+                    <a href='https://developmentseed.org/' class='h5 button block button-transparent'>Development Seed</a>
+                    <a href='http://www.ekanderson.org/' class='h5 button block button-transparent'>Emily Anderson</a>
+                    <a href='http://jedsundwall.com/' class='h5 button block button-transparent'>Jed Sundwall</a>
+                    <a href='http://aws.amazon.com/public-data-sets/' class='h5 button block button-transparent'>The AWS Public Data Sets</a>
+                </div> <!-- Flex -->
+            </div> <!-- Special thanks -->
+
         </div>
-    </div>
+    </div> <!-- Container -->
 </footer>

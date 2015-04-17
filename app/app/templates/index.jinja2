@@ -35,13 +35,14 @@
             <!-- SELECT DATE -->
             <section class='mb4'>
                 <h2>Choose a date</h2>
-                <p>Your location may be covered by overlapping regions. Each region has multiple available dates. Typically, dates with less cloud coverage are more useful.</p>
+                <p>Your location may be covered by overlapping regions. Each region has multiple available dates. Typically, dates with less cloud coverage are more useful. A sun-synchronous orbit means Landsat 8 passes over the same spot on Earth at about the same time, every time.</p>
                 
                 <div id='js-pathrowgrouping'>
                     {% for group in scenes %}
                         <h3>
                             Path: <span class='bold'>{{ group[0].path }}</span>
                             Row: <span class='bold'>{{ group[0].row }}</span>
+                            Time: <span class='bold'>~{{ group[0].average_time }} UTC</span>
                         </h3>
                         {% for s in group %}
                             <a class='button button-transparent' href='/scene/{{ s.entityid }}'>

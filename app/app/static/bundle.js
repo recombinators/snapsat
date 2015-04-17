@@ -72,7 +72,8 @@ var sceneList = _.debounce(function() {
                 $('#js-pathrowgrouping').append(
                     "<h3>" +
                         "Path: <span class='bold'>" + scenes_path_row[0].path + "</span> " +
-                        "Row: <span class='bold'>" + scenes_path_row[0].row + "</span>" +
+                        "Row: <span class='bold'>" + scenes_path_row[0].row + "</span> " +
+                        "~Time: <span class='bold'>" + scenes_path_row[0].average_time + " UTC</span>" +
                     "</h3>"
                 );
 
@@ -83,7 +84,7 @@ var sceneList = _.debounce(function() {
                             "<p class='mb0'>" +
                                 scenes_path_row[k].acquisitiondate +
                                 "<br class='md-show'>" +
-                                "<span class='regular'>" + scenes_path_row[k].cloudcover + "</span>" +
+                                "<span class='regular gray'>" + scenes_path_row[k].cloudcover + "%</span>" +
                             "</p>" +
                         "</a>"
                     );
