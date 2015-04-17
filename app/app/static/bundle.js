@@ -34,8 +34,10 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     maxZoom: 7,
     minZoom: 3
 });
+
 var lat = 47.568
 var lng = -122.582
+// get stored lat/lng if available
 if (Modernizr.sessionstorage) {
     // session storate available
     if (sessionStorage.getItem("lat") != null) {
@@ -45,7 +47,7 @@ if (Modernizr.sessionstorage) {
         lng = sessionStorage["lng"]
     }
 }
-console.log(lat, lng)
+
 map.setView([lat, lng], 7);
 map.scrollWheelZoom.disable();
 // L.control.fullscreen.addTo(map);
