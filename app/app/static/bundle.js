@@ -35,29 +35,30 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     minZoom: 3
 });
 
-var lat = 47.568
-var lng = -122.582
-// get stored lat/lng if available
-if (Modernizr.sessionstorage) {
-    // session storate available
-    if (sessionStorage.getItem("lat") != null) {
-        lat = sessionStorage['lat'];
-    }
-    if (sessionStorage.getItem("lng") != null) {
-        lng = sessionStorage["lng"]
-    }
-}
-
-map.setView([lat, lng], 7);
-map.scrollWheelZoom.disable();
-// L.control.fullscreen.addTo(map);
-map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
     $.each($('.js-column_titles th'), function(i, value){
-                var wid = $($(".js-group_head th")[i]).width();
-                $(value).width(wid);
+        var wid = $($(".js-group_head th")[i]).width();
+        $(value).width(wid);
     }); 
+
+    var lat = 47.568
+    var lng = -122.582
+    // get stored lat/lng if available
+    if (Modernizr.sessionstorage) {
+        // session storate available
+        if (sessionStorage.getItem("lat") != null) {
+            lat = sessionStorage['lat'];
+        }
+        if (sessionStorage.getItem("lng") != null) {
+            lng = sessionStorage["lng"]
+        }
+    }
+
+    map.setView([lat, lng], 7);
+    map.scrollWheelZoom.disable();
+    // L.control.fullscreen.addTo(map);
+    map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 });
 
 //  Implement debouce to prevent excessive calls to database and ajax calls
