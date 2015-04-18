@@ -1,13 +1,8 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
-var southWest = L.latLng(90, 180),
-    northEast = L.latLng(-90, -180),
-    bounds = L.latLngBounds(southWest, northEast);
- 
 // Create a basemap
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     zoomControl: true,
-    // maxBounds: bounds,
     maxZoom: 7,
     minZoom: 3
 });
