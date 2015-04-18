@@ -7,7 +7,7 @@ var southWest = L.latLng(90, 180),
 // Create a basemap
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     zoomControl: true,
-    maxBounds: bounds,
+    // maxBounds: bounds,
     maxZoom: 7,
     minZoom: 3
 });

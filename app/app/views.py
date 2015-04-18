@@ -269,6 +269,9 @@ def scene_options_ajax(request):
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
+    lng = ((lng + 180.0) % 360.0) - 180.0
+    lng = round(lng, 5)
+
     # Filter all available scenes to those which encompass the
     # lat/lng provided from the user. Then, populate a list with
     # the information relevant to our view.
