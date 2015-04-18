@@ -41,7 +41,6 @@ def index(request):
     Allows a user to define their area of interest and receive appropriate
     lists of scenes for it.
     """
-    # return scene_options_ajax(request)
     return {}
 
 
