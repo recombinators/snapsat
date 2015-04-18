@@ -85,6 +85,11 @@
             .team-member {
                 max-width: 20rem;
             }
+            
+            .table-hover > tbody > tr.hover:hover > td,
+            .table-hover > tbody > tr.hover:hover > th {
+                box-shadow: 0 0 0 20rem rgba(0, 0, 0, 0.1) inset;
+            }
 
         </style>
         {% block styles %} {% endblock %}
