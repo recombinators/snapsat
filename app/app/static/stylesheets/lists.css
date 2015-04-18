@@ -1,9 +1,0 @@
-li { 
-    list-style-type: none; 
-}
-
-/* Hanging lists */
-/* As per http://www.markboulton.co.uk/journal/five-simple-steps-to-better-typography-part-2 */
-.hanging {
-	padding-left: 0;
-}

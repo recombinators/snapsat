@@ -75,17 +75,31 @@
         </div>
 
         <!-- Display preview or loading gif -->
-        <div id='{{composite.previewjobid}}'>
-            {% if composite.previewurl %}
-                <a href="{{ composite.previewurl }}">
-                    <img src="{{ composite.previewurl }}">
-                </a>
-            {% else %}
-            <div class='js-nopreview' id='{{composite.previewjobid}}'>
-                <img class='loading' src="/static/img/loading.gif">
+        {% if composite.previewjobid %}
+            <div id='{{composite.previewjobid}}'>
+                {% if composite.previewurl %}
+                    <a href="{{ composite.previewurl }}">
+                        <img src="{{ composite.previewurl }}">
+                    </a>
+                {% else %}
+                <div class='js-nopreview' id='{{composite.previewjobid}}'>
+                    <img class='loading' src="/static/img/loading.gif">
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
+        {% else %}
+            <form method="post">
+                <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+                <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+                <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+                <button class='button rounded-left fit' 
+                    formaction="/request_preview/{{meta_data.scene_id}}" 
+                    formmethod="post" 
+                    type="submit">
+                    <span class='regular'>Get the Preview</span>
+                </button>
+            </form>
+        {% endif %}
     </div> <!-- preview -->
     {% endfor %}
 </div> <!-- preview-container -->
