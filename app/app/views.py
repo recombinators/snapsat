@@ -269,6 +269,7 @@ def scene_options_ajax(request):
     lat = float(request.params.get('lat', 47.614848))
     lng = float(request.params.get('lng', -122.3359059))
 
+    # Correct lng outside of -180 to 180
     lng = ((lng + 180.0) % 360.0) - 180.0
     lng = round(lng, 5)
 
