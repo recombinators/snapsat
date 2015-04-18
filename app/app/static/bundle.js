@@ -102,7 +102,7 @@ var sceneList = _.debounce(function() {
                 var id = 'tab'.concat(n);
                 
                 $('#js-pathrowgrouping').append(
-                    $('<table class="table-hover"></table>').attr('id', id)
+                    $('<table class="table-hover mx-auto" style="max-width: 15em"></table>').attr('id', id)
                 );
 
                 var newid = '#'.concat(id);
