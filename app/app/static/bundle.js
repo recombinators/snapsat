@@ -23,43 +23,62 @@ var _gauges = _gauges || [];
 },{}],3:[function(require,module,exports){
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
-var southWest = L.latLng(90, 180),
-    northEast = L.latLng(-90, -180),
-    bounds = L.latLngBounds(southWest, northEast);
- 
 // Create a basemap
 var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     zoomControl: true,
-    maxBounds: bounds,
     maxZoom: 7,
     minZoom: 3
 });
-map.setView([47.568, -122.582], 7);
-map.scrollWheelZoom.disable();
-// L.control.fullscreen.addTo(map);
-map.addControl(L.mapbox.geocoderControl('mapbox.places'));
+
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
     $.each($('.js-column_titles th'), function(i, value){
-                var wid = $($(".js-group_head th")[i]).width();
-                $(value).width(wid);
+        var wid = $($(".js-group_head th")[i]).width();
+        $(value).width(wid);
     }); 
+
+    var lat = 47.568
+    var lng = -122.582
+    // get stored lat/lng if available
+    if (Modernizr.sessionstorage) {
+        // session storate available
+        if (sessionStorage.getItem("lat") != null) {
+            lat = sessionStorage['lat'];
+        }
+        if (sessionStorage.getItem("lng") != null) {
+            lng = sessionStorage["lng"]
+        }
+    }
+
+    map.setView([lat, lng], 7);
+    map.scrollWheelZoom.disable();
+    // L.control.fullscreen.addTo(map);
+    map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 });
 
 //  Implement debouce to prevent excessive calls to database and ajax calls
 // running into each other causing the application to hang
 var sceneList = _.debounce(function() {
+
     // Define the center of the map.
     var center = map.getCenter(),
         lat = center.lat,
         lng = center.lng;
-    
+
+
     // Submit a post request with the relevant information.
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
         data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
+        // Store lat and lng
+        if (Modernizr.sessionstorage) {
+            // session storate available
+            sessionStorage['lat'] = lat;
+            sessionStorage['lng'] = lng;
+        }
+
         scenes_pr = json.scenes;
          
          // Update path-row groupings of scenes on map move
@@ -77,42 +96,31 @@ var sceneList = _.debounce(function() {
                     "</h3>"
                 );
 
+                // Set id tag for each new table based.
+                var num = i;
+                var n = num.toString();
+                var id = 'tab'.concat(n);
+                
+                $('#js-pathrowgrouping').append(
+                    $('<table class="table-hover mx-auto"></table>').attr('id', id)
+                );
+
+                var newid = '#'.concat(id);
+
+                // Add date and cloud cover titles
+                $(newid).append(
+                    "<tr><th>Date</th><th class='regular gray'>Cloud Cover</th>"
+                );
+
                 // Generate entry for each date within a path-row group.
                 for (var k in scenes_path_row) {
-                    $('#js-pathrowgrouping').append(
-                        "<a class='button button-transparent' href='/scene/" + scenes_path_row[k].entityid + "'>" +
-                            "<p class='mb0'>" +
-                                scenes_path_row[k].acquisitiondate +
-                                "<br class='md-show'>" +
-                                "<span class='regular gray'>" + scenes_path_row[k].cloudcover + "%</span>" +
-                            "</p>" +
-                        "</a>"
+                    $(newid).append(
+                        '<tr class="hover" onclick="location.href = \'/scene/' + scenes_path_row[k].entityid + '\';">' +
+                            '<th>' + scenes_path_row[k].acquisitiondate + '</th>' +
+                            "<th class='regular gray'>" + scenes_path_row[k].cloudcover + '%</th>' +
+                            "</tr>"
                     );
                 }
-
-                // // Set id tag for each new table based.
-                // var num = i;
-                // var n = num.toString();
-                // var id = 'tab'.concat(n);
-    
-                // $('#js-pathrowgrouping').append(
-                //     $('<table></table>').attr('id', id)
-                // );
-    
-                // var scenes_path_row = scenes_pr[i];
-                // var newid = '#'.concat(id);
-
-                // // Create title for each path-row group table.
-                // $(newid).append(
-                //     "<thead class='group_head'><tr><th class='light uppercase h2'> Path-Row: " + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</th></thead>"
-                // );
-
-                // // Create sub titles for date and cloudcover
-                // $(newid).append(
-                //     '<th class="date">Date acquired</th><th class="cloud">Cloud cover</th>'
-                // );
-
-                
         }
     });
 }, 250);
