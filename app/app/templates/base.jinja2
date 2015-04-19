@@ -21,6 +21,14 @@
         <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
         <script type='text/javascript' src='/static/js/lodash.min.js'></script>
         <style>
+            .wf-loading{
+            /* styles to use before Typekit is loaded */
+                visibility: hidden;
+            }
+            .wf-active{
+            /* styles to use after Typekit is loaded */
+                visibility: visible;
+            }
             body {
                 font-family: futura-pt;
                 font-weight: 400;
