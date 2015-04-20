@@ -54,9 +54,10 @@ class UserBehavior(TaskSet):
             """Stop class."""
             self.interrupt()
 
-        def get_scene(self, type):
+        def get_scene(self, request_type):
             """Helper method for full and preview tasks."""
             while True:
+                # move map until scenes are available
                 self.map_move()
                 json_scenes = json.loads(self.response.text)["scenes"]
                 num_path_row = len(json_scenes) - 1
@@ -72,11 +73,10 @@ class UserBehavior(TaskSet):
                         self.client.get(random_url)
                         scene_id = json_scenes_path_row[random_scene]["entityid"]
                         band1, band2, band3 = self.random_bands()
-                        url = "/request_preview/{}".format(scene_id)
+                        url = "/{}/{}".format(request_type, scene_id)
                         self.client.post(url=url, data={'band1': band1,
                                                         'band2': band2,
                                                         'band3': band3})
-
 
         def random_bands(self):
             """Return 3 random bands (non-repeating) from possible bands."""
