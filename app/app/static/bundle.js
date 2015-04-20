@@ -1,12 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var $ = require('jquery');
-require('./typekit.js');
 require('./gauges.js');
 require('./map.js');
-// require('./longpoll.js');
-// require('./band.js');
 
-},{"./gauges.js":2,"./map.js":3,"./typekit.js":4,"jquery":5}],2:[function(require,module,exports){
+},{"./gauges.js":2,"./map.js":3,"jquery":4}],2:[function(require,module,exports){
 var _gauges = _gauges || [];
 (function() {
     var t   = document.createElement('script');
@@ -131,15 +128,6 @@ var sceneList = _.debounce(function() {
 map.on('moveend', sceneList);
 
 },{}],4:[function(require,module,exports){
-(function(d) {
-    var config = {
-        kitId: 'wqn0qec',
-        scriptTimeout: 3000
-    },
-    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
-})(document);
-
-},{}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
