@@ -15,11 +15,6 @@ class UserBehavior(TaskSet):
         """User goes to main page."""
         self.client.get("/")
 
-    @task(1)
-    def create(self):
-        """User goes to create page."""
-        self.client.get("/create")
-
     @task(5)
     class SubTaskCreate(TaskSet):
         """Class defining user behavior on create page."""
@@ -47,35 +42,41 @@ class UserBehavior(TaskSet):
         def preview(self):
             """Request preview for random scene."""
             self.map_move()
-            json_scenes = json.loads(self.response.text)["scenes"][0]
-            num_scenes = len(json_scenes) - 1
-            if num_scenes > 0:
-                random_num = random.randint(0, num_scenes)
-                random_url = json_scenes[random_num]["download_url"]
-                self.client.get(random_url)
-                scene_id = json_scenes[random_num]["entityid"]
-                band1, band2, band3 = self.random_bands()
-                url = "/request_preview/{}".format(scene_id)
-                self.client.post(url=url, data={'band1': band1,
-                                                'band2': band2,
-                                                'band3': band3})
+            json_scenes = json.loads(self.response.text)["scenes"]
+            num_path_row = len(json_scenes) - 1
+            if num_path_row > 0:
+                # select random path/row
+                random_path_row = random.randint(0, num_path_row)
+                json_scenes_path_row = json_scenes[random_path_row]
+                num_scenes = len(json_scenes_path_row) - 1
+                if num_scenes > 0:
+                    # select random scene
+                    random_scene = random.randint(0, num_scenes)
+                    random_url = json_scenes_path_row[random_scene]["download_url"]
+                    self.client.get(random_url)
+                    scene_id = json_scenes_path_row[random_scene]["entityid"]
+                    band1, band2, band3 = self.random_bands()
+                    url = "/request_preview/{}".format(scene_id)
+                    self.client.post(url=url, data={'band1': band1,
+                                                    'band2': band2,
+                                                    'band3': band3})
 
-        @task(1)
-        def full(self):
-            """Request full render for random scene."""
-            self.map_move()
-            json_scenes = json.loads(self.response.text)["scenes"][0]
-            num_scenes = len(json_scenes) - 1
-            if num_scenes > 0:
-                random_num = random.randint(0, num_scenes)
-                random_url = json_scenes[random_num]["download_url"]
-                self.client.get(random_url)
-                scene_id = json_scenes[random_num]["entityid"]
-                band1, band2, band3 = self.random_bands()
-                url = "/request_composite/{}".format(scene_id)
-                self.client.post(url=url, data={'band1': band1,
-                                                'band2': band2,
-                                                'band3': band3})
+        # @task(1)
+        # def full(self):
+        #     """Request full render for random scene."""
+        #     self.map_move()
+        #     json_scenes = json.loads(self.response.text)["scenes"]
+        #     num_scenes = len(json_scenes) - 1
+        #     if num_scenes > 0:
+        #         random_num = random.randint(0, num_scenes)
+        #         random_url = json_scenes[random_num]["download_url"]
+        #         self.client.get(random_url)
+        #         scene_id = json_scenes[random_num]["entityid"]
+        #         band1, band2, band3 = self.random_bands()
+        #         url = "/request_composite/{}".format(scene_id)
+        #         self.client.post(url=url, data={'band1': band1,
+        #                                         'band2': band2,
+        #                                         'band3': band3})
 
         @task(1)
         def stop(self):
