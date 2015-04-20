@@ -60,7 +60,7 @@ class UserBehavior(TaskSet):
                                                 'band2': band2,
                                                 'band3': band3})
 
-        @task(2)
+        @task(1)
         def full(self):
             """Request full render for random scene."""
             self.map_move()
