@@ -29,9 +29,9 @@ class UserBehavior(TaskSet):
             self.lng = random.uniform(-1, 1) + lng
             print self.lat, self.lng
             self.response = self.client.post(
-                                        url="/scene_options_ajax",
-                                        data={'lat': self.lat, 'lng': self.lng}
-                                             )
+                url="/scene_options_ajax",
+                data={'lat': self.lat, 'lng': self.lng}
+                )
 
         @task(10)
         def map_move(self):
@@ -39,9 +39,9 @@ class UserBehavior(TaskSet):
             self.lat = random.uniform(-1, 1) + lat
             self.lng = random.uniform(-1, 1) + lng
             self.response = self.client.post(
-                                        url="/scene_options_ajax",
-                                        data={'lat': self.lat, 'lng': self.lng}
-                                             )
+                url="/scene_options_ajax",
+                data={'lat': self.lat, 'lng': self.lng}
+                )
 
         # @task(3)
         # def preview(self):
