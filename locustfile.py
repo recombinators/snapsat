@@ -33,6 +33,7 @@ class UserBehavior(TaskSet):
             """Method defining random map movement."""
             self.lat = random.uniform(-90, 90)
             self.lng = random.uniform(-180, 180)
+            print self.lat, self.lng
             self.response = self.client.post(
                 url="/scene_options_ajax",
                 data={'lat': self.lat, 'lng': self.lng}
