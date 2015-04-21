@@ -10,12 +10,12 @@ lng = -122.3359059
 
 class UserBehavior(TaskSet):
     """Class defining snapsat user behavior/tasks."""
-    @task(1)
+    # @task(1)
     def index(self):
         """User goes to main page."""
         self.client.get("/")
 
-    @task(5)
+    @task#(5)
     class SubTaskCreate(TaskSet):
         """Class defining user behavior on create page."""
         def on_start(self):
@@ -28,7 +28,7 @@ class UserBehavior(TaskSet):
                 data={'lat': self.lat, 'lng': self.lng}
                 )
 
-        @task(10)
+        # @task(10)
         def map_move(self):
             """Method defining random map movement."""
             self.lat = random.uniform(-90, 90)
@@ -39,7 +39,7 @@ class UserBehavior(TaskSet):
                 data={'lat': self.lat, 'lng': self.lng}
                 )
 
-        @task(3)
+        @task(10)
         def preview(self):
             """Request preview for random scene."""
             self.get_scene('request_preview')
@@ -49,7 +49,7 @@ class UserBehavior(TaskSet):
             """Request full render for random scene."""
             self.get_scene('request_composite')
 
-        @task(1)
+        # @task(1)
         def stop(self):
             """Stop class."""
             self.interrupt()
@@ -86,5 +86,5 @@ class UserBehavior(TaskSet):
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 1500
-    max_wait = 5000
+    min_wait = 200
+    max_wait = 200
