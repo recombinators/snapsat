@@ -139,25 +139,12 @@ function graph(graphId) {
             .attr("height", height + stroke_width)
             .attr('class', 'spectrumMap');
 
-    // Tool tip for bar graph. Band #: Name (Min Frequency - Max Frequency µm) 
-    var tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset(function (d){if(d[2] == 1){ return ([1.33*height + font_size, 0]);}else if(d[2] == 9){ return ([1.33*height + font_size, 0]);}else if(d[2] == 8){ return ([2*height/3 + font_size, 0]);}else{ return ([height + font_size , 0]);}})
-        .html(function(d) {
-            return '<div class="sans">' + 'Band '+ d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
-            });
-
-    // Call tool tip
-    svgBar.call(tip);
-
     // Append svg objects for bars for each band
     svgBar.append("rect")
         .attr("x", 0 + "px")
         .attr("y", 0 + "px")
         .attr("width", width)
-        .attr("height", height + stroke_width)
-        .on('click', tip.show)
-        .on('click', tip.hide);
+        .attr("height", height + stroke_width);
 
     // Create bars for each band
     svgBar.selectAll("rect")
