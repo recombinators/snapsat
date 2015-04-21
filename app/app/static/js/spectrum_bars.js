@@ -139,12 +139,25 @@ function graph(graphId) {
             .attr("height", height + stroke_width)
             .attr('class', 'spectrumMap');
 
+    // Tool tip for bar graph. Band #: Name (Min Frequency - Max Frequency µm) 
+    var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset(function (d){if(d[2] == 1){ return ([1.33*height + font_size, 0]);}else if(d[2] == 9){ return ([1.33*height + font_size, 0]);}else if(d[2] == 8){ return ([2*height/3 + font_size, 0]);}else{ return ([height + font_size , 0]);}})
+        .html(function(d) {
+            return '<div class="sans">' + 'Band '+ d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
+            });
+
+    // Call tool tip
+    svgBar.call(tip);
+
     // Append svg objects for bars for each band
     svgBar.append("rect")
         .attr("x", 0 + "px")
         .attr("y", 0 + "px")
         .attr("width", width)
-        .attr("height", height + stroke_width);
+        .attr("height", height + stroke_width)
+        .on('click', tip.show)
+        .on('click', tip.hide);
 
     // Create bars for each band
     svgBar.selectAll("rect")
@@ -158,6 +171,20 @@ function graph(graphId) {
         .attr("y", 0 + "px")
         .attr("width", function (d){ return (width / 11)+ "px"; })
         .attr("height", height + "px")
+        .attr("pointer-events", "none");
+
+    // Add band number as text to center of each bar. Make invisible to mouse events for tool tip
+    svgBar.selectAll("text")
+        .data(waveLengths, function(d){return d;})
+        .enter()
+        .append("text")
+        .attr("x", function (d){ return ((width / 11) * (d[0] - 1)) + "px"; })
+        .attr("y", 0 + "px")
+        .attr("text-anchor", "middle")
+        .attr("dx", function (d){ return ((width / 11)/2 ) + "px"; })
+        .attr("dy", height/2 + font_size/2 + "px")
+        .attr("font-size", font_size)
+        .text(function(d) { return d[0]; })
         .attr("pointer-events", "none");
 
     // Add band number as text to center of each bar. Make invisible to mouse events for tool tip
