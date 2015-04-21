@@ -1,3 +1,5 @@
+// on click of map_location button, save lat/lng and redirect to index page map
+// and center on location of this path/row
 document.getElementById("js-map_location").onclick = function() {
     if (Modernizr.sessionstorage) {
         // If session storage is available, save center of path/row
