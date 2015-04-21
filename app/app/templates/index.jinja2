@@ -23,15 +23,16 @@
 
         <!-- HEADING -->
         <div class='center mb4'>
-            <h1 class='mb0 selectscene'>Select a Landsat scene <sup><a href="/guide#basics" target="_blank" >&#8505;</a></sup></h1>
-            <p class='h3'>What location on the Earth and what date are you interested in?</p>
+            <h1 class='mb0 selectscene'>Select a Landsat scene</h1>
+            <p class='h3'>What location on the Earth and what date are you interested in?<sup><a href="#fn:1" id="fnref:1"></a>&#8505;</a></sup></p>
         </div>
+        
 
         <div class='center'>
             <!-- SELECT LOCATION -->
             <section id='where' class='mb4'>
                 <h2>Select a location</h2>
-                <p>Each square represents the boundaries of an individual Landsat image, uniquely identified by a Path-Row. The squares overlap and your selection may be covered more than one Path-Row.</p>
+                <p>Each square represents the boundaries of an individual Landsat image, uniquely identified by a Path-Row. The squares overlap and your selection may be covered more than one Path-Row.<sup><a href="#fn:2" id="fnref:2"></a>&#8505;</a></sup></p>
                 <div class='map-container'>
                     <div id='map'>
                         <span class="reticle bold red h3"><img src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Icon_Red.svg'></span>
@@ -43,7 +44,7 @@
             <!-- SELECT DATE -->
             <section class='mb4'>
                 <h2>Choose a date</h2>
-                <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. A sun-synchronous orbit means Landsat 8 passes over the same spot on Earth at about the same time, every time.</p>
+                <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. A sun-synchronous orbit means Landsat 8 passes over the same spot on Earth at about the same time, every time.<sup><a href="#fn:3" id="fnref:3"></a>&#8505;</a></sup></p>
                 
                 <div id='js-pathrowgrouping'>
                     {% for group in scenes %}
@@ -70,7 +71,6 @@
                 </div>
             </section>
         </div>
-
         {% endblock %}
 
         {% block scripts %}
