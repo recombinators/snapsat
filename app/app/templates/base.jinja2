@@ -10,8 +10,19 @@
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <meta name='description' content='Create custom Landsat 8 band combinations in your browser'>
         <!-- Stylesheets -->
+        <style>
+            /* FOUT avoidance */
+            .wf-loading{
+            /* styles to use before Typekit is loaded */
+                visibility: hidden;
+            }
+            .wf-active{
+            /* styles to use after Typekit is loaded */
+                visibility: visible;
+            }
+
+        </style>
         <link rel='icon' type='image/ico' href='/static/favicon.ico'>
-        <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css'>
         <link href="http://d2v52k3cl9vedd.cloudfront.net/basscss/6.0.0/basscss.min.css" rel="stylesheet">
         <link rel='stylesheet' href='/static/webfonts/ss-social-regular.css' />
         <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.css' rel='stylesheet' />
@@ -87,15 +98,23 @@
             }
             
             .table-hover{
-                max-width: 15em
+                max-width: 15em;
             }
             .table-hover > tbody > tr.hover:hover > td,
             .table-hover > tbody > tr.hover:hover > th {
                 box-shadow: 0 0 0 20rem rgba(0, 0, 0, 0.1) inset;
             }
+            .table-hover > tbody > tr:first-child {
+                cursor: auto;
+                } 
+            .table-hover > tbody > tr {
+                cursor: pointer;
+            }
 
         </style>
         {% block styles %} {% endblock %}
+        <script src="//use.typekit.net/wqn0qec.js"></script>
+        <script>try{Typekit.load();}catch(e){}</script>
     </head>
     <body>
         <!--[if lt IE 8]>
