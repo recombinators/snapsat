@@ -9,6 +9,14 @@ from datetime import datetime
 Session = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
+status_key = {0: "In queue",
+              1: "Collecting files",
+              2: "Processing",
+              3: "Compressing",
+              4: "Uploading to server",
+              5: "Done",
+              10: "Failed"}
+
 
 class Paths(Base):
     """
@@ -154,13 +162,6 @@ class UserJob(Base):
         """
         Get jobstatus for jobid passed in.
         """
-        status_key = {0: "In queue",
-                      1: "Downloading",
-                      2: "Processing",
-                      3: "Compressing",
-                      4: "Uploading to server",
-                      5: "Done",
-                      10: "Failed"}
         try:
             status = Session.query(cls.jobstatus).filter(
                 cls.jobid == jobid).one()
@@ -175,13 +176,6 @@ class UserJob(Base):
         """
         Get status and times for jobid passed in.
         """
-        status_key = {0: "In queue",
-                      1: "Downloading",
-                      2: "Processing",
-                      3: "Compressing",
-                      4: "Uploading to server",
-                      5: "Done",
-                      10: "Failed"}
         try:
             job_info = Session.query(
                 cls.jobstatus,
