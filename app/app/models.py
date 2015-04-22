@@ -93,12 +93,12 @@ class UserJob(Base):
     """
     Model for the user job queue. Possible job statuses:
     status_key = {0: "In queue",
-                  1: "Downloading",
-                  2: "Processing",
-                  3: "Compressing",
-                  4: "Uploading to server",
-                  5: "Done",
-                  10: "Failed"}
+              1: "Collecting files",
+              2: "Processing",
+              3: "Compressing",
+              4: "Uploading to server",
+              5: "Done",
+              10: "Failed"}
     """
     __tablename__ = 'user_job'
     jobid = Column(Integer, primary_key=True)
