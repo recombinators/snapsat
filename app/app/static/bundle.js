@@ -81,43 +81,55 @@ var sceneList = _.debounce(function() {
          // Update path-row groupings of scenes on map move
         $('#js-pathrowgrouping').html('');
 
+        for (var i in scenes_pr) {
+            var scenes_path_row = scenes_pr[i];
+
+            // Set id tag for each new pathrowgroup.
+            var num = i;
+            var n = num.toString();
+            var id = 'pathrowgroup'.concat(n);
+
+            $('#js-pathrowgrouping').append(
+               $('<div class="flex flex-column"></div>').attr('id', id)
+            );
+
+            var newid = '#'.concat(id);
+
             // Create new group for each path-row grouping.
-            for (var i in scenes_pr) {
-                var scenes_path_row = scenes_pr[i];
-
-                $('#js-pathrowgrouping').append(
+            $(newid).append(
+                "<div>" +
                     "<h3>" +
-                        "Path: <span class='bold'>" + scenes_path_row[0].path + "</span> " +
-                        "Row: <span class='bold'>" + scenes_path_row[0].row + "</span> " +
-                        "Time: <span class='bold'>~" + scenes_path_row[0].average_time + " UTC</span>" +
-                    "</h3>"
+                        "Path-Row: <span class='bold'>" + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</span> " +
+                        "Time: <span class='bold'>~" + scenes_path_row[0].average_time + "</span><span>UTC</span>" +
+                    "</h3>" +
+                "</div>" +
+                "<div class='flex flex-justify'>" +
+                    "<div>Date</div>" +
+                    "<div class='regular gray'>Cloud Cover</div>" +
+                "</div>"
+            );
+
+            // Create new subgroup for each path-row grouping.
+            var subid = 'pathrowsubgroup'.concat(n);
+        
+            $(newid).append(
+                $('<div></div>').attr('id', subid)
+            );
+
+            var newsubid = '#'.concat(subid);
+
+
+            // Generate entry for each date within a path-row group.
+            for (var k in scenes_path_row) {
+                $(newsubid).append(
+                    "<div>" +
+                        "<a class='flex flex-justify' href ='/scene/" + scenes_path_row[k].entityid + "'>" +
+                            "<div>" + scenes_path_row[k].acquisitiondate + "</div>" +
+                            "<div class='regular gray'>" + scenes_path_row[k].cloudcover + "%</div>" + 
+                        "</a>" +
+                    "</div>"
                 );
-
-                // Set id tag for each new table based.
-                var num = i;
-                var n = num.toString();
-                var id = 'tab'.concat(n);
-                
-                $('#js-pathrowgrouping').append(
-                    $('<table class="table-hover mx-auto"></table>').attr('id', id)
-                );
-
-                var newid = '#'.concat(id);
-
-                // Add date and cloud cover titles
-                $(newid).append(
-                    "<tr><th>Date</th><th class='regular gray'>Cloud Cover</th>"
-                );
-
-                // Generate entry for each date within a path-row group.
-                for (var k in scenes_path_row) {
-                    $(newid).append(
-                        '<tr class="hover" onclick="location.href = \'/scene/' + scenes_path_row[k].entityid + '\';">' +
-                            '<th>' + scenes_path_row[k].acquisitiondate + '</th>' +
-                            "<th class='regular gray'>" + scenes_path_row[k].cloudcover + '%</th>' +
-                            "</tr>"
-                    );
-                }
+            }
         }
     });
 }, 250);

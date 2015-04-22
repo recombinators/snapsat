@@ -46,27 +46,31 @@
                 <h2>Choose a date</h2>
                 <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. Landsat 8 passes over the same spot on Earth at about the same time, every time.<sup><a href="#fn:3" id="fnref:3"></a>&#8505;</a></sup></p>
                 
-                <div id='js-pathrowgrouping'>
+                <div id='js-pathrowgrouping' class="flex flex-wrap flex-start flex-justify">
                     {% for group in scenes %}
-                    <div>
-                        <h3>
-                            Path: <span class='bold'>{{ group[0].path }}</span>
-                            Row: <span class='bold'>{{ group[0].row }}</span>
-                            Time: <span class='bold'>~{{ group[0].average_time }} UTC</span>
-                        </h3>
-                        <table class="table-hover mx-auto">
-                            <tr>
-                                <th>Date</th>
-                                <th class='regular gray'>Cloud Cover</th> 
-                            </tr>
+                        <div>
+                            <div>
+                                <h3>
+                                    Path: <span class='bold'>{{ group[0].path }}</span>
+                                    Row: <span class='bold'>{{ group[0].row }}</span>
+                                    Time: <span class='bold'>~{{ group[0].average_time }} UTC</span>
+                                </h3>
+                            </div>
+                            <div class="flex">
+                                <div>Date</div>
+                                <div class='regular gray'>Cloud Cover</div> 
+                            </div>
                             {% for s in group %}
-                                <tr class="hover" onclick="location.href = '/scene/{{ s.entityid }}';">
-                                    <th>{{ s.acquisitiondate }}</th>
-                                    <th class='regular gray'>{{ s.cloudcover }}%</th> 
-                                </tr>
+                            <div class="flex">
+                                <p>
+                                    <a href='/scene/{{ s.entityid }}'>
+                                        <span>{{ s.acquisitiondate }}</span>
+                                        <span class='regular gray'>{{ s.cloudcover }}%</span> 
+                                    </a>
+                                </p>
+                            </div>
                             {% endfor %}
-                        </table>
-                    </div>
+                        </div>
                     {% endfor %}
                 </div>
             </section>
