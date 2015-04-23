@@ -48,26 +48,25 @@
                 
                 <div id='js-pathrowgrouping' class="flex flex-wrap flex-start flex-justify">
                     {% for group in scenes %}
-                        <div>
+                        <div class="flex flex-column flex-auto p2">
                             <div>
-                                <h3>
-                                    Path: <span class='bold'>{{ group[0].path }}</span>
-                                    Row: <span class='bold'>{{ group[0].row }}</span>
-                                    Time: <span class='bold'>~{{ group[0].average_time }} UTC</span>
-                                </h3>
+                                <div>
+                                    Path-Row: <span class='bold'>{{ group[0].path }}</span>
+                                    Time: <span class='bold'>~{{ group[0].average_time }}</span><span class='ml1'>UTC</span>
+                                </div>
                             </div>
-                            <div class="flex">
+                            <div class='flex flex-justify'>
                                 <div>Date</div>
                                 <div class='regular gray'>Cloud Cover</div> 
                             </div>
                             {% for s in group %}
-                            <div class="flex">
-                                <p>
+                            <div class='pathrowsubgroup'>
+                                <div>
                                     <a href='/scene/{{ s.entityid }}'>
                                         <span>{{ s.acquisitiondate }}</span>
                                         <span class='regular gray'>{{ s.cloudcover }}%</span> 
                                     </a>
-                                </p>
+                                </div>
                             </div>
                             {% endfor %}
                         </div>
