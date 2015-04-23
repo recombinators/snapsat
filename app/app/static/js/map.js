@@ -70,7 +70,7 @@ var sceneList = _.debounce(function() {
             var id = 'pathrowgroup'.concat(n);
 
             $('#js-pathrowgrouping').append(
-               $('<div class="flex flex-column"></div>').attr('id', id)
+               $('<div class="flex flex-column flex-auto p2"></div>').attr('id', id)
             );
 
             var newid = '#'.concat(id);
@@ -78,10 +78,12 @@ var sceneList = _.debounce(function() {
             // Create new group for each path-row grouping.
             $(newid).append(
                 "<div>" +
-                    "<h3>" +
+                    "<div>" +
                         "Path-Row: <span class='bold'>" + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</span> " +
-                        "Time: <span class='bold'>~" + scenes_path_row[0].average_time + "</span><span>UTC</span>" +
-                    "</h3>" +
+                    "</div>" +
+                    "<div>" +
+                        "Time: <span class='bold'>~" + scenes_path_row[0].average_time + "</span><span class='ml1'>UTC</span>" +
+                    "</div>" +
                 "</div>" +
                 "<div class='flex flex-justify'>" +
                     "<div>Date</div>" +
@@ -103,8 +105,8 @@ var sceneList = _.debounce(function() {
             for (var k in scenes_path_row) {
                 $(newsubid).append(
                     "<div>" +
-                        "<a class='flex flex-justify' href ='/scene/" + scenes_path_row[k].entityid + "'>" +
-                            "<div>" + scenes_path_row[k].acquisitiondate + "</div>" +
+                        "<a style='text-decoration: none' class='flex flex-justify button-transparent' href ='/scene/" + scenes_path_row[k].entityid + "'>" +
+                            "<div class='regular black mr2'>" + scenes_path_row[k].acquisitiondate + "</div>" +
                             "<div class='regular gray'>" + scenes_path_row[k].cloudcover + "%</div>" + 
                         "</a>" +
                     "</div>"
