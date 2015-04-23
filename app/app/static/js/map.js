@@ -70,7 +70,7 @@ var sceneList = _.debounce(function() {
             var id = 'pathrowgroup'.concat(n);
 
             $('#js-pathrowgrouping').append(
-               $('<div class="flex flex-column flex-auto p2"></div>').attr('id', id)
+               $('<div class="flex flex-column p2"></div>').attr('id', id)
             );
 
             var newid = '#'.concat(id);
@@ -106,7 +106,7 @@ var sceneList = _.debounce(function() {
                 $(newsubid).append(
                     "<div>" +
                         "<a style='text-decoration: none' class='flex flex-justify button-transparent' href ='/scene/" + scenes_path_row[k].entityid + "'>" +
-                            "<div class='regular black mr2'>" + scenes_path_row[k].acquisitiondate + "</div>" +
+                            "<div class='regular black mr4'>" + scenes_path_row[k].acquisitiondate + "</div>" +
                             "<div class='regular gray'>" + scenes_path_row[k].cloudcover + "%</div>" + 
                         "</a>" +
                     "</div>"

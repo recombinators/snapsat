@@ -46,9 +46,9 @@
                 <h2>Choose a date</h2>
                 <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. Landsat 8 passes over the same spot on Earth at about the same time, every time.<sup><a href="#fn:3" id="fnref:3"></a>&#8505;</a></sup></p>
                 
-                <div id='js-pathrowgrouping' class="flex flex-wrap flex-start flex-justify">
+                <div id='js-pathrowgrouping' class="flex flex-wrap flex-justify flex-start">
                     {% for group in scenes %}
-                        <div class="flex flex-column flex-auto p2">
+                        <div class="flex flex-column p2">
                             <div>
                                 <div>
                                     Path-Row: <span class='bold'>{{ group[0].path }}</span>
@@ -63,8 +63,8 @@
                             <div class='pathrowsubgroup'>
                                 <div>
                                     <a href='/scene/{{ s.entityid }}'>
-                                        <span>{{ s.acquisitiondate }}</span>
-                                        <span class='regular gray'>{{ s.cloudcover }}%</span> 
+                                        <div class='regular black mr2'>{{ s.acquisitiondate }}</div>
+                                        <div class='regular gray'>{{ s.cloudcover }}%</div> 
                                     </a>
                                 </div>
                             </div>
