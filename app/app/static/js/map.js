@@ -7,6 +7,10 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
     minZoom: 3
 });
 
+map.scrollWheelZoom.disable();
+map.addControl(L.mapbox.geocoderControl('mapbox.places'));
+
+
 //  Set column widths on column titles tables when page is ready
 $(document).ready(function(){
     $.each($('.js-column_titles th'), function(i, value){
@@ -14,26 +18,23 @@ $(document).ready(function(){
         $(value).width(wid);
     }); 
 
-    var lat = 47.568
-    var lng = -122.582
-    // get stored lat/lng if available
+    var lat = 47.568,
+        lng = -122.582;
+
+    // If available, use the stored Latitudes & Longitudes
     if (Modernizr.sessionstorage) {
-        // session storate available
-        if (sessionStorage.getItem("lat") != null) {
-            lat = sessionStorage['lat'];
+        if (sessionStorage.getItem('lat') !== null) {
+            lat = sessionStorage.lat;
         }
-        if (sessionStorage.getItem("lng") != null) {
-            lng = sessionStorage["lng"]
+        if (sessionStorage.getItem('lng') !== null) {
+            lng = sessionStorage.lng;
         }
     }
-
     map.setView([lat, lng], 7);
-    map.scrollWheelZoom.disable();
-    // L.control.fullscreen.addTo(map);
-    map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 });
 
-//  Implement debouce to prevent excessive calls to database and ajax calls
+
+// Implement debouce to prevent excessive calls to database and ajax calls
 // running into each other causing the application to hang
 var sceneList = _.debounce(function() {
 
@@ -42,62 +43,74 @@ var sceneList = _.debounce(function() {
         lat = center.lat,
         lng = center.lng;
 
-
     // Submit a post request with the relevant information.
     $.ajax({
         url: "/scene_options_ajax",
         dataType: "json",
         data: {'lat': lat, 'lng': lng, },
     }).done(function(json) {
-        // Store lat and lng
+
         if (Modernizr.sessionstorage) {
-            // session storate available
-            sessionStorage['lat'] = lat;
-            sessionStorage['lng'] = lng;
+            sessionStorage.lat = lat;
+            sessionStorage.lng = lng;
         }
 
-        scenes_pr = json.scenes;
+        scenes = json.scenes;
          
          // Update path-row groupings of scenes on map move
         $('#js-pathrowgrouping').html('');
 
+        for (var i in scenes_pr) {
+            var scenes_path_row = scenes_pr[i];
+
+            // Set id tag for each new pathrowgroup.
+            var num = i;
+            var n = num.toString();
+            var id = 'pathrowgroup'.concat(n);
+
+            $('#js-pathrowgrouping').append(
+               $('<div class="flex flex-column p2"></div>').attr('id', id)
+            );
+
+            var newid = '#'.concat(id);
+
             // Create new group for each path-row grouping.
-            for (var i in scenes_pr) {
-                var scenes_path_row = scenes_pr[i];
+            $(newid).append(
+                "<div>" +
+                    "<div>" +
+                        "Path-Row: <span class='bold'>" + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</span> " +
+                    "</div>" +
+                    "<div>" +
+                        "Time: <span class='bold'>~" + scenes_path_row[0].average_time + "</span><span class='ml1'>UTC</span>" +
+                    "</div>" +
+                "</div>" +
+                "<div class='flex flex-justify'>" +
+                    "<div>Date</div>" +
+                    "<div class='regular gray'>Cloud Cover</div>" +
+                "</div>"
+            );
 
-                $('#js-pathrowgrouping').append(
-                    "<h3>" +
-                        "Path: <span class='bold'>" + scenes_path_row[0].path + "</span> " +
-                        "Row: <span class='bold'>" + scenes_path_row[0].row + "</span> " +
-                        "Time: <span class='bold'>~" + scenes_path_row[0].average_time + " UTC</span>" +
-                    "</h3>"
+            // Create new subgroup for each path-row grouping.
+            var subid = 'pathrowsubgroup'.concat(n);
+        
+            $(newid).append(
+                $('<div></div>').attr('id', subid)
+            );
+
+            var newsubid = '#'.concat(subid);
+
+
+            // Generate entry for each date within a path-row group.
+            for (var k in scenes_path_row) {
+                $(newsubid).append(
+                    "<div>" +
+                        "<a style='text-decoration: none' class='flex flex-justify button-transparent' href ='/scene/" + scenes_path_row[k].entityid + "'>" +
+                            "<div class='regular black mr4'>" + scenes_path_row[k].acquisitiondate + "</div>" +
+                            "<div class='regular gray'>" + scenes_path_row[k].cloudcover + "%</div>" + 
+                        "</a>" +
+                    "</div>"
                 );
-
-                // Set id tag for each new table based.
-                var num = i;
-                var n = num.toString();
-                var id = 'tab'.concat(n);
-                
-                $('#js-pathrowgrouping').append(
-                    $('<table class="table-hover mx-auto"></table>').attr('id', id)
-                );
-
-                var newid = '#'.concat(id);
-
-                // Add date and cloud cover titles
-                $(newid).append(
-                    "<tr><th>Date</th><th class='regular gray'>Cloud Cover</th>"
-                );
-
-                // Generate entry for each date within a path-row group.
-                for (var k in scenes_path_row) {
-                    $(newid).append(
-                        '<tr class="hover" onclick="location.href = \'/scene/' + scenes_path_row[k].entityid + '\';">' +
-                            '<th>' + scenes_path_row[k].acquisitiondate + '</th>' +
-                            "<th class='regular gray'>" + scenes_path_row[k].cloudcover + '%</th>' +
-                            "</tr>"
-                    );
-                }
+            }
         }
     });
 }, 250);

@@ -173,6 +173,20 @@ function graph(graphId) {
         .attr("font-size", font_size)
         .text(function(d) { return d[0]; })
         .attr("pointer-events", "none");
+
+    // Add band number as text to center of each bar. Make invisible to mouse events for tool tip
+    svgBar.selectAll("text")
+        .data(waveLengths, function(d){return d;})
+        .enter()
+        .append("text")
+        .attr("x", function (d){ return ((width / 11) * (d[0] - 1)) + "px"; })
+        .attr("y", 0 + "px")
+        .attr("text-anchor", "middle")
+        .attr("dx", function (d){ return ((width / 11)/2 ) + "px"; })
+        .attr("dy", height/2 + font_size/2 + "px")
+        .attr("font-size", font_size)
+        .text(function(d) { return d[0]; })
+        .attr("pointer-events", "none");
 }
 
 // Create bar codes and graphs on DOM ready.
