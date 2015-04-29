@@ -14,10 +14,3 @@ nav {
   width: 100%;
   z-index: 9999;
 }
-.reticle {
-  position: absolute;
-  top: calc(49% - 50px);
-  left: calc(49% - 50px);
-  z-index: 100;
-}   
-
