@@ -17,7 +17,7 @@ var rename      = require('gulp-rename');
 // ============================================================================
 
 var rootPath = process.cwd() + '/app/app/static/';
-var cssPath = rootPath + '/stylesheets/';
+var cssPath = rootPath + '/css/';
 var jsPath =  rootPath + '/js/';
 
 
@@ -25,9 +25,10 @@ var jsPath =  rootPath + '/js/';
 // ============================================================================
 
 // Concatenate and process stylesheets with CSSNext
-gulp.task('styles', function() {
+gulp.task('css', function() {
   gulp.src(cssPath + 'index.css')
     .pipe(cssnext())
+    .pipe(rename('site.css'))
     .pipe(gulp.dest(rootPath))
 });
 

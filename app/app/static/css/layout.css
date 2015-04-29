@@ -1,0 +1,23 @@
+.map-container {
+  height: 100vh;
+  position: relative;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.reticle {
+  position: absolute;
+  top: calc(49% - 50px);
+  left: calc(49% - 50px);
+  z-index: 100;
+}   
+
