@@ -35,7 +35,9 @@ $(document).ready(function(){
 
     map.setView([lat, lng], 7)
     map.scrollWheelZoom.disable()
-    map.addControl(L.mapbox.geocoderControl('mapbox.places'));
+    map.addControl(L.mapbox.geocoderControl('mapbox.places', {
+      keepOpen: true
+    }));
 
   });
 });

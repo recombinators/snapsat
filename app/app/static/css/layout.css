@@ -7,10 +7,17 @@
   top: 0;
   bottom: 0;
   width: 100%;
+  z-index: 1;
 }
 nav {
   position: fixed;
-  top: 0;
-  width: 100%;
+  top: 4rem;
+  right: 4rem;
+  z-index: 9999;
+}
+.results {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   z-index: 9999;
 }
