@@ -3,30 +3,6 @@
 
 {% block content %}
 
-<style>
-  .introduction, 
-  .results {
-    z-index: 9999;
-  }
-
-  .introduction {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  }
-
-  .results {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-  }
-
-  .h0 {
-    font-size: 4rem;
-  }
-
-</style>
-
 <div class='map-container'>
   <div id='map'></div>
 
@@ -43,43 +19,43 @@
 <div id='create' class='clearfix mt4'>
   <div class='col-8 mx-auto'>
 
-      <!-- SELECT LOCATION -->
-      <section id='where' class='mb4'>
-        <h2>Select a location</h2>
-        <p>Each square represents the boundaries of an individual Landsat image, uniquely identified by a Path-Row. The squares overlap and your selection may be covered more than one square.<sup><a href="#fn:2" id="fnref:2"></a>&#8505;</a></sup></p>
-    </section>
+    <!-- SELECT LOCATION -->
+    <section id='where' class='mb4'>
+      <h2>Select a location</h2>
+      <p>Each square represents the boundaries of an individual Landsat image, uniquely identified by a Path-Row. The squares overlap and your selection may be covered more than one square.<sup><a href="#fn:2" id="fnref:2"></a>&#8505;</a></sup></p>
+  </section>
 
 
-    <!-- SELECT DATE -->
-    <section class='mb4'>
-      <h2>Choose a date</h2>
-      <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. Landsat 8 passes over the same spot on Earth at about the same time, every time.<sup><a href="#fn:3" id="fnref:3"></a>&#8505;</a></sup></p>
+  <!-- SELECT DATE -->
+  <section class='mb4'>
+    <h2>Choose a date</h2>
+    <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. Landsat 8 passes over the same spot on Earth at about the same time, every time.<sup><a href="#fn:3" id="fnref:3"></a>&#8505;</a></sup></p>
 
-    <div id='js-pathrowgrouping' class="flex flex-wrap flex-justify flex-start">
-      {% for group in scenes %}
-      <div class="flex flex-column p2">
+  <div id='js-pathrowgrouping' class="flex flex-wrap flex-justify flex-start">
+    {% for group in scenes %}
+    <div class="flex flex-column p2">
+      <div>
         <div>
-          <div>
-            Path-Row: <span class='bold'>{{ group[0].path }}</span>
-            Time: <span class='bold'>~{{ group[0].average_time }}</span><span class='ml1'>UTC</span>
-          </div>
+          Path-Row: <span class='bold'>{{ group[0].path }}</span>
+          Time: <span class='bold'>~{{ group[0].average_time }}</span><span class='ml1'>UTC</span>
         </div>
-        <div class='flex flex-justify'>
-          <div>Date</div>
-          <div class='regular gray'>Cloud Cover</div> 
+      </div>
+      <div class='flex flex-justify'>
+        <div>Date</div>
+        <div class='regular gray'>Cloud Cover</div> 
+      </div>
+      {% for s in group %}
+      <div class='pathrowsubgroup'>
+        <div>
+          <a href='/scene/{{ s.entityid }}'>
+            <div class='regular black mr2'>{{ s.acquisitiondate }}</div>
+            <div class='regular gray'>{{ s.cloudcover }}%</div> 
+          </a>
         </div>
-        {% for s in group %}
-        <div class='pathrowsubgroup'>
-          <div>
-            <a href='/scene/{{ s.entityid }}'>
-              <div class='regular black mr2'>{{ s.acquisitiondate }}</div>
-              <div class='regular gray'>{{ s.cloudcover }}%</div> 
-            </a>
-          </div>
-        </div>
-        {% endfor %}
       </div>
       {% endfor %}
+    </div>
+    {% endfor %}
   </section>
 </div>
 

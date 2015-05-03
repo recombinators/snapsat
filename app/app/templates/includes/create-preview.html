@@ -1,93 +1,93 @@
 <h1 class='center'>Create a preview</h1>
-        <p>The fastest way to explore your scene -- click a button below.<sup><a href="#fn:5" id="fnref:5"></a>&#8505;</a></sup></p>
-        <section id='scene_info'>
-            <!-- Use a prebuilt, common combination. -->
-            <div id='generate mb4'>
-                <div class='inline-block clearfix'>
-                    <form method="post" class='inline left'>
-                        <input type="hidden" name='band1' value="4"/>
-                        <input type="hidden" name='band2' value="3"/>
-                        <input type="hidden" name='band3' value="2"/>
-                        <button class='button rounded-left' 
-                            formaction="/request_preview/{{meta_data.scene_id}}" 
-                            formmethod="post" 
-                            type="submit">
-                            Natural Color
-                            <br class='md-show'>
-                            <span class='regular'>4-3-2</span>
-                        </button>
-                    </form>
-                    <form method="post" class='inline left'>
-                        <input type="hidden" name='band1' value="2"/>
-                        <input type="hidden" name='band2' value="5"/>
-                        <input type="hidden" name='band3' value="9"/>
-                        <button class='button not-rounded' 
-                            formaction="/request_preview/{{meta_data.scene_id}}" 
-                            formmethod="post" 
-                            type="submit">
-                            Clouds
-                            <br class='md-show'>
-                            <span class='regular'>2-5-9</span>
-                        </button>
-                    </form>
-                    <form method="post" class='inline left'>
-                        <input type="hidden" name='band1' value="5"/>
-                        <input type="hidden" name='band2' value="6"/>
-                        <input type="hidden" name='band3' value="4"/>
-                        <button class='button not-rounded' 
-                            formaction="/request_preview/{{meta_data.scene_id}}" 
-                            formmethod="post" 
-                            type="submit">
-                            Land/Water Delination
-                            <br class='md-show'>
-                            <span class='regular'>5-6-4</span>
-                        </button>
-                    </form>
-                    <form method="post" class='inline left'>
-                        <input type="hidden" name='band1' value="7"/>
-                        <input type="hidden" name='band2' value="6"/>
-                        <input type="hidden" name='band3' value="4"/>
-                        <button class='button not-rounded' 
-                            formaction="/request_preview/{{meta_data.scene_id}}" 
-                            formmethod="post" 
-                            type="submit">
-                            Urban
-                            <br class='md-show'>
-                            <span class='regular'>7-6-4</span>
-                        </button>
-                    </form>
-                    <form method="post" class='inline left'>
-                        <input type="hidden" name='band1' value="5"/>
-                        <input type="hidden" name='band2' value="4"/>
-                        <input type="hidden" name='band3' value="3"/>
-                        <button class='button rounded-right' 
-                            formaction="/request_preview/{{meta_data.scene_id}}" 
-                            formmethod="post" 
-                            type="submit">
-                            Color Infrared
-                            <br class='md-show'>
-                            <span class='regular'>5-4-3</span>
-                        </button>
-                    </form>
+<p>The fastest way to explore your scene -- click a button below.<sup><a href="#fn:5" id="fnref:5">&#8505;</a></sup></p>
+<section id='scene_info'>
+  <!-- Use a prebuilt, common combination. -->
+  <div id='generate mb4'>
+    <div class='inline-block clearfix'>
+      <form method="post" class='inline left'>
+        <input type="hidden" name='band1' value="4"/>
+        <input type="hidden" name='band2' value="3"/>
+        <input type="hidden" name='band3' value="2"/>
+        <button class='button rounded-left' 
+          formaction="/request_preview/{{meta_data.scene_id}}" 
+          formmethod="post" 
+          type="submit">
+          Natural Color
+          <br class='md-show'>
+          <span class='regular'>4-3-2</span>
+        </button>
+      </form>
+      <form method="post" class='inline left'>
+        <input type="hidden" name='band1' value="2"/>
+        <input type="hidden" name='band2' value="5"/>
+        <input type="hidden" name='band3' value="9"/>
+        <button class='button not-rounded' 
+          formaction="/request_preview/{{meta_data.scene_id}}" 
+          formmethod="post" 
+          type="submit">
+          Clouds
+          <br class='md-show'>
+          <span class='regular'>2-5-9</span>
+        </button>
+      </form>
+      <form method="post" class='inline left'>
+        <input type="hidden" name='band1' value="5"/>
+        <input type="hidden" name='band2' value="6"/>
+        <input type="hidden" name='band3' value="4"/>
+        <button class='button not-rounded' 
+          formaction="/request_preview/{{meta_data.scene_id}}" 
+          formmethod="post" 
+          type="submit">
+          Land/Water Delination
+          <br class='md-show'>
+          <span class='regular'>5-6-4</span>
+        </button>
+      </form>
+      <form method="post" class='inline left'>
+        <input type="hidden" name='band1' value="7"/>
+        <input type="hidden" name='band2' value="6"/>
+        <input type="hidden" name='band3' value="4"/>
+        <button class='button not-rounded' 
+          formaction="/request_preview/{{meta_data.scene_id}}" 
+          formmethod="post" 
+          type="submit">
+          Urban
+          <br class='md-show'>
+          <span class='regular'>7-6-4</span>
+        </button>
+      </form>
+      <form method="post" class='inline left'>
+        <input type="hidden" name='band1' value="5"/>
+        <input type="hidden" name='band2' value="4"/>
+        <input type="hidden" name='band3' value="3"/>
+        <button class='button rounded-right' 
+          formaction="/request_preview/{{meta_data.scene_id}}" 
+          formmethod="post" 
+          type="submit">
+          Color Infrared
+          <br class='md-show'>
+          <span class='regular'>5-4-3</span>
+        </button>
+      </form>
 
-                </div>
-            </div> <!-- Prebuilt combinations -->
+    </div>
+  </div> <!-- Prebuilt combinations -->
 
-            <!-- Create a custom combination with any available band. -->
-            <p>Roll your own custom band combination.</p>
-            <form method="post" id="request_form_{{meta_data.scene_id}}">
-                <div id='combinations'>
-                    <select class='field-light rounded-left' name='band1' id='js-band1' required>
-                        <option selected value=''>Red Band</option>
-                    </select>
-                    <select class='field-light not-rounded' name='band2' id='js-band2' required>
-                        <option selected value=''>Green Band</option>
-                    </select>
-                    <select class='field-light rounded-right' name='band3' id='js-band3' required>
-                        <option selected value=''>Blue Band</option>
-                    </select>
-                    <button class='button' form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Render!</button>
-                </div>
-            </form>
-            <script type='text/javascript' src='/static/js/band.js'></script>
-        </section> <!-- Scene info -->
+  <!-- Create a custom combination with any available band. -->
+  <p>Roll your own custom band combination.</p>
+  <form method="post" id="request_form_{{meta_data.scene_id}}">
+    <div id='combinations'>
+      <select class='field-light rounded-left' name='band1' id='js-band1' required>
+        <option selected value=''>Red Band</option>
+      </select>
+      <select class='field-light not-rounded' name='band2' id='js-band2' required>
+        <option selected value=''>Green Band</option>
+      </select>
+      <select class='field-light rounded-right' name='band3' id='js-band3' required>
+        <option selected value=''>Blue Band</option>
+      </select>
+      <button class='button' form="request_form_{{meta_data.scene_id}}" formaction="/request_preview/{{meta_data.scene_id}}" formmethod="post" type="submit">Render!</button>
+    </div>
+  </form>
+  <script type='text/javascript' src='/static/js/band.js'></script>
+</section> <!-- Scene info -->
