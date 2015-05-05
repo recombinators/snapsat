@@ -1,47 +1,135 @@
+
+/* Necolas' Normalize.css */
 @import 'normalize.css';
-@import 'layout.css';
-@import 'bigfoot.css';
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: 'brandon-grotesque';
 
+/* BassCSS modules */
+@import 'basscss-base-reset';
+@import 'basscss-base-forms';
+@import 'basscss-base-buttons';
+@import 'basscss-base-tables';
+@import 'basscss-base-typography';
+
+@import 'basscss-utility-layout';
+@import 'basscss-utility-typography';
+@import 'basscss-white-space';
+@import 'basscss-responsive-states';
+@import 'basscss-positions';
+@import 'basscss-button-sizes';
+
+@import 'basscss-grid';
+@import 'flex-object';
+
+@import 'basscss-color-base';
+@import 'basscss-color-forms';
+@import 'basscss-color-forms-dark';
+@import 'basscss-input-range';
+@import 'basscss-progress';
+@import 'basscss-color-tables';
+
+@import 'basscss-button-outline';
+@import 'basscss-button-transparent';
+@import 'basscss-background-images';
+@import 'basscss-borders';
+@import 'basscss-colors';
+
+
+/* Default custom properties */
+@import 'basscss-defaults';
+
+
+/* Custom media queries */
+@custom-media --breakpoint-sm (min-width: 40em);
+@custom-media --breakpoint-md (min-width: 52em);
+@custom-media --breakpoint-lg (min-width: 64em);
+
+
+/* Custom properties */
+:root {
+  --font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  --line-height: 1.5;
+  --heading-font-family: var(--font-family);
+  --heading-font-weight: bold;
+  --heading-line-height: 1.25;
+  --monospace-font-family: 'Source Code Pro', Consolas, monospace;
+  --h1: 2rem;
+  --h2: 1.5rem;
+  --h3: 1.25rem;
+  --h4: 1rem;
+  --h5: .875rem;
+  --h6: .75rem;
+  --bold-font-weight: bold;
+  --space-1: .5rem;
+  --space-2: 1rem;
+  --space-3: 2rem;
+  --space-4: 4rem;
+  --form-field-font-size: 1rem;
+  --form-field-height: 2.25rem;
+  --form-field-padding-y: .5rem;
+  --form-field-padding-x: .5rem;
+  --button-font-size: inherit;
+  --button-font-weight: bold;
+  --button-line-height: 1.125rem;
+  --button-padding-y: .5rem;
+  --button-padding-x: 1rem;
+  --container-width: 64em;
+  --black:  #111;
+  --gray:   #aaa;
+  --silver: #ddd;
+  --white:  #fff;
+  --aqua:   #7fdbff;
+  --blue:   #0074d9;
+  --navy:   #001f3f;
+  --teal:   #39cccc;
+  --green:  #2ecc40;
+  --olive:  #3d9970;
+  --lime:   #01ff70;
+  --yellow: #ffdc00;
+  --orange: #ff851b;
+  --red:    #ff4136;
+  --fuchsia:#f012be;
+  --purple: #b10dc9;
+  --maroon: #85144b;
+  --darken-1: rgba(0,0,0,.0625);
+  --darken-2: rgba(0,0,0,.125);
+  --darken-3: rgba(0,0,0,.25);
+  --darken-4: rgba(0,0,0,.5);
+  --border-width: 1px;
+  --border-radius: 3px;
+  --border-color: var(--darken-2);
+  --hover-background-color: var(--darken-1);
+  --link-color: var(--blue);
+  --button-backgroun-color: var(--blue);
+  --pre-background-color: var(--silver);
 }
 
-nav {
-  font-family: 'brandon-grotesque';
-  background: rgba(0, 0, 0, 0.5);
-  font-weight: normal;
-}
 
 .composite-description {
-  position: absolute;
-  margin: 0;
-  top: 50%;
-  left: 50%;
-  font-size: 3rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-left: -45px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
+
+.composite-description:hover h1 {
+  color: rgba(255, 255, 255, 0.2);
+  transform: translateX(1em);
+  transition: all 0.2s ease;
+}
+
 .js-preview {
   transition: all 0.2s ease;
-  border: 1rem solid rgba(255,255,255,0);
 }
+
 .js-preview:hover {
   transition: all 0.2s ease;
-  border: 1rem solid rgba(255,255,255,0.5);
 }
+
 .loading {
   position: absolute;
   left: 40%;
   top: 40%;
 }
-.bg-black {
-  background: #000;
-}
-.main-page-text img {
-  display: none;
-}
+
 .ui-widget {
   z-index: 9999;
   font-size: 1em;
@@ -93,45 +181,37 @@ nav {
   padding: .2em .1em;
   background: rgba(0,0,0,0);
 }
-#basics  {
-  padding-top: 10%;
-}
-#bands {
-  padding-top: 10%;
-}
-#combinations {
-  padding-top: 10%;
-}
-#see-also {
-  padding-top: 10%;
-}
+
 .main-page-text img {
   display: none;
 }
 
-.introduction, 
-.results {
+nav {
+  /* position: fixed; */
+  /* top: 4rem; */
   z-index: 9999;
 }
 
-.introduction {
+.map-container {
+  height: 100vh;
+  position: relative;
+}
+
+#map {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
 }
 
-.results {
+.blurb {
   position: absolute;
-  bottom: 2rem;
-  left: 50%;
+  bottom: 0;
+  bottom: 40vh;
 }
 
-.h0 {
-  font-size: 4rem;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-}
-
+/* External stylesheets */
+@import 'bigfoot.css';
+@import 'mapbox.css'; /* v2.1.8 */
+@import 'font-awesome.css'; /* v4.3.0 */

@@ -1,53 +1,45 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
 
-//  Set column widths on column titles tables when page is ready
-$(document).ready(function(){
 
-  $.each($('.js-column_titles th'), function(i, value){
-    var wid = $($(".js-group_head th")[i]).width();
-    $(value).width(wid);
-  }); 
+// Initial render =============================================================
 
-  // Set default coordinates to Seattle, WA
-  var lat = 47.568;
-  var lng = -122.582;
+// Create a basemap
+var map = L.mapbox.map('map', 'jacques.lh797p9e', {
+  zoomControl: false,
+  maxZoom: 7,
+  minZoom: 3
+});
 
-  // Attempt to locate the user based on their IP
-  $.getJSON('http://freegeoip.net/json/', function(json) {
-    if (json) {
-      lat = json.latitude;
-      lng = json.longitude;
-    }
+new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
 
-    // If available, use the stored Latitudes & Longitudes
-    if (Modernizr.sessionstorage) {
-      if (sessionStorage.getItem('lat') !== null) { lat = sessionStorage.lat; }
-      if (sessionStorage.getItem('lng') !== null) { lng = sessionStorage.lng; }
-    }
+// Disable the zoom functionality on scroll.
+map.scrollWheelZoom.disable();
 
-    // Create a basemap
-    var map = L.mapbox.map('map', 'jacques.lh797p9e', {
-      zoomControl: false,
-      maxZoom: 7,
-      minZoom: 3,
-    });
+// Seattle, WA
+var lat = 47.568, lng = -122.582;
 
-    map.setView([lat, lng], 7)
-    map.scrollWheelZoom.disable()
+$(document).ready(function() {
+  // If user has moved the map, reset to their last location.
+  if (Modernizr.sessionstorage) {
+    if (sessionStorage.getItem("lat") != null) { lat = sessionStorage['lat']; }
+    if (sessionStorage.getItem("lng") != null) { lng = sessionStorage['lng']; }
+  }
 
-  });
+  // Position the map in the appropriate location
+  map.setView([lat, lng], 7);
 });
 
 
-// Implement debouce to prevent excessive calls to database and ajax calls
-// running into each other causing the application to hang
+// Subsequent render's ========================================================
+
+// Debounce to prevent excessive AJAX calls
 var sceneList = _.debounce(function() {
 
   // Define the center of the map.
   var center = map.getCenter(),
-    lat = center.lat,
-    lng = center.lng;
+      lat = center.lat,
+      lng = center.lng;
 
   // Submit a post request with the relevant information.
   $.ajax({
@@ -56,65 +48,56 @@ var sceneList = _.debounce(function() {
     data: {'lat': lat, 'lng': lng, },
   }).done(function(json) {
 
-    if (Modernizr.sessionstorage) {
-      sessionStorage.lat = lat;
-      sessionStorage.lng = lng;
-    }
+    var allScenes = json.scenes;
 
-    scenes = json.scenes;
+    if (Modernizr.sessionstorage) {
+      sessionStorage['lat'] = lat;
+      sessionStorage['lng'] = lng;
+    }
 
     // Update path-row groupings of scenes on map move
     $('#js-pathrowgrouping').html('');
 
-    for (var i in scenes_pr) {
-      var scenes_path_row = scenes_pr[i];
+    for (var i in allScenes) {
 
-      // Set id tag for each new pathrowgroup.
-      var num = i;
-      var n = num.toString();
-      var id = 'pathrowgroup'.concat(n);
+      var scenes = allScenes[i],
+          index = i.toString(),
+          // Group scenes by Path/Row
+          sceneByPathRow = 'pathrowgroup'.concat(index),
+          sceneByPathRowID = '#'.concat(sceneByPathRow),
+          // Further group scenes to just include actual scenes
+          listOfScenes = 'pathrowsubgroup'.concat(index),
+          listOfScenesID = '#'.concat(listOfScenes);
 
+      // Each Path/Row has it's own column.
+      // Note: By just passing in `class='col'`, the width is set based on size
       $('#js-pathrowgrouping').append(
-        $('<div class="flex flex-column p2"></div>').attr('id', id)
+        $('<div class="col p1"></div>').attr('id', sceneByPathRow)
       );
 
-      var newid = '#'.concat(id);
-
-      // Create new group for each path-row grouping.
-      $(newid).append(
-        "<div>" +
-          "<div>" +
-          "Path-Row: <span class='bold'>" + scenes_path_row[0].path + "-" + scenes_path_row[0].row + "</span> " +
-          "</div>" +
-          "<div>" +
-          "Time: <span class='bold'>~" + scenes_path_row[0].average_time + "</span><span class='ml1'>UTC</span>" +
-          "</div>" +
-          "</div>" +
-          "<div class='flex flex-justify'>" +
-          "<div>Date</div>" +
-          "<div class='regular gray'>Cloud Cover</div>" +
-          "</div>"
+      // Create the headings for each Path/Row listing
+      $(sceneByPathRowID).append(
+        "<h4 class='mb1'>Path " + scenes[0].path + " - " + "Row " + scenes[0].row + "</h4>" +
+        "<div class='flex flex-justify border-bottom'>" +
+          "<p class='mb0 h5'>Date</p>" +
+          "<p class='mb0 gray h5'>Cloud cover</p>" +
+        "</div>"
       );
 
-      // Create new subgroup for each path-row grouping.
-      var subid = 'pathrowsubgroup'.concat(n);
-
-      $(newid).append(
-        $('<div></div>').attr('id', subid)
+      // Add the full list of available scenes
+      $(sceneByPathRowID).append(
+        $('<div></div>').attr('id', listOfScenes)
       );
-
-      var newsubid = '#'.concat(subid);
-
 
       // Generate entry for each date within a path-row group.
-      for (var k in scenes_path_row) {
-        $(newsubid).append(
+      for (var k in scenes) {
+        $(listOfScenesID).append(
           "<div>" +
-            "<a style='text-decoration: none' class='flex flex-justify button-transparent' href ='/scene/" + scenes_path_row[k].entityid + "'>" +
-            "<div class='regular black mr4'>" + scenes_path_row[k].acquisitiondate + "</div>" +
-            "<div class='regular gray'>" + scenes_path_row[k].cloudcover + "%</div>" + 
+            "<a style='text-decoration: none' class='flex flex-justify button-transparent' href ='/scene/" + scenes[k].entityid + "'>" +
+              "<div class='regular black mr4'>" + scenes[k].acquisitiondate + "</div>" +
+              "<div class='regular gray'>" + scenes[k].cloudcover + "%</div>" + 
             "</a>" +
-            "</div>"
+          "</div>"
         );
       }
     }

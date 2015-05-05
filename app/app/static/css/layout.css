@@ -1,7 +1,14 @@
+nav {
+  position: fixed;
+  top: 4rem;
+  z-index: 9999;
+}
+
 .map-container {
   height: 100vh;
   position: relative;
 }
+
 #map {
   position: absolute;
   top: 0;
@@ -9,12 +16,7 @@
   width: 100%;
   z-index: 1;
 }
-nav {
-  position: fixed;
-  top: 4rem;
-  right: 4rem;
-  z-index: 9999;
-}
+
 .results {
   position: absolute;
   bottom: 0;
