@@ -26,6 +26,8 @@
 <div id='results' class='container clearfix mt4'>
 
   <div id='where' class='md-col md-col-6 p1'>
+
+    <!-- Introductory text -->
     <h3>A little background information</h3>
     <h4>What is Landsat?</h4>
     <p>
@@ -51,32 +53,9 @@
     </p>
   </div>
 
+  <!-- Scene listing -->
+  <div id='js-pathrowgrouping' class='md-col md-col-6 p1'></div>
 
-  <div id='js-pathrowgrouping' class='md-col md-col-6 p1'>
-    {% for group in scenes %}
-      <div class='bg-yellow'>
-        <div>
-          Path-Row: <span class='bold'>{{ group[0].path }}</span>
-          Time: <span class='bold'>~{{ group[0].average_time }}</span><span class='ml1'>UTC</span>
-        </div>
-        <div class='flex flex-justify'>
-          <div>Date</div>
-          <div class='regular gray'>Cloud Cover</div> 
-        </div>
-        {% for s in group %}
-        <div class='pathrowsubgroup'>
-          <div>
-            <a href='/scene/{{ s.entityid }}'>
-              <div class='regular black mr2'>{{ s.acquisitiondate }}</div>
-              <div class='regular gray'>{{ s.cloudcover }}%</div> 
-            </a>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    {% endfor %}
-
-  </div> <!-- Path Row grouping -->
 </div> <!-- Content container -->
 
 
