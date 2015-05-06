@@ -52,7 +52,8 @@
 
     // Instantiate the map
     var map = L.mapbox.map('position', 'jacques.m3h4e0b4', {
-      scrollWheelZoom: false
+      scrollWheelZoom: false,
+      zoomControl: false
     }).fitBounds(bounds);
 
     // TODO: Draw a polygon representing the scene boundaries
