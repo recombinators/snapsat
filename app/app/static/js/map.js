@@ -7,14 +7,21 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 // Create a basemap
 var map = L.mapbox.map('map', 'jacques.lh797p9e', {
   zoomControl: false,
+  scrollWheelZoom: false,
   maxZoom: 7,
   minZoom: 3
 });
 
-new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
-
-// Disable the zoom functionality on scroll.
-map.scrollWheelZoom.disable();
+// Position navigation tools at the bottom of the map.
+// Searchbar
+new L.mapbox.geocoderControl('mapbox.places', {
+  keepOpen: true,
+  position: 'bottomleft'
+}).addTo(map);
+// Zoomer
+new L.Control.Zoom({ 
+  position: 'bottomleft' 
+}).addTo(map);
 
 // Seattle, WA
 var lat = 47.568, lng = -122.582;
