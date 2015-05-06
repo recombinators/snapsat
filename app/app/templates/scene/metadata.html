@@ -1,42 +1,31 @@
 
-<!-- meta_data -->
-<div class='sm-col sm-col-6 p1'>
-  <table class='table-light'>
-    <tbody>
-      <tr>
-        <td><strong>ID</strong><sup><a href='#fn:7' id='fnref:7'>&#8505;</a></sup></td>
-        <td>{{ meta_data.scene_id }}</td>
-      </tr>
-      <tr>
-        <td><strong>Time acquired (UTC)</strong></td>
-        <td>{{ meta_data.acquisitiondate }}</td>
-      </tr>
-      <tr>
-        <td><strong>Percent cloud cover</strong></td>
-        <td>{{ meta_data.cloudcover }}%</td>
-      </tr>
-      <tr>
-        <td><strong>Maximum latitude</strong></td>
-        <td>{{ meta_data.max_lat }}</td>
-      </tr>
-      <tr>
-        <td><strong>Minimum latitude</strong></td>
-        <td>{{ meta_data.min_lat }}</td>
-      </tr>
-      <tr>
-        <td><strong>Maximum longitude</strong></td>
-        <td>{{ meta_data.max_lon }}</td>
-      </tr>
-      <tr>
-        <td><strong>Minimum longitude</strong></td>
-        <td>{{ meta_data.min_lon }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class='sm-col sm-col-6 py1'>
+  <p>
+    Great! You've selected scene 
+    <strong>{{ meta_data.scene_id }}</strong>
+    <sup><a href='#fn:7' id='fnref:7'>&#8505;</a></sup>
+  </p>
+  <p>
+    The next step in creating a custom Landsat image is to choose which bands
+    <sup><a href='#fn:5' id='fnref:5'>&#8508;</a></sup> to use.
+    In total, there are <strong>11 bands</strong> - we'll use <strong>3</strong>. 
+    Each band we choose will be mapped into one of the blue, green, or red color channels. 
+  </p>
+  <p>
+    Some combinations are useful for illustrating certain natural or man-made features, 
+    others are just interesting to look at.
+    Below, you'll find composites that other users have already created. 
+    Select any of them to learn more about why they might be useful. 
+  </p>
+  <p>
+    If you don't see the combination you're interested in:
+  </p>
+  <a href='' class='button bg-silver black'>Create a new composite</a>
 </div>
 
-<!-- Location -->
 <div class='sm-col sm-col-6 p1'>
+
+  <!-- Location -->
   <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
   <style>
     #position { position:relative; min-height: 254px; width:100%; }
@@ -47,8 +36,8 @@
     L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
 
     var sw = L.latLng({{ meta_data.min_lat }}, {{ meta_data.min_lon }}),
-        ne = L.latLng({{ meta_data.max_lat }}, {{ meta_data.max_lon }}),
-        bounds = L.latLngBounds(sw, ne);
+      ne = L.latLng({{ meta_data.max_lat }}, {{ meta_data.max_lon }}),
+      bounds = L.latLngBounds(sw, ne);
 
     // Instantiate the map
     var map = L.mapbox.map('position', 'jacques.m3h4e0b4', {
@@ -64,4 +53,34 @@
     //}).addTo(map);
 
   </script>
+
+  <table class='table-light h5'>
+    <tbody>
+      <tr>
+        <td><strong>Time acquired (UTC)</strong></td>
+        <td>{{ meta_data.acquisitiondate }}</td>
+      </tr>
+      <tr>
+        <td><strong>Percent cloud cover</strong></td>
+        <td>{{ meta_data.cloudcover }}%</td>
+      </tr>
+      <tr>
+        <td><strong>Northeast</strong></td>
+        <td>{{ meta_data.max_lat }}, {{ meta_data.max_lon }}</td>
+      </tr>
+      <tr>
+        <td><strong>Southeast</strong></td>
+        <td>{{ meta_data.min_lat }}, {{ meta_data.max_lon }}</td>
+      </tr>
+      <tr>
+        <td><strong>Southwest</strong></td>
+        <td>{{ meta_data.min_lat }}, {{ meta_data.min_lon}}</td>
+      </tr>
+      <tr>
+        <td><strong>Northwest</strong></td>
+        <td>{{ meta_data.max_lat }}, {{ meta_data.min_lon}}</td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
