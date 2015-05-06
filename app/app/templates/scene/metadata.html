@@ -1,3 +1,5 @@
+
+<!-- meta_data -->
 <div class='sm-col sm-col-6 p1'>
   <table class='table-light'>
     <tbody>
@@ -33,17 +35,32 @@
   </table>
 </div>
 
+<!-- Location -->
 <div class='sm-col sm-col-6 p1'>
   <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
   <style>
     #position { position:relative; min-height: 254px; width:100%; }
   </style>
-</head>
-<body>
+
   <div id='position'></div>
   <script>
     L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
-    var map = L.mapbox.map('position', 'jacques.m3h4e0b4')
-    .setView([40, -74.50], 9);
+
+    var sw = L.latLng({{ meta_data.min_lat }}, {{ meta_data.min_lon }}),
+        ne = L.latLng({{ meta_data.max_lat }}, {{ meta_data.max_lon }}),
+        bounds = L.latLngBounds(sw, ne);
+
+    // Instantiate the map
+    var map = L.mapbox.map('position', 'jacques.m3h4e0b4', {
+      scrollWheelZoom: false
+    }).fitBounds(bounds);
+
+    // TODO: Draw a polygon representing the scene boundaries
+    // This works as a standalone gist, but something about embedding it
+    // inside this template is causing problems.
+    // L.rectangle(bounds, {
+    //  fillColor: 'red'
+    //}).addTo(map);
+
   </script>
 </div>
