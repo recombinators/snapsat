@@ -196,7 +196,7 @@ def scene(request):
     # Get scene id and list of rendered or rendering previews and full
     # composities from the render_cache table
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache.get_rendered_rendering(
+    rendered_rendering_composites = RenderCache.get_rendered_rendering_composites(
         scene_id)
 
     # Initialize composties dictionary
