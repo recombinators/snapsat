@@ -104,25 +104,21 @@
 }
 
 
-.composite-description {
-  color: rgba(255, 255, 255, 0.6);
+.js-preview {
+  color: rgba(255, 255, 255, 0.7);
   transition: all 0.2s ease;
   cursor: pointer;
-}
-
-.composite-description:hover h1 {
-  color: rgba(255, 255, 255, 0.2);
-  transform: translateX(1em);
-  transition: all 0.2s ease;
-}
-
-.js-preview {
-  transition: all 0.2s ease;
+  background-size: 200% auto;
+  background-position: center center;
+  height: 20rem;
 }
 
 .js-preview:hover {
+  color: rgba(255, 255, 255, 1.0);
   transition: all 0.2s ease;
+  text-decoration: none;
 }
+
 
 .loading {
   position: absolute;
@@ -187,8 +183,6 @@
 }
 
 nav {
-  /* position: fixed; */
-  /* top: 4rem; */
   z-index: 9999;
 }
 
@@ -213,5 +207,4 @@ nav {
 
 /* External stylesheets */
 @import 'bigfoot.css';
-@import 'mapbox.css'; /* v2.1.8 */
 @import 'font-awesome.css'; /* v4.3.0 */
