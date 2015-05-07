@@ -44,6 +44,15 @@ def index(request):
     return {}
 
 
+@view_config(route_name='about', renderer='templates/about.jinja2')
+def about(request):
+    """
+    About page.
+    Sheer beauty.
+    """
+    return {}
+
+
 @view_config(route_name='guide', renderer='templates/guide.jinja2')
 def guide(request):
     """
