@@ -82,7 +82,6 @@ def add_to_queue_composite(request):
                                 band1=band1, band2=band2, band3=band3,
                                 rendertype=u'full', email=email)
         message = build_job_message(job_id=jobid,
-                                    email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1, band_2=band2, band_3=band3)
         send_message(SQSconn,
@@ -91,7 +90,7 @@ def add_to_queue_composite(request):
                      message['attributes'])
 
 
-def add_to_queue_preview(request):
+def add_to_queue(request, rendertype):
     """
     Helper method for adding request to queue and adding to db.
     """
@@ -100,12 +99,12 @@ def add_to_queue_preview(request):
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
     available = RenderCache.render_availability(scene_id, band1, band2, band3,
-                                                u'preview')
+                                                rendertype)
 
     if not available:
         # if this scene/band has already been requested, increase the count
         RenderCache.update_render_count(cls, entityid, band1, band2, band3,
-                                        u'preview')
+                                        rendertype)
 
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
@@ -114,10 +113,9 @@ def add_to_queue_preview(request):
 
         jobid = UserJob.new_job(entityid=scene_id,
                                 band1=band1, band2=band2, band3=band3,
-                                rendertype=u'preview')
+                                rendertype=rendertype)
 
         message = build_job_message(job_id=jobid,
-                                    email='test@test.com',
                                     scene_id=scene_id,
                                     band_1=band1, band_2=band2, band_3=band3)
 
@@ -160,7 +158,7 @@ def request_preview(request):
         # Add preview render job to apprpriate queues
         bands = (request.params.get('band1') + request.params.get('band2') +
                  request.params.get('band3'))
-        add_to_queue_preview(request)
+        add_to_queue(request, u'preview')
         return HTTPFound(location='/scene/{}#{}'.format(
             request.matchdict['scene_id'], bands))
     else:
