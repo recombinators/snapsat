@@ -18,6 +18,7 @@ def main(global_config, **settings):
 
     # Define routes
     config.add_route('index', '/')
+    config.add_route('about', '/about')
     config.add_route('guide', '/guide')
     config.add_route('request_composite', '/request_composite/{scene_id}')
     config.add_route('request_preview', '/request_preview/{scene_id}')

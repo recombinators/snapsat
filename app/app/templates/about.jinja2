@@ -1,0 +1,32 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+<title>About | Snapsat</title>
+{% endblock %}
+
+{% block content %}
+
+<div class='container clearfix mt4 p1'>
+
+  {% set team = [
+    ('Constantine Hatzis', 'Mechanical - Aerospace Engineer and perpetual student turned Developer.', '', 'constanthatz', 'constantinedhatzis'),
+    ('Jacques Tardie', 'Cartographer. Data Masseur.', 'jqtrde', 'jacquestardie', 'jacquestardie'),
+    ('Jake Anderson', 'Developer who enjoys creative problem solving, cigars, and scotch.', 'jakeand3rson', 'jakeand3rson', 'jakeand3rson'),
+    ('Joel Stanner', 'Developer and Audio Engineer with a focus on web frameworks and testing.', 'joelstanner', 'poolbath1', 'joelstanner'),
+    ('Mark Saiget', 'Developer who loves helping teams produce elegant, creative solutions.', 'MarkSaiget', 'bm5w', 'marksaiget'),
+  ]%}
+
+  <h2>Who we are</h2>
+  {% for name, description, twitter, github, linkedin in team %}
+  <div class='sm-col sm-col-4 p1'> 
+    <h3 class='mb0'>{{ name }}</h3>
+    <p class='mb0 h5'> {{ description }}</p>
+    <a href='https://twitter.com/{{ twitter }}' class='h4 fa fa-twitter'></a>
+    <a href='https://github.com/{{ github }}' class='h4 fa fa-github'></a>
+    <a href='https://www.linkedin.com/in/{{ linkedin }}' class='h4 fa fa-linkedin'></a>
+  </div>
+  {% endfor %}
+
+</div>
+<h2>Work with us</h2>
+{% endblock %}
