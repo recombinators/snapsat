@@ -102,22 +102,25 @@ def add_to_queue(request, rendertype):
                                                    band1, band2, band3,
                                                    rendertype)
 
-    if not available:
+    if available:
         # if this scene/band has already been requested, increase the count
-        RenderCache.update_render_count(cls, entityid, band1, band2, band3,
+        RenderCache.update_render_count(scene_id, band1, band2, band3,
                                         rendertype)
 
+    if not available:
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
         if rendertype == u'preview':
             current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
+            email = None
         elif rendertype == u'full':
             current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
+            email = request.params.get('email_address')
 
         jobid = UserJob.new_job(entityid=scene_id,
                                 band1=band1, band2=band2, band3=band3,
-                                rendertype=rendertype)
+                                rendertype=rendertype, email=email)
 
         message = build_job_message(job_id=jobid,
                                     scene_id=scene_id,
@@ -128,51 +131,65 @@ def add_to_queue(request, rendertype):
                      message['body'], message['attributes'])
 
 
-@view_config(route_name='request_composite', renderer='json')
+@view_config(route_name='request', renderer='json')
 def request_composite(request):
-    """
-    Request both the preview and fullsize images for a particular composite.
-    Redirect to scene page and goto band requested.
+    """Request apprpriate images for a particular composite.
+
+    Redirect to scene page and go to band requested.
     If incorrect band combo is requested, bad request.
 
     If request contains email_address, send email to user with a link to the
     full render zip file.
-
     """
-    # Add full render and preview job to apprpriate queues
-    if valid_band_combo(request):
-        bands = (request.params.get('band1') + request.params.get('band2') +
-                 request.params.get('band3'))
-        add_to_queue(request, u'full')
-        add_to_queue(request, u'preview')
-        return HTTPFound(location='/scene/{}#{}'.format(
-                         request.matchdict['scene_id'], bands))
-    else:
-        raise exc.HTTPBadRequest()
+
+    # Get rendertype from request
+    rendertype = request.matchdict['rendertype']
+
+    if rendertype == u'full':
+        # Add full render and preview job to apprpriate queues
+        if valid_band_combo(request):
+            bands = (request.params.get('band1') +
+                     request.params.get('band2') +
+                     request.params.get('band3'))
+            add_to_queue(request, u'full')
+            add_to_queue(request, u'preview')
+            return HTTPFound(location='/scene/{}#{}'.format(
+                             request.matchdict['scene_id'], bands))
+        else:
+            raise exc.HTTPBadRequest()
+    elif rendertype == u'preview':
+        if valid_band_combo(request):
+            # Add preview render job to apprpriate queues
+            bands = (request.params.get('band1') +
+                     request.params.get('band2') +
+                     request.params.get('band3'))
+            add_to_queue(request, u'preview')
+            return HTTPFound(location='/scene/{}#{}'.format(
+                request.matchdict['scene_id'], bands))
+        else:
+            raise exc.HTTPBadRequest()
 
 
-@view_config(route_name='request_preview', renderer='json')
-def request_preview(request):
-    """
-    Request the preview image for a particular composite.
-    Redirect to scene page and goto band requested.
-    If incorrect band combo is requested, bad request.
-    """
-    if valid_band_combo(request):
-        # Add preview render job to apprpriate queues
-        bands = (request.params.get('band1') + request.params.get('band2') +
-                 request.params.get('band3'))
-        add_to_queue(request, u'preview')
-        return HTTPFound(location='/scene/{}#{}'.format(
-            request.matchdict['scene_id'], bands))
-    else:
-        raise exc.HTTPBadRequest()
+# @view_config(route_name='request_preview', renderer='json')
+# def request_preview(request):
+#     """Request the preview image for a particular composite.
+
+#     Redirect to scene page and goto band requested.
+#     If incorrect band combo is requested, bad request.
+#     """
+#     if valid_band_combo(request):
+#         # Add preview render job to apprpriate queues
+#         bands = (request.params.get('band1') + request.params.get('band2') +
+#                  request.params.get('band3'))
+#         add_to_queue(request, u'preview')
+#         return HTTPFound(location='/scene/{}#{}'.format(
+#             request.matchdict['scene_id'], bands))
+#     else:
+#         raise exc.HTTPBadRequest()
 
 
 def valid_band_combo(request):
-    """
-    Return true if band combo is valid, False if not.
-    """
+    """Return true if band combo is valid, False if not."""
     valid = [1, 2, 3, 4, 5, 6, 7, 9]
     try:
         # handles error if band1, 2 or 3 doesn't exist
@@ -278,6 +295,8 @@ def scene_band(request):
 
 
 def build_composites_dict(composite, composites, band_combo):
+    """Return dictionary of composites that are rendering or rendered."""
+
     # If band combination dictionary is not in composites dictionary,
     # add it and initialize it with band values
     if band_combo not in composites:
@@ -327,6 +346,8 @@ def build_composites_dict(composite, composites, band_combo):
 
 
 def build_meta_data(scene_id, meta_data_list):
+    """Return dictionary of meta data for a given sceneid."""
+
     return {'scene_id': scene_id,
             'acquisitiondate':
             meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),

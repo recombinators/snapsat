@@ -19,8 +19,7 @@ def main(global_config, **settings):
     # Define routes
     config.add_route('index', '/')
     config.add_route('guide', 'guide/')
-    config.add_route('request_composite', 'request_composite/{scene_id}/')
-    config.add_route('request_preview', 'request_preview/{scene_id}/')
+    config.add_route('request', 'request/{rendertype}/{scene_id}/')
     config.add_route('scene', 'scene/{scene_id}/')
     config.add_route('scene_band', 'scene/{scene_id}/bands/{band_combo}/')
     config.add_route('scene_options_ajax', 'scene_options_ajax/')
