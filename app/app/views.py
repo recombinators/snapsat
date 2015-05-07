@@ -66,8 +66,8 @@ def add_to_queue_composite(request):
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
     email = request.params.get('email_address')
-    available = RenderCache.full_render_availability(scene_id,
-                                                     band1, band2, band3)
+    available = RenderCache.render_availability(scene_id, band1, band2, band3,
+                                                u'full')
 
     if not available:
         # if this scene/band has already been requested, increase the count
@@ -99,8 +99,8 @@ def add_to_queue_preview(request):
     band2 = request.params.get('band2')
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
-    available = RenderCache.preview_render_availability(scene_id,
-                                                        band1, band2, band3)
+    available = RenderCache.render_availability(scene_id, band1, band2, band3,
+                                                u'preview')
 
     if not available:
         # if this scene/band has already been requested, increase the count

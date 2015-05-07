@@ -245,7 +245,7 @@ class RenderCache(Base):
         return rendered
 
     @classmethod
-    def full_render_availability(cls, entityid, band1, band2, band3):
+    def render_availability(cls, entityid, band1, band2, band3, rendertype):
         """
         Check if given image is already rendered.
         """
@@ -253,10 +253,10 @@ class RenderCache(Base):
             output = Session.query(cls).filter(
                 cls.entityid == entityid,
                 cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'full',
+                cls.rendertype == rendertype,
                 cls.renderurl.isnot(None)).count()
         except:
-            print 'Database query failed full_render_availability'
+            print 'Database query failed render_availability'
             return None
 
         return output != 0
@@ -276,6 +276,7 @@ class RenderCache(Base):
 
         return output != 0
 
+    @classmethod
     def update_render_count(cls, entityid, band1, band2, band3, rendertype):
         """Update render count of composite."""
         # if this scene/band has already been requested, increase the count
