@@ -3,8 +3,8 @@ import operator
 import itertools
 from datetime import datetime, timedelta
 from models import Paths, PathRow, UserJob, RenderCache
-from pyramid.view import view_config
-from pyramid.httpexceptions import HTTPFound
+from pyramid.view import view_config, notfound_view_config
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
 import pyramid.httpexceptions as exc
@@ -32,6 +32,11 @@ Views available:
 5. scene_status - Given a scene ID display available data.
 6. ajax - Returns a dictionary with all available scenes.
 """
+
+
+@notfound_view_config(append_slash=True)
+def notfound(request):
+    return HTTPNotFound('Not found, bro.')
 
 
 @view_config(route_name='index', renderer='templates/index.jinja2')

@@ -1,0 +1,33 @@
+{% extends "base.jinja2" %}
+
+
+{% block title %}
+  <title>{{ meta_data.scene_id }} | Snapsat</title>
+{% endblock %}
+
+{% block content %}
+
+  <!-- Metadata -->
+  <div class='container clearfix mt4 p1'>
+    <h2>Your selection</h1>
+    {% include 'scene/metadata.html' %}
+  </div>
+
+
+  <!-- View existing composites -->
+  {% include 'scene/view.html' %}
+
+
+  <!-- Create new composites -->
+  <div class='container clearfix'>
+    <div class='col col-6'>
+      {% include 'scene/create.html' %}
+    </div>
+    <div class='col col-6'>
+      <h3>What's available</h3>
+      <p>We have some number of previews available</p>
+    </div>
+  </div>
+
+  {% include 'scene/footnotes.html' %}
+{% endblock %}
