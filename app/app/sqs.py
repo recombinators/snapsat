@@ -62,10 +62,6 @@ def build_job_message(**kwargs):
             'data_type': 'Number',
             'string_value': kwargs['job_id']
             },
-        'email': {
-            'data_type': 'String',
-            'string_value': kwargs['email']
-            },
         'scene_id': {
             'data_type': 'String',
             'string_value': kwargs['scene_id']
