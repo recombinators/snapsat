@@ -271,21 +271,6 @@ class RenderCache(Base):
 
         return output != 0
 
-    # @classmethod
-    # def preview_composite_availability(cls, entityid, band1, band2, band3):
-    #     """Check if given preview image is already rendered."""
-    #     try:
-    #         output = Session.query(cls).filter(
-    #             cls.entityid == entityid,
-    #             cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-    #             cls.rendertype == u'preview',
-    #             cls.renderurl.isnot(None)).count()
-    #     except:
-    #         print 'Database query failed preview_composite_availability'
-    #         return None
-
-    #     return output != 0
-
     @classmethod
     def update_render_count(cls, entityid, band1, band2, band3, rendertype):
         """Update render count of composite."""

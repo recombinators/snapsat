@@ -217,61 +217,19 @@ def scene(request):
                                                 'band2': composite.band2,
                                                 'band3': composite.band3}})
 
-            # For full render of a band combination that is currently being
-            # rendered update dictionary with status and elapsed time.
-            if composite.currentlyrend and composite.rendertype == u'full':
-                job_status, start_time, last_modified = (
-                    UserJob.job_status_and_times(composite.jobid))
-                elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fulljobid': composite.jobid,
-                                               'fullurl': False,
-                                               'fullstatus': job_status,
-                                               'elapsedtime': elapsed_time})
-
-            # For preview render of a band combination that is currently being
-            # rendered update dictionary with status.
-            if composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewjobid': composite.jobid,
-                                               'previewurl': False,
-                                               'previewstatus': job_status})
-
-            # For full render of a band combination that has been rendered,
-            # update dictionary with status and elapsed time.
-            if not composite.currentlyrend and composite.rendertype == u'full':
-                job_status, start_time, last_modified = (
-                    UserJob.job_status_and_times(composite.jobid))
-                elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fulljobid': composite.jobid,
-                                               'fullurl': composite.renderurl,
-                                               'fullstatus': job_status,
-                                               'elapsedtime': elapsed_time})
-
-            # For preview render of a band combination that has been rendered,
-            # update dictionary with status.
-            if not composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewjobid': composite.jobid,
-                                               'previewurl': composite.renderurl,
-                                               'previewstatus': job_status})
+            # Build dictionary of composites
+            composites = build_composites_dict(composite,
+                                               composites,
+                                               band_combo)
 
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))
 
     # Get scene metadata from path_row table
     meta_data_list = PathRow.meta_data(scene_id)
-    meta_data = {'scene_id': scene_id,
-                 'acquisitiondate':
-                 meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),
-                 'cloudcover': meta_data_list[1],
-                 'path': meta_data_list[2],
-                 'row': meta_data_list[3],
-                 'min_lat': meta_data_list[4],
-                 'min_lon': meta_data_list[5],
-                 'max_lat': meta_data_list[6],
-                 'max_lon': meta_data_list[7],
-                 'overview_url':
-                 meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
+
+    # Build meta data dictionary
+    meta_data = build_meta_data(scene_id, meta_data_list)
 
     return {'meta_data': meta_data, 'composites': composites}
 
@@ -302,63 +260,85 @@ def scene_band(request):
         # Loop through list of rendered or rendering composites
         for composite in rendered_rendering_composites:
 
-            # For full render of a band combination that is currently being
-            # rendered update dictionary with status and elapsed time.
-            if composite.currentlyrend and composite.rendertype == u'full':
-                job_status, start_time, last_modified = (
-                    UserJob.job_status_and_times(composite.jobid))
-                elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fulljobid': composite.jobid,
-                                               'fullurl': False,
-                                               'fullstatus': job_status,
-                                               'elapsedtime': elapsed_time})
-
-            # For preview render of a band combination that is currently being
-            # rendered update dictionary with status.
-            if composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewjobid': composite.jobid,
-                                               'previewurl': False,
-                                               'previewstatus': job_status})
-
-            # For full render of a band combination that has been rendered,
-            # update dictionary with status and elapsed time.
-            if not composite.currentlyrend and composite.rendertype == u'full':
-                job_status, start_time, last_modified = (
-                    UserJob.job_status_and_times(composite.jobid))
-                elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fulljobid': composite.jobid,
-                                               'fullurl': composite.renderurl,
-                                               'fullstatus': job_status,
-                                               'elapsedtime': elapsed_time})
-
-            # For preview render of a band combination that has been rendered,
-            # update dictionary with status.
-            if not composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewjobid': composite.jobid,
-                                               'previewurl': composite.renderurl,
-                                               'previewstatus': job_status})
+            # Build dictionary of composites
+            composites = build_composites_dict(composite,
+                                               composites,
+                                               band_combo)
 
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))
 
     # Get scene metadata from path_row table
     meta_data_list = PathRow.meta_data(scene_id)
-    meta_data = {'scene_id': scene_id,
-                 'acquisitiondate':
-                 meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),
-                 'cloudcover': meta_data_list[1],
-                 'path': meta_data_list[2],
-                 'row': meta_data_list[3],
-                 'min_lat': meta_data_list[4],
-                 'min_lon': meta_data_list[5],
-                 'max_lat': meta_data_list[6],
-                 'max_lon': meta_data_list[7],
-                 'overview_url':
-                 meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
+
+    # Build meta data dictionary
+    meta_data = build_meta_data(scene_id, meta_data_list)
 
     return {'meta_data': meta_data, 'composites': composites}
+
+
+def build_composites_dict(composite, composites, band_combo):
+    # If band combination dictionary is not in composites dictionary,
+    # add it and initialize it with band values
+    if band_combo not in composites:
+        composites.update({band_combo: {'band1': composite.band1,
+                                        'band2': composite.band2,
+                                        'band3': composite.band3}})
+
+    # For full render of a band combination that is currently being
+    # rendered update dictionary with status and elapsed time.
+    if composite.currentlyrend and composite.rendertype == u'full':
+        job_status, start_time, last_modified = (
+            UserJob.job_status_and_times(composite.jobid))
+        elapsed_time = str(datetime.utcnow() - start_time)
+        composites[band_combo].update({'fulljobid': composite.jobid,
+                                       'fullurl': False,
+                                       'fullstatus': job_status,
+                                       'elapsedtime': elapsed_time})
+
+    # For preview render of a band combination that is currently being
+    # rendered update dictionary with status.
+    if composite.currentlyrend and composite.rendertype == u'preview':
+        job_status = UserJob.job_status(composite.jobid)
+        composites[band_combo].update({'previewjobid': composite.jobid,
+                                       'previewurl': False,
+                                       'previewstatus': job_status})
+
+    # For full render of a band combination that has been rendered,
+    # update dictionary with status and elapsed time.
+    if not composite.currentlyrend and composite.rendertype == u'full':
+        job_status, start_time, last_modified = (
+            UserJob.job_status_and_times(composite.jobid))
+        elapsed_time = str(datetime.utcnow() - start_time)
+        composites[band_combo].update({'fulljobid': composite.jobid,
+                                       'fullurl': composite.renderurl,
+                                       'fullstatus': job_status,
+                                       'elapsedtime': elapsed_time})
+
+    # For preview render of a band combination that has been rendered,
+    # update dictionary with status.
+    if not composite.currentlyrend and composite.rendertype == u'preview':
+        job_status = UserJob.job_status(composite.jobid)
+        composites[band_combo].update({'previewjobid': composite.jobid,
+                                       'previewurl': composite.renderurl,
+                                       'previewstatus': job_status})
+
+    return composites
+
+
+def build_meta_data(scene_id, meta_data_list):
+    return {'scene_id': scene_id,
+            'acquisitiondate':
+            meta_data_list[0].strftime('%Y/%m/%d %H:%M:%S'),
+            'cloudcover': meta_data_list[1],
+            'path': meta_data_list[2],
+            'row': meta_data_list[3],
+            'min_lat': meta_data_list[4],
+            'min_lon': meta_data_list[5],
+            'max_lat': meta_data_list[6],
+            'max_lon': meta_data_list[7],
+            'overview_url':
+            meta_data_list[8][0:-10]+scene_id+'_thumb_small.jpg'}
 
 
 @view_config(route_name='scene_options_ajax', renderer='json')
