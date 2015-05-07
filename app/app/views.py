@@ -66,7 +66,7 @@ def guide(request):
 #     band3 = request.params.get('band3')
 #     scene_id = request.matchdict['scene_id']
 #     email = request.params.get('email_address')
-#     available = RenderCache.band_combo_availability(scene_id, band1, band2, band3,
+#     available = RenderCache.composite_availability(scene_id, band1, band2, band3,
 #                                                 u'full')
 
 #     if not available:
@@ -98,9 +98,9 @@ def add_to_queue(request, rendertype):
     band2 = request.params.get('band2')
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
-    available = RenderCache.band_combo_availability(scene_id,
-                                                    band1, band2, band3,
-                                                    rendertype)
+    available = RenderCache.composite_availability(scene_id,
+                                                   band1, band2, band3,
+                                                   rendertype)
 
     if not available:
         # if this scene/band has already been requested, increase the count
@@ -196,8 +196,8 @@ def scene(request):
     # Get scene id and list of rendered or rendering previews and full
     # composities from the render_cache table
     scene_id = request.matchdict['scene_id']
-    rendered_rendering_composites = RenderCache.get_rendered_rendering_composites(
-        scene_id)
+    rendered_rendering_composites = \
+        RenderCache.get_rendered_rendering_composites_sceneid(scene_id)
 
     # Initialize composties dictionary
     composites = {}
@@ -286,12 +286,8 @@ def scene_band(request):
     band2 = int(band_combo[1])
     band3 = int(band_combo[2])
 
-    available_preview = RenderCache.band_combo_availability(scene_id,
-                                                        band1, band2, band3,
-                                                        u'preview')
-    available_full = RenderCache.band_combo_availability(scene_id,
-                                                     band1, band2, band3,
-                                                     u'full')
+    get_rendered_rendering_composites_band_combo(cls, entityid,
+                                                 band1, band2, band3)
 
     # Initialize composties dictionary
     composites = {}

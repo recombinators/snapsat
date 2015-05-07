@@ -231,21 +231,34 @@ class RenderCache(Base):
             print 'could not update db'
 
     @classmethod
-    def get_rendered_rendering_composites(cls, entityid):
+    def get_rendered_rendering_composites_sceneid(cls, entityid):
         """Return rendered or rendering composites for a given sceneID."""
         try:
             rendered = Session.query(cls).filter(
                 cls.entityid == entityid,
                 cls.currentlyrend is not True).all()
         except:
-            print 'Database query failed get_rendered_rendering_composites'
+            print 'Database query failed get_rendered_rendering_composites_sceneid'
             return None
         return rendered
 
     @classmethod
-    def band_combo_availability(cls, entityid, band1, band2, band3,
-                                rendertype):
-        """Check if given image is already rendered."""
+    def get_rendered_rendering_composites_band_combo(cls, entityid,
+                                                     band1, band2, band3):
+        """Return rendered or rendering composites for a given band combo."""
+        try:
+            rendered = Session.query(cls).filter(
+                cls.entityid == entityid,
+                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                cls.currentlyrend is not True).all()
+        except:
+            print 'Database query failed get_rendered_rendering_composites_sceneid'
+            return None
+        return rendered
+
+    @classmethod
+    def composite_availability(cls, entityid, band1, band2, band3, rendertype):
+        """Check if given composite is already rendered."""
         try:
             output = Session.query(cls).filter(
                 cls.entityid == entityid,
@@ -253,13 +266,13 @@ class RenderCache(Base):
                 cls.rendertype == rendertype,
                 cls.renderurl.isnot(None)).count()
         except:
-            print 'Database query failed band_combo_availability'
+            print 'Database query failed composite_availability'
             return None
 
         return output != 0
 
     # @classmethod
-    # def preview_band_combo_availability(cls, entityid, band1, band2, band3):
+    # def preview_composite_availability(cls, entityid, band1, band2, band3):
     #     """Check if given preview image is already rendered."""
     #     try:
     #         output = Session.query(cls).filter(
@@ -268,7 +281,7 @@ class RenderCache(Base):
     #             cls.rendertype == u'preview',
     #             cls.renderurl.isnot(None)).count()
     #     except:
-    #         print 'Database query failed preview_band_combo_availability'
+    #         print 'Database query failed preview_composite_availability'
     #         return None
 
     #     return output != 0
