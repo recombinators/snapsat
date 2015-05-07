@@ -259,10 +259,6 @@ class RenderCache(Base):
             print 'Database query failed full_render_availability'
             return None
 
-        if output != 0:
-            # if this scene/band has already been requested, increase the count
-            cls.update_render_count(cls, entityid, band1, band2, band3, u'full')
-
         return output != 0
 
     @classmethod
@@ -277,10 +273,6 @@ class RenderCache(Base):
         except:
             print 'Database query failed preview_render_availability'
             return None
-
-        if output != 0:
-            # if this scene/band has already been requested, increase the count
-            cls.update_render_count(cls, entityid, band1, band2, band3, u'preview')
 
         return output != 0
 

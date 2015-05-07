@@ -66,8 +66,14 @@ def add_to_queue_composite(request):
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
     email = request.params.get('email_address')
+    available = RenderCache.full_render_availability(scene_id,
+                                                     band1, band2, band3)
 
-    if not RenderCache.full_render_availability(scene_id, band1, band2, band3):
+    if not available:
+        # if this scene/band has already been requested, increase the count
+        RenderCache.update_render_count(cls, entityid, band1, band2, band3,
+                                        u'full')
+
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID,
                                       AWS_SECRET_ACCESS_KEY)
@@ -93,10 +99,13 @@ def add_to_queue_preview(request):
     band2 = request.params.get('band2')
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
+    available = RenderCache.preview_render_availability(scene_id,
+                                                        band1, band2, band3)
 
-    if not RenderCache.preview_render_availability(
-            scene_id,
-            band1, band2, band3):
+    if not available:
+        # if this scene/band has already been requested, increase the count
+        RenderCache.update_render_count(cls, entityid, band1, band2, band3,
+                                        u'preview')
 
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
@@ -275,8 +284,8 @@ def scene_band(request):
     band2 = int(band_combo[1])
     band3 = int(band_combo[2])
 
-    rendered_rendering_composites = RenderCache.get_rendered_rendering(
-        scene_id)
+     = RenderCache.preview_render_availability(
+        scene_id, band1, band2, band3)
 
     # Initialize composties dictionary
     composites = {}
