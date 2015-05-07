@@ -1,0 +1,217 @@
+
+/* Necolas' Normalize.css */
+@import 'normalize.css';
+
+
+/* BassCSS modules */
+@import 'basscss-base-reset';
+@import 'basscss-base-forms';
+@import 'basscss-base-buttons';
+@import 'basscss-base-tables';
+@import 'basscss-base-typography';
+
+@import 'basscss-utility-layout';
+@import 'basscss-utility-typography';
+@import 'basscss-white-space';
+@import 'basscss-responsive-states';
+@import 'basscss-positions';
+@import 'basscss-button-sizes';
+
+@import 'basscss-grid';
+@import 'flex-object';
+
+@import 'basscss-color-base';
+@import 'basscss-color-forms';
+@import 'basscss-color-forms-dark';
+@import 'basscss-input-range';
+@import 'basscss-progress';
+@import 'basscss-color-tables';
+
+@import 'basscss-button-outline';
+@import 'basscss-button-transparent';
+@import 'basscss-background-images';
+@import 'basscss-borders';
+@import 'basscss-colors';
+
+
+/* Default custom properties */
+@import 'basscss-defaults';
+
+
+/* Custom media queries */
+@custom-media --breakpoint-sm (min-width: 40em);
+@custom-media --breakpoint-md (min-width: 52em);
+@custom-media --breakpoint-lg (min-width: 64em);
+
+
+/* Custom properties */
+:root {
+  --font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  --line-height: 1.5;
+  --heading-font-family: var(--font-family);
+  --heading-font-weight: bold;
+  --heading-line-height: 1.25;
+  --monospace-font-family: 'Source Code Pro', Consolas, monospace;
+  --h1: 2rem;
+  --h2: 1.5rem;
+  --h3: 1.25rem;
+  --h4: 1rem;
+  --h5: .875rem;
+  --h6: .75rem;
+  --bold-font-weight: bold;
+  --space-1: .5rem;
+  --space-2: 1rem;
+  --space-3: 2rem;
+  --space-4: 4rem;
+  --form-field-font-size: 1rem;
+  --form-field-height: 2.25rem;
+  --form-field-padding-y: .5rem;
+  --form-field-padding-x: .5rem;
+  --button-font-size: inherit;
+  --button-font-weight: bold;
+  --button-line-height: 1.125rem;
+  --button-padding-y: .5rem;
+  --button-padding-x: 1rem;
+  --container-width: 64em;
+  --black:  #111;
+  --gray:   #aaa;
+  --silver: #ddd;
+  --white:  #fff;
+  --aqua:   #7fdbff;
+  --blue:   #0074d9;
+  --navy:   #001f3f;
+  --teal:   #39cccc;
+  --green:  #2ecc40;
+  --olive:  #3d9970;
+  --lime:   #01ff70;
+  --yellow: #ffdc00;
+  --orange: #ff851b;
+  --red:    #ff4136;
+  --fuchsia:#f012be;
+  --purple: #b10dc9;
+  --maroon: #85144b;
+  --darken-1: rgba(0,0,0,.0625);
+  --darken-2: rgba(0,0,0,.125);
+  --darken-3: rgba(0,0,0,.25);
+  --darken-4: rgba(0,0,0,.5);
+  --border-width: 1px;
+  --border-radius: 3px;
+  --border-color: var(--darken-2);
+  --hover-background-color: var(--darken-1);
+  --link-color: var(--blue);
+  --button-backgroun-color: var(--blue);
+  --pre-background-color: var(--silver);
+}
+
+
+.composite-description {
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.composite-description:hover h1 {
+  color: rgba(255, 255, 255, 0.2);
+  transform: translateX(1em);
+  transition: all 0.2s ease;
+}
+
+.js-preview {
+  transition: all 0.2s ease;
+}
+
+.js-preview:hover {
+  transition: all 0.2s ease;
+}
+
+.loading {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+}
+
+.ui-widget {
+  z-index: 9999;
+  font-size: 1em;
+  border: 2px solid initial;
+}
+
+.ui-widget-content {
+  background: #F6F6F6;
+  border: 2px solid #F6F6F6;
+  color: #222222;
+}
+
+.ui-dialog {
+  left: 0;
+  outline: 0 none;
+  padding: 0;
+  position: absolute;
+  top: 0;
+}
+
+#success {
+  padding: 0;
+  margin: 0;
+}
+
+.ui-dialog .ui-dialog-content {
+  background: none repeat scroll 0 0 transparent;
+  border: 0 none;
+  overflow: auto;
+  position: relative;
+  padding: 0.1em .1em;
+}
+
+.ui-widget-header {
+  background: rgba(0,0,0,.25);
+  border: 0;
+  font-weight: normal;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+  padding: 0.1em .5em;
+  position: relative;
+  font-size: 1.2em;
+}
+
+.ui-button {
+  position: absolute;
+  right: .3em;
+  padding: .2em .1em;
+  background: rgba(0,0,0,0);
+}
+
+.main-page-text img {
+  display: none;
+}
+
+nav {
+  /* position: fixed; */
+  /* top: 4rem; */
+  z-index: 9999;
+}
+
+.map-container {
+  height: 100vh;
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.blurb {
+  position: absolute;
+  bottom: 0;
+  bottom: 40vh;
+}
+
+/* External stylesheets */
+@import 'bigfoot.css';
+@import 'mapbox.css'; /* v2.1.8 */
+@import 'font-awesome.css'; /* v4.3.0 */
