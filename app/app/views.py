@@ -66,7 +66,7 @@ def guide(request):
 #     band3 = request.params.get('band3')
 #     scene_id = request.matchdict['scene_id']
 #     email = request.params.get('email_address')
-#     available = RenderCache.render_availability(scene_id, band1, band2, band3,
+#     available = RenderCache.band_combo_availability(scene_id, band1, band2, band3,
 #                                                 u'full')
 
 #     if not available:
@@ -98,8 +98,9 @@ def add_to_queue(request, rendertype):
     band2 = request.params.get('band2')
     band3 = request.params.get('band3')
     scene_id = request.matchdict['scene_id']
-    available = RenderCache.render_availability(scene_id, band1, band2, band3,
-                                                rendertype)
+    available = RenderCache.band_combo_availability(scene_id,
+                                                    band1, band2, band3,
+                                                    rendertype)
 
     if not available:
         # if this scene/band has already been requested, increase the count
@@ -285,64 +286,58 @@ def scene_band(request):
     band2 = int(band_combo[1])
     band3 = int(band_combo[2])
 
-     = RenderCache.preview_render_availability(
-        scene_id, band1, band2, band3)
+    available_preview = RenderCache.band_combo_availability(scene_id,
+                                                        band1, band2, band3,
+                                                        u'preview')
+    available_full = RenderCache.band_combo_availability(scene_id,
+                                                     band1, band2, band3,
+                                                     u'full')
 
     # Initialize composties dictionary
     composites = {}
-
     # Populate composites dictionary with one dictionary per band combination
-    if rendered_rendering_composites:
-        # Loop through list of rendered or rendering composites
-        for composite in rendered_rendering_composites:
-            # Get band combination and create string for dictionary key
-            band_combo = '{}{}{}'.format(composite.band1,
-                                         composite.band2,
-                                         composite.band3)
-            # If band combination dictionary is not in composites dictionary,
-            # add it and initialize it with band values
-            if band_combo not in composites:
-                composites.update({band_combo: {'band1': composite.band1,
-                                                'band2': composite.band2,
-                                                'band3': composite.band3}})
+    composites.update({band_combo: {'band1': band1,
+                                    'band2': band2,
+                                    'band3': band3}})
 
-            # For full render of a band combination that is currently being
-            # rendered update dictionary with status and elapsed time.
-            if composite.currentlyrend and composite.rendertype == u'full':
-                job_status, start_time, last_modified = (
-                    UserJob.job_status_and_times(composite.jobid))
-                elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fulljobid': composite.jobid,
-                                               'fullurl': False,
-                                               'fullstatus': job_status,
-                                               'elapsedtime': elapsed_time})
+    if available_preview:
+    # For full render of a band combination that is currently being
+    # rendered update dictionary with status and elapsed time.
+    if composite.currentlyrend and composite.rendertype == u'full':
+        job_status, start_time, last_modified = (
+            UserJob.job_status_and_times(composite.jobid))
+        elapsed_time = str(datetime.utcnow() - start_time)
+        composites[band_combo].update({'fulljobid': composite.jobid,
+                                       'fullurl': False,
+                                       'fullstatus': job_status,
+                                       'elapsedtime': elapsed_time})
 
-            # For preview render of a band combination that is currently being
-            # rendered update dictionary with status.
-            if composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewjobid': composite.jobid,
-                                               'previewurl': False,
-                                               'previewstatus': job_status})
+    # For preview render of a band combination that is currently being
+    # rendered update dictionary with status.
+    if composite.currentlyrend and composite.rendertype == u'preview':
+        job_status = UserJob.job_status(composite.jobid)
+        composites[band_combo].update({'previewjobid': composite.jobid,
+                                       'previewurl': False,
+                                       'previewstatus': job_status})
 
-            # For full render of a band combination that has been rendered,
-            # update dictionary with status and elapsed time.
-            if not composite.currentlyrend and composite.rendertype == u'full':
-                job_status, start_time, last_modified = (
-                    UserJob.job_status_and_times(composite.jobid))
-                elapsed_time = str(datetime.utcnow() - start_time)
-                composites[band_combo].update({'fulljobid': composite.jobid,
-                                               'fullurl': composite.renderurl,
-                                               'fullstatus': job_status,
-                                               'elapsedtime': elapsed_time})
+    # For full render of a band combination that has been rendered,
+    # update dictionary with status and elapsed time.
+    if not composite.currentlyrend and composite.rendertype == u'full':
+        job_status, start_time, last_modified = (
+            UserJob.job_status_and_times(composite.jobid))
+        elapsed_time = str(datetime.utcnow() - start_time)
+        composites[band_combo].update({'fulljobid': composite.jobid,
+                                       'fullurl': composite.renderurl,
+                                       'fullstatus': job_status,
+                                       'elapsedtime': elapsed_time})
 
-            # For preview render of a band combination that has been rendered,
-            # update dictionary with status.
-            if not composite.currentlyrend and composite.rendertype == u'preview':
-                job_status = UserJob.job_status(composite.jobid)
-                composites[band_combo].update({'previewjobid': composite.jobid,
-                                               'previewurl': composite.renderurl,
-                                               'previewstatus': job_status})
+    # For preview render of a band combination that has been rendered,
+    # update dictionary with status.
+    if not composite.currentlyrend and composite.rendertype == u'preview':
+        job_status = UserJob.job_status(composite.jobid)
+        composites[band_combo].update({'previewjobid': composite.jobid,
+                                       'previewurl': composite.renderurl,
+                                       'previewstatus': job_status})
 
     # Order composites by band combination.
     composites = OrderedDict(sorted(composites.items()))

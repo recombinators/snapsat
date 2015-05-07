@@ -232,9 +232,7 @@ class RenderCache(Base):
 
     @classmethod
     def get_rendered_rendering(cls, entityid):
-        """
-        Return list of existing jobs for a given sceneID.
-        """
+        """Return list of existing jobs for a given sceneID."""
         try:
             rendered = Session.query(cls).filter(
                 cls.entityid == entityid,
@@ -245,10 +243,9 @@ class RenderCache(Base):
         return rendered
 
     @classmethod
-    def render_availability(cls, entityid, band1, band2, band3, rendertype):
-        """
-        Check if given image is already rendered.
-        """
+    def band_combo_availability(cls, entityid, band1, band2, band3,
+                                rendertype):
+        """Check if given image is already rendered."""
         try:
             output = Session.query(cls).filter(
                 cls.entityid == entityid,
@@ -256,13 +253,13 @@ class RenderCache(Base):
                 cls.rendertype == rendertype,
                 cls.renderurl.isnot(None)).count()
         except:
-            print 'Database query failed render_availability'
+            print 'Database query failed band_combo_availability'
             return None
 
         return output != 0
 
     # @classmethod
-    # def preview_render_availability(cls, entityid, band1, band2, band3):
+    # def preview_band_combo_availability(cls, entityid, band1, band2, band3):
     #     """Check if given preview image is already rendered."""
     #     try:
     #         output = Session.query(cls).filter(
@@ -271,7 +268,7 @@ class RenderCache(Base):
     #             cls.rendertype == u'preview',
     #             cls.renderurl.isnot(None)).count()
     #     except:
-    #         print 'Database query failed preview_render_availability'
+    #         print 'Database query failed preview_band_combo_availability'
     #         return None
 
     #     return output != 0
