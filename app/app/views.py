@@ -57,37 +57,37 @@ def guide(request):
     return {}
 
 
-def add_to_queue_composite(request):
-    """
-    Helper method for adding request to queue and adding to db.
-    """
-    band1 = request.params.get('band1')
-    band2 = request.params.get('band2')
-    band3 = request.params.get('band3')
-    scene_id = request.matchdict['scene_id']
-    email = request.params.get('email_address')
-    available = RenderCache.render_availability(scene_id, band1, band2, band3,
-                                                u'full')
+# def add_to_queue_composite(request):
+#     """
+#     Helper method for adding request to queue and adding to db.
+#     """
+#     band1 = request.params.get('band1')
+#     band2 = request.params.get('band2')
+#     band3 = request.params.get('band3')
+#     scene_id = request.matchdict['scene_id']
+#     email = request.params.get('email_address')
+#     available = RenderCache.render_availability(scene_id, band1, band2, band3,
+#                                                 u'full')
 
-    if not available:
-        # if this scene/band has already been requested, increase the count
-        RenderCache.update_render_count(cls, entityid, band1, band2, band3,
-                                        u'full')
+#     if not available:
+#         # if this scene/band has already been requested, increase the count
+#         RenderCache.update_render_count(cls, entityid, band1, band2, band3,
+#                                         u'full')
 
-        SQSconn = make_SQS_connection(REGION,
-                                      AWS_ACCESS_KEY_ID,
-                                      AWS_SECRET_ACCESS_KEY)
-        current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
-        jobid = UserJob.new_job(entityid=scene_id,
-                                band1=band1, band2=band2, band3=band3,
-                                rendertype=u'full', email=email)
-        message = build_job_message(job_id=jobid,
-                                    scene_id=scene_id,
-                                    band_1=band1, band_2=band2, band_3=band3)
-        send_message(SQSconn,
-                     current_queue,
-                     message['body'],
-                     message['attributes'])
+#         SQSconn = make_SQS_connection(REGION,
+#                                       AWS_ACCESS_KEY_ID,
+#                                       AWS_SECRET_ACCESS_KEY)
+#         current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
+#         jobid = UserJob.new_job(entityid=scene_id,
+#                                 band1=band1, band2=band2, band3=band3,
+#                                 rendertype=u'full', email=email)
+#         message = build_job_message(job_id=jobid,
+#                                     scene_id=scene_id,
+#                                     band_1=band1, band_2=band2, band_3=band3)
+#         send_message(SQSconn,
+#                      current_queue,
+#                      message['body'],
+#                      message['attributes'])
 
 
 def add_to_queue(request, rendertype):
@@ -109,7 +109,10 @@ def add_to_queue(request, rendertype):
         SQSconn = make_SQS_connection(REGION,
                                       AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
-        current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
+        if rendertype == u'preview':
+            current_queue = get_queue(SQSconn, PREVIEW_QUEUE)
+        elif rendertype == u'full':
+            current_queue = get_queue(SQSconn, COMPOSITE_QUEUE)
 
         jobid = UserJob.new_job(entityid=scene_id,
                                 band1=band1, band2=band2, band3=band3,
@@ -139,8 +142,8 @@ def request_composite(request):
     if valid_band_combo(request):
         bands = (request.params.get('band1') + request.params.get('band2') +
                  request.params.get('band3'))
-        add_to_queue_composite(request)
-        add_to_queue_preview(request)
+        add_to_queue(request, u'full')
+        add_to_queue(request, u'preview')
         return HTTPFound(location='/scene/{}#{}'.format(
                          request.matchdict['scene_id'], bands))
     else:
