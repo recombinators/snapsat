@@ -261,19 +261,13 @@ class RenderCache(Base):
 
         if output != 0:
             # if this scene/band has already been requested, increase the count
-            Session.query(cls).filter(
-                cls.entityid == entityid,
-                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'full'
-                ).update({"rendercount": cls.rendercount+1})
+            cls.update_render_count(cls, entityid, band1, band2, band3, u'full')
 
         return output != 0
 
     @classmethod
     def preview_render_availability(cls, entityid, band1, band2, band3):
-        """
-        Check if given preview image is already rendered.
-        """
+        """Check if given preview image is already rendered."""
         try:
             output = Session.query(cls).filter(
                 cls.entityid == entityid,
@@ -286,13 +280,18 @@ class RenderCache(Base):
 
         if output != 0:
             # if this scene/band has already been requested, increase the count
-            Session.query(cls).filter(
-                cls.entityid == entityid,
-                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'preview'
-                ).update({"rendercount": cls.rendercount+1})
+            cls.update_render_count(cls, entityid, band1, band2, band3, u'preview')
 
         return output != 0
+
+    def update_render_count(cls, entityid, band1, band2, band3, rendertype):
+        """Update render count of composite."""
+        # if this scene/band has already been requested, increase the count
+        Session.query(cls).filter(
+            cls.entityid == entityid,
+            cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+            cls.rendertype == rendertype
+            ).update({"rendercount": cls.rendercount+1})
 
     @classmethod
     def get_renderurl(cls, jobid):

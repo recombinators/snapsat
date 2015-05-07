@@ -268,13 +268,13 @@ def scene(request):
 @view_config(route_name='scene_band', renderer='templates/scene_band.jinja2')
 def scene_band(request):
     """Given sceneID and band combination display preview image and metadata."""
-    # Get scene id and band combo list of rendered or rendering previews and full
-    # composities from the render_cache table
+    # Get scene id and band combo
     scene_id = request.matchdict['scene_id']
     band_combo = request.matchdict['band_combo']
     band1 = int(band_combo[0])
     band2 = int(band_combo[1])
     band3 = int(band_combo[2])
+
     rendered_rendering_composites = RenderCache.get_rendered_rendering(
         scene_id)
 
