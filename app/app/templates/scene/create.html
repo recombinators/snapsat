@@ -9,7 +9,7 @@
         <input type='hidden' name='band2' value='3'/>
         <input type='hidden' name='band3' value='2'/>
         <button class='button button-outline not-rounded' 
-          formaction='/request_preview/{{meta_data.scene_id}}' 
+          formaction='/request/preview/{{meta_data.scene_id}}' 
           formmethod='post' 
           type='submit'>
           Natural Color
@@ -20,7 +20,7 @@
         <input type='hidden' name='band2' value='5'/>
         <input type='hidden' name='band3' value='9'/>
         <button class='button not-rounded' 
-          formaction='/request_preview/{{meta_data.scene_id}}' 
+          formaction='/request/preview/{{meta_data.scene_id}}' 
           formmethod='post' 
           type='submit'>
           Clouds
@@ -31,7 +31,7 @@
         <input type='hidden' name='band2' value='6'/>
         <input type='hidden' name='band3' value='4'/>
         <button class='button not-rounded' 
-          formaction='/request_preview/{{meta_data.scene_id}}' 
+          formaction='/request/preview/{{meta_data.scene_id}}' 
           formmethod='post' 
           type='submit'>
           Land/Water Delination
@@ -42,7 +42,7 @@
         <input type='hidden' name='band2' value='6'/>
         <input type='hidden' name='band3' value='4'/>
         <button class='button not-rounded' 
-          formaction='/request_preview/{{meta_data.scene_id}}' 
+          formaction='/request/preview/{{meta_data.scene_id}}' 
           formmethod='post' 
           type='submit'>
           Urban
@@ -55,7 +55,7 @@
         <input type='hidden' name='band2' value='4'/>
         <input type='hidden' name='band3' value='3'/>
         <button class='button rounded-right' 
-          formaction='/request_preview/{{meta_data.scene_id}}' 
+          formaction='/request/preview/{{meta_data.scene_id}}' 
           formmethod='post' 
           type='submit'>
           Color Infrared
@@ -80,7 +80,7 @@
       <select class='field-light rounded-right' name='band3' id='js-band3' required>
         <option selected value=''>Blue Band</option>
       </select>
-      <button class='button' form='request_form_{{meta_data.scene_id}}' formaction='/request_preview/{{meta_data.scene_id}}' formmethod='post' type='submit'>Render!</button>
+      <button class='button' form='request_form_{{meta_data.scene_id}}' formaction='/request/preview/{{meta_data.scene_id}}' formmethod='post' type='submit'>Render!</button>
     </div>
   </form>
   <script type='text/javascript' src='/static/js/band.js'></script>
