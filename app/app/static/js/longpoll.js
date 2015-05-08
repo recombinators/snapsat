@@ -1,5 +1,6 @@
 // Start polling for preview and full render job status and take action when document is ready
 $(document).ready(function(){
+    console.log('test')
     // Poll for preview image
     $(".js-nopreview").each(function(){
         var jobId = this.id;
@@ -10,6 +11,7 @@ $(document).ready(function(){
                 data: {'jobid': jobId},
                 dataType: "json"
             }).done(function(json){
+                console.log('hellodd')
                 var info = json.job_info;
                 var newid = '#'.concat(jobId);
                 if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
@@ -20,8 +22,16 @@ $(document).ready(function(){
                     if(info.jobstatus != 'Failed'){
                         // Stop polling on success
                         $(newid).html(
-                            "<a href="  + info.renderurl + ">" +
-                            "<img src=" + info.renderurl + ">" +
+                            "<a id= '" + info.renderurl + "'" +
+                                "href=" + info.renderurl + " " +
+                                "class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
+                                "style='background-image: url( " + info.renderurl + " );'>" +
+
+                              "<h1 class='composite-description p1 m0'>" +
+                                "<span class='band-red'>      composite.band1 </span>" +
+                                "<span class='band-green'>    composite.band2 </span>" +
+                                "<span class='band-blue'>     composite.band3 </span>" +
+                              "</h1>" +
                             "</a>");
                         clearInterval(intervalID);
                     }else{

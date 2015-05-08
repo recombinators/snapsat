@@ -1,15 +1,71 @@
 <div class='preview-container clearfix px5 mt4 mb4 bg-black'>
   {% for band_combo, composite in composites.iteritems() %}
-    <a  id='{{ band_combo }}'
-        href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'
-        class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
-        style='background-image: url( {{ composite.previewurl }} );'>
+    {% if composite.previewjobid %}
+      {% if composite.previewurl %}
+        <a  id='{{ composite.previewjobid }}'
+            href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'
+            class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
+            style='background-image: url( {{ composite.previewurl }} );'>
 
-      <h1 class='composite-description p1 m0'>
-        <span class='band-red'>     {{ composite.band1 }}</span> 
-        <span class='band-green'>   {{ composite.band2 }}</span> 
-        <span class='band-blue'>    {{ composite.band3 }}</span>
-      </h1>
-    </a>
+          <h1 class='composite-description p1 m0'>
+            <span class='band-red'>     {{ composite.band1 }}</span>
+            <span class='band-green'>   {{ composite.band2 }}</span>
+            <span class='band-blue'>    {{ composite.band3 }}</span>
+          </h1>
+        </a>
+      {% else %}
+        <div class='js-nopreview' id='{{ composite.previewjobid }}'>
+          <a  href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'
+              class='sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
+              style='background-image: url( "/static/img/loading.gif" );'>
+
+            <h1 class='composite-description p1 m0'>
+              <span class='band-red'>     {{ composite.band1 }}</span>
+              <span class='band-green'>   {{ composite.band2 }}</span>
+              <span class='band-blue'>    {{ composite.band3 }}</span>
+            </h1>
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+
+
+
+
+
+
+{#     {% if composite.previewjobid %}
+        <div id='{{composite.previewjobid}}'>
+            {% if composite.previewurl %}
+                <a href="{{ composite.previewurl }}">
+                    <img src="{{ composite.previewurl }}">
+                </a>
+            {% else %}
+            <div class='js-nopreview' id='{{composite.previewjobid}}'>
+                <img class='loading' src="/static/img/loading.gif">
+            </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <form method="post">
+            <input type="hidden" name='band1' value="{{ composite.band1 }}"/>
+            <input type="hidden" name='band2' value="{{ composite.band2 }}"/>
+            <input type="hidden" name='band3' value="{{ composite.band3 }}"/>
+            <button class='button rounded-left fit'
+                formaction="/request_preview/{{meta_data.scene_id}}"
+                formmethod="post"
+                type="submit">
+                <span class='regular'>Get the Preview</span>
+            </button>
+        </form>
+    {% endif %} #}
+
+
+
+
+
+
+
   {% endfor %}
 </div>
