@@ -209,7 +209,7 @@ def scene(request):
     return {'meta_data': meta_data, 'composites': composites}
 
 
-@view_config(route_name='scene_band', renderer='templates/scene_band.jinja2')
+@view_config(route_name='scene_band', renderer='templates/composite.jinja2')
 def scene_band(request):
     """Given sceneID and band combination display preview image and metadata."""
     # Get scene id and band combo
