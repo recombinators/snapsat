@@ -31,20 +31,18 @@
     {% include 'scene/band-descriptions.jinja2' %}
 
 
-    <h3>Download</h3>
     <!-- Full render download button -->
     {% if composite.fullurl %}
     <a  class='button bg-silver black' 
         href='{{ composite.fullurl }}'>
-        Download the full size render
+        Download a fullsize render
     </a>
 
     <!-- If a full render has NOT been created, display a means of creating one. -->
     {% else %}
     <div class='js-nofull' id='{{composite.fulljobid}}'>
-
+      <h3>Download</h3>
       <p class='h5'>We can usually render a full-sized composite in 3 minutes. If you don't mind waiting, just stay here. Otherwise, we'll gladly notify you via email when it's finished.</p>
-
       <!-- If a full has been requested, display the processing status. -->
       {% if composite.fullstatus %}
       <a  class='button bg-silver black' 
@@ -68,7 +66,7 @@
           <input type='hidden' name='band3' value='{{ composite.band3 }}'/>
           <button
             class='button rounded-right left bg-silver black'
-            formaction='/request_composite/{{ meta_data.scene_id }}'
+            formaction='/request/full/{{ meta_data.scene_id }}/'
             formmethod='post'
             type='submit'>Request a full size image.
           </button>
