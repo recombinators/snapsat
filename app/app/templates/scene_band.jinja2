@@ -2,32 +2,77 @@
 
 
 {% block title %}
-  <title>{{ meta_data.scene_id }} | Snapsat</title>
+<title>{{ meta_data.scene_id }} | Snapsat</title>
 {% endblock %}
 
 {% block content %}
 
-  <!-- Metadata -->
-  <div class='container clearfix mt4 p1'>
-    <h2>Your selection</h1>
-    {% include 'scene/metadata.html' %}
+<div class='container clearfix mt4 p1'>
+
+  {% for band_combo, composite in composites.iteritems() %}
+
+  <div class='sm-col sm-col-11'>
+
+    <!-- Display preview image -->
+    <a href='' class='js-preview'>
+      <img src='{{ composite.previewurl }}'>
+    </a>
+
+    <!-- Full render download button -->
+    {% if composite.fullurl %}
+    <a class='button' href='{{ composite.fullurl }}'>Download full size image.</a>
+
+    <!-- If a full render has NOT been created, display a means of creating one. -->
+    {% else %}
+    <div class='js-nofull' id='{{composite.fulljobid}}'>
+
+      <!-- If a full has been requested, display the processing status. -->
+      {% if composite.fullstatus %}
+      <a  class='button not-rounded full-width center' id='js-fullstatus'>{{ composite.fullstatus }}</a>
+
+      <!-- If a full has not been requested, display a button to do so. -->
+      {% else %}
+      <button id='js-opener{{band_combo}}' 
+        class='button not-rounded left full-width center'>
+        Request a full size image.
+      </button>
+
+      <!-- Modal for optional email -->
+      <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
+        <form method='post'>
+          <input class='mb1 left full-width center' type='email' name='email_address' placeholder='Email (optional)'/>
+          <input type='hidden' name='band1' value='{{ composite.band1 }}'/>
+          <input type='hidden' name='band2' value='{{ composite.band2 }}'/>
+          <input type='hidden' name='band3' value='{{ composite.band3 }}'/>
+          <p class='px1 center'>A full render is ready in ~3 minutes, but high traffic volumes can lead to a longer wait.</p>
+          <p class='px1 center'>Enter your email address for notification.</p>
+          <button
+            class='button not-rounded left full-width center'
+            formaction='/request_composite/{{ meta_data.scene_id }}'
+            formmethod='post'
+            type='submit'>Request a full size image.
+          </button>
+        </form>
+      </div>
+      <script src='/static/js/email.js'></script>
+
+      {% endif %}
+    </div> <!-- nofull -->
+
+    {% endif %}
   </div>
 
+  <!-- Scene barcode visualization -->
+  <div class='js-graph' id='graph{{composite.previewjobid}}'></div>
 
-  <!-- View existing composites -->
-  {% include 'scene/view.html' %}
+  <!-- Display the band combination of the composite -->
+  <h1 class='composite-description m0'>
+    <span class='band-red'>     {{ composite.band1 }}</span> 
+    <span class='band-green'>   {{ composite.band2 }}</span> 
+    <span class='band-blue'>    {{ composite.band3 }}</span>
+  </h1>
 
+{% endfor %}
+</div>
 
-  <!-- Create new composites -->
-  <div class='container clearfix'>
-    <div class='col col-6'>
-      {% include 'scene/create.html' %}
-    </div>
-    <div class='col col-6'>
-      <h3>What's available</h3>
-      <p>We have some number of previews available</p>
-    </div>
-  </div>
-
-  {% include 'scene/footnotes.html' %}
 {% endblock %}
