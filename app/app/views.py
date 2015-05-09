@@ -428,7 +428,7 @@ def preview_poll(request):
     # Get jobid from request
     jobid = request.params.get('jobid')
     # Query the database for job status
-    job_status = UserJob.job_status(jobid)
+    job_status, band1, band2, band3 = UserJob.job_status(jobid)
 
     # Get render url when job is done
     if job_status == 'Done':
@@ -438,6 +438,9 @@ def preview_poll(request):
 
     # Create job info json output
     job_info = {'jobstatus': job_status,
-                'renderurl': render_url}
+                'renderurl': render_url,
+                'band1': band1,
+                'band2': band2,
+                'band3': band3}
 
     return {'job_info': job_info}
