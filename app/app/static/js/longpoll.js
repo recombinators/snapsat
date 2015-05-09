@@ -28,9 +28,7 @@ $(document).ready(function(){
                                 "style='background-image: url( " + info.renderurl + " );'>" +
 
                               "<h1 class='composite-description p1 m0'>" +
-                                "<span class='band-red'>      composite.band1 </span>" +
-                                "<span class='band-green'>    composite.band2 </span>" +
-                                "<span class='band-blue'>     composite.band3 </span>" +
+                                "Your image" +
                               "</h1>" +
                             "</a>");
                         clearInterval(intervalID);
