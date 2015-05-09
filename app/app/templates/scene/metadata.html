@@ -1,0 +1,78 @@
+
+<div class='sm-col sm-col-6 py1'>
+  <p>
+    The next step in creating a custom Landsat image is to choose which bands
+    In total, there are <strong>11 bands</strong> - we'll use <strong>3</strong>. 
+    Each band we choose will be mapped into one of the blue, green, or red color channels. 
+  </p>
+  <p>
+    Some combinations are useful for illustrating certain natural or man-made features, 
+    others are just interesting to look at.
+    Below, you'll find composites that other users have already created. 
+    Select any of them to learn more about why they might be useful. 
+  </p>
+  <a href='#previews' class='button left inline rounded-left bg-silver black'>View existing images</a>
+  <a href='#create' class='button left inline rounded-right bg-silver black'>Create a new image</a>
+</div>
+
+<div class='sm-col sm-col-6 p1'>
+
+  <!-- Location -->
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+  <style>
+    #position { position:relative; min-height: 254px; width:100%; }
+  </style>
+
+  <div id='position'></div>
+  <script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
+
+    var sw = L.latLng({{ meta_data.min_lat }}, {{ meta_data.min_lon }}),
+      ne = L.latLng({{ meta_data.max_lat }}, {{ meta_data.max_lon }}),
+      bounds = L.latLngBounds(sw, ne);
+
+    // Instantiate the map
+    var map = L.mapbox.map('position', 'jacques.m3h4e0b4', {
+      scrollWheelZoom: false,
+      zoomControl: false
+    }).fitBounds(bounds);
+
+    // TODO: Draw a polygon representing the scene boundaries
+    // This works as a standalone gist, but something about embedding it
+    // inside this template is causing problems.
+    // L.rectangle(bounds, {
+    //  fillColor: 'red'
+    //}).addTo(map);
+
+  </script>
+
+  <table class='table-light h5'>
+    <tbody>
+      <tr>
+        <td><strong>Time acquired (UTC)</strong></td>
+        <td>{{ meta_data.acquisitiondate }}</td>
+      </tr>
+      <tr>
+        <td><strong>Percent cloud cover</strong></td>
+        <td>{{ meta_data.cloudcover }}%</td>
+      </tr>
+      <tr>
+        <td><strong>Northeast</strong></td>
+        <td>{{ meta_data.max_lat }}, {{ meta_data.max_lon }}</td>
+      </tr>
+      <tr>
+        <td><strong>Southeast</strong></td>
+        <td>{{ meta_data.min_lat }}, {{ meta_data.max_lon }}</td>
+      </tr>
+      <tr>
+        <td><strong>Southwest</strong></td>
+        <td>{{ meta_data.min_lat }}, {{ meta_data.min_lon}}</td>
+      </tr>
+      <tr>
+        <td><strong>Northwest</strong></td>
+        <td>{{ meta_data.max_lat }}, {{ meta_data.min_lon}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
