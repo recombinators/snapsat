@@ -22,8 +22,9 @@ $(document).ready(function(){
                     if(info.jobstatus != 'Failed'){
                         // Stop polling on success
                         $(newid).html(
-                            "<a id= '" + info.renderurl + "'" +
-                                "href=" + info.renderurl + " " +
+                            "<a id= '" + info.scene_id + "'" +
+                                "href='/scene/" + info.scene_id + "/bands/" +
+                                info.band1 + info.band2 + info.band3 + "'" +
                                 "class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
                                 "style='background-image: url( " + info.renderurl + " );'>" +
 
