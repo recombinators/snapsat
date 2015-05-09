@@ -9,7 +9,7 @@
 
   <!-- Metadata -->
   <div class='container clearfix mt4 p1'>
-    <h2>Your selection</h1>
+    <h1 class='center mb3'>An overview of {{ meta_data.scene_id }}</h1>
     {% include 'scene/metadata.html' %}
   </div>
 
@@ -20,13 +20,12 @@
 
   <!-- Create new composites -->
   <div class='container clearfix'>
-    <div class='sm-col sm-col-6 p1'>
-      {% include 'scene/create.html' %}
-    </div>
+    <h1 class='center'>Create a new image</h1>
     <div class='sm-col sm-col-6 p1'>
       {% include 'scene/bands.html' %}
     </div>
+    <div class='sm-col sm-col-6 p1'>
+      {% include 'scene/create.html' %}
+    </div>
   </div>
-
-  {% include 'scene/footnotes.html' %}
 {% endblock %}

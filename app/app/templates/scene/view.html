@@ -1,15 +1,18 @@
-<div class='preview-container clearfix px5 mt4 mb4 bg-black'>
+<h1 id='previews' class='center'>Existing images</h1>
+<div id='#previews' class='preview-container clearfix px5 mb4 bg-silver'>
   {% for band_combo, composite in composites.iteritems() %}
-    <a  id='{{ band_combo }}'
-        href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'
-        class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
-        style='background-image: url( {{ composite.previewurl }} );'>
+    <div class='js-nopreview'>
+      <a  id='{{ band_combo }}'
+          href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'
+          class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
+          style='background-image: url( {{ composite.previewurl }} );'>
 
-      <h1 class='composite-description p1 m0'>
-        <span class='band-red'>     {{ composite.band1 }}</span> 
-        <span class='band-green'>   {{ composite.band2 }}</span> 
-        <span class='band-blue'>    {{ composite.band3 }}</span>
-      </h1>
-    </a>
+        <h1 class='composite-description p1 m0'>
+          <span class='band-red'>     {{ composite.band1 }}</span> 
+          <span class='band-green'>   {{ composite.band2 }}</span> 
+          <span class='band-blue'>    {{ composite.band3 }}</span>
+        </h1>
+      </a>
+    </div>
   {% endfor %}
 </div>
