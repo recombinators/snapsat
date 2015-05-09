@@ -5,20 +5,22 @@
 <title>{{ meta_data.scene_id }} | Snapsat</title>
 {% endblock %}
 
+{% block js %}
+{% endblock %}
+
 {% block content %}
 
 <div class='container clearfix mt4 p1'>
 
   {% for band_combo, composite in composites.iteritems() %}
 
-  <h2 class='center mb3'>
-    A 
-    {{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}
+  <h1 class='center mb3'>
+    A {{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}
     composite of {{ meta_data.scene_id }}
-  </h2>
+  </h1>
 
+  <!-- Display preview image -->
   <div class='sm-col sm-col-6 p1'>
-    <!-- Display preview image -->
     <a href='' class='js-preview'>
       <img src='{{ composite.previewurl }}'>
     </a>
@@ -32,7 +34,9 @@
 
 
     <!-- Full render download button -->
+    <h3>Download</h3>
     {% if composite.fullurl %}
+    <p>You're in luck! Looks like someone else has already requested a full-size render of this composite.</p>
     <a  class='button bg-silver black' 
         href='{{ composite.fullurl }}'>
         Download a fullsize render
@@ -41,7 +45,6 @@
     <!-- If a full render has NOT been created, display a means of creating one. -->
     {% else %}
     <div class='js-nofull' id='{{composite.fulljobid}}'>
-      <h3>Download</h3>
       <p class='h5'>We can usually render a full-sized composite in 3 minutes. If you don't mind waiting, just stay here. Otherwise, we'll gladly notify you via email when it's finished.</p>
       <!-- If a full has been requested, display the processing status. -->
       {% if composite.fullstatus %}
@@ -52,12 +55,8 @@
 
       <!-- If a full has not been requested, display a button to do so. -->
       {% else %}
-      <!-- <button id='js-opener{{band_combo}}' --> 
-      <!--   class='button not-rounded left full-width center'> -->
-      <!--   Request a full size image. -->
-      <!-- </button> -->
 
-      <!-- Modal for optional email -->
+      <!-- Optional email -->
       <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
         <form method='post'>
           <input class='mb1 left' type='email' name='email_address' placeholder='Email (optional)'/>
@@ -68,11 +67,10 @@
             class='button rounded-right left bg-silver black'
             formaction='/request/full/{{ meta_data.scene_id }}/'
             formmethod='post'
-            type='submit'>Request a full size image.
+            type='submit'>Request a full size render
           </button>
         </form>
       </div>
-      <script src='/static/js/email.js'></script>
 
       {% endif %}
     </div> <!-- nofull -->
