@@ -1,5 +1,10 @@
 {% extends 'base.jinja2' %}
 
+{% block js %}
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
+<script src='/static/js/map.js'></script>
+{% endblock %}
+
 
 {% block content %}
 
@@ -10,14 +15,22 @@
 
   <div class='container clearfix'>
 
-    <div class='blurb absolute bottom-0 z2 p1'>
-      <h1 class='white mb0'>Select a location</h1>
-      <p class='white h4 bold'>Pan around the map or use the search bar to zoom to an address.</p>
-      <a  class='white button button-transparent mxn2' 
-          href='#results'>View the results <i class='fa fa-chevron-down'></i>
-      </a>
+    <div class='blurb z2 p1 center'>
+      <img id='logo' src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_White.svg'>
+      <h1 class='white mb0'>Move the map, then 
+        <a  class='white' 
+          href='#results'>view the results <i class='fa fa-chevron-down'></i>
+        </a>
+      </h1>
     </div>
   </div>
+  <script>
+    $(document).ready(function() {
+      setTimeout(function() {
+        $('#logo').fadeOut(2000);
+      }, 5000);
+    });
+  </script>
 
 </div> <!-- Map container -->
 
@@ -54,7 +67,10 @@
   </div>
 
   <!-- Scene listing -->
-  <div id='js-pathrowgrouping' class='md-col md-col-6 p1'></div>
+  <div class='md-col md-col-6 p1'>
+    <h3>Select a date</h3>
+    <div id='js-pathrowgrouping'></div>
+  </div>
 
 </div> <!-- Content container -->
 
