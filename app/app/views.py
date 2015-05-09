@@ -129,7 +129,7 @@ def request_composite(request):
                      request.params.get('band3'))
             add_to_queue(request, u'full')
             add_to_queue(request, u'preview')
-            return HTTPFound(location='/scene/{}#{}'.format(
+            return HTTPFound(location='/scene/{}/bands/{}'.format(
                              request.matchdict['scene_id'], bands))
         else:
             raise exc.HTTPBadRequest()
@@ -140,7 +140,7 @@ def request_composite(request):
                      request.params.get('band2') +
                      request.params.get('band3'))
             add_to_queue(request, u'preview')
-            return HTTPFound(location='/scene/{}#{}'.format(
+            return HTTPFound(location='/scene/{}/bands/{}'.format(
                 request.matchdict['scene_id'], bands))
         else:
             raise exc.HTTPBadRequest()
