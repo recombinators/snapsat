@@ -9,52 +9,57 @@
 
 {% block content %}
 
+
 <div class='container clearfix mt4 p1'>
 
   <h1 class='center mb3'>About</h1>
 
-
-  <div class='col-8 mx-auto'>
+  <div class='col-6 mx-auto'>
     <h2 class='center'>Why we made Snapsat</h2>
     <p>
       We're in love with the opensource geospatial movement, and we wanted to contribute something back to it. 
-      Landsat is an amazing program, but working with it requires technical expertise. 
-      The learning curve was a little higher than we would have liked it to be, so we set out to drop it.
+      Landsat is an amazing program — we wanted to make it accessible to anyone, regardless of their technical background.
     </p>
+
+    <p>
+      Keeping the servers running costs money. If you like the project and are in a position to lend financial support, great!
+      <script data-gratipay-username="jqtrde" data-gratipay-widget="button" src="//grtp.co/v1.js"></script>
+    </p>
+
     <p>To learn more, check out the following:</p>
     <ul>
       <li><a href='https://medium.com/@Snapsat/3bdccc68f9a0'>Hello, World.</a> — An introduction to Snapsat</li>
       <li><a href='https://aws.amazon.com/blogs/aws/announcing-the-noaa-big-data-project/'>Announcing the NOAA Big Data Project</a> — A feature on the AWS Official Blog</li>
     </ul>
-
-    <h2 class='center mt4'>Support the project</h2>
-    <p>
-      Keeping the servers alive costs. If you like the project and are in a position to lend financial support, great!
-      Alternatively, we're always on the lookout for interesting projects.
-      If you're looking for a good team that can get a project up and running quickly, 
-    </p>
-    <a href='mailto:snapsat@snapsat.org' class='button button-big bg-silver block center'>Let's talk</a>
-
-
-    {% set team = [
-    ('Constantine Hatzis', 'Mechanical - Aerospace Engineer and perpetual student turned Developer.', '', 'constanthatz', 'constantinedhatzis'),
-    ('Jacques Tardie', 'Cartographer. Data Masseur.', 'jqtrde', 'jacquestardie', 'jacquestardie'),
-    ('Jake Anderson', 'Developer who enjoys creative problem solving, cigars, and scotch.', 'jakeand3rson', 'jakeand3rson', 'jakeand3rson'),
-    ('Joel Stanner', 'Developer and Audio Engineer with a focus on web frameworks and testing.', 'joelstanner', 'poolbath1', 'joelstanner'),
-    ('Mark Saiget', 'Developer who loves helping teams produce elegant, creative solutions.', 'MarkSaiget', 'bm5w', 'marksaiget'),
-    ]%}
-
-  <h2 class='center mt4'>Who we are</h2>
-
-  {% for name, description, twitter, github, linkedin in team %}
-  <div class='mb2 center'> 
-    <h3 class='mb0'>{{ name }}</h3>
-    <p class='mb0 h5'> {{ description }}</p>
-    <a href='https://twitter.com/{{ twitter }}' class='h4 fa fa-twitter'></a>
-    <a href='https://github.com/{{ github }}' class='h4 fa fa-github'></a>
-    <a href='https://www.linkedin.com/in/{{ linkedin }}' class='h4 fa fa-linkedin'></a>
   </div>
-  {% endfor %}
+</div> <!-- Container -->
 
-</div>
+<div class='container clearfix'>
+  <h2 class='center mt2'>Who we are</h2>
+
+  {% set team = [
+  ('Constantine Hatzis', 'Mechanical - Aerospace Engineer and perpetual student turned Developer.', '', 'constanthatz', 'constantinedhatzis'),
+  ('Jacques Tardie', 'Cartographer. Data Masseur.', 'jqtrde', 'jacquestardie', 'jacquestardie'),
+  ('Jake Anderson', 'Developer who enjoys creative problem solving, cigars, and scotch.', 'jakeand3rson', 'jakeand3rson', 'jakeand3rson'),
+  ('Joel Stanner', 'Developer and Audio Engineer with a focus on web frameworks and testing.', 'joelstanner', 'poolbath1', 'joelstanner'),
+  ('Mark Saiget', 'Developer who loves helping teams produce elegant, creative solutions.', 'MarkSaiget', 'bm5w', 'marksaiget'),
+  ]%}
+
+  <table class='table-light'>
+    <tbody>
+      {% for name, description, twitter, github, linkedin in team %}
+      <tr>
+        <td><strong>{{ name }}</strong></td>
+        <td>{{ description }}</td>
+        <td>
+          <a href='https://twitter.com/{{ twitter }}' class='h4 gray fa fa-twitter'></a>
+          <a href='https://github.com/{{ github }}' class='h4 gray fa fa-github'></a>
+          <a href='https://www.linkedin.com/in/{{ linkedin }}' class='h4 gray fa fa-linkedin'></a>
+        </td>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+</div> <!-- Container -->
 {% endblock %}
