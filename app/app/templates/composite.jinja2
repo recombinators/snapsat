@@ -20,12 +20,21 @@
   </h1>
 
   <!-- Display preview image -->
-  {% if composite.previewurl %}
-    <div class='sm-col sm-col-6 p1'>
-      <a href='{{ composite.previewurl }}' class='js-preview'>
-        <img src='{{ composite.previewurl }}'>
-      </a>
-    </div>
+  {% if composite.previewjobid %}
+    {% if composite.previewurl %}
+      <div class='sm-col sm-col-6 p1'>
+        <a href='{{ composite.previewurl }}' class='js-preview'>
+          <img src='{{ composite.previewurl }}'>
+        </a>
+      </div>
+    {% else %}
+      <div class='js-nopreview' id='{{ composite.previewjobid }}'>
+        <a  class='sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
+            style='background-image: url( "/static/img/loading.gif" ); background-repeat: no-repeat; '>
+        </a>
+      </div>
+    {% endif %}
+
   {% else %}
     <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
       <form method='post'>
