@@ -8,7 +8,6 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 var map = L.mapbox.map('map', 'jacques.lh797p9e', {
   zoomControl: false,
   scrollWheelZoom: false,
-  maxZoom: 7,
   minZoom: 3
 });
 
