@@ -58,6 +58,15 @@ def about(request):
     return {}
 
 
+@view_config(route_name='hire', renderer='templates/hire.jinja2')
+def hire(request):
+    """
+    Hire page.
+    Give us the $$$
+    """
+    return {}
+
+
 @view_config(route_name='guide', renderer='templates/guide.jinja2')
 def guide(request):
     """
@@ -80,7 +89,8 @@ def add_to_queue(request, rendertype):
 
     if available:
         # if this scene/band has already been requested, increase the count
-        RenderCache.update_render_count(scene_id, band1, band2, band3,
+        RenderCache.update_render_count(scene_id, 
+                                        band1, band2, band3,
                                         rendertype)
 
     if not available:
@@ -129,7 +139,7 @@ def request_composite(request):
                      request.params.get('band3'))
             add_to_queue(request, u'full')
             add_to_queue(request, u'preview')
-            return HTTPFound(location='/scene/{}/bands/{}'.format(
+            return HTTPFound(location='/scene/{}#{}'.format(
                              request.matchdict['scene_id'], bands))
         else:
             raise exc.HTTPBadRequest()
@@ -140,7 +150,7 @@ def request_composite(request):
                      request.params.get('band2') +
                      request.params.get('band3'))
             add_to_queue(request, u'preview')
-            return HTTPFound(location='/scene/{}/bands/{}'.format(
+            return HTTPFound(location='/scene/{}#{}'.format(
                 request.matchdict['scene_id'], bands))
         else:
             raise exc.HTTPBadRequest()
@@ -428,7 +438,7 @@ def preview_poll(request):
     # Get jobid from request
     jobid = request.params.get('jobid')
     # Query the database for job status
-    job_status, band1, band2, band3 = UserJob.job_status(jobid)
+    job_status, band1, band2, band3, entityid = UserJob.job_status(jobid)
 
     # Get render url when job is done
     if job_status == 'Done':
@@ -439,6 +449,7 @@ def preview_poll(request):
     # Create job info json output
     job_info = {'jobstatus': job_status,
                 'renderurl': render_url,
+                'scene': entityid,
                 'band1': band1,
                 'band2': band2,
                 'band3': band3}
