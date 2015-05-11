@@ -160,16 +160,18 @@ class UserJob(Base):
     @classmethod
     def job_status(cls, jobid):
         """
-        Get jobstatus for jobid passed in.
+        Get jobstatus and bands for jobid passed in.
         """
         try:
-            status = Session.query(cls.jobstatus).filter(
+            status = Session.query(cls.jobstatus,
+                                   cls.band1,
+                                   cls.band2,
+                                   cls.band3).filter(
                 cls.jobid == jobid).one()
         except:
             print 'Database write failed.'
             return None
-
-        return status_key[status[0]]
+        return status_key[status[0]], status[1], status[2], status[3]
 
     @classmethod
     def job_status_and_times(cls, jobid):
@@ -231,68 +233,55 @@ class RenderCache(Base):
             print 'could not update db'
 
     @classmethod
-    def get_rendered_rendering(cls, entityid):
-        """
-        Return list of existing jobs for a given sceneID.
-        """
+    def get_rendered_rendering_composites_sceneid(cls, entityid):
+        """Return rendered or rendering composites for a given sceneID."""
         try:
             rendered = Session.query(cls).filter(
                 cls.entityid == entityid,
                 cls.currentlyrend is not True).all()
         except:
-            print 'Database query failed get_rendered_rendering'
+            print 'Database query failed get_rendered_rendering_composites_sceneid'
             return None
         return rendered
 
     @classmethod
-    def full_render_availability(cls, entityid, band1, band2, band3):
-        """
-        Check if given image is already rendered.
-        """
+    def get_rendered_rendering_composites_band_combo(cls, entityid,
+                                                     band1, band2, band3):
+        """Return rendered or rendering composites for a given band combo."""
+        try:
+            rendered = Session.query(cls).filter(
+                cls.entityid == entityid,
+                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+                cls.currentlyrend is not True).all()
+        except:
+            print 'Database query failed get_rendered_rendering_composites_sceneid'
+            return None
+        return rendered
+
+    @classmethod
+    def composite_availability(cls, entityid, band1, band2, band3, rendertype):
+        """Check if given composite is already rendered."""
         try:
             output = Session.query(cls).filter(
                 cls.entityid == entityid,
                 cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'full',
+                cls.rendertype == rendertype,
                 cls.renderurl.isnot(None)).count()
         except:
-            print 'Database query failed full_render_availability'
+            print 'Database query failed composite_availability'
             return None
-
-        if output != 0:
-            # if this scene/band has already been requested, increase the count
-            Session.query(cls).filter(
-                cls.entityid == entityid,
-                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'full'
-                ).update({"rendercount": cls.rendercount+1})
 
         return output != 0
 
     @classmethod
-    def preview_render_availability(cls, entityid, band1, band2, band3):
-        """
-        Check if given preview image is already rendered.
-        """
-        try:
-            output = Session.query(cls).filter(
-                cls.entityid == entityid,
-                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'preview',
-                cls.renderurl.isnot(None)).count()
-        except:
-            print 'Database query failed preview_render_availability'
-            return None
-
-        if output != 0:
-            # if this scene/band has already been requested, increase the count
-            Session.query(cls).filter(
-                cls.entityid == entityid,
-                cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
-                cls.rendertype == u'preview'
-                ).update({"rendercount": cls.rendercount+1})
-
-        return output != 0
+    def update_render_count(cls, entityid, band1, band2, band3, rendertype):
+        """Update render count of composite."""
+        # if this scene/band has already been requested, increase the count
+        Session.query(cls).filter(
+            cls.entityid == entityid,
+            cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
+            cls.rendertype == rendertype
+            ).update({"rendercount": cls.rendercount+1})
 
     @classmethod
     def get_renderurl(cls, jobid):

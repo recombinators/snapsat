@@ -1,0 +1,25 @@
+nav {
+  position: fixed;
+  top: 4rem;
+  z-index: 9999;
+}
+
+.map-container {
+  height: 100vh;
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.results {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+}

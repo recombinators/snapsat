@@ -1,0 +1,70 @@
+<div id='create'>
+  <section id='scene_info'>
+
+    <h2 class='mb2'>Premade combinations</h2>
+
+    <form method='post right'>
+      <input type='hidden' name='band1' value='4'/>
+      <input type='hidden' name='band2' value='3'/>
+      <input type='hidden' name='band3' value='2'/>
+      <button class='button full-width bg-silver black mb2' 
+        formaction='/request/preview/{{ meta_data.scene_id }}/'
+        formmethod='post' 
+        type='submit'>
+        Create a Natural color composite
+      </button>
+    </form>
+    <p class='mb3'>Natural color images are created using the <strong>4, 3, and 2</strong> bands of the Landsat 8 satellite. Natural color images appear 'natural', because each of the bands that they use correspond to the colors we are naturally able to perceive, Red, Green, and Blue.</p>
+
+    <form method='post'>
+      <input type='hidden' name='band1' value='7'/>
+      <input type='hidden' name='band2' value='6'/>
+      <input type='hidden' name='band3' value='4'/>
+      <button class='button full-width bg-silver black mb2' 
+        formaction='/request/preview/{{ meta_data.scene_id }}/'
+        formmethod='post' 
+        type='submit'>
+        Create a False color infrared composite (urban)
+      </button>
+    </form>
+    <p class='mb3'>The combination of the <strong>7, 6, and 4</strong> bands is particularly useful for visualizing urban environments as it uses both the available Short-wave infrared (SWIR) bands. Because the SWIR bands capture longer wavelengths, they're less frequently affected by the smog and haze that typifies urban environments.</p>
+
+    <form method='post'>
+      <input type='hidden' name='band1' value='5'/>
+      <input type='hidden' name='band2' value='4'/>
+      <input type='hidden' name='band3' value='3'/>
+      <button class='button full-width bg-silver black mb2' 
+        formaction='/request/preview/{{ meta_data.scene_id }}/'
+        formmethod='post' 
+        type='submit'>
+        Create a False color infrared composite (vegetation)
+      </button>
+    </form>
+    <p>The combination of the <strong>5, 4, and 3</strong> bands are useful for analyzing vegetation health. Typically, the healthier the plant, the brighter the red it produces.</p>
+
+    <h2 class='mt3'>Create a custom composite</h2>
+    <p>There are hundreds of possible variations, you're welcome to create whichever type of composite you'd like!</p>
+    <form method='post' id='request_form_{{meta_data.scene_id}}'>
+      <div id='combinations'>
+        <select class='field-light not-rounded' name='band1' id='js-band1' required>
+          <option selected value=''>Red Band</option>
+        </select>
+        <select class='field-light not-rounded' name='band2' id='js-band2' required>
+          <option selected value=''>Green Band</option>
+        </select>
+        <select class='field-light rounded-right' name='band3' id='js-band3' required>
+          <option selected value=''>Blue Band</option>
+        </select>
+        <button class='button full-width block mt2 bg-silver black' 
+          form='request_form_{{meta_data.scene_id}}' 
+          formaction='/request/preview/{{meta_data.scene_id}}/'
+          formmethod='post' 
+          type='submit'>
+          Create a custom composite
+        </button>
+      </div>
+    </form>
+    <script type='text/javascript' src='/static/js/band.js'></script>
+
+  </section> <!-- Scene info -->
+</div>
