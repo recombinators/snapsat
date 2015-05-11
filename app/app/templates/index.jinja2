@@ -3,6 +3,7 @@
 {% block js %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
 <script src='/static/js/map.js'></script>
+<script src='/static/js/blurb-fade.js'></script>
 {% endblock %}
 
 
@@ -27,13 +28,6 @@
       </h2>
     </div>
   </div>
-  <script>
-    $(document).ready(function() {
-      setTimeout(function() {
-        $('#logo').fadeOut(2000);
-      }, 5000);
-    });
-  </script>
 
 </div> <!-- Map container -->
 

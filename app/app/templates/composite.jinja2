@@ -15,8 +15,8 @@
   {% for band_combo, composite in composites.iteritems() %}
 
   <h1 class='center mb3'>
-    A {{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}
-    composite of {{ meta_data.scene_id }}
+    A <a class='black' href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'>{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}</a>
+    composite of <a class='black' href='/scene/{{ meta_data.scene_id }}'>{{ meta_data.scene_id }}</a>
   </h1>
 
   <!-- Display preview image -->
