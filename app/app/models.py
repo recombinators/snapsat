@@ -160,10 +160,11 @@ class UserJob(Base):
     @classmethod
     def job_status(cls, jobid):
         """
-        Get jobstatus and bands for jobid passed in.
+        Get jobstatus, sceneid, and bands for jobid passed in.
         """
         try:
             status = Session.query(cls.jobstatus,
+                                   cls.entityid,
                                    cls.band1,
                                    cls.band2,
                                    cls.band3,
@@ -172,7 +173,8 @@ class UserJob(Base):
         except:
             print 'Database write failed.'
             return None
-        return status_key[status[0]], status[1], status[2], status[3], status[4]
+        return (status_key[status[0]],
+                status[1], status[2], status[3], status[4])
 
     @classmethod
     def job_status_and_times(cls, jobid):
