@@ -19,6 +19,7 @@ def main(global_config, **settings):
     # Define routes
     config.add_route('index', '/')
     config.add_route('about', '/about')
+    config.add_route('hire', '/hire')
     config.add_route('guide', 'guide/')
     config.add_route('request', 'request/{rendertype}/{scene_id}/')
     config.add_route('scene', 'scene/{scene_id}/')
