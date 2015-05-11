@@ -24,9 +24,9 @@ $(document).ready(function(){
           if(info.jobstatus != 'Failed'){
             // Stop polling on success
             $(newid).html(
-              "<a id= '" + info.renderurl + "'" +
-                "href=" + info.renderurl + " " +
-                "href='/'" + info.scene + "#" + info.band1 + info.band2 + info.band3 + " " +
+              "<a id= '" + info.scene_id + "'" +
+                "href='/scene/" + info.scene + "/bands/" +
+                info.band1 + info.band2 + info.band3 + "'" +
                 "class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
                 "style='background-image: url( " + info.renderurl + " );'>" +
                   "<h1 class='composite-description p1 m0'>" +
