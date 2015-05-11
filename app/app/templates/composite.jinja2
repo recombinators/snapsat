@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<div class='container clearfix mt4 p1'>
+<div class='container clearfix mt4 p1 composite_page'>
 
   {% for band_combo, composite in composites.iteritems() %}
 
@@ -20,11 +20,36 @@
   </h1>
 
   <!-- Display preview image -->
-  <div class='sm-col sm-col-6 p1'>
-    <a href='' class='js-preview'>
-      <img src='{{ composite.previewurl }}'>
-    </a>
-  </div>
+  {% if composite.previewjobid %}
+    {% if composite.previewurl %}
+      <div class='sm-col sm-col-6 p1'>
+        <a href='{{ composite.previewurl }}' class='js-preview'>
+          <img src='{{ composite.previewurl }}'>
+        </a>
+      </div>
+    {% else %}
+      <div class='js-nopreview' id='{{ composite.previewjobid }}'>
+        <a  class='sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
+            style='background-image: url( "/static/img/loading.gif" ); background-repeat: no-repeat; '>
+        </a>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
+      <form method='post'>
+        <input type='hidden' name='band1' value='{{ composite.band1 }}'/>
+        <input type='hidden' name='band2' value='{{ composite.band2 }}'/>
+        <input type='hidden' name='band3' value='{{ composite.band3 }}'/>
+        <button
+          class='button rounded-right left bg-silver black'
+          formaction='/request/preview/{{ meta_data.scene_id }}/'
+          formmethod='post'
+          type='submit'>Request a preview
+        </button>
+      </form>
+    </div>
+  {% endif %}
 
   <div class='sm-col sm-col-6 p1'>
 
