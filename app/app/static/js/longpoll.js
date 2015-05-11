@@ -6,7 +6,7 @@ $(document).ready(function(){
         var intervalTime = 1000;
         var intervalID = setInterval(function poll(){
             $.ajax({
-                url: "/preview_poll",
+                url: "/preview_poll/",
                 data: {'jobid': jobId},
                 dataType: "json"
             }).done(function(json){
@@ -51,7 +51,7 @@ $(document).ready(function(){
         if(jobId){
             var intervalID = setInterval(function poll(){
                 $.ajax({
-                    url: "/status_poll",
+                    url: "/status_poll/",
                     data: {'jobid': jobId},
                     dataType: "json"
                 }).done(function(json){
