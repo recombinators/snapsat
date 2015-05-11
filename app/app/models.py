@@ -166,12 +166,13 @@ class UserJob(Base):
             status = Session.query(cls.jobstatus,
                                    cls.band1,
                                    cls.band2,
-                                   cls.band3).filter(
+                                   cls.band3,
+                                   cls.entityid).filter(
                 cls.jobid == jobid).one()
         except:
             print 'Database write failed.'
             return None
-        return status_key[status[0]], status[1], status[2], status[3]
+        return status_key[status[0]], status[1], status[2], status[3], status[4]
 
     @classmethod
     def job_status_and_times(cls, jobid):
