@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     var intervalID = setInterval(function poll(){
       $.ajax({
-        url: "/preview_poll",
+        url: "preview_poll/",
         data: {'jobid': jobId},
         dataType: "json"
       }).done(function(json){
@@ -56,7 +56,7 @@ $(document).ready(function(){
     if(jobId){
       var intervalID = setInterval(function poll(){
         $.ajax({
-          url: "/status_poll",
+          url: "status_poll/",
           data: {'jobid': jobId},
           dataType: "json"
         }).done(function(json){
@@ -100,7 +100,7 @@ function stopPreviewPoll(data, intervalID){
 // Start polliing for preview status
 function startPreviewPoll(jobId, intervalID){
   $.ajax({
-    url: "/preview_poll", 
+    url: "preview_poll/", 
     dataType: "json"
   }).done(function(data){
     if(data.bool === false){
@@ -119,7 +119,7 @@ function stopStatusPoll(data, intervalID){
 // Start polliing for full render status
 function startStatusPoll(jobId, intervalID){
   $.ajax({
-    url: "/status_poll", 
+    url: "status_poll/", 
     dataType: "json"
   }).done(function(data){
     if(data.bool === false){
