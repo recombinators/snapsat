@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="78px" height="79px" viewBox="0 0 78 79" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>Slice 1</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="satellite" sketch:type="MSLayerGroup" transform="translate(-13.000000, -9.000000)" stroke-width="3.47499991" stroke="#FFFFFF">
+            <g id="Page-1" sketch:type="MSShapeGroup">
+                <g id="snapsat-white">
+                    <g id="g10" transform="translate(52.000000, 52.000000) scale(1, -1) translate(-52.000000, -52.000000) ">
+                        <g id="g12">
+                            <path d="M48,74.1384462 L38.5269311,66 L24,83.8616783 L33.4735535,92 L48,74.1384462 L48,74.1384462 Z" id="path32"></path>
+                            <path d="M88,27.1369522 L78.5270331,19 L64,36.8621763 L73.4734515,45 L88,27.1369522 L88,27.1369522 Z" id="path34"></path>
+                            <path d="M40,58.6105433 L55.6360287,40 L73.9074035,55.4865438 C73.9074035,55.4865438 80.8129479,63.3021954 73.9861489,71.4626641 C67.1598382,79.62301 58.1802987,74.2855938 58.1802987,74.2855938 L40,58.6105433 L40,58.6105433 Z" id="path36"></path>
+                            <path d="M31,51.0062286 L47.517483,32 C47.517483,32 56.8193778,39.68916 48.6237003,49.2424929 C40.4266449,58.7971781 31,51.0062286 31,51.0062286 L31,51.0062286 L31,51.0062286 Z" id="path38"></path>
+                            <path d="M28.1199456,43 C28.1199456,43 27.1903886,38.9595237 30.5067688,34.8227768 C34.1704928,30.2532517 38,31.0539165 38,31.0539165" id="path40"></path>
+                            <path d="M22.1561063,40 C22.1561063,40 20.9469254,34.9501377 25.2592095,29.7788436 C30.0216142,24.0677852 35,25.0671688 35,25.0671688" id="path42"></path>
+                            <path d="M15.2163309,40 C15.2163309,40 13.5415191,32.927017 19.5119774,25.6876724 C26.1076695,17.6934745 33,19.0943487 33,19.0943487" id="path44"></path>
+                            <path d="M39,40.5461497 L35,39 L37.143875,43 L39,40.5461497 L39,40.5461497 Z" id="path46"></path>
+                            <path d="M64,46 L69,41" id="path48"></path>
+                            <path d="M44,70 L48,65" id="path50"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
