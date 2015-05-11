@@ -4,6 +4,7 @@ $(document).ready(function(){
     $(".js-nopreview").each(function(){
         var jobId = this.id;
         var intervalTime = 1000;
+        var windowLoc = $(location).attr('pathname');
         var intervalID = setInterval(function poll(){
             $.ajax({
                 url: "/preview_poll/",
@@ -19,19 +20,28 @@ $(document).ready(function(){
                 }else{
                     if(info.jobstatus != 'Failed'){
                         // Stop polling on success
-                        $(newid).html(
-                            "<a id= '" + info.scene_id + "'" +
-                                "href='/scene/" + info.scene_id + "/bands/" +
-                                info.band1 + info.band2 + info.band3 + "'" +
-                                "class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
-                                "style='background-image: url( " + info.renderurl + " );'>" +
+                        if(windowLoc.indexOf('bands') == -1){
+                            $(newid).html(
+                                "<a id= '" + info.scene_id + "'" +
+                                    "href='/scene/" + info.scene_id + "/bands/" +
+                                    info.band1 + info.band2 + info.band3 + "'" +
+                                    "class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
+                                    "style='background-image: url( " + info.renderurl + " );'>" +
 
-                              "<h1 class='composite-description p1 m0'>" +
-                                  "<span class='band-red'>  " + info.band1 + "</span>" +
-                                  "<span class='band-green'>" + info.band2 + "</span>" +
-                                  "<span class='band-blue'> " + info.band3 + "</span>" +
-                              "</h1>" +
-                            "</a>");
+                                  "<h1 class='composite-description p1 m0'>" +
+                                      "<span class='band-red'>  " + info.band1 + "</span>" +
+                                      "<span class='band-green'>" + info.band2 + "</span>" +
+                                      "<span class='band-blue'> " + info.band3 + "</span>" +
+                                  "</h1>" +
+                                "</a>");
+                        }else{
+                            $(newid).html(
+                                "<div class='sm-col sm-col-6 p1'>" +
+                                  "<a href='" + info.renderurl + "' class='js-preview'>" +
+                                    "<img src='" + info.renderurl + "'>" +
+                                  "</a>" +
+                                "</div>");
+                        }
                         clearInterval(intervalID);
                     }else{
                         // Stop polling on failure
