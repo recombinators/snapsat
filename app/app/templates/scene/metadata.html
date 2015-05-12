@@ -37,12 +37,10 @@
       zoomControl: false
     }).fitBounds(bounds);
 
-    // TODO: Draw a polygon representing the scene boundaries
-    // This works as a standalone gist, but something about embedding it
-    // inside this template is causing problems.
-    // L.rectangle(bounds, {
-    //  fillColor: 'red'
-    //}).addTo(map);
+    // Add scene bounding box to mini map
+    L.rectangle(bounds, {
+     fillColor: 'red'
+    }).addTo(map);
 
   </script>
 
