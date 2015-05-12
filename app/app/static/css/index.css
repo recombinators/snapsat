@@ -118,6 +118,10 @@
   text-decoration: none;
 }
 
+.js-preview img {
+  width: 100%;
+}
+
 
 .loading {
   position: absolute;
@@ -159,10 +163,6 @@ nav {
 
 .preview-container {
   min-height: 20rem;
-}
-
-img {
-  width: 100%;
 }
 
 /* External stylesheets */
