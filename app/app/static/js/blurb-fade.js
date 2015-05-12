@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  setTimeout(function() {
+  $('body').click(function() {
     $('#logo').fadeOut(2000);
-  }, 5000);
+  });
 });
 

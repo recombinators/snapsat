@@ -4,7 +4,6 @@
 
 
 /* BassCSS modules */
-@import 'basscss-base-reset';
 @import 'basscss-base-forms';
 @import 'basscss-base-buttons';
 @import 'basscss-base-tables';
@@ -160,6 +159,10 @@ nav {
 
 .preview-container {
   min-height: 20rem;
+}
+
+img {
+  width: 100%;
 }
 
 /* External stylesheets */
