@@ -32,20 +32,20 @@
 
         <section class='mb4'>
             <h2 id='basics'>Basics</h2>
-            <p>Launched February 11, 2013, the Landsat 8 satellite continues the production of a global dataset first started in 1972. Everyday, the satellite captures nearly 550 scenes of the Earth, each of which measures roughly 180 square kilometers. At worst, it’s an impressive selfie. At best, it’s a tool for learning about the dynamic processes and characteristics of our planet.</p>
-            <p>Landsat 8 measures a range of frequencies across the <a href='https://en.wikipedia.org/wiki/Electromagnetic_spectrum'>electromagnetic spectrum</a>, a portion of which falls within what we perceive as visible light. That visible portion accounts for less than half of the light collected by Landsat 8, which raises the question: What's the purpose of capturing frequencies which we aren't able to see? Before we can answer that question, we’re going to have to learn a little more about each of the segments that Landsat collects.</p>
+            <p>Launched February 11, 2013, the Landsat 8 satellite continues the production of a global dataset first started in 1972. Every day, the satellite captures nearly 550 scenes of the Earth, each of which measures roughly 180 square kilometers. At worst, it’s an impressive selfie. At best, it’s a tool for learning about the dynamic processes and characteristics of our planet.</p>
+            <p>Landsat 8 measures a range of frequencies across the <a href='https://en.wikipedia.org/wiki/Electromagnetic_spectrum'>electromagnetic spectrum</a>. A portion of which falls within what we perceive as visible light. That visible portion accounts for less than half of the light collected by Landsat 8. Which raises the question: What's the purpose of capturing frequencies which we aren't able to see? Before we can answer that question, we’re going to have to learn a little more about each of the segments that Landsat collects.</p>
         </section>
 
         <section class='mb4'>
             <h2 id='bands'>Bands</h2>
-            <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. The width of the bands isn't uniform and there’s some overlap you might not expect, but each has a specific function, an answer to a set of questions we might ask about the Earth.</p>
+            <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. The width of the bands isn't uniform and there’s some overlap you might not expect, but each has a specific function. An answer to a set of questions we might ask about the Earth.</p>
             
             <div class='js-container-full mbl'>
                 <div class='js-graph' id='js-reference-full'></div>
             </div>
 
             <h3 id='band-1'>Band 1: Coastal/Aerosol</h3>
-            <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 nanometers that are invisible to the maked eye. Landsat 8 is unique in that it is one of the few active satellites that can measure these wavelengths, which historically have been difficult to collect as they're easily scattered by dust and atmospheric particulates. Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
+            <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 micrometers that are invisible to the maked eye. Landsat 8 is unique in that it is one of the few active satellites that can measure these wavelengths, which historically have been difficult to collect as they're easily scattered by dust and atmospheric particulates. Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
 
             <h3 id='band-2-3-4'>Bands 2, 3, and 4: Visible Light</h3>
             <p>Bands 2, 3, and 4 respectively refer to the Blue, Green, and Red wavelengths of light, or the <strong>visible spectrum</strong> of light most of us are accustomed to seeing. Combining them together can yield some beautiful ‘photographs’ of the Earth.</p>
@@ -54,10 +54,10 @@
             <p>The wavelengths of light just adjacent to the reds we perceive, but just outside our capacity to see, are commonly referred to as the infrared spectrum. Band 5 encompasses these wavelengths and as such is called the Near Infrared (NIR) band. As healthy plants heavily reflect these wavelengths, the NIR spectrum is especially useful for visualizing the <strong>health of plants.</strong> Brighter imagery typically corresponds to healthier plants.</p>
 
             <h3 id='band-6-7'>Band 6 and 7: Shortwave Infrared (SWIR)</h3>
-            <p>Band 6 and 7 jump down into the lower-energy wavelengths of the electromagnetic spectrum. While still within the Infrared spectrum, they’re far enough away from the NIR that they’re given their own name, the Shortwave Infrared (SWIR). Heavily absorbed by water, these bands are unique and lead to an incredibly wide variety of applications. Broadly speaking, the more water present in the scene, the darker Bands 6 and 7 will be. As different species and soil types contain varying amounts of water, this spectrum can be incredibly useful for delineating between species and soil types, that might otherwise look identical in a standard natural color photograph. Additionally, because the SWIR bands are so sensitive to water, they can be used to good effect in distinguishing between types of clouds, snow, and ice.</p>
+            <p>Band 6 and 7 jump down into the lower-energy wavelengths of the electromagnetic spectrum. While still within the Infrared spectrum, they’re far enough away from the NIR that they’re given their own name, Shortwave Infrared (SWIR). Heavily absorbed by water, these bands are unique and lead to an incredibly wide variety of applications. Broadly speaking, the more water present in the scene the darker Bands 6 and 7 will be. As different species and soil types contain varying amounts of water, this spectrum can be incredibly useful for delineating between species and soil types, that might otherwise look identical in a standard natural color photograph. Additionally, because the SWIR bands are so sensitive to water, they can be used to good effect in distinguishing between types of clouds, snow, and ice.</p>
 
             <h3 id='band-8'>Band 8: Panchromatic</h3>
-            <p>Landsat throws us a curveball with Band 8. Up until now, we’ve been continually moving down the electromagnetic spectrum, capturing wavelengths of decreasing energy.  Band 8 hops back up, capturing a wide swath of wavelengths almost entirely encompassing Bands 2, 3, and 4. Because it collects across so many wavelengths, it's commonly referred to as the Panchromatic band.</p>
+            <p>Landsat throws us a curveball with Band 8. Up until now we’ve been continually moving down the electromagnetic spectrum. Capturing wavelengths of decreasing energy.  Band 8 hops back up, capturing a wide swath of wavelengths almost entirely encompassing Bands 2, 3, and 4. Because it collects across so many wavelengths, it's commonly referred to as the Panchromatic band.</p>
             <p>Why capture bands we already have at a lower spectral resolution? Spatial resolution, that’s why! By having a band which captures a much wider range of light, Landsat is able to delineate features at twice the resolution we’ve seen up to this point. This gives us a way to create significantly more detailed images than would otherwise be possible. 
             </p>
 
@@ -65,7 +65,7 @@
             <p>The Cirrus band is useful for picking out Cirrus clouds. Band 9 was specifically created to capture the presence of these clouds, as they’re often some of the best indicators for <strong>precipitation.</strong></p>
 
             <h3 id='band-10-11'>Band 10 and 11</h3>
-            <p>Up to this point, each of the bands we've mentioned are derived from the Operational Land Imager (OLI) component of the Landsat 8 satellite. Band 10 and 11 are produced from a different piece of hardware called the Thermal Infrared Sensor (TIRS), which as you might expect, has something to do with measuring heat. It’s important to note that these bands quantify the <strong>surficial temperature</strong> of the Earth, as opposed to the temperature of the air which is what we’re accustomed to seeing.</p>
+            <p>So far each of the bands we've mentioned are captured by the Operational Land Imager (OLI) component of the Landsat 8 satellite. Band 10 and 11 are captured by a different piece of hardware called the Thermal Infrared Sensor (TIRS), which as you might expect, has something to do with measuring heat. It’s important to note that these bands quantify the <strong>surficial temperature</strong> of the Earth, as opposed to the temperature of the air which is what we’re accustomed to seeing.</p>
 
             <p>Now that we have access to all these bands, what are we going to do with them?</p>
         </section>
@@ -76,7 +76,7 @@
 
             <p>Individual bands are interesting, but the real power of Landsat 8 lies in grouping individual bands together into combinations of three and remapping them to the aspects of the visible spectrum. Landsat's 11 bands gives us the potential to create 165 unique combinations. Landsat gives us a means of visualizing what would otherwise be invisible to the naked eye!</p>
             
-            <p>Now, while there are 165 different possibilities, there are a handful that are commonly used. We’ll cover a few of those here, and hopefully in doing so, give you an understanding of how to interpret the remainder.</p>
+            <p>While there are 165 different possibilities, there are a handful that are commonly used. We’ll cover a few of those here, and in doing so, hopefully give you an understanding of how to interpret the remainder.</p>
             
             <div>
                 <h3>432 - Natural Color</h2>
