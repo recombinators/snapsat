@@ -161,5 +161,9 @@ nav {
   min-height: 20rem;
 }
 
+img {
+  width: 100%;
+}
+
 /* External stylesheets */
 @import 'bigfoot.css';
