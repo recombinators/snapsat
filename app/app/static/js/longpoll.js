@@ -37,13 +37,51 @@ $(document).ready(function(){
                 "</a>");
               clearInterval(intervalID);
           } else {
-            // Stop polling on failure
+           // Stop polling on failure
             $(newid).html(
               "<p><strong class='red'>Preview Failure</strong></p>");
               clearInterval(intervalID);
           }
         }
-    });
+      });
+    }, intervalTime);
+  });
+
+  // Poll for full render job status
+  $(".js-nofull").each(function(){
+    var jobId = this.id;
+    var intervalTime = 10000;
+    if(jobId){
+      var intervalID = setInterval(function poll(){
+        $.ajax({
+          url: "/status_poll/",
+          data: {'jobid': jobId},
+          dataType: "json"
+        }).done(function(json){
+          var info = json.job_info;
+          var newid = '#'.concat(jobId);
+          if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
+            // Update status and elapsed time.
+            $(newid).find("#js-fullstatus").html(info.jobstatus);
+          }else{
+            if(info.jobstatus != 'Failed'){
+              // Stop polling on success
+              $(newid).html(
+                "<a  class='button bg-grey black not-rounded full-width center'" +
+                  "href=" + info.renderurl + ">Download full size image." +
+                  "</a>");
+                clearInterval(intervalID);
+            }else{
+              // Stop polling on failure
+              $(newid).html(
+                "<p><strong class='red'>Composite Failure</strong></p>");
+                clearInterval(intervalID);
+            }
+          }
+        });
+      }, intervalTime);
+    }
+  });
 });
 
 // Stop polling for a preview when 
