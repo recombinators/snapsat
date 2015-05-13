@@ -150,8 +150,8 @@ def request_composite(request):
                      request.params.get('band2') +
                      request.params.get('band3'))
             add_to_queue(request, u'preview')
-            return HTTPFound(location=request.environ['HTTP_REFERER'].format(
-                request.matchdict['scene_id'], bands))
+            return HTTPFound(location='{}#{}'.format(
+                             request.environ['HTTP_REFERER'], bands))
         else:
             raise exc.HTTPBadRequest()
 
