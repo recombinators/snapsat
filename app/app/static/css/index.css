@@ -185,5 +185,16 @@ nav {
   margin-left: -40px;
 }
 
+.leaflet-control-zoom {
+  display: none;
+}
+
+@media (--breakpoint-md) {
+.leaflet-control-zoom {
+  display: inline;
+}
+
+}
+  
 /* External stylesheets */
 @import 'bigfoot.css';

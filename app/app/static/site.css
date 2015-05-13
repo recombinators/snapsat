@@ -1745,6 +1745,17 @@ nav {
   margin-left: -40px;
 }
 
+.leaflet-control-zoom {
+  display: none;
+}
+
+@media (min-width: 52em) {
+.leaflet-control-zoom {
+  display: inline;
+}
+
+}
+  
 /* External stylesheets */
 .bigfoot-footnote__button {
   position: relative;
