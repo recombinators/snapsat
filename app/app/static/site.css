@@ -1740,7 +1740,6 @@ nav {
   position: absolute;
   top: 49%;
   left: 49%;
-  z-index: 100;
   display: none;
   margin-left: -40px;
 }
