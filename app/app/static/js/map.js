@@ -5,10 +5,11 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94
 // Initial render =============================================================
 
 // Create a basemap
-var map = L.mapbox.map('map', 'jacques.lh797p9e', {
+var map = L.mapbox.map('map', 'jacques.k7coee6a', {
   zoomControl: false,
   scrollWheelZoom: false,
-  minZoom: 3
+  minZoom: 3,
+  maxZoom: 7
 });
 
 // Position navigation tools at the bottom of the map.
