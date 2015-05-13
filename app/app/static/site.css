@@ -1723,6 +1723,11 @@ nav {
   min-height: 20rem;
 }
 
+#logo img {
+  max-width: 400px;
+  max-width: 100%;
+}
+
 /* External stylesheets */
 .bigfoot-footnote__button {
   position: relative;
