@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('body').click(function() {
-    $('#logo').fadeOut(1000);
+    $('#logo').fadeOut(500);
   });
 });
 
