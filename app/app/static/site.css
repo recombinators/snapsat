@@ -433,8 +433,10 @@ input,
 select,
 textarea,
 fieldset {
+  font-family: inherit;
   font-size: 16px;
   font-size: 1rem;
+  box-sizing: border-box;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -451,7 +453,6 @@ input[type=tel],
 input[type=time],
 input[type=url],
 input[type=week] {
-  box-sizing: border-box;
   height: 36px;
   height: 2.25rem;
   padding: 8px 8px;
@@ -461,7 +462,6 @@ input[type=week] {
 }
 
 select {
-  box-sizing: border-box;
   line-height: 1.75;
   padding: 8px 8px;
   padding: .5rem .5rem;
@@ -474,7 +474,6 @@ select:not([multiple]) {
 }
 
 textarea {
-  box-sizing: border-box;
   line-height: 1.75;
   padding: 8px 8px;
   padding: .5rem .5rem;
@@ -517,12 +516,12 @@ textarea {
 
 button,
 .button {
+  font-family: inherit;
   font-size: inherit;
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  box-sizing: border-box;
   line-height: 18px;
   line-height: 1.125rem;
   padding: 8px 16px;
@@ -534,10 +533,13 @@ button,
   -webkit-appearance: none;
 }
 
+button,
 button:after,
 button:before,
+.button,
 .button:after,
 .button:before {
+  box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -586,7 +588,15 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5em;
 }
 
-p, dl, ol, ul {
+p {
+  font-size: 16px;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 16px;
+  margin-bottom: 1rem;
+}
+
+dl, ol, ul {
   font-size: 16px;
   font-size: 1rem;
   margin-top: 0;
@@ -614,22 +624,18 @@ hr {
 }
 
 blockquote {
-  margin-top: 32px;
-  margin-top: 2rem;
-  margin-bottom: 32px;
-  margin-bottom: 2rem;
-  margin-left: 0;
-  padding-left: 16px;
-  padding-left: 1rem;
-  padding-right: 16px;
-  padding-right: 1rem;
+  margin: 32px 0;
+  margin: 2rem 0;
+  padding: 0 16px;
+  padding: 0 1rem;
 }
-  blockquote,
-  blockquote p {
-    font-size: 20px;
-    font-size: 1.25rem;
-    font-style: italic;
-  }
+
+blockquote,
+blockquote p {
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-style: italic;
+}
 
 h1, .h1 { font-size: 32px; font-size: 2rem }
 h2, .h2 { font-size: 24px; font-size: 1.5rem }
@@ -648,6 +654,8 @@ h6, .h6 { font-size: 12px; font-size: .75rem }
 .inline       { display: inline }
 .block        { display: block }
 .inline-block { display: inline-block }
+.table        { display: table }
+.table-cell   { display: table-cell }
 
 .overflow-hidden { overflow: hidden }
 .overflow-scroll { overflow: scroll }
@@ -680,6 +688,14 @@ h6, .h6 { font-size: 12px; font-size: .75rem }
 .justify      { text-align: justify }
 
 .nowrap { white-space: nowrap }
+.break-word { word-wrap: break-word }
+
+.truncate {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 /* Basscss Utility White Space */
 
 .m0  { margin:        0 }
@@ -1123,12 +1139,6 @@ hr {
   color: white;
   background-color: #0074d9;
   border-radius: 3px;
-  -webkit-transition-duration: .05s;
-          transition-duration: .05s;
-  -webkit-transition-timing-function: ease-out;
-          transition-timing-function: ease-out;
-  -webkit-transition-property: box-shadow, background-color;
-          transition-property: box-shadow, background-color;
 }
 
 .button:hover {
@@ -1189,20 +1199,33 @@ hr {
   background-color: rgba(0,0,0,.125);
 }
 
-.field-light:invalid {
-  border-color: #ff4136;
-}
 
 .field-light.is-success {
   border-color: #2ecc40;
+}
+
+.field-light.is-success:focus {
+  box-shadow: 0 0 0 2px #2ECC40;
+  box-shadow: 0 0 0 2px rgba(46, 204, 64, 0.5);
 }
 
 .field-light.is-warning {
   border-color: #ffdc00;
 }
 
+.field-light.is-warning:focus {
+  box-shadow: 0 0 0 2px #FFDC00;
+  box-shadow: 0 0 0 2px rgba(255, 220, 0, 0.5);
+}
+
+.field-light:invalid,
 .field-light.is-error {
   border-color: #ff4136;
+}
+
+.field-light.is-error:focus {
+  box-shadow: 0 0 0 2px #FF4136;
+  box-shadow: 0 0 0 2px rgba(255, 65, 54, 0.5);
 }
 /* Basscss Color Forms Dark */
 
@@ -1249,20 +1272,32 @@ hr {
   background-color: rgba(255,255,255,.25);
 }
 
-.field-dark:invalid {
-  border-color: #ff4136;
-}
-
 .field-dark.is-success {
   border-color: #2ecc40;
+}
+
+.field-dark.is-success:focus {
+  box-shadow: 0 0 0 2px #2ECC40;
+  box-shadow: 0 0 0 2px rgba(46, 204, 64, 0.5);
 }
 
 .field-dark.is-warning {
   border-color: #ffdc00;
 }
 
+.field-dark.is-warning:focus {
+  box-shadow: 0 0 0 2px #FFDC00;
+  box-shadow: 0 0 0 2px rgba(255, 220, 0, 0.5);
+}
+
+.field-dark:invalid,
 .field-dark.is-error {
   border-color: #ff4136;
+}
+
+.field-dark.is-error:focus {
+  box-shadow: 0 0 0 2px #FF4136;
+  box-shadow: 0 0 0 2px rgba(255, 65, 54, 0.5);
 }
 /* Basscss Input Range */
 
@@ -1563,9 +1598,6 @@ input[type=range] {
 .not-rounded { border-radius: 0 }
 /* Basscss Colors */
 
-
-/* Color */
-
 .black, .dark-gray   { color: #111 }
 .gray, .mid-gray     { color: #aaa }
 .silver, .light-gray { color: #ddd }
@@ -1585,10 +1617,6 @@ input[type=range] {
 .fuchsia { color: #f012be }
 .purple  { color: #b10dc9 }
 .maroon  { color: #85144b }
-
-
-/* Background Color */
-
 .bg-black, .bg-dark-gray   { background-color: #111 }
 .bg-gray, .bg-mid-gray     { background-color: #aaa }
 .bg-silver, .bg-light-gray { background-color: #ddd }
@@ -1613,9 +1641,10 @@ input[type=range] {
 .bg-darken-2 { background-color: #000000; background-color: rgba(0,0,0,.125) }
 .bg-darken-3 { background-color: #000000; background-color: rgba(0,0,0,.25) }
 .bg-darken-4 { background-color: #000000; background-color: rgba(0,0,0,.5) }
-
-
-/* Border Color */
+.border-black  { border-color: #111 }
+.border-gray   { border-color: #aaa }
+.border-silver { border-color: #ddd }
+.border-white  { border-color: #fff }
 
 .border-aqua  { border-color: #7fdbff }
 .border-blue  { border-color: #0074d9 }
@@ -1632,18 +1661,12 @@ input[type=range] {
 .border-purple  { border-color: #b10dc9 }
 .border-maroon  { border-color: #85144b }
 
-.border-black  { border-color: #111 }
-.border-gray   { border-color: #aaa }
-.border-silver { border-color: #ddd }
-.border-white  { border-color: #fff }
-
 .border-darken-1 { border-color: #000000; border-color: rgba(0,0,0,.0625) }
 .border-darken-2 { border-color: #000000; border-color: rgba(0,0,0,.125) }
 .border-darken-3 { border-color: #000000; border-color: rgba(0,0,0,.25) }
 .border-darken-4 { border-color: #000000; border-color: rgba(0,0,0,.5) }
-
-/* Opacity */
 .muted { opacity: .5 }
+.color-inherit { color: inherit }
 
 
 /* Default custom properties */
