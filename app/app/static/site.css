@@ -1759,6 +1759,9 @@ nav {
   top: 57px;
 }
 
+.fixed {
+  z-index: 9999;
+}
   
 /* External stylesheets */
 .bigfoot-footnote__button {

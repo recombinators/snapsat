@@ -199,6 +199,9 @@ nav {
   top: 57px;
 }
 
+.fixed {
+  z-index: 9999;
+}
   
 /* External stylesheets */
 @import 'bigfoot.css';
