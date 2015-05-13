@@ -1754,6 +1754,14 @@ nav {
 /*   } */
 /* } */
 
+h1 { font-size: 22px; font-size: 1.4rem; }
+h2 { font-size: 19px; font-size: 1.2rem; }
+
+@media (min-width: 52em) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+}
+
 .content-wrapper {
   position: relative;
   top: 57px;
@@ -1762,7 +1770,8 @@ nav {
 .fixed {
   z-index: 9999;
 }
-  
+
+ 
 /* External stylesheets */
 .bigfoot-footnote__button {
   position: relative;

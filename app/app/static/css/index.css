@@ -194,6 +194,14 @@ nav {
 /*   } */
 /* } */
 
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.2rem; }
+
+@media (--breakpoint-md) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+}
+
 .content-wrapper {
   position: relative;
   top: 57px;
@@ -202,6 +210,7 @@ nav {
 .fixed {
   z-index: 9999;
 }
-  
+
+ 
 /* External stylesheets */
 @import 'bigfoot.css';
