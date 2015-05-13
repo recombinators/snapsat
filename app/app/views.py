@@ -150,9 +150,9 @@ def request_composite(request):
             bands = (request.params.get('band1') +
                      request.params.get('band2') +
                      request.params.get('band3'))
-            jobid = add_to_queue(request, u'preview')
+            add_to_queue(request, u'preview')
             return HTTPFound(location='{}#{}'.format(
-                             request.environ['HTTP_REFERER'], jobid))
+                             request.environ['HTTP_REFERER'], bands))
         else:
             raise exc.HTTPBadRequest()
 
