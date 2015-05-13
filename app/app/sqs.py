@@ -62,10 +62,6 @@ def build_job_message(**kwargs):
             'data_type': 'Number',
             'string_value': kwargs['job_id']
             },
-        'email': {
-            'data_type': 'String',
-            'string_value': kwargs['email']
-            },
         'scene_id': {
             'data_type': 'String',
             'string_value': kwargs['scene_id']
@@ -84,32 +80,6 @@ def build_job_message(**kwargs):
             }
         }
     return job_message
-
-
-def build_result_message(**kwargs):
-    """
-    Build a message to add to the results queue.
-    """
-    result_message = {'body': 'result'}
-    result_message['attributes'] = {
-        'job_id': {
-            'data_type': 'Number',
-            'string_value': kwargs['job_id']
-            },
-        'email': {
-            'data_type': 'String',
-            'string_value': kwargs['email']
-            },
-        'link': {
-            'data_type': 'String',
-            'string_value': kwargs['link']
-            },
-        'scene_id': {
-            'data_type': 'String',
-            'string_value': kwargs['scene_id']
-            }
-        }
-    return result_message
 
 
 def send_message(conn, queue, message_content, message_attributes=None):

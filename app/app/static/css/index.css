@@ -1,0 +1,216 @@
+
+/* Necolas' Normalize.css */
+@import 'normalize.css';
+
+
+/* BassCSS modules */
+@import 'basscss-base-forms';
+@import 'basscss-base-buttons';
+@import 'basscss-base-tables';
+@import 'basscss-base-typography';
+
+@import 'basscss-utility-layout';
+@import 'basscss-utility-typography';
+@import 'basscss-white-space';
+@import 'basscss-responsive-states';
+@import 'basscss-positions';
+@import 'basscss-button-sizes';
+
+@import 'basscss-grid';
+@import 'flex-object';
+
+@import 'basscss-color-base';
+@import 'basscss-color-forms';
+@import 'basscss-color-forms-dark';
+@import 'basscss-input-range';
+@import 'basscss-progress';
+@import 'basscss-color-tables';
+
+@import 'basscss-button-outline';
+@import 'basscss-button-transparent';
+@import 'basscss-background-images';
+@import 'basscss-borders';
+@import 'basscss-colors';
+
+
+/* Default custom properties */
+@import 'basscss-defaults';
+
+
+/* Custom media queries */
+@custom-media --breakpoint-sm (min-width: 40em);
+@custom-media --breakpoint-md (min-width: 52em);
+@custom-media --breakpoint-lg (min-width: 64em);
+
+
+/* Custom properties */
+:root {
+  --font-family: 'futura-pt', 'Helvetica Neue', Helvetica, sans-serif;
+  --line-height: 1.5;
+  --heading-font-family: var(--font-family);
+  --heading-font-weight: bold;
+  --heading-line-height: 1.25;
+  --monospace-font-family: 'Source Code Pro', Consolas, monospace;
+  --h1: 2rem;
+  --h2: 1.5rem;
+  --h3: 1.25rem;
+  --h4: 1rem;
+  --h5: .875rem;
+  --h6: .75rem;
+  --bold-font-weight: bold;
+  --space-1: .5rem;
+  --space-2: 1rem;
+  --space-3: 2rem;
+  --space-4: 4rem;
+  --form-field-font-size: 1rem;
+  --form-field-height: 2.25rem;
+  --form-field-padding-y: .5rem;
+  --form-field-padding-x: .5rem;
+  --button-font-size: inherit;
+  --button-font-weight: bold;
+  --button-line-height: 1.125rem;
+  --button-padding-y: .5rem;
+  --button-padding-x: 1rem;
+  --container-width: 64em;
+  --black:  #111;
+  --gray:   #aaa;
+  --silver: #ddd;
+  --white:  #fff;
+  --aqua:   #7fdbff;
+  --blue:   #0074d9;
+  --navy:   #001f3f;
+  --teal:   #39cccc;
+  --green:  #2ecc40;
+  --olive:  #3d9970;
+  --lime:   #01ff70;
+  --yellow: #ffdc00;
+  --orange: #ff851b;
+  --red:    #ff4136;
+  --fuchsia:#f012be;
+  --purple: #b10dc9;
+  --maroon: #85144b;
+  --darken-1: rgba(0,0,0,.0625);
+  --darken-2: rgba(0,0,0,.125);
+  --darken-3: rgba(0,0,0,.25);
+  --darken-4: rgba(0,0,0,.5);
+  --border-width: 1px;
+  --border-radius: 3px;
+  --border-color: var(--darken-2);
+  --hover-background-color: var(--darken-1);
+  --link-color: var(--blue);
+  --button-backgroun-color: var(--blue);
+  --pre-background-color: var(--silver);
+}
+
+
+.js-preview {
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-size: 200% auto;
+  background-position: center center;
+  height: 20rem;
+}
+
+.js-preview:hover {
+  color: rgba(255, 255, 255, 1.0);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.js-preview img {
+  width: 100%;
+}
+
+
+.loading {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+}
+
+#success {
+  padding: 0;
+  margin: 0;
+}
+
+nav {
+  z-index: 9999;
+}
+
+.map-container {
+  height: calc(100vh - 57px);
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.blurb {
+  position: absolute;
+  left:0;
+  right: 0;
+  bottom: 0;
+  bottom: 40vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.preview-container {
+  min-height: 20rem;
+}
+
+#logo img {
+  max-width: 400px;
+  max-width: 100%;
+}
+
+#result-list {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.reticle {
+  position: absolute;
+  top: 49%;
+  left: 49%;
+  display: none;
+  margin-left: -40px;
+}
+
+/* .leaflet-control-zoom { */
+/*   display: none; */
+/* } */
+
+/* @media (--breakpoint-md) { */
+/*   .leaflet-control-zoom { */
+/*     display: inline; */
+/*   } */
+/* } */
+
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.2rem; }
+
+@media (--breakpoint-md) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+}
+
+.content-wrapper {
+  position: relative;
+  top: 55px;
+}
+
+.fixed {
+  z-index: 9999;
+}
+
+ 
+/* External stylesheets */
+@import 'bigfoot.css';

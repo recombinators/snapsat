@@ -1,36 +1,15 @@
 {% extends "base.jinja2" %}
 
-{% block scripts %}
-<script src="http://d3js.org/d3.v3.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<script type='text/javascript' src='/static/js/spectrum_bars.js'></script>
-<style type="text/css">
-    #basics  {
-        padding-top: 10%;
-    }
-    #bands {
-        padding-top: 10%;
-    }
-    #combinations {
-        padding-top: 10%;
-    }
-    #see-also {
-        padding-top: 10%;
-    }
-</style>
-{% endblock %}
-
 {% block title %}
 <title>Guide | Snapsat</title>
 {% endblock %}
 
-{% block styles %}
-    <style>
-        .main-page-text img {
-            display: none;
-        }
-    </style>
+{% block js %}
+<script src='http://d3js.org/d3.v3.js'></script>
+<script src='http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js'></script>
+<script src='/static/js/spectrum_bars.js'></script>
 {% endblock %}
+
 
 {% block content %}
 <div class='container clearfix mt4'>
@@ -53,20 +32,20 @@
 
         <section class='mb4'>
             <h2 id='basics'>Basics</h2>
-            <p>Launched February 11, 2013, the Landsat 8 satellite continues the production of a global dataset first started in 1972. Everyday, the satellite captures nearly 550 scenes of the Earth, each of which measures roughly 180 square kilometers. At worst, it’s an impressive selfie. At best, it’s a tool for learning about the dynamic processes and characteristics of our planet.</p>
-            <p>Landsat 8 measures a range of frequencies across the <a href='https://en.wikipedia.org/wiki/Electromagnetic_spectrum'>electromagnetic spectrum</a>, a portion of which falls within what we perceive as visible light. That visible portion accounts for less than half of the light collected by Landsat 8, which raises the question: What's the purpose of capturing frequencies which we aren't able to see? Before we can answer that question, we’re going to have to learn a little more about each of the segments that Landsat collects.</p>
+            <p>Launched February 11, 2013, the Landsat 8 satellite continues the production of a global dataset first started in 1972. Every day, the satellite captures nearly 550 scenes of the Earth, each of which measures roughly 180 square kilometers. At worst, it’s an impressive selfie. At best, it’s a tool for learning about the dynamic processes and characteristics of our planet.</p>
+            <p>Landsat 8 measures a range of frequencies across the <a href='https://en.wikipedia.org/wiki/Electromagnetic_spectrum'>electromagnetic spectrum</a>. A portion of which falls within what we perceive as visible light. That visible portion accounts for less than half of the light collected by Landsat 8. Which raises the question: What's the purpose of capturing frequencies which we aren't able to see? Before we can answer that question, we’re going to have to learn a little more about each of the segments that Landsat collects.</p>
         </section>
 
         <section class='mb4'>
             <h2 id='bands'>Bands</h2>
-            <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. The width of the bands isn't uniform and there’s some overlap you might not expect, but each has a specific function, an answer to a set of questions we might ask about the Earth.</p>
+            <p>Each segment of the electromagnetic spectrum Landsat 8 measures is called a band, of which there are 11 total. At a glance, the distribution of bands might seem haphazard. The width of the bands isn't uniform and there’s some overlap you might not expect, but each has a specific function. An answer to a set of questions we might ask about the Earth.</p>
             
             <div class='js-container-full mbl'>
                 <div class='js-graph' id='js-reference-full'></div>
             </div>
 
             <h3 id='band-1'>Band 1: Coastal/Aerosol</h3>
-            <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 nanometers that are invisible to the maked eye. Landsat 8 is unique in that it is one of the few active satellites that can measure these wavelengths, which historically have been difficult to collect as they're easily scattered by dust and atmospheric particulates. Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
+            <p>Band 1 captures the high-energy blue and violet wavelengths between 0.435 and 0.451 micrometers that are invisible to the maked eye. Landsat 8 is unique in that it is one of the few active satellites that can measure these wavelengths, which historically have been difficult to collect as they're easily scattered by dust and atmospheric particulates. Access to band 1 wavelengths provides a means of visualizing and quantifying the <strong>presence of smoke and haze,</strong> which can be useful for urban studies. Additionally, because the Ocean and living plants reflect blues and violets, Band 1 is especially useful for measuring the <strong>health of our oceans.</strong> As such, Band 1 is commonly referred to as the Coastal/Aerosol band.</p>
 
             <h3 id='band-2-3-4'>Bands 2, 3, and 4: Visible Light</h3>
             <p>Bands 2, 3, and 4 respectively refer to the Blue, Green, and Red wavelengths of light, or the <strong>visible spectrum</strong> of light most of us are accustomed to seeing. Combining them together can yield some beautiful ‘photographs’ of the Earth.</p>
@@ -75,10 +54,10 @@
             <p>The wavelengths of light just adjacent to the reds we perceive, but just outside our capacity to see, are commonly referred to as the infrared spectrum. Band 5 encompasses these wavelengths and as such is called the Near Infrared (NIR) band. As healthy plants heavily reflect these wavelengths, the NIR spectrum is especially useful for visualizing the <strong>health of plants.</strong> Brighter imagery typically corresponds to healthier plants.</p>
 
             <h3 id='band-6-7'>Band 6 and 7: Shortwave Infrared (SWIR)</h3>
-            <p>Band 6 and 7 jump down into the lower-energy wavelengths of the electromagnetic spectrum. While still within the Infrared spectrum, they’re far enough away from the NIR that they’re given their own name, the Shortwave Infrared (SWIR). Heavily absorbed by water, these bands are unique and lead to an incredibly wide variety of applications. Broadly speaking, the more water present in the scene, the darker Bands 6 and 7 will be. As different species and soil types contain varying amounts of water, this spectrum can be incredibly useful for delineating between species and soil types, that might otherwise look identical in a standard natural color photograph. Additionally, because the SWIR bands are so sensitive to water, they can be used to good effect in distinguishing between types of clouds, snow, and ice.</p>
+            <p>Band 6 and 7 jump down into the lower-energy wavelengths of the electromagnetic spectrum. While still within the Infrared spectrum, they’re far enough away from the NIR that they’re given their own name, Shortwave Infrared (SWIR). Heavily absorbed by water, these bands are unique and lead to an incredibly wide variety of applications. Broadly speaking, the more water present in the scene the darker Bands 6 and 7 will be. As different species and soil types contain varying amounts of water, this spectrum can be incredibly useful for delineating between species and soil types, that might otherwise look identical in a standard natural color photograph. Additionally, because the SWIR bands are so sensitive to water, they can be used to good effect in distinguishing between types of clouds, snow, and ice.</p>
 
             <h3 id='band-8'>Band 8: Panchromatic</h3>
-            <p>Landsat throws us a curveball with Band 8. Up until now, we’ve been continually moving down the electromagnetic spectrum, capturing wavelengths of decreasing energy.  Band 8 hops back up, capturing a wide swath of wavelengths almost entirely encompassing Bands 2, 3, and 4. Because it collects across so many wavelengths, it's commonly referred to as the Panchromatic band.</p>
+            <p>Landsat throws us a curveball with Band 8. Up until now we’ve been continually moving down the electromagnetic spectrum. Capturing wavelengths of decreasing energy.  Band 8 hops back up, capturing a wide swath of wavelengths almost entirely encompassing Bands 2, 3, and 4. Because it collects across so many wavelengths, it's commonly referred to as the Panchromatic band.</p>
             <p>Why capture bands we already have at a lower spectral resolution? Spatial resolution, that’s why! By having a band which captures a much wider range of light, Landsat is able to delineate features at twice the resolution we’ve seen up to this point. This gives us a way to create significantly more detailed images than would otherwise be possible. 
             </p>
 
@@ -86,7 +65,7 @@
             <p>The Cirrus band is useful for picking out Cirrus clouds. Band 9 was specifically created to capture the presence of these clouds, as they’re often some of the best indicators for <strong>precipitation.</strong></p>
 
             <h3 id='band-10-11'>Band 10 and 11</h3>
-            <p>Up to this point, each of the bands we've mentioned are derived from the Operational Land Imager (OLI) component of the Landsat 8 satellite. Band 10 and 11 are produced from a different piece of hardware called the Thermal Infrared Sensor (TIRS), which as you might expect, has something to do with measuring heat. It’s important to note that these bands quantify the <strong>surficial temperature</strong> of the Earth, as opposed to the temperature of the air which is what we’re accustomed to seeing.</p>
+            <p>So far each of the bands we've mentioned are captured by the Operational Land Imager (OLI) component of the Landsat 8 satellite. Band 10 and 11 are captured by a different piece of hardware called the Thermal Infrared Sensor (TIRS), which as you might expect, has something to do with measuring heat. It’s important to note that these bands quantify the <strong>surficial temperature</strong> of the Earth, as opposed to the temperature of the air which is what we’re accustomed to seeing.</p>
 
             <p>Now that we have access to all these bands, what are we going to do with them?</p>
         </section>
@@ -97,20 +76,20 @@
 
             <p>Individual bands are interesting, but the real power of Landsat 8 lies in grouping individual bands together into combinations of three and remapping them to the aspects of the visible spectrum. Landsat's 11 bands gives us the potential to create 165 unique combinations. Landsat gives us a means of visualizing what would otherwise be invisible to the naked eye!</p>
             
-            <p>Now, while there are 165 different possibilities, there are a handful that are commonly used. We’ll cover a few of those here, and hopefully in doing so, give you an understanding of how to interpret the remainder.</p>
+            <p>While there are 165 different possibilities, there are a handful that are commonly used. We’ll cover a few of those here, and in doing so, hopefully give you an understanding of how to interpret the remainder.</p>
             
             <div>
                 <h3>432 - Natural Color</h2>
                  <p>What you see with the naked eye.</p>
-                 <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/natural_LC80470272014258LGN00_bands_432.png" target="_blank">
+                 <a href="/scene/LC80470272014258LGN00/bands/432/" target="_blank">
                     <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/natural_LC80470272014258LGN00_bands_432.png" />
                  </a>
-                 <p class='caps center'>Washington State: Olympic peninsula</p>
+                 <p class='caps center'>Olympic peninsula, Washington, USA</p>
             </div>
             <div>
                 <h3>543 - Color infrared - Vegetation</h3>
-                <p>Healthy vegetation appears bright red/magenta. Why? Healthy vegetation 1) reflects near-infrared light--shown as red-- and 2) appears green--shown as blue. Add red and blue together and you get magenta. Urban areas show up blue/gray.
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_LC82320612015037LGN00_bands_543.png" target="_blank">
+                <p>Healthy vegetation appears bright red/magenta. Why? Healthy vegetation 1) reflects near-infrared light--shown as red-- and 2) appears green--shown as blue. Add red and blue together and you get magenta. Urban areas show up blue/gray.</p>
+                <a href="/scene/LC82320612015037LGN00/bands/543/" target="_blank">
                     <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_LC82320612015037LGN00_bands_543.png" />
                 </a>
                 <p class='caps center'>Amazon River</p>
@@ -118,54 +97,59 @@
 
             <div>
                 <h3>564 - False color - land/water delineation</h3>
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/land_water_LC80470272014258LGN00_bands_564.png" target="_blank">
-                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/land_water_LC80470272014258LGN00_bands_564.png" />
+                <p>Water appears as different shades of blue and ice as magenta.</p>
+                <a href="/scene/LC80620182014123LGN00/bands/564/" target="_blank">
+                    <img src="https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Yakutat_Bay_Alaska_land_water_pre_LC80620182014123LGN00_bands_564.png" />
                 </a>
-                 <p class='caps center'>Washington State: Olympic peninsula</p>
+                 <p class='caps center'>Yakutat Bay, Alaska, USA</p>
             </div>
             
             <div>
                 <h3>571 - False color - vegetation/water delineation</h3>
-                <p>Vegetation appears orange.
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_water_LC80470272014258LGN00_bands_571.png" target="_blank">
-                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_water_LC80470272014258LGN00_bands_571.png" />
+                <p>Vegetation appears orange.</p>
+                <a href="/scene/LO81830642015062LGN00/bands/571/" target="_blank">
+                    <img src="https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/congo_river_false_color_vegetation_water_pre_LO81830642015062LGN00_bands_571.png" />
                 </a>
-                 <p class='caps center'>Washington State: Olympic peninsula</p>
+                 <p class='caps center'>Congo River, Democratic Republic of Congo</p>
             </div>
             
             <div>
-                <h3>652 - Agricultural</h3>
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/agri_LC80270312014262LGN00_bands_652.png" target="_blank">
-                    <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/agri_LC80270312014262LGN00_bands_652.png" /></a>
-                <p class='caps center'>Iowa Farms</p>
+                <h3>652 - False color - agricultural</h3>
+                <p>Crops appear bright green, non-crop vegetation as darker green and bare earth as shades of pink</p>
+                <a href="/scene/LC80330322015083LGN00/bands/652/" target="_blank">
+                    <img src="https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/colorado_false_color_agriculture_LC80330322015083LGN00_bands_652.png" /></a>
+                <p class='caps center'>Greeley, Colorado, USA</p>
             </div>        
 
             <div>
-                <h3>654 - Vegetation analysis</h3>
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_a_LC80470272014258LGN00_bands_654.png" target="_blank">
+                <h3>654 - False color - vegetation analysis</h3>
+                <p>Vegetation appears bright green</p>
+                <a href="/scene/LC80470272014258LGN00/bands/654/" target="_blank">
                     <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/veg_a_LC80470272014258LGN00_bands_654.png" /></a>
-                 <p class='caps center'>Washington State: Olympic peninsula</p>
+                 <p class='caps center'>Olympic peninsula, Washington, USA</p>
             </div>        
 
             <div>
                 <h3>752 - False color - burn scars</h3>
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/burn_LC80460262014219LGN00_bands_752.png" target="_blank">
+                <p>The SWIR bands are not as obscured by the smoke and haze generated by a fire.</p>
+                <a href="/scene/LC80460262014219LGN00/bands/752/" target="_blank">
                     <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/burn_LC80460262014219LGN00_bands_752.png" />
                 </a>
-                <p class='caps center'>Washington State: Eastern Cascade Fires 2014</p>
+                <p class='caps center'>Eastern Cascade Fires 2014, Washington, USA</p>
             </div>
 
             <div>
                 <h3>753 - Natural color with atmospheric removal</h3>
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/nat_a_LC80470272014258LGN00_bands_753.png" target="_blank">
+                <a href="/scene/LC80470272014258LGN00/bands/753/" target="_blank">
                     <img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/nat_a_LC80470272014258LGN00_bands_753.png" />
                 </a>
-                 <p class='caps center'>Washington State: Olympic peninsula</p>
+                 <p class='caps center'>Olympic peninsula, Washington, USA</p>
             </div>
 
             <div>
                 <h3>764 - False color - Urban</h3>
-                <a href="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" target="_blank"><img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" /></a>
+                <p>Because the SWIR bands are less obscured by haze, a sharper image of an urban environment is possible with this combination.</p>
+                <a href="/scene/LC81230322014135LGN00/bands/764/" target="_blank"><img src="http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/urban_LC81230322014135LGN00_bands_764.png" /></a>
                 <p class='caps center'>Beijing, China</p>
             </div>                    
         </section>

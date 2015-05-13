@@ -1,85 +1,100 @@
-{% extends "base.jinja2" %}
+{% extends 'base.jinja2' %}
 
-{% block styles %}
-<style>
-    header {
-        min-height: 500px;
-        min-height: 100vh;
-    }
-    .selectscene {
-        padding-top: 5%;
-    }
-    @media only screen and (max-width: 500px) {
-        header {
-            min-height: 500px;
-        }
-    }
-</style>
+{% block js %}
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
+<script src='/static/js/map.js'></script>
+<script src='/static/js/blurb-fade.js'></script>
 {% endblock %}
 
+
 {% block content %}
-<div id='create' class='clearfix mt4'>
-    <div class='col-8 mx-auto'>
-
-        <!-- HEADING -->
-        <div class='center mb4'>
-            <h1 class='mb0 selectscene'>Select a Landsat scene</h1>
-            <p class='h3'>What location on the Earth and what date are you interested in?<sup><a href="#fn:1" id="fnref:1"></a>&#8505;</a></sup></p>
-        </div>
-        
-
-        <div class='center'>
-            <!-- SELECT LOCATION -->
-            <section id='where' class='mb4'>
-                <h2>Select a location</h2>
-                <p>Each square represents the boundaries of an individual Landsat image, uniquely identified by a Path-Row. The squares overlap and your selection may be covered more than one square.<sup><a href="#fn:2" id="fnref:2"></a>&#8505;</a></sup></p>
-                <div class='map-container'>
-                    <div id='map'>
-                        <span class="reticle bold red h3"><img src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Icon_Red.svg'></span>
-                    </div>
-                </div>
-            </section>
 
 
-            <!-- SELECT DATE -->
-            <section class='mb4'>
-                <h2>Choose a date</h2>
-                <p>Each Path-Row has multiple available dates. Typically, dates with less cloud cover are more useful. Landsat 8 passes over the same spot on Earth at about the same time, every time.<sup><a href="#fn:3" id="fnref:3"></a>&#8505;</a></sup></p>
-                
-                <div id='js-pathrowgrouping' class="flex flex-wrap flex-justify flex-start">
-                    {% for group in scenes %}
-                        <div class="flex flex-column p2">
-                            <div>
-                                <div>
-                                    Path-Row: <span class='bold'>{{ group[0].path }}</span>
-                                    Time: <span class='bold'>~{{ group[0].average_time }}</span><span class='ml1'>UTC</span>
-                                </div>
-                            </div>
-                            <div class='flex flex-justify'>
-                                <div>Date</div>
-                                <div class='regular gray'>Cloud Cover</div> 
-                            </div>
-                            {% for s in group %}
-                            <div class='pathrowsubgroup'>
-                                <div>
-                                    <a href='/scene/{{ s.entityid }}'>
-                                        <div class='regular black mr2'>{{ s.acquisitiondate }}</div>
-                                        <div class='regular gray'>{{ s.cloudcover }}%</div> 
-                                    </a>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
-        </div>
+<!-- Map container -->
+<div class='map-container'>
+  <img class='reticle z2 red' src='/static/img/sat.svg' />
+  <div id='map'></div>
 
-        <!-- FOOTNOTES -->
-        {% include 'includes/footnotes_index.html' %}
+  <div class='container clearfix'>
 
-        {% endblock %}
+    <div class='blurb z2 p1 center'>
+      <div id='logo'>
+        <img src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_White.svg'>
+        <p class='h1 bold white'>Create custom Landsat 8 composites in your browser.</p>
+      </div>
+    </div>
+  </div>
 
-        {% block scripts %}
-        <script type='text/javascript' src='/static/js/map.js'></script>
-        {% endblock %}
+  <h2 id='result-list' class='sm-hide white mb0 z2'>
+    <a  class='white' 
+        href='#results'>View the results <i class='fa fa-chevron-down'></i>
+    </a>
+  </h2>
+
+  <h2 id='result-list' class='sm-show white mb0 z2'>Move the map, then 
+    <a  class='white' 
+        href='#results'>view the results <i class='fa fa-chevron-down'></i>
+    </a>
+  </h2>
+
+
+</div> <!-- Map container -->
+
+
+<!-- Content container -->
+<div class='container clearfix mt4'>
+  <style type="text/css">
+    
+    @media screen and (max-width: 40em) {
+      
+      /*********************************
+      TWO COLUMN LAYOUT
+      **********************************/
+      
+      .mobile {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <div id='where' class='md-col md-col-6 p1'>
+
+    <!-- Introductory text -->
+    <h3>A little background information</h3>
+    <h4>What is Landsat?</h4>
+    <p>
+      Every day, the Landsat 8 satellite captures nearly 550 scenes of the 
+      Earth, each of which measures roughly 180 square kilometers. At worst, 
+      it’s an  impressive selfie. At best, it’s a tool for learning about the 
+      dynamic processes and characteristics of our planet. If you're just
+      getting started with working with Landsat data or would like to learn
+      more, check out
+      <a class='bold' href='/guide'>our guide.</a>
+    </p>
+    <h4>Paths and Rows</h4>
+    <p>
+      As you pan around, you'll notice that scenes are grouped into sets of dates. Each set is defined by a unique <em>path</em> and <em>row</em>, which represents a specific region regularly captured by Landsat. There's a significant amount of overlap between regions, which is why you'll occassionally see multiple sets.
+      <sup><a href='#fn:1' id='fnref:2'>&#8505;</a></sup>
+    </p>
+    <h4>Scenes</h4>
+    <p>
+      Within each <em>path</em> and <em>row</em> you'll see multiple dates listed. The combinatoin of a <em>path</em> and <em>row</em> and date are referred to as <em>scenes</em>. 
+      Because Landsat 8 always captures images at the same locations, you can see how the Earth is changing over time.
+      <sup><a href='#fn:2' id='fnref:2'>&#8505;</a></sup>
+      Typically, scenes with less cloud cover are more useful.
+    </p>
+  </div>
+
+  <!-- Scene listing -->
+  <div id='results' class='md-col md-col-6 p1'>
+    <h3>Select a date</h3>
+    <div id='js-pathrowgrouping'></div>
+  </div>
+
+</div> <!-- Content container -->
+
+
+<!-- FOOTNOTES -->
+{% include 'includes/footnotes_index.html' %}
+
+{% endblock %}

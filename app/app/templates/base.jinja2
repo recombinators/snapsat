@@ -1,168 +1,106 @@
 <!DOCTYPE html>
 <html class='no-js'>
-    <head>
-        <!-- Meta -->
-        <meta charset=utf-8 />
-        <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-        {% block title %}
-        <title>Home | Snapsat</title>
-        {% endblock %}
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <meta name='description' content='Create custom Landsat 8 band combinations in your browser'>
-        <!-- Stylesheets -->
-        <style>
-            /* FOUT avoidance */
-            .wf-loading{
-            /* styles to use before Typekit is loaded */
-                visibility: hidden;
-            }
-            .wf-active{
-            /* styles to use after Typekit is loaded */
-                visibility: visible;
-            }
 
-        </style>
-        <link rel='icon' type='image/ico' href='/static/favicon.ico'>
-        <link href="http://d2v52k3cl9vedd.cloudfront.net/basscss/6.0.0/basscss.min.css" rel="stylesheet">
-        <link rel='stylesheet' href='/static/webfonts/ss-social-regular.css' />
-        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.css' rel='stylesheet' />
-        <!-- Scripts -->
-        <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
-        <script src='/static/js/modernizr-2.8.3.min.js'></script>
-        <script src='/static/js/analytics.js'></script>
-        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.js'></script>
-        <script type='text/javascript' src='/static/js/lodash.min.js'></script>
-        <style>
-            body {
-                font-family: futura-pt;
-                font-weight: 400;
-            }
-            h1, h2, h3, h4 {
-                font-family: futura-pt;
-            }
-            h2, h3, h4, button { font-weight: 500; }
-            h1  { font-weight: 600; }
-            .map-container {
-                min-height: 500px;
-                position: relative;
-            }
-            nav {
-                position: fixed;
-                top: 0;
-                width: 100%;
-                z-index: 9999;
-            }
-            #map {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                width: 100%;
-            }
-            .reticle {
-              position: absolute;
-              top: calc(49% - 50px);
-              left: calc(49% - 50px);
-              z-index: 100;
-            }   
-            .menulogo {
-                max-width: 200px;
-                padding-top: 1%;    
-            }
-            .betalogo {
-                float: right;
-                margin-bottom: 10%;
-            }
-            .main-page-text h1 {
-                font-weight: normal;
-                text-shadow: 2px 2px 4px #000;
-            }
-            .main-page-text img {
-                opacity: .7;
-                border-radius: 10px;
-            }
-            .bg-black {
-                background: #000;
-            }
-            a.ss-icon:hover {
-                text-decoration: none;
-            }
-            .github { color: #333; }
-            .github:hover { color: red; }
-            .linkedin { color: rgb(0, 123, 182); }
-            .linkedin:hover { color: red; }
-            .twitter { color: rgb(0, 172, 237); }
-            .twitter:hover { color: red; }
+  <head>
+    <!-- Meta -->
+    <meta charset=utf-8 />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+    {% block title %}
+    <title>Home | Snapsat — Create custom Landsat band composites in your browser</title>
+    {% endblock %}
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='description' content='Create custom Landsat band composites in your browser.'>
+    <meta name='og:title' content='Snapsat — Create custom Landsat band composites in your browser.'>
+    <meta name='og:type' content='website'>
+    <meta name='og:image' content='https://d262ilb51hltx0.cloudfront.net/fit/c/808/808/1*qcrxVZ7SlXhql3bohv7vuw.png'>
+    <meta name='og:url' content='http://snapsat.org'>
+    <!-- <meta name='og:description' content=''> -->
+    <!-- <meta name='twitter:card' content='summary'> -->
+    <!-- <meta name='twitter:url' content=''> -->
+    <!-- <meta name='twitter:title' content=''> -->
+    <!-- <meta name='twitter:description' content=''> -->
+    <meta name='twitter:image' content='https://d262ilb51hltx0.cloudfront.net/fit/c/808/808/1*qcrxVZ7SlXhql3bohv7vuw.png'>
 
-            .team-member {
-                max-width: 20rem;
-            }
-            
-            .table-hover{
-                max-width: 15em;
-            }
-            .table-hover > tbody > tr.hover:hover > td,
-            .table-hover > tbody > tr.hover:hover > th {
-                box-shadow: 0 0 0 20rem rgba(0, 0, 0, 0.1) inset;
-            }
-            .table-hover > tbody > tr:first-child {
-                cursor: auto;
-                } 
-            .table-hover > tbody > tr {
-                cursor: pointer;
-            }
+    <!-- Styles -->
+    <link rel='icon' href='/static/favicon.ico' type='image/ico' >
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox.js/v2.1.8/mapbox.css'>
+    <link rel='stylesheet' href='/static/site.css'>
 
-        </style>
-        {% block styles %} {% endblock %}
-        <link rel='stylesheet' href='/static/css/bigfoot-default.css' />
-        <script src="//use.typekit.net/wqn0qec.js"></script>
-        <script>try{Typekit.load();}catch(e){}</script>
-        <script type="text/javascript" src="/static/js/bigfoot.min.js"></script>
-        <script type="text/javascript">
-            $.bigfoot();
-        </script>
-    </head>
-    <body>
-        <!--[if lt IE 8]>
-            <p class='browserupgrade'>You are using an <strong>outdated</strong> browser. Please <a href='http://browsehappy.com/'>upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <!-- Javascript -->
+    <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+    <script src='/static/js/modernizr-2.8.3.min.js'></script>
+    <script src='/static/js/lodash.min.js'></script>
+    <script src='/static/js/longpoll.js'></script>
+    <script src='//use.typekit.net/wqn0qec.js'></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
 
-        <!-- HEADER -->
-        {% block header %}
-        <header class="py2 white bg-gray bg-cover bg-center"
-                style="background-image: url(https://cldup.com/nOf9BkKLZx-3000x3000.jpeg);">
+  <body>
+    <!--[if lt IE 9]>
+    <p class='browserupgrade'>
+      You are using an <strong>outdated</strong> browser. 
+      Please <a href='http://browsehappy.com/'>upgrade your browser</a> to improve your experience.
+    </p>
+    <![endif]-->
 
-            <nav class="clearfix bg-darken-3 fit">
-                <div class='px2'>
-                    <div class="sm-col">
-                        <a href="/"><img class="menulogo" src="https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_White.svg"><h3 class="h4 caps red betalogo">BETA</h3></a>
-                    </div>
-                    <div class="right menulinks">
-                        <a href="/#create" class="button py2 button-transparent">Create</a>
-                        <a href="/guide" class="button py2 button-transparent">Guide</a>
-                        <a href="#footer" class="button py2 button-transparent">About</a>
-                    </div>
-                </div>
-            </nav>
-            <div class='py4 mt4 center main-page-text'>
-                <img class="fit clearfix bg-white  mainlogo" src="https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Color.svg">
-                <h1 class='mb0 caps'>Create Landsat composites from your browser</h1>
-                <h1 class='mb0 white'>Made possible by <a class='mb0 white' href="http://aws.amazon.com/public-data-sets/">Public Data Sets on AWS</a></h1>
-                <!-- <img src='https://s3-us-west-2.amazonaws.com/snapsatstatic/static/img/Snapsat_logo_Color.svg'> -->
-            </div>
-        </header>
-        {% endblock %}
-
-        <!-- MAIN-CONTENT -->
-        <div class='content'>
-            {% block content %}{% endblock %}
+    <!-- Navigation -->
+    <!-- Mobile (40rem) -->
+    <div class='fixed full-width top-0 z3 bg-black sm-show'>
+      <nav class='clearfix mxn1 p1'>
+        <div class='sm-col'>
+          <style>
+            .satellite {
+              height: 18px; 
+              margin-right: 8px;
+            }
+          </style>
+          <a class='button button-narrow button-transparent white' href='/'><img class='satellite' src='/static/img/sat.svg'><span class='caps'>Snapsat</span> <span class='red h6 '>Beta</span></a>
         </div>
+        <div class='sm-col-right px2'>
+          <a class='button button-narrow button-transparent white' href='/about/'>About</a>
+          <a class='button button-narrow button-transparent white' href='https://medium.com/@snapsat'>Blog</a>
+          <a class='button button-narrow button-transparent white' href='/guide/'>Guide</a>
+          <a class='button button-narrow bg-red white' href='/about/#hire'>Hire us</a>
+        </div>
+      </nav>
+    </div>
 
-        <!-- FOOTER -->
-        {% include 'includes/footer.html' %}
+    <!-- Mobile (40rem) -->
+    <div class='fixed full-width top-0 z3 bg-black sm-hide'>
+      <nav class='clearfix mxn1 p1'>
+        <div class='sm-col'>
+          <style>
+            .satellite {
+              height: 18px; 
+              margin-right: 8px;
+            }
+          </style>
+          <a class='button button-narrow button-transparent white' href='/'><img class='satellite' src='/static/img/sat.svg'></a>
+          <a class='button button-narrow button-transparent white' href='/about/'>About</a>
+          <a class='button button-narrow button-transparent white' href='https://medium.com/@snapsat'>Blog</a>
+          <a class='button button-narrow button-transparent white' href='/guide/'>Guide</a>
+          <a class='button button-narrow bg-red white' href='/about/#hire'>Hire us</a>
+        </div>
+      </nav>
+    </div>
 
-        <!-- JAVASCRIPT -->
-        <script type='text/javascript' src='/static/bundle.js'></script>
-        <script type='text/javascript' src='/static/js/doorbell.js'></script>
-        {% block scripts %}{% endblock %}
-    </body>
+    <!-- Main content -->
+    <div class='content-wrapper'>
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    {% include 'includes/footer.html' %}
+
+    <!-- Optional javascript -->
+    {% block js %}{% endblock %}
+
+    <!-- Additional javascript -->
+    <script src='/static/js/doorbell.js'></script>
+    <script src='/static/js/analytics.js'></script>
+    <script src='/static/js/gauges.js'></script>
+    <script src='/static/js/bigfoot.min.js'></script>
+    <script>$.bigfoot();</script>
+  </body>
 </html>

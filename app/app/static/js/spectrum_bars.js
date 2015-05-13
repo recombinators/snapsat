@@ -66,7 +66,9 @@ function refernceGraph(type){
     // Tool tip for bar graph. Band #: Name (Min Frequency - Max Frequency µm) 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset(function (d){if(d[2] == 1){ return ([1.33*height + font_size, 0]);}else if(d[2] == 9){ return ([1.33*height + font_size, 0]);}else if(d[2] == 8){ return ([2*height/3 + font_size, 0]);}else{ return ([height + font_size , 0]);}})
+        .attr("dx", 0 + "px")
+        .attr("dy", 1000 + "px") 
+        // .offset(function (d){if(d[2] == 1){ return ([1.33*height + font_size, 0]);}else if(d[2] == 9){ return ([1.33*height + font_size, 0]);}else if(d[2] == 8){ return ([2*height/3 + font_size, 0]);}else{ return ([height + font_size , 0]);}})
         .html(function(d) {
             return '<div class="sans">' + 'Band '+ d[2] + ': ' + d[4] + ' (' + d[0] + " - " + d[1] + ' µm)' + '</div>';
             });

@@ -1,0 +1,109 @@
+{% extends "base.jinja2" %}
+
+
+{% block title %}
+<title>{{ meta_data.scene_id }} | Snapsat</title>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block content %}
+
+<div class='container clearfix mt4 p1 composite_page'>
+
+  {% for band_combo, composite in composites.iteritems() %}
+
+  <h1 class='center mb3'>
+    A <a class='black' href='/scene/{{ meta_data.scene_id }}/bands/{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}'>{{ composite.band1 }}{{ composite.band2 }}{{ composite.band3 }}</a>
+    composite of <a class='black' href='/scene/{{ meta_data.scene_id }}'>{{ meta_data.scene_id }}</a>
+  </h1>
+
+  <!-- Display preview image -->
+  {% if composite.previewjobid %}
+    {% if composite.previewurl %}
+      <div class='sm-col sm-col-6 p1'>
+        <a href='{{ composite.previewurl }}' class='js-preview'>
+          <img src='{{ composite.previewurl }}'>
+        </a>
+      </div>
+    {% else %}
+      <div class='js-nopreview' id='{{ composite.previewjobid }}'>
+        <a  class='sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'
+            style='background-image: url( "/static/img/loading.gif" ); background-repeat: no-repeat; '>
+        </a>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
+      <form method='post'>
+        <input type='hidden' name='band1' value='{{ composite.band1 }}'/>
+        <input type='hidden' name='band2' value='{{ composite.band2 }}'/>
+        <input type='hidden' name='band3' value='{{ composite.band3 }}'/>
+        <button
+          class='button rounded-right left bg-silver black'
+          formaction='/request/preview/{{ meta_data.scene_id }}/'
+          formmethod='post'
+          type='submit'>Request a preview
+        </button>
+      </form>
+    </div>
+  {% endif %}
+
+  <div class='sm-col sm-col-6 p1'>
+
+
+    <h3>Interpreting this image</h3>
+    {% include 'scene/band-descriptions.jinja2' %}
+
+
+    <!-- Full render download button -->
+    <h3>Download</h3>
+    {% if composite.fullurl %}
+    <p>You're in luck! Looks like someone else has already requested a full-size render of this composite.</p>
+    <a  class='button bg-silver black' 
+        href='{{ composite.fullurl }}'>
+        Download a fullsize render
+    </a>
+
+    <!-- If a full render has NOT been created, display a means of creating one. -->
+    {% else %}
+    <div class='js-nofull' id='{{composite.fulljobid}}'>
+      <!-- If a full has been requested, display the processing status. -->
+      {% if composite.fullstatus %}
+      <a  class='button bg-silver black' 
+          id='js-fullstatus'> Status:
+          {{ composite.fullstatus }}
+      </a>
+
+      <!-- If a full has not been requested, display a button to do so. -->
+      {% else %}
+
+      <p class='h5'>We can usually render a full-sized composite in 3 minutes. If you don't mind waiting, just stay here. Otherwise, we'll gladly notify you via email when it's finished.</p>
+      <!-- Optional email -->
+      <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
+        <form method='post'>
+          <input class='mb1 left' type='email' name='email_address' placeholder='Email (optional)'/>
+          <input type='hidden' name='band1' value='{{ composite.band1 }}'/>
+          <input type='hidden' name='band2' value='{{ composite.band2 }}'/>
+          <input type='hidden' name='band3' value='{{ composite.band3 }}'/>
+          <button
+            class='button rounded-right left bg-silver black'
+            formaction='/request/full/{{ meta_data.scene_id }}/'
+            formmethod='post'
+            type='submit'>Request a full size render
+          </button>
+        </form>
+      </div>
+
+      {% endif %}
+    </div> <!-- nofull -->
+
+    {% endif %}
+  </div>
+
+{% endfor %}
+</div>
+
+{% endblock %}
