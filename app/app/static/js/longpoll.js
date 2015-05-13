@@ -69,7 +69,8 @@ $(document).ready(function(){
           var newid = '#'.concat(jobId);
           if(info.jobstatus != 'Done' && info.jobstatus != 'Failed'){
             // Update status and elapsed time.
-            $(newid).find("#js-fullstatus").html(info.jobstatus);
+            // $(newid).find("#js-fullstatus").html(info.jobstatus);
+            $(newid).html(Status: info.jobstatus);
           }else{
             if(info.jobstatus != 'Failed'){
               // Stop polling on success

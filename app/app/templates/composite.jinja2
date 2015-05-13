@@ -70,17 +70,17 @@
     <!-- If a full render has NOT been created, display a means of creating one. -->
     {% else %}
     <div class='js-nofull' id='{{composite.fulljobid}}'>
-      <p class='h5'>We can usually render a full-sized composite in 3 minutes. If you don't mind waiting, just stay here. Otherwise, we'll gladly notify you via email when it's finished.</p>
       <!-- If a full has been requested, display the processing status. -->
       {% if composite.fullstatus %}
       <a  class='button bg-silver black' 
-          id='js-fullstatus'>
+          id='js-fullstatus'> Status:
           {{ composite.fullstatus }}
       </a>
 
       <!-- If a full has not been requested, display a button to do so. -->
       {% else %}
 
+      <p class='h5'>We can usually render a full-sized composite in 3 minutes. If you don't mind waiting, just stay here. Otherwise, we'll gladly notify you via email when it's finished.</p>
       <!-- Optional email -->
       <div id='js-dialog{{band_combo}}' class='js-modal' title='Email notification'>
         <form method='post'>
