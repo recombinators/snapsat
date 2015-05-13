@@ -139,7 +139,7 @@ nav {
 }
 
 .map-container {
-  height: 100vh;
+  height: calc(100vh - 57px);
   position: relative;
 }
 
@@ -185,16 +185,21 @@ nav {
   margin-left: -40px;
 }
 
-.leaflet-control-zoom {
-  display: none;
+/* .leaflet-control-zoom { */
+/*   display: none; */
+/* } */
+
+/* @media (--breakpoint-md) { */
+/*   .leaflet-control-zoom { */
+/*     display: inline; */
+/*   } */
+/* } */
+
+.content-wrapper {
+  position: relative;
+  top: 57px;
 }
 
-@media (--breakpoint-md) {
-.leaflet-control-zoom {
-  display: inline;
-}
-
-}
   
 /* External stylesheets */
 @import 'bigfoot.css';
