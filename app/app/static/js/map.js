@@ -14,12 +14,11 @@ var map = L.mapbox.map('map', 'jacques.lh797p9e', {
 // Position navigation tools at the bottom of the map.
 // Searchbar
 new L.mapbox.geocoderControl('mapbox.places', {
-  keepOpen: true,
-  position: 'bottomleft'
+  position: 'bottomright'
 }).addTo(map);
 // Zoomer
 new L.Control.Zoom({ 
-  position: 'bottomleft' 
+  position: 'bottomright' 
 }).addTo(map);
 
 // Seattle, WA

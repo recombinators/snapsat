@@ -46,7 +46,7 @@
 
     <!-- Navigation -->
     <div class='fixed full-width top-0 z3 bg-black'>
-      <nav class='container clearfix mxn1 p1'>
+      <nav class='clearfix mxn1 p1'>
         <div class='sm-col'>
           <style>
             .satellite {
@@ -56,7 +56,7 @@
           </style>
           <a class='button button-narrow button-transparent white' href='/'><img class='satellite' src='/static/img/sat.svg'><span class='caps'>Snapsat</span> <span class='red h6 '>Beta</span></a>
         </div>
-        <div class=sm-col-right>
+        <div class='sm-col-right px2'>
           <a class='button button-narrow button-transparent white' href='/about/'>About</a>
           <a class='button button-narrow button-transparent white' href='https://medium.com/@snapsat'>Blog</a>
           <a class='button button-narrow button-transparent white' href='/guide/'>Guide</a>
@@ -66,7 +66,9 @@
     </div>
 
     <!-- Main content -->
-    {% block content %}{% endblock %}
+    <div class='content-wrapper'>
+      {% block content %}{% endblock %}
+    </div>
 
     <!-- Footer -->
     {% include 'includes/footer.html' %}

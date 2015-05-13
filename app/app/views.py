@@ -115,6 +115,7 @@ def add_to_queue(request, rendertype):
         send_message(SQSconn,
                      current_queue,
                      message['body'], message['attributes'])
+        return jobid
 
 
 @view_config(route_name='request', renderer='json')
@@ -149,9 +150,9 @@ def request_composite(request):
             bands = (request.params.get('band1') +
                      request.params.get('band2') +
                      request.params.get('band3'))
-            add_to_queue(request, u'preview')
-            return HTTPFound(location=request.environ['HTTP_REFERER'].format(
-                request.matchdict['scene_id'], bands))
+            jobid = add_to_queue(request, u'preview')
+            return HTTPFound(location='{}#{}'.format(
+                             request.environ['HTTP_REFERER'], jobid))
         else:
             raise exc.HTTPBadRequest()
 
