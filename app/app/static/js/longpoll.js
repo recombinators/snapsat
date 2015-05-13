@@ -25,7 +25,7 @@ $(document).ready(function(){
                 "<a id= '" + info.scene_id + "'" +
                   "href='/scene/" + info.scene_id + "/bands/" +
                   info.band1 + info.band2 + info.band3 + "'" +
-                  "class='js-preview sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
+                  "class='js-preview block sm-col sm-col-6 md-col md-col-4 lg-col lg-col-3'" +
                   "style='background-image: url( " + info.renderurl + " );'>" +
 
                   "<h1 class='composite-description p1 m0'" + info.band1 + info.band2 + info.band3 + ">" +
