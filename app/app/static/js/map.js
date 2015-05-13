@@ -78,7 +78,7 @@ var sceneList = _.debounce(function() {
       // Each Path/Row has it's own column.
       // Note: By just passing in `class='col'`, the width is set based on size
       $('#js-pathrowgrouping').append(
-        $('<div class="col p1"></div>').attr('id', sceneByPathRow)
+        $('<div class="col p1 mobile"></div>').attr('id', sceneByPathRow)
       );
 
       // Create the headings for each Path/Row listing
@@ -98,7 +98,7 @@ var sceneList = _.debounce(function() {
       // Generate entry for each date within a path-row group.
       for (var k in scenes) {
         $(listOfScenesID).append(
-          "<div>" +
+          "<div class='mobile'>" +
             "<a style='text-decoration: none' class='flex flex-justify button-transparent' href ='/scene/" + scenes[k].entityid + "'>" +
               "<div class='regular black mr4'>" + scenes[k].acquisitiondate + "</div>" +
               "<div class='regular gray'>" + scenes[k].cloudcover + "%</div>" + 
