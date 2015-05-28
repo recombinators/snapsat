@@ -355,6 +355,8 @@ def scene_options_ajax(request):
     if not path_row_list:
         return {'scenes': []}
 
+    import pdb; pdb.set_trace()
+
     scenes = PathRow.scenelist(path_row_list)
     sceneList = []
     times = 0
@@ -402,7 +404,7 @@ def scene_options_ajax(request):
     return {'scenes': outputList}
 
 
-@view_config(route_name='scene_options_ajax', renderer='json')
+@view_config(route_name='immediate_preview_ajax', renderer='json')
 def immediate_preview_ajax(request):
     """
     Returns preview given lat/lng (from user ip).
@@ -425,6 +427,10 @@ def immediate_preview_ajax(request):
     # combinations n ithe world.
     if not path_row_list:
         return {'scenes': []}
+
+    # Select best path/row
+    if len(path_row_list) > 1:
+        import pdb; pdb.set_trace()
 
     scenes = PathRow.scenelist(path_row_list)
     sceneList = []

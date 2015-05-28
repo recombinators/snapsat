@@ -25,6 +25,7 @@ def main(global_config, **settings):
     config.add_route('scene', 'scene/{scene_id}/')
     config.add_route('scene_band', 'scene/{scene_id}/bands/{band_combo}/')
     config.add_route('scene_options_ajax', 'scene_options_ajax/')
+    config.add_route('immediate_preview_ajax', 'immediate_preview_ajax/')
     config.add_route('status_poll', 'status_poll/')
     config.add_route('preview_poll', 'preview_poll/')
     config.scan()
