@@ -24,14 +24,15 @@ new L.Control.Zoom({
 
 // Seattle, WA
 var lat = 47.568, lng = -122.582;
-var temp = 0;
+
+// Get lat/lng given IP
 $.get("http://ipinfo.io", function(response) {
-    console.log(response);
+    // console.log(response);
     if (response.loc) {
-      temp = response.loc.split(",");
+      var temp = response.loc.split(",");
       lat = temp[0];
       lng = temp[1];
-      console.log(lat, lng);
+      // console.log(lat, lng);
     }
 }, "jsonp");
 
