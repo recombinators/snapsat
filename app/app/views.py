@@ -402,6 +402,77 @@ def scene_options_ajax(request):
     return {'scenes': outputList}
 
 
+@view_config(route_name='scene_options_ajax', renderer='json')
+def immediate_preview_ajax(request):
+    """
+    Returns preview given lat/lng (from user ip).
+    """
+    # Lat/lng values default to Seattle, otherwise from Leaflet .getcenter().
+    lat = float(request.params.get('lat', 47.614848))
+    lng = float(request.params.get('lng', -122.3359059))
+
+    # Correct lng outside of -180 to 180
+    lng = ((lng + 180.0) % 360.0) - 180.0
+    lng = round(lng, 5)
+
+    # Filter all available scenes to those which encompass the
+    # lat/lng provided from the user. Then, populate a list with
+    # the information relevant to our view.
+
+    path_row_list = Paths.pathandrow(lat, lng)
+
+    # Check for zero length path row list to prevent return of all path row
+    # combinations n ithe world.
+    if not path_row_list:
+        return {'scenes': []}
+
+    scenes = PathRow.scenelist(path_row_list)
+    sceneList = []
+    times = 0
+    for i, scene in enumerate(scenes):
+        sceneList.append({
+            'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
+            'acquisitiontime': scene.acquisitiondate,
+            'cloudcover': scene.cloudcover,
+            'download_url': scene.download_url,
+            'entityid': scene.entityid,
+            'sliced': scene.entityid[3:9],
+            'path': scene.path,
+            'row': scene.row})
+
+    # This line may not be necessary.
+    sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
+
+    # Sort the available scenes based on their Path, then Row.
+    outputList = []
+    for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
+        outputList.append(list(items))
+
+    # Sort the vailable scenes in each group by date in reverse.
+    for group in outputList:
+        group.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
+
+    for group in outputList:
+        times = 0
+        for subgroup in group:
+            time_strtime = subgroup['acquisitiontime'].strftime('%H:%M:%S')
+            stripped_strtime = time.strptime(time_strtime.split(',')[0],
+                                             '%H:%M:%S')
+            times += timedelta(hours=stripped_strtime.tm_hour,
+                               minutes=stripped_strtime.tm_min,
+                               seconds=stripped_strtime.tm_sec
+                               ).total_seconds()
+            subgroup['acquisitiontime'] = time_strtime
+
+        average_seconds = times / len(group)
+        average_time = time.strftime('%H:%M', time.gmtime(average_seconds))
+
+        for subgroup in group:
+            subgroup['average_time'] = average_time
+
+    return {'scenes': outputList}
+
+
 @view_config(route_name='status_poll', renderer='json')
 def status_poll(request):
     """
