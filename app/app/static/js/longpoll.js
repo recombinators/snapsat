@@ -74,7 +74,7 @@ $(document).ready(function(){
             if(info.jobstatus != 'Failed'){
               // Stop polling on success
               $(newid).html(
-                "<a  class='button bg-grey black not-rounded full-width center'" +
+                "<a  class='button bg-silver black'" +
                   "href=" + info.renderurl + ">Download full size image." +
                   "</a>");
                 clearInterval(intervalID);
