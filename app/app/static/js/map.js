@@ -24,6 +24,14 @@ new L.Control.Zoom({
 
 // Seattle, WA
 var lat = 47.568, lng = -122.582;
+var temp = 0;
+$.get("http://ipinfo.io", function(response) {
+    temp = response.loc;
+    temp = temp.split(",");
+    lat = temp[0]
+    lng = temp[1]
+    console.log(lat, lng);
+}, "jsonp");
 
 $(document).ready(function() {
   // If user has moved the map, reset to their last location.
