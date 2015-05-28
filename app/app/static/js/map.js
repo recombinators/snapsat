@@ -26,11 +26,13 @@ new L.Control.Zoom({
 var lat = 47.568, lng = -122.582;
 var temp = 0;
 $.get("http://ipinfo.io", function(response) {
-    temp = response.loc;
-    temp = temp.split(",");
-    lat = temp[0]
-    lng = temp[1]
-    console.log(lat, lng);
+    console.log(response);
+    if (response.loc) {
+      temp = response.loc.split(",");
+      lat = temp[0];
+      lng = temp[1];
+      console.log(lat, lng);
+    }
 }, "jsonp");
 
 $(document).ready(function() {
