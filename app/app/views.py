@@ -431,26 +431,21 @@ def immediate_preview_ajax(request):
 
     def best_path_row(path_row_list):
         """
-        Given path_row_list query, return index of path/row with point
-        closest to center of path/row.
+        Given path_row_list sqlalchemy result list, return index/(path/row)
+        where user lat/lng is closest to center of path/row.
         """
         path_row = []
         # get min and max lat lng
         for num, x in enumerate(path_row_list):
-            temp = PathRow.lat_lng(x)
-            path_row.append({})
-            path_row[num]['data'] = temp
-            path_row[num]['path'] = temp[4]
-            path_row[num]['row'] = temp[5]
+            path_row.append(PathRow.lat_lng(x))
 
         # compute distances
+        distances = []
         for num, x in enumerate(path_row):
-            center_lat = (x['data'][0]+x['data'][2])/2
-            center_lng = (x['data'][1]+x['data'][3])/2
-            x['dist'] = dist(lat, lng, center_lat, center_lng)
+            center_lat = (x[0]+x[2])/2
+            center_lng = (x[1]+x[3])/2
+            distances.append(dist(lat, lng, center_lat, center_lng))
 
-        # Make list of distances
-        distances = [x['dist'] for x in path_row]
         return distances.index(min(distances))
 
     # Select best path/row
