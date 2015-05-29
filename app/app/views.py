@@ -159,9 +159,13 @@ def request_composite(request):
             bands = (request.params.get('band1') +
                      request.params.get('band2') +
                      request.params.get('band3'))
-            add_to_queue(request, u'preview')
-            return HTTPFound(location='{}#{}'.format(
-                             request.environ['HTTP_REFERER'], bands))
+            jobid = add_to_queue(request, u'preview')
+            try:
+                return HTTPFound(location='{}#{}'.format(
+                                 request.environ['HTTP_REFERER'], bands))
+            except KeyError:
+                # when HTTP_REFERER is not set(when called from immediate view)
+                return jobid
         else:
             raise exc.HTTPBadRequest()
 
@@ -465,11 +469,11 @@ def immediate_preview_ajax(request):
 
     # Get scene with lowest cloud cover
     entityid = PathRow.scene_lowest_cloud(path_row_list)[0]
-    environment = request.environ
-    environment['RAW_URI'] = ''
-    environment['PATH_INFO'] = ''
+    # environment = request.environ
+    # environment['RAW_URI'] = ''
+    # environment['PATH_INFO'] = ''
     subreq = Request.blank('/request/preview/{}/?band1={}&band2={}&band3={}'.
-                           format(entityid, 5, 4, 3), environ=request.environ)
+                           format(entityid, 5, 4, 3))
     subreq.route_url('request',
                      rendertype='preview',
                      scene_id=entityid,
