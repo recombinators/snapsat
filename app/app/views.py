@@ -454,7 +454,8 @@ def immediate_preview_ajax(request):
         path_row_list[:] = []
         path_row_list.append(temp)
 
-    scenes = PathRow.scene_lowest_cloud(path_row_list)
+    # Get scene with lowest cloud cover
+    scene = PathRow.scene_lowest_cloud(path_row_list)
     import pdb; pdb.set_trace()
     sceneList = []
     times = 0

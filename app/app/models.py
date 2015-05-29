@@ -105,13 +105,14 @@ class PathRow(Base):
     @classmethod
     def scene_lowest_cloud(cls, pr_output):
         """
-        Query path_row table for a list of scenes that are available in the AWS
-        landsat public data set that correspond to the path row requested.
+        Query path_row table for scene with loweset cloud coverate available in
+        the AWS landsat public data set.
         """
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
-        return Session.query(cls).filter(or_(*new)).order_by(cls.cloudcover)
+        return (Session.query(cls).filter(or_(*new)).order_by(cls.cloudcover).
+                first())
 
 
 class UserJob(Base):
