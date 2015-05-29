@@ -102,6 +102,17 @@ class PathRow(Base):
                              cls.row).filter(cls.path == path_row.path,
                                              cls.row == path_row.row).first()
 
+    @classmethod
+    def scene_lowest_cloud(cls, pr_output):
+        """
+        Query path_row table for a list of scenes that are available in the AWS
+        landsat public data set that correspond to the path row requested.
+        """
+        new = []
+        for x in pr_output:
+            new.append(and_(cls.row == x.row, cls.path == x.path))
+        return Session.query(cls).filter(or_(*new)).order_by(cls.cloudcover)
+
 
 class UserJob(Base):
     """
