@@ -8,12 +8,10 @@
 
 
 {% block content %}
-
-
-<!-- Map container -->
-<div class='map-container'>
+<!-- Preview container -->
+<div class='preview-container'>
   <img class='reticle z2 red' src='/static/img/sat.svg' />
-  <div id='map'></div>
+  <div id='js-preview'></div>
 
   <div class='container clearfix'>
 
@@ -27,9 +25,19 @@
 
   <h2 id='result-list' class='sm-hide white mb0 z2'>
     <a  class='white'
-        href='#results'>View the results <i class='fa fa-chevron-down'></i>
+        href='#results'>Here's a satellite image of your  local area as Superman would see it!<i class='fa fa-chevron-down'></i>
     </a>
   </h2>
+
+
+
+</div> <!-- Preview container -->
+
+
+<!-- Map container -->
+<div class='map-container'>
+
+  <div id='map'></div>
 
   <h2 id='result-list' class='sm-show white mb0 z2'>Move the map, then
     <a  class='white'

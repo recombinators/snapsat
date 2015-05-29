@@ -25,17 +25,6 @@ new L.Control.Zoom({
 // Seattle, WA
 var lat = 47.568, lng = -122.582;
 
-// Get lat/lng given IP
-$.get("http://ipinfo.io", function(response) {
-    // console.log(response);
-    if (response.loc) {
-      var temp = response.loc.split(",");
-      lat = temp[0];
-      lng = temp[1];
-      // console.log(lat, lng);
-    }
-}, "jsonp");
-
 $(document).ready(function() {
   // If user has moved the map, reset to their last location.
   if (Modernizr.sessionstorage) {
