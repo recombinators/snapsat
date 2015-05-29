@@ -165,7 +165,6 @@ def request_composite(request):
                                  request.environ['HTTP_REFERER'], bands))
             except KeyError:
                 # when HTTP_REFERER is not set(when called from immediate view)
-                import pdb; pdb.set_trace()
                 return jobid
         else:
             raise exc.HTTPBadRequest()

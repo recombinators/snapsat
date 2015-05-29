@@ -306,13 +306,13 @@ class RenderCache(Base):
     def update_render_count(cls, entityid, band1, band2, band3, rendertype):
         """Update render count of composite."""
         # if this scene/band has already been requested, increase the count
-        test = Session.query(cls.jobid).filter(
+        query_object = Session.query(cls.jobid).filter(
             cls.entityid == entityid,
             cls.band1 == band1, cls.band2 == band2, cls.band3 == band3,
             cls.rendertype == rendertype
             )
-        test.update({"rendercount": cls.rendercount+1})
-        return test[0].jobid
+        query_object.update({"rendercount": cls.rendercount+1})
+        return query_object[0].jobid
 
 
     @classmethod
