@@ -429,16 +429,35 @@ def immediate_preview_ajax(request):
     def dist(lat, lng, center_lat, center_lng):
         return ((lat-center_lat)**2 + (lng-center_lng)**2)**0.5
 
+    def best_path_row(path_row_list):
+        """
+        Given path_row_list query, return index of path/row with point
+        closest to center of path/row.
+        """
+        path_row = []
+        # get min and max lat lng
+        for num, x in enumerate(path_row_list):
+            temp = PathRow.lat_lng(x)
+            path_row.append({})
+            path_row[num]['data'] = temp
+            path_row[num]['path'] = temp[4]
+            path_row[num]['row'] = temp[5]
+
+        # compute distances
+        for num, x in enumerate(path_row):
+            center_lat = (x['data'][0]+x['data'][2])/2
+            center_lng = (x['data'][1]+x['data'][3])/2
+            x['dist'] = dist(lat, lng, center_lat, center_lng)
+
+        # Make list of distances
+        distances = [x['dist'] for x in path_row]
+        return distances.index(min(distances))
+
     # Select best path/row
     if len(path_row_list) > 1:
-        temp = []
-        for x in path_row_list:
-            temp.append(PathRow.lat_lng(x))
-        for num, x in enumerate(temp):
-            center_lat = (x[0]+x[2])/2
-            center_lng = (x[1]+x[3])/2
-
-        import pdb; pdb.set_trace()
+        temp = path_row_list[best_path_row(path_row_list)]
+        path_row_list[:] = []
+        path_row_list.append(temp)
 
     scenes = PathRow.scenelist(path_row_list)
     sceneList = []
