@@ -355,8 +355,6 @@ def scene_options_ajax(request):
     if not path_row_list:
         return {'scenes': []}
 
-    import pdb; pdb.set_trace()
-
     scenes = PathRow.scenelist(path_row_list)
     sceneList = []
     times = 0
@@ -428,8 +426,18 @@ def immediate_preview_ajax(request):
     if not path_row_list:
         return {'scenes': []}
 
+    def dist(lat, lng, center_lat, center_lng):
+        return ((lat-center_lat)**2 + (lng-center_lng)**2)**0.5
+
     # Select best path/row
     if len(path_row_list) > 1:
+        temp = []
+        for x in path_row_list:
+            temp.append(PathRow.lat_lng(x))
+        for num, x in enumerate(temp):
+            center_lat = (x[0]+x[2])/2
+            center_lng = (x[1]+x[3])/2
+
         import pdb; pdb.set_trace()
 
     scenes = PathRow.scenelist(path_row_list)

@@ -88,6 +88,20 @@ class PathRow(Base):
                              cls.download_url
                              ).filter(cls.entityid == scene_id).first()
 
+    @classmethod
+    def lat_lng(cls, path_row):
+        """
+        Given path row, return min and max lat and lng.
+        """
+
+        return Session.query(cls.min_lat,
+                             cls.min_lon,
+                             cls.max_lat,
+                             cls.max_lon,
+                             cls.path,
+                             cls.row).filter(cls.path == path_row.path,
+                                             cls.row == path_row.row).first()
+
 
 class UserJob(Base):
     """
