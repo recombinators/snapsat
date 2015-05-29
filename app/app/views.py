@@ -9,6 +9,7 @@ from sqs import make_SQS_connection, get_queue, build_job_message, send_message
 from collections import OrderedDict
 import pyramid.httpexceptions as exc
 import time
+from pyramid.request import Request
 
 # Define AWS credentials
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -141,7 +142,7 @@ def request_composite(request):
     rendertype = request.matchdict['rendertype']
 
     if rendertype == u'full':
-        # Add full render and preview job to apprpriate queues
+        # Add full render and preview job to appropriate queues
         if valid_band_combo(request):
             bands = (request.params.get('band1') +
                      request.params.get('band2') +
@@ -463,52 +464,27 @@ def immediate_preview_ajax(request):
         path_row_list.append(temp)
 
     # Get scene with lowest cloud cover
-    scene = PathRow.scene_lowest_cloud(path_row_list)
+    entityid = PathRow.scene_lowest_cloud(path_row_list)[0]
+    environment = request.environ
+    environment['RAW_URI'] = ''
+    environment['PATH_INFO'] = ''
+    subreq = Request.blank('/request/preview/{}/?band1={}&band2={}&band3={}'.
+                           format(entityid, 5, 4, 3), environ=request.environ)
+    subreq.route_url('request',
+                     rendertype='preview',
+                     scene_id=entityid,
+                     _query={'band1': '5', 'band2': '4', 'band3': '3'})
+    # try:
+    response = request.invoke_subrequest(subreq, use_tweens=True)
+    # except:
+    #     entityid = u'LC80470272013207LGN00'
+    #     subreq = Request.blank('request/preview/{}/?band1={}&band2={}&band3={}'
+    #                            .format(entityid, 5, 4, 3))
+    #     response = request.invoke_subrequest(subreq, use_tweens=False)
+
     import pdb; pdb.set_trace()
-    sceneList = []
-    times = 0
-    for i, scene in enumerate(scenes):
-        sceneList.append({
-            'acquisitiondate': scene.acquisitiondate.strftime('%Y %m %d'),
-            'acquisitiontime': scene.acquisitiondate,
-            'cloudcover': scene.cloudcover,
-            'download_url': scene.download_url,
-            'entityid': scene.entityid,
-            'sliced': scene.entityid[3:9],
-            'path': scene.path,
-            'row': scene.row})
 
-    # This line may not be necessary.
-    sort = sorted(sceneList, key=operator.itemgetter('sliced'), reverse=False)
-
-    # Sort the available scenes based on their Path, then Row.
-    outputList = []
-    for key, items in itertools.groupby(sort, operator.itemgetter('sliced')):
-        outputList.append(list(items))
-
-    # Sort the vailable scenes in each group by date in reverse.
-    for group in outputList:
-        group.sort(key=operator.itemgetter('acquisitiondate'), reverse=True)
-
-    for group in outputList:
-        times = 0
-        for subgroup in group:
-            time_strtime = subgroup['acquisitiontime'].strftime('%H:%M:%S')
-            stripped_strtime = time.strptime(time_strtime.split(',')[0],
-                                             '%H:%M:%S')
-            times += timedelta(hours=stripped_strtime.tm_hour,
-                               minutes=stripped_strtime.tm_min,
-                               seconds=stripped_strtime.tm_sec
-                               ).total_seconds()
-            subgroup['acquisitiontime'] = time_strtime
-
-        average_seconds = times / len(group)
-        average_time = time.strftime('%H:%M', time.gmtime(average_seconds))
-
-        for subgroup in group:
-            subgroup['average_time'] = average_time
-
-    return {'scenes': outputList}
+    return {'jobid': jobid}
 
 
 @view_config(route_name='status_poll', renderer='json')

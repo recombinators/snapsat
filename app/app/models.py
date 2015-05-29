@@ -111,7 +111,7 @@ class PathRow(Base):
         new = []
         for x in pr_output:
             new.append(and_(cls.row == x.row, cls.path == x.path))
-        return (Session.query(cls).filter(or_(*new)).order_by(cls.cloudcover).
+        return (Session.query(cls.entityid).filter(or_(*new)).order_by(cls.cloudcover).
                 first())
 
 

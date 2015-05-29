@@ -27,7 +27,7 @@ var sceneList = _.debounce(function() {
   $.ajax({
     url: "/immediate_preview_ajax",
     dataType: "json",
-    data: {'lat': lat, 'lng': lng, },
+    data: {'lat': lat, 'lng': lng, 'band1': 5, 'band2': 4, 'band3', 3},
   }).done(function(json) {
 
     var allScenes = json.scenes;
