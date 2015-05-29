@@ -98,9 +98,9 @@ def add_to_queue(request, rendertype):
 
     if available:
         # if this scene/band has already been requested, increase the count
-        RenderCache.update_render_count(scene_id, 
-                                        band1, band2, band3,
-                                        rendertype)
+        return RenderCache.update_render_count(scene_id,
+                                               band1, band2, band3,
+                                               rendertype)
 
     if not available:
         SQSconn = make_SQS_connection(REGION,
@@ -165,6 +165,7 @@ def request_composite(request):
                                  request.environ['HTTP_REFERER'], bands))
             except KeyError:
                 # when HTTP_REFERER is not set(when called from immediate view)
+                import pdb; pdb.set_trace()
                 return jobid
         else:
             raise exc.HTTPBadRequest()
@@ -469,26 +470,14 @@ def immediate_preview_ajax(request):
 
     # Get scene with lowest cloud cover
     entityid = PathRow.scene_lowest_cloud(path_row_list)[0]
-    # environment = request.environ
-    # environment['RAW_URI'] = ''
-    # environment['PATH_INFO'] = ''
+
+    # create subrequest to call request/preview view
     subreq = Request.blank('/request/preview/{}/?band1={}&band2={}&band3={}'.
                            format(entityid, 5, 4, 3))
-    subreq.route_url('request',
-                     rendertype='preview',
-                     scene_id=entityid,
-                     _query={'band1': '5', 'band2': '4', 'band3': '3'})
-    # try:
+
     response = request.invoke_subrequest(subreq, use_tweens=True)
-    # except:
-    #     entityid = u'LC80470272013207LGN00'
-    #     subreq = Request.blank('request/preview/{}/?band1={}&band2={}&band3={}'
-    #                            .format(entityid, 5, 4, 3))
-    #     response = request.invoke_subrequest(subreq, use_tweens=False)
 
-    import pdb; pdb.set_trace()
-
-    return {'jobid': jobid}
+    return {'jobid': response.json_body}
 
 
 @view_config(route_name='status_poll', renderer='json')
