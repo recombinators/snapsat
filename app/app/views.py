@@ -75,6 +75,14 @@ def guide(request):
     return {}
 
 
+@view_config(route_name='immediate', renderer='templates/immediate.jinja2')
+def immediate(request):
+    """
+    Possible replacment for home page, which immediately renders a preview.
+    """
+    return {}
+
+
 def add_to_queue(request, rendertype):
     """
     Helper method for adding request to queue and adding to db.

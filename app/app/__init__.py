@@ -21,6 +21,7 @@ def main(global_config, **settings):
     config.add_route('about', 'about/')
     config.add_route('hire', 'hire/')
     config.add_route('guide', 'guide/')
+    config.add_route('immediate', 'immediate/')
     config.add_route('request', 'request/{rendertype}/{scene_id}/')
     config.add_route('scene', 'scene/{scene_id}/')
     config.add_route('scene_band', 'scene/{scene_id}/bands/{band_combo}/')
