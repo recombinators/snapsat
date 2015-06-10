@@ -11,6 +11,15 @@ var map = L.mapbox.map('map', 'jacques.k7coee6a', {
   minZoom: 3,
   maxZoom: 7
 });
+// Create layers
+var layers = {
+      Streets: L.mapbox.tileLayer('examples.map-i87786ca'),
+      Outdoors: L.mapbox.tileLayer('examples.ik7djhcc'),
+      Satellite: L.mapbox.tileLayer('examples.map-igb471ik')
+  };
+
+  layers.Streets.addTo(map);
+  L.control.layers(layers).addTo(map);
 
 // Position navigation tools at the bottom of the map.
 // Searchbar
