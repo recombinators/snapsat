@@ -1014,7 +1014,7 @@ div.icon {
 	height: 100%;
 }
 .home.hero {
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/background.jpg);
+	background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/background.jpg);
 	background-size: cover;
 }
 .herowrapper {
@@ -1110,15 +1110,15 @@ a.socialicon {
 	float: left;
 	margin: 20px 10px 0px 0px;
 }
-a.socialicon.linkedin { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
-a.socialicon.linkedin:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
-a.socialicon.github { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
-a.socialicon.github:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
+a.socialicon.linkedin { background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
+a.socialicon.linkedin:hover { background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/linkedin.png); }
+a.socialicon.github { background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
+a.socialicon.github:hover { background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/gitHub.png); }
 a.socialicon.twitter {
 	margin-top: 4.5%;
-	background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
+	background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/Twitter.png);
 }
-a.socialicon.twitter:hover { background-image: url(http://snapsatstatic.s3-us-west-2.amazonaws.com/static/img/Twitter.png); }
+a.socialicon.twitter:hover { background-image: url(http://snapsatstaticjoel.s3-us-west-2.amazonaws.com/static/img/Twitter.png); }
 
 /******************************************************************
 	Contact us
