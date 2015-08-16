@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/recombinators/snapsat.svg)](https://travis-ci.org/recombinators/snapsat)
-
 **[Snapsat](http://snapsat.org/)**, an opensource webapp that makes it easy to create custom Landsat band composites in a browser.
 
 ![](https://cldup.com/RTFc6FzfcU-2000x2000.png)
