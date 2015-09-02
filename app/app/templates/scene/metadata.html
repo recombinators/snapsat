@@ -22,31 +22,13 @@
 <div class='sm-col sm-col-6 p1'>
 
   <!-- Location -->
-  <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
   <style>
     #position { position:relative; min-height: 254px; width:100%; }
   </style>
 
-  <div id='position'></div>
-  <script>
-    L.mapbox.accessToken = 'pk.eyJ1IjoiamFjcXVlcyIsImEiOiJuRm9TWGYwIn0.ndryRT8IT0U94pHV6o0yng';
-
-    var sw = L.latLng({{ meta_data.min_lat }}, {{ meta_data.min_lon }}),
-        ne = L.latLng({{ meta_data.max_lat }}, {{ meta_data.max_lon }}),
-        bounds = L.latLngBounds(sw, ne);
-
-    // Instantiate the map
-    var map = L.mapbox.map('position', 'jacques.m3h4e0b4', {
-      scrollWheelZoom: false
-    }).fitBounds(bounds);
-
-    // Add scene bounding box to mini map
-    L.rectangle(bounds, {
-      color: 'red',
-      fillColor: 'red'
-    }).addTo(map);
-
-  </script>
+  <div id='position'>
+    <img src= "{{ meta_data.overview_url }}">
+  </div>
 
   <table class='table-light h5'>
     <tbody>
