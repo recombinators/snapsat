@@ -14,7 +14,8 @@ requires = [
     'pyramid_tm',
     'pyramid_jinja2',
     'selenium',
-    'SQLAlchemy'
+    'SQLAlchemy',
+    'zope.sqlalchemy'
     ]
 
 setup(name='app',
