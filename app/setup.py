@@ -13,7 +13,8 @@ requires = [
     'pyramid_chameleon',
     'pyramid_tm',
     'pyramid_jinja2',
-    'selenium'
+    'selenium',
+    'SQLAlchemy'
     ]
 
 setup(name='app',
