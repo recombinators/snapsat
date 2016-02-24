@@ -1,1 +1,1 @@
--e /home/landsatawsuser/snapsat_checkout/app/
+-e /home/landsatawsuser/snapsat_webserver/app/
